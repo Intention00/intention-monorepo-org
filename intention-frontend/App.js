@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text } from 'react-native';
+import Home from './Components/Home/Home';
 
 //function App() {
   // const [data, setData] = useState({ test: [] });
@@ -43,10 +44,13 @@ import { View, Text } from 'react-native';
 
 // need to set upif else statement to render different views whether data is empty or not 
   return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text>Name: {data.name}</Text>
-      <Text>Phone: {data.phone}</Text>
-    </View>
+    // <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+    //   <Text>Name: {data.name}</Text>
+    //   <Text>Phone: {data.phone}</Text>
+    // </View>
+
+    <Home></Home>
+
   );
 }
 
