@@ -1,5 +1,8 @@
 {
   "expo": {
+    "plugins": [
+      ["expo-contacts", {"contactsPermission": "Allow $(PRODUCT_NAME) to access your contacts."}]
+    ],
     "name": "intention-frontend",
     "slug": "intention-monorepo-all",
     "version": "1.0.0",
