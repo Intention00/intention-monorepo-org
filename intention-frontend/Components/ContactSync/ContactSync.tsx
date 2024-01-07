@@ -4,8 +4,8 @@ import * as Contacts from 'expo-contacts';
 
 const ContactSync: React.FC = ()=> {
 
-    let [error, setError] = useState(undefined);
-    let [contacts, setContacts] = useState(undefined);
+    const [error, setError] = useState(undefined);
+    const [contacts, setContacts] = useState(undefined);
 
     useEffect(()=> {
         (async ()=> {
@@ -25,6 +25,9 @@ const ContactSync: React.FC = ()=> {
                     // Checking to see if any contacts were extracted from the user's device
                     if (data.length > 0) {
                         setContacts(data);
+
+                        // send contacts to backend
+                        sendContacts(data);
                         
                     } else {
                         setError("No contacts available");
@@ -69,6 +72,30 @@ const ContactSync: React.FC = ()=> {
         } else {
             return <Text>Contacts loading...</Text>
         }
+
+    }
+
+    // Sending contacts to the backend api
+    const sendContacts = async (contactsData)=> {
+        try {
+            const formattedContacts = contactsData.map((contact)=> ({
+                name: contact.firstName + " " + contact.lastName,
+                number: '000-000-0000'
+            }))
+            console.log()
+            const response = fetch('http://127.0.0.1:5100/api/contacts', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formattedContacts)
+        
+            })
+        }
+        catch (e) {
+            console.log(e);
+        }
+        
     }
 
 

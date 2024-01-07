@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, request, jsonify
 from flask_cors import CORS
 
 app = Flask(__name__)
@@ -29,6 +29,18 @@ def contact():
 @app.route("/multcontact")
 def multcontact():
     return "Hello multcontact"
+
+@app.route("/api/contacts", methods=["POST"])
+def receive_data():
+    try: 
+        data = request.get_json()
+        print("Data: ", data)
+
+        return jsonify({'message': 'Data received.'})
+    
+    except Exception as err:
+        return jsonify({'message': str(err)})
+
 
 if __name__ == "__main__":
     app.run(debug=True,  port=5100)
