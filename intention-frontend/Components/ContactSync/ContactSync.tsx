@@ -10,16 +10,19 @@ const ContactSync: React.FC = ()=> {
     useEffect(()=> {
         (async ()=> {
             try {
+                // Trying to receive permission to extract contacts from user
                 const {status} = await Contacts.requestPermissionsAsync();
                 if (status === 'granted') {
                     const { data } = await Contacts.getContactsAsync({
+                        // We want the names along with numbers from each contact
                         fields: [
                             Contacts.Fields.FirstName,
                             Contacts.Fields.LastName,
                             Contacts.Fields.PhoneNumbers
                         ]
                     });
-
+                    
+                    // Checking to see if any contacts were extracted from the user's device
                     if (data.length > 0) {
                         setContacts(data);
                         
@@ -38,6 +41,7 @@ const ContactSync: React.FC = ()=> {
         
     }, [])
 
+    // Going through the contacts list of phone numbers to display them all
     const getPhoneNumbers = (contact)=> {
         if (contact.phoneNumbers !== undefined) {
             return contact.phoneNumbers.map((phoneNumber, index)=> {
@@ -50,6 +54,7 @@ const ContactSync: React.FC = ()=> {
         }
     }
 
+    // Going through each contact in the list, and extracting their individual info
     const getContacts = ()=> {
         if (contacts !== undefined) {
             return contacts.map((contact, index) => {
