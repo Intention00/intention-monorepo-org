@@ -30,6 +30,7 @@ def contact():
 def multcontact():
     return "Hello multcontact"
 
+# Retrieves a list of contacts from the frontend
 @app.route("/api/contacts", methods=["POST"])
 def receive_data():
     try: 
