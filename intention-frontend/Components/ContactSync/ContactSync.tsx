@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import {View, Text} from 'react-native';
-import * as Contacts from 'expo-contacts';
+import { sendContactsToBackend } from './backendService';
+import { getContacts } from './contactService';
 
 const ContactSync: React.FC = ()=> {
 
@@ -9,40 +10,28 @@ const ContactSync: React.FC = ()=> {
 
     useEffect(()=> {
         (async ()=> {
+            setError(undefined);
             try {
-                // Trying to receive permission to extract contacts from user
-                const {status} = await Contacts.requestPermissionsAsync();
-                if (status === 'granted') {
-                    const { data } = await Contacts.getContactsAsync({
-                        // We want the names along with numbers from each contact
-                        fields: [
-                            Contacts.Fields.FirstName,
-                            Contacts.Fields.LastName,
-                            Contacts.Fields.PhoneNumbers
-                        ]
-                    });
-                    
-                    // Checking to see if any contacts were extracted from the user's device
-                    if (data.length > 0) {
-                        setContacts(data);
+                const fetchedContacts = await getContacts();
 
-                        // send contacts to backend
-                        sendContacts(data);
-                        
-                    } else {
-                        setError("No contacts available");
-                    }
-                } else {
-                    setError('Permission to access contacts denied.');
+                // Contacts array isn't empty, so we found some contacts
+                if (fetchedContacts.length > 0) {
+                    
+                    // TODO: Need to find a way to make this happen immediately, not async
+                    setContacts(fetchedContacts);
+                    await sendContactsToBackend(fetchedContacts);
+                }
+                else {
+                    setError('No contacts available.');
                 }
             }
             catch (err) {
-                console.log("Error with promise: ", err);
+                setError(err.message);
             }
             
         })()
         
-    }, [])
+    }, []);
 
     // Going through the contacts list of phone numbers to display them all
     const getPhoneNumbers = (contact)=> {
@@ -58,7 +47,7 @@ const ContactSync: React.FC = ()=> {
     }
 
     // Going through each contact in the list, and extracting their individual info
-    const getContacts = ()=> {
+    const displayContactsList = ()=> {
         if (contacts !== undefined) {
             return contacts.map((contact, index) => {
                 return (
@@ -75,34 +64,10 @@ const ContactSync: React.FC = ()=> {
 
     }
 
-    // Sending contacts to the backend api
-    const sendContacts = async (contactsData)=> {
-        try {
-            const formattedContacts = contactsData.map((contact)=> ({
-                name: contact.firstName + " " + contact.lastName,
-                number: '000-000-0000'
-            }))
-            console.log()
-            const response = fetch('http://127.0.0.1:5100/api/contacts', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(formattedContacts)
-        
-            })
-        }
-        catch (e) {
-            console.log(e);
-        }
-        
-    }
-
-
     return (
         <View>
             <Text>{error}</Text>
-            {getContacts()}
+            {displayContactsList()}
         </View>
     );
 };
