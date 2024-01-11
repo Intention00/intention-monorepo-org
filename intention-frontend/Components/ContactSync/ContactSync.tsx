@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import {View, Text} from 'react-native';
+import {View, Text, SafeAreaView} from 'react-native';
 import { sendContactsToBackend } from './backendService';
 import { getContacts } from './contactService';
+import ContactList from './ContactList';
 
 const ContactSync: React.FC = ()=> {
 
@@ -33,42 +34,43 @@ const ContactSync: React.FC = ()=> {
         
     }, []);
 
-    // Going through the contacts list of phone numbers to display them all
-    const getPhoneNumbers = (contact)=> {
-        if (contact.phoneNumbers !== undefined) {
-            return contact.phoneNumbers.map((phoneNumber, index)=> {
-                return (
-                    <View key={index}>
-                        <Text>{phoneNumber.label}: {phoneNumber.number}</Text>
-                    </View>
-                )
-            })
-        }
-    }
+    // // Going through the contacts list of phone numbers to display them all
+    // const getPhoneNumbers = (contact)=> {
+    //     if (contact.phoneNumbers !== undefined) {
+    //         return contact.phoneNumbers.map((phoneNumber, index)=> {
+    //             return (
+    //                 <View key={index}>
+    //                     <Text>{phoneNumber.label}: {phoneNumber.number}</Text>
+    //                 </View>
+    //             )
+    //         })
+    //     }
+    // }
 
-    // Going through each contact in the list, and extracting their individual info
-    const displayContactsList = ()=> {
-        if (contacts !== undefined) {
-            return contacts.map((contact, index) => {
-                return (
-                    <View key={index}>
-                        <Text>Name: {contact.firstName} {contact.lastName}</Text>
-                        {getPhoneNumbers(contact)}
-                    </View>
-                );
-            });
+    // // Going through each contact in the list, and extracting their individual info
+    // const displayContactsList = ()=> {
+    //     if (contacts !== undefined) {
+    //         return contacts.map((contact, index) => {
+    //             return (
+    //                 <View key={index}>
+    //                     <Text>Name: {contact.firstName} {contact.lastName}</Text>
+    //                     {getPhoneNumbers(contact)}
+    //                 </View>
+    //             );
+    //         });
 
-        } else {
-            return <Text>Contacts loading...</Text>
-        }
+    //     } else {
+    //         return <Text>Contacts loading...</Text>
+    //     }
 
-    }
+    // }
 
     return (
-        <View>
+        <SafeAreaView>
             <Text>{error}</Text>
-            {displayContactsList()}
-        </View>
+            {/* {displayContactsList()} */}
+            <ContactList contacts={contacts}></ContactList>
+        </SafeAreaView>
     );
 };
 
