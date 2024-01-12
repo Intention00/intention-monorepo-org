@@ -1,4 +1,4 @@
-import { View, Text, SafeAreaView, FlatList, TouchableHighlight, Modal } from "react-native";
+import { View, SafeAreaView, FlatList, TouchableHighlight, Modal } from "react-native";
 import ContactItem from "./ContactItem";
 import ContactModal from './ContactModal'
 import { useState } from "react";
@@ -16,9 +16,9 @@ const ContactList: React.FC <{contacts: any[]}> = ({contacts})=> {
 
     return (
         <View>
-            <FlatList data={contacts} renderItem={({item})=> 
+            <FlatList data={contacts} style={{marginTop: 15}} renderItem={({item})=> 
                 (
-                    <TouchableHighlight underlayColor={'rgba(10, 10, 10, 0.25)'} onPress={()=> {onContactClick(item)}}>
+                    <TouchableHighlight style={{marginBottom: 20}} underlayColor={'rgba(10, 10, 10, 0.25)'} onPress={()=> {onContactClick(item)}}>
                         <ContactItem contact={item}></ContactItem>
                     </TouchableHighlight>
                 )}/>
