@@ -1,13 +1,16 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
+from process_contacts import ProcessContacts
 
 app = Flask(__name__)
 CORS(app)
 
 class Contact: 
-    def __init__(self, name, phone):
-        self.name = name
+    def __init__(self, firstName, lastName = '', phone = 0000000000):
+        self.firstName = firstName
+        self.lastName = lastName
         self.phone = phone
+
 cont1 = Contact("John", 4252738555)
 cont2 = Contact("Jane", 1234567890)
 
@@ -19,17 +22,6 @@ contactList = [cont1, cont2]
 def home():
     return "Hello World"
 
-@app.route("/contact")
-def contact():
-    return {
-        'name': "Ari",
-        'phone': "4252738555"
-    }
-
-@app.route("/multcontact")
-def multcontact():
-    return "Hello multcontact"
-
 # Retrieves a list of contacts from the frontend
 @app.route("/api/contacts", methods=["POST"])
 def receive_data():
@@ -37,10 +29,18 @@ def receive_data():
         data = request.get_json()
         print("Data: ", data)
 
+        # begin testing processing module
+
+        test_contacts = ProcessContacts()
+        test_contacts.read_contacts(data)
+
+        # end testing processing module
+
         return jsonify({'message': 'Data received.'})
     
     except Exception as err:
         return jsonify({'message': str(err)})
+    
 
 
 if __name__ == "__main__":
