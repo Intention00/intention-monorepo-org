@@ -6,7 +6,7 @@ export const sendContactsToBackend = async (contactsData: any[])=> {
             name: contact.firstName + " " + contact.lastName,
             number: '000-000-0000'
         }))
-        const response = fetch('http://127.0.0.1:5100/api/contacts', {
+        const response = await fetch('http://127.0.0.1:5100/api/contacts', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -20,5 +20,22 @@ export const sendContactsToBackend = async (contactsData: any[])=> {
     catch (e) {
         throw new Error(`Error sending contacts to backend: ${e}`);
     }
+
+}
+
+export const receiveContactsFromBackend = async ()=> {
+    try {
+        const response = await fetch('http://127.0.0.1:5100/api/contacts', {
+            method: 'GET',
+        })
+
+        const contacts_received = await response.json();
+        return contacts_received;
+        // TODO: check if response is good
+    }
+    catch (err) {
+        throw new Error(`Error receiving contacts from backend: ${err}`);
+    }
+
 
 }

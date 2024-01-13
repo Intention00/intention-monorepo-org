@@ -16,6 +16,8 @@ cont2 = Contact("Jane", 1234567890)
 
 contactList = [cont1, cont2]
 
+# Contacts processor
+contacts_processor = ProcessContacts()
       
 
 @app.route("/")
@@ -27,21 +29,16 @@ def home():
 def receive_data():
     try: 
         data = request.get_json()
-        print("Data: ", data)
-
-        # begin testing processing module
-
-        test_contacts = ProcessContacts()
-        test_contacts.read_contacts(data)
-
-        # end testing processing module
+        contacts_processor.read_contacts(data)
 
         return jsonify({'message': 'Data received.'})
     
     except Exception as err:
         return jsonify({'message': str(err)})
     
-
+@app.route("/api/contacts", methods=['GET'])
+def send_data():
+    return jsonify(contacts_processor.contacts)
 
 if __name__ == "__main__":
     app.run(debug=True,  port=5100)

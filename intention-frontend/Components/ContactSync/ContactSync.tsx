@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import {View, Text, SafeAreaView} from 'react-native';
-import { sendContactsToBackend } from './backendService';
-import { getContacts } from './contactService';
+import { sendContactsToBackend, receiveContactsFromBackend } from './backendService';
+import { saveContactsFromUser } from './contactService';
 import ContactList from './ContactList';
 
 const ContactSync: React.FC = ()=> {
@@ -13,7 +13,7 @@ const ContactSync: React.FC = ()=> {
         (async ()=> {
             setError(undefined);
             try {
-                const fetchedContacts = await getContacts();
+                const fetchedContacts = await saveContactsFromUser();
 
                 // Contacts array isn't empty, so we found some contacts
                 if (fetchedContacts.length > 0) {
@@ -21,6 +21,8 @@ const ContactSync: React.FC = ()=> {
                     // TODO: Need to find a way to make this happen immediately, not async
                     setContacts(fetchedContacts);
                     await sendContactsToBackend(fetchedContacts);
+                    // setContacts(await receiveContactsFromBackend());
+
                 }
                 else {
                     setError('No contacts available.');
@@ -31,6 +33,8 @@ const ContactSync: React.FC = ()=> {
             }
             
         })()
+
+  
         
     }, []);
 
@@ -47,23 +51,6 @@ const ContactSync: React.FC = ()=> {
     //     }
     // }
 
-    // // Going through each contact in the list, and extracting their individual info
-    // const displayContactsList = ()=> {
-    //     if (contacts !== undefined) {
-    //         return contacts.map((contact, index) => {
-    //             return (
-    //                 <View key={index}>
-    //                     <Text>Name: {contact.firstName} {contact.lastName}</Text>
-    //                     {getPhoneNumbers(contact)}
-    //                 </View>
-    //             );
-    //         });
-
-    //     } else {
-    //         return <Text>Contacts loading...</Text>
-    //     }
-
-    // }
 
     return (
         <SafeAreaView>
