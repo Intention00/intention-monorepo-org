@@ -18,15 +18,20 @@ const ContactSync: React.FC = ()=> {
                 // Contacts array isn't empty, so we found some contacts
                 if (fetchedContacts.length > 0) {
                     
-                    // TODO: Need to find a way to make this happen immediately, not async
-                    setContacts(fetchedContacts);
+                    // Used to set contacts = to received contacts from device
+                    // setContacts(fetchedContacts);
+
                     await sendContactsToBackend(fetchedContacts);
-                    // setContacts(await receiveContactsFromBackend());
 
                 }
                 else {
                     setError('No contacts available.');
                 }
+
+                // Set contacts to those retrieved from database
+                const recContacts = await receiveContactsFromBackend();
+                setContacts(recContacts);
+
             }
             catch (err) {
                 setError(err.message);
@@ -54,7 +59,7 @@ const ContactSync: React.FC = ()=> {
 
     return (
         <SafeAreaView>
-            <Text>{error}</Text>
+            <Text style={{paddingTop: 300}}>{error}</Text>
             {/* {displayContactsList()} */}
             <ContactList contacts={contacts}></ContactList>
         </SafeAreaView>

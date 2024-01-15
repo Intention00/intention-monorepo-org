@@ -6,6 +6,9 @@ class ProcessContacts():
     def read_contacts(self, contacts):
         self.contacts = contacts
 
+    def add_contact(self, contact): 
+        self.contacts.append(contact)
+
 
     def clear_contacts(self):
         self.contacts.clear()

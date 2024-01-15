@@ -3,7 +3,9 @@ export const sendContactsToBackend = async (contactsData: any[])=> {
 
     try {
         const formattedContacts = contactsData.map((contact)=> ({
-            name: contact.firstName + " " + contact.lastName,
+            // name: contact.firstName + " " + contact.lastName,
+            firstName: contact.firstName,
+            lastName: contact.lastName,
             number: '000-000-0000'
         }))
         const response = await fetch('http://127.0.0.1:5100/api/contacts', {
