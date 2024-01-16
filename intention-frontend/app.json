@@ -20,6 +20,14 @@
         {
           "contactsPermission": "Allow $(PRODUCT_NAME) to access your contacts."
         }
+      ],
+      [
+        "expo-build-properties",
+        {
+          "android": {
+            
+          }
+        }
       ]
     ],
     "ios": {

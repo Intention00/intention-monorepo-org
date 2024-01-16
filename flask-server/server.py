@@ -41,4 +41,5 @@ def send_data():
     return jsonify(contacts_processor.contacts)
 
 if __name__ == "__main__":
-    app.run(debug=True,  port=5100)
+    # added host to test, it seems to make it work on android
+    app.run(debug=True,  port=5100, host='0.0.0.0')

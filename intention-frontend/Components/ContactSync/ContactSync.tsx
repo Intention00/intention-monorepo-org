@@ -60,7 +60,6 @@ const ContactSync: React.FC = ()=> {
     return (
         <SafeAreaView>
             <Text style={{paddingTop: 300}}>{error}</Text>
-            {/* {displayContactsList()} */}
             <ContactList contacts={contacts}></ContactList>
         </SafeAreaView>
     );
