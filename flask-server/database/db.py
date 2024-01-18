@@ -17,29 +17,40 @@ connection = mysql.connector.connect(
 )
 
 cursor = connection.cursor(dictionary=True)
+
 cursor.execute("""
-CREATE TABLE Contact ( 
-
-    ContactID INT NOT NULL AUTO_INCREMENT PRIMARY KEY, 
-
-    FirstName VARCHAR(255) NOT NULL, 
-
-    LastName VARCHAR(255) NOT NULL, 
-
-    UserID INT NOT NULL,
-
-    LastContactedDate DATETIME, 
-
-    ContactFrequency INT, 
-
-    Phone VARCHAR(15), 
-
-    Email VARCHAR(255), 
-
-    BucketID INT NULL
-
-); 
+  SHOW TABLES;
 """)
+
+tables = cursor.fetchall()
+
+print("Tables are: ")
+for table in tables:
+  print(table)
+
+# cursor.execute("""
+# CREATE TABLE Contact ( 
+
+#     ContactID INT NOT NULL AUTO_INCREMENT PRIMARY KEY, 
+
+#     FirstName VARCHAR(255) NOT NULL, 
+
+#     LastName VARCHAR(255) NOT NULL, 
+
+#     UserID INT NOT NULL,
+
+#     LastContactedDate DATETIME, 
+
+#     ContactFrequency INT, 
+
+#     Phone VARCHAR(15), 
+
+#     Email VARCHAR(255), 
+
+#     BucketID INT NULL
+
+# ); 
+# """)
 
 cursor.close()
 connection.close()
