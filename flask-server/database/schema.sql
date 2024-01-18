@@ -33,6 +33,7 @@ CREATE TABLE Contact (
 
 ); 
 
+
 -- INSERTS
 
 INSERT INTO User (Email, Password, UserName, PersonType) VALUES 
