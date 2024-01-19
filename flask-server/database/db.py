@@ -6,7 +6,7 @@ import os
 import mysql.connector
 
 # Connect to the database
-connection = mysql.connector.connect(
+db_connection = mysql.connector.connect(
   host=os.getenv("DATABASE_HOST"),
   user=os.getenv("DATABASE_USERNAME"),
   passwd=os.getenv("DATABASE_PASSWORD"),
@@ -16,7 +16,7 @@ connection = mysql.connector.connect(
   ssl_ca='/etc/ssl/cert.pem'
 )
 
-cursor = connection.cursor(dictionary=True)
+cursor = db_connection.cursor(dictionary=True)
 
 cursor.execute("""
   SHOW TABLES;
@@ -53,7 +53,7 @@ for table in tables:
 # """)
 
 cursor.close()
-connection.close()
+db_connection.close()
 
 # try:
 #     # Create a cursor to interact with the database
