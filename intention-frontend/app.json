@@ -14,14 +14,40 @@
     "assetBundlePatterns": [
       "**/*"
     ],
+    "plugins": [
+      [
+        "expo-contacts",
+        {
+          "contactsPermission": "Allow $(PRODUCT_NAME) to access your contacts."
+        }
+      ],
+      [
+        "expo-build-properties",
+        {
+          "android": {
+            
+          }
+        }
+      ]
+    ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "infoPlist": {
+        "NSContactsUsageDescription": "Allow $(PRODUCT_NAME) to access your contacts."
+      },
+      "bundleIdentifier": "com.intention.intention-monorepo-all"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "permissions": [
+        "android.permission.READ_CONTACTS",
+        "android.permission.WRITE_CONTACTS",
+        "android.permission.INTERNET"
+      ],
+      "package": "com.intention.intentionmonorepoall"
     },
     "web": {
       "favicon": "./assets/favicon.png"
