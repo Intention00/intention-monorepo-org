@@ -5,8 +5,42 @@ load_dotenv()
 import os
 import mysql.connector
 
+class DBConnection:
+  def __init__(self) -> None:
+    load_dotenv()
+    self.db_conn = None
+
+    self.host = os.getenv("DATABASE_HOST")
+    self.user = os.getenv("DATABASE_USERNAME")
+    self.passwd = os.getenv("DATABASE_PASSWORD")
+    self.db = os.getenv("DATABASE")
+    self.autocommit = True
+    self.ssl_verify_identity = True
+    self.ssl_ca = '/etc/ssl/cert.pem'
+
+  def __enter__(self):
+    self.connection = mysql.connector.connect(
+      host = self.host,
+      user = self.user,
+      passwd = self.passwd,
+      db = self.db,
+      autocommit = self.autocommit,
+      ssl_verify_identity = self.ssl_verify_identity,
+      ssl_ca = self.ssl_ca
+    )
+
+  def __exit__(self, exc_type, exc_val, exc_tb):
+    self.connection.close()
+
+
+  def db_connect(self):
+    pass
+
+
+
+
 # Connect to the database
-db_connection = mysql.connector.connect(
+connection = mysql.connector.connect(
   host=os.getenv("DATABASE_HOST"),
   user=os.getenv("DATABASE_USERNAME"),
   passwd=os.getenv("DATABASE_PASSWORD"),
@@ -16,7 +50,7 @@ db_connection = mysql.connector.connect(
   ssl_ca='/etc/ssl/cert.pem'
 )
 
-cursor = db_connection.cursor(dictionary=True)
+cursor = connection.cursor(dictionary=True)
 
 cursor.execute("""
   SHOW TABLES;
@@ -53,7 +87,7 @@ for table in tables:
 # """)
 
 cursor.close()
-db_connection.close()
+connection.close()
 
 # try:
 #     # Create a cursor to interact with the database
