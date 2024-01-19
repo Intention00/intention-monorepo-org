@@ -18,6 +18,8 @@ class DBConnection:
     self.ssl_verify_identity = True
     self.ssl_ca = '/etc/ssl/cert.pem'
 
+
+  # can use notation of "with DBConnection() as db_conn:". acts similar to opening a file with "with"
   def __enter__(self):
     self.connection = mysql.connector.connect(
       host = self.host,
@@ -29,7 +31,11 @@ class DBConnection:
       ssl_ca = self.ssl_ca
     )
 
+    self.cursor = self.connection.cursor(dictionary=True)
+    return self.cursor
+
   def __exit__(self, exc_type, exc_val, exc_tb):
+    self.cursor.close()
     self.connection.close()
 
 
@@ -38,76 +44,13 @@ class DBConnection:
 
 
 
-
-# Connect to the database
-connection = mysql.connector.connect(
-  host=os.getenv("DATABASE_HOST"),
-  user=os.getenv("DATABASE_USERNAME"),
-  passwd=os.getenv("DATABASE_PASSWORD"),
-  db=os.getenv("DATABASE"),
-  autocommit=True,
-  ssl_verify_identity=True,
-  ssl_ca='/etc/ssl/cert.pem'
-)
-
-cursor = connection.cursor(dictionary=True)
-
-cursor.execute("""
-  SHOW TABLES;
-""")
-
-tables = cursor.fetchall()
-
-print("Tables are: ")
-for table in tables:
-  print(table)
-
-# cursor.execute("""
-# CREATE TABLE Contact ( 
-
-#     ContactID INT NOT NULL AUTO_INCREMENT PRIMARY KEY, 
-
-#     FirstName VARCHAR(255) NOT NULL, 
-
-#     LastName VARCHAR(255) NOT NULL, 
-
-#     UserID INT NOT NULL,
-
-#     LastContactedDate DATETIME, 
-
-#     ContactFrequency INT, 
-
-#     Phone VARCHAR(15), 
-
-#     Email VARCHAR(255), 
-
-#     BucketID INT NULL
-
-# ); 
+# Testing DB Class
+  
+# print('About to start db retrieval...')
+# with DBConnection() as db_conn:
+#   db_conn.execute("""
+#     SHOW TABLES;
 # """)
-
-cursor.close()
-connection.close()
-
-# try:
-#     # Create a cursor to interact with the database
-#     cursor = connection.cursor()
-
-#     # Execute "SHOW TABLES" query
-#     cursor.execute("SHOW TABLES")
-
-#     # Fetch all the rows
-#     tables = cursor.fetchall()
-
-#     # Print out the tables
-#     print("Tables in the database:")
-#     for table in tables:
-#         print(table[0])
-
-# except mysql.connector.Error as e:
-#     print("MySQL Error:", e)
-
-# finally:
-#     # Close the cursor and connection
-#     cursor.close()
-#     connection.close()
+#   results = db_conn.fetchall()
+#   for table in results:
+#     print(table)
