@@ -49,12 +49,12 @@ class DBConnection:
 
 # Testing DB Class
   
-print('About to start db retrieval...')
-with DBConnection() as db_conn:
-  if db_conn:
-    db_conn.execute("""
-      SHOW TABLES;
-    """)
-    results = db_conn.fetchall()
-    for table in results:
-      print(table)
+# print('About to start db retrieval...')
+# with DBConnection() as db_conn:
+#   if db_conn:
+#     db_conn.execute("""
+#       SHOW TABLES;
+#     """)
+#     results = db_conn.fetchall()
+#     for table in results:
+#       print(table)
