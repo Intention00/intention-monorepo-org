@@ -3,7 +3,6 @@ import {View, Text, SafeAreaView} from 'react-native';
 import { sendContactsToBackend, receiveContactsFromBackend } from './backendService';
 import { saveContactsFromUser } from './contactService';
 import ContactList from './ContactList';
-import TranscriberNote from '../Transcriber/TranscribeNote'
 
 const ContactSync: React.FC = ()=> {
 
@@ -62,7 +61,6 @@ const ContactSync: React.FC = ()=> {
         <SafeAreaView>
             <Text style={{marginTop: 10}}>{error}</Text>
             <ContactList contacts={contacts}></ContactList>
-            <TranscriberNote></TranscriberNote>
         </SafeAreaView>
     );
 };

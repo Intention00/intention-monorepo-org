@@ -1,4 +1,5 @@
 import { View, Text, Button, StyleSheet } from "react-native"
+import TranscriberNote from '../Transcriber/TranscribeNote'
 
 const ContactModal: React.FC <{contact, toggleModalVisibility}> = ({contact, toggleModalVisibility})=> {
 
@@ -10,12 +11,15 @@ const ContactModal: React.FC <{contact, toggleModalVisibility}> = ({contact, tog
                     <Text style={[styles.modalText, {textAlign: 'center', paddingBottom: 40}]}>Contact details:</Text>
                     <Text style={styles.modalText}>Name: {`${contact.firstName} ${contact.lastName}`}</Text>
                     <Text style={styles.modalText}>Phone: 000-000-0000</Text>
+
+                    <TranscriberNote></TranscriberNote>
                 </View>
 
                 <Button title="Edit Name"></Button>
                 <Button title="Close" onPress={toggleModalVisibility}></Button>
                 
             </View>
+
         </View>
     )
 }
