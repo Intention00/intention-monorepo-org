@@ -16,7 +16,7 @@ const ContactList: React.FC <{contacts: any[]}> = ({contacts})=> {
 
     return (
         <View>
-            <FlatList data={contacts} style={{marginTop: 15}} renderItem={({item})=> 
+            <FlatList data={contacts} style={{marginTop: 15, maxHeight: 500}} renderItem={({item})=> 
                 (
                     <TouchableHighlight style={{marginBottom: 20}} underlayColor={'rgba(10, 10, 10, 0.25)'} onPress={()=> {onContactClick(item)}}>
                         <ContactItem contact={item}></ContactItem>
