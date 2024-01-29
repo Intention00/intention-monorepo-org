@@ -1,4 +1,4 @@
-import { View, Button } from "react-native"
+import { View, Button, TextInput } from "react-native"
 import { useState, useEffect } from "react";
 import { Audio } from "expo-av"
 
@@ -22,7 +22,7 @@ const TranscriberNote: React.FC = ()=> {
             });
 
             console.log('Starting recording..');
-            const { recording } = await Audio.Recording.createAsync( Audio.RecordingOptionsPresets.HIGH_QUALITY);
+            const { recording } = await Audio.Recording.createAsync(Audio.RecordingOptionsPresets.HIGH_QUALITY);
             setRecording(recording);
             console.log('Recording started');
         } 
@@ -54,7 +54,6 @@ const TranscriberNote: React.FC = ()=> {
             console.log("URI TEST VALUE AT START OF AUDIO IS:", audioUri);
             const { sound } = await Audio.Sound.createAsync({uri: audioUri});
             setSound(sound);
-
             console.log('Playing Sound');
             await sound.playAsync();
         }
@@ -72,12 +71,24 @@ const TranscriberNote: React.FC = ()=> {
 
     // audio test end
 
+    // testing text input button
+    const [transcribedText, setTranscribedText] = useState('')
+
     
     return (
-        <View>
+        <View style={{flex: 2, flexDirection: "column"}}>
              <Button
                 title={recording ? 'Stop Recording' : 'Start Recording'}
                 onPress={recording ? stopRecording : startRecording}/>
+
+            <TextInput
+                multiline
+                value={transcribedText}
+                placeholder="Transcription Placeholder"
+                onChangeText={setTranscribedText}
+                style={{ marginTop: 15, borderWidth: 1, padding: 10}}
+            />
+            
             <Button title="Play Sound" onPress={playSound} />
         </View>
     )
