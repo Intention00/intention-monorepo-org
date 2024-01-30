@@ -44,30 +44,28 @@ def send_data():
 # Retrieves notes from frontend
 @app.route("/api/notes", methods=["POST"])
 def receive_notes():
-    try: 
 
-        print(f'FILES: {request.files}')
-        if 'file' not in request.files:
-            return jsonify({'error': 'No file part in form'}), 400
-        
-        file = request.files['file']
+    try:
+        # Get audio file from request
+        audio_blob = request.data 
 
-        if file.filename == '':
-            return jsonify({'error': 'File is empty'}), 400
-        
-        # temp file save to folder
-        save_folder = '/temp_audio/'
+        # check if audio file exists
+        if not audio_blob:
+            return jsonify({'error': 'No audio data received'}), 400
+
+        # Save the audio blob to a file with .m4a extension
+        save_folder = 'temp_audio/'
         os.makedirs(save_folder, exist_ok=True)
-        file_path = os.path.join(save_folder, file.filename)
-        file.save(file_path)
+        file_path = os.path.join(save_folder, 'recording.m4a')
+        with open(file_path, 'wb') as file:
+            file.write(audio_blob)
 
-        print(f'NOTES: {file}')
+        return jsonify({'message': 'File saved successfully'}), 200
 
-        return jsonify({'message': 'Notes file uploaded successfully'}), 200
-
-    
     except Exception as err:
-        return jsonify({'message': str(err)}), 500
+        return jsonify({'error': str(err)}), 500
+
+
 
 if __name__ == "__main__":
     # added host to test, it seems to make it work on android

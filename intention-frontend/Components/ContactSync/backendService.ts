@@ -52,31 +52,30 @@ export const sendNotesToBackend = async (uri: string)=> {
     try {
         // Do some processing on audio file/notes (ref: https://stackoverflow.com/a/64980847)
         const uriParts = uri.split(".");
+
+        // TODO: need to use fileExtension for content type later
         const fileExtension = uriParts[uriParts.length - 1];
 
         // convert uri file to blob for typescript
         const uri_response = await fetch(uri);
         const uri_blob = await uri_response.blob();
-        console.log(`URI BLOB: ${JSON.stringify(uri_blob)}`)
 
-
-        const formData = new FormData();
-        formData.append('file', uri_blob, `recording.${fileExtension}`);
-        
-        console.log(`FORMDATA LIST: ${JSON.stringify(formData)}`)
-        console.log(`BLOB SIZE: ${uri_blob.size}`);
-
-        // using the address from host 0.0.0.0, makes it work on android
         const response = await fetch(`${backendAddress}/api/notes`, {
             method: 'POST',
             headers: {
-                'Content-Type': 'multipart/form-data',
+                'Content-Type': 'audio/mp4',
             },
-            body: formData
+            body: uri_blob
     
         })
 
-        // TODO: Need to add check if response was good 
+        // TODO: Need to add check if response was good   
+        if (!response.ok) {
+            const errorMessage = await response.json();
+            console.error(`Server returned an error: ${JSON.stringify(errorMessage)}`);
+        }
+
+
     }
     catch (e) {
         throw new Error(`Error sending notes to backend: ${e}`);
