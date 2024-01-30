@@ -1,6 +1,7 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 from process_contacts import ProcessContacts
+import os
 
 app = Flask(__name__)
 CORS(app)
@@ -39,6 +40,34 @@ def receive_data():
 @app.route("/api/contacts", methods=['GET'])
 def send_data():
     return jsonify(contacts_processor.contacts)
+
+# Retrieves notes from frontend
+@app.route("/api/notes", methods=["POST"])
+def receive_notes():
+    try: 
+
+        print(f'FILES: {request.files}')
+        if 'file' not in request.files:
+            return jsonify({'error': 'No file part in form'}), 400
+        
+        file = request.files['file']
+
+        if file.filename == '':
+            return jsonify({'error': 'File is empty'}), 400
+        
+        # temp file save to folder
+        save_folder = '/temp_audio/'
+        os.makedirs(save_folder, exist_ok=True)
+        file_path = os.path.join(save_folder, file.filename)
+        file.save(file_path)
+
+        print(f'NOTES: {file}')
+
+        return jsonify({'message': 'Notes file uploaded successfully'}), 200
+
+    
+    except Exception as err:
+        return jsonify({'message': str(err)}), 500
 
 if __name__ == "__main__":
     # added host to test, it seems to make it work on android

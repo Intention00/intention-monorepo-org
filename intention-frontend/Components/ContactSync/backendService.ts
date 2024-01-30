@@ -1,3 +1,5 @@
+const backendAddress = "http://192.168.1.27:5100"
+
 // Send contacts to backend api
 export const sendContactsToBackend = async (contactsData: any[])=> {
 
@@ -10,7 +12,7 @@ export const sendContactsToBackend = async (contactsData: any[])=> {
         }))
 
         // using the address from host 0.0.0.0, makes it work on android
-        const response = await fetch('http://192.168.1.27:5100/api/contacts', {
+        const response = await fetch(`${backendAddress}/api/contacts`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -31,7 +33,7 @@ export const receiveContactsFromBackend = async ()=> {
     try {
         
         // using the address from host 0.0.0.0, makes it work on android
-        const response = await fetch('http://192.168.1.27:5100/api/contacts', {
+        const response = await fetch(`${backendAddress}/api/contacts`, {
             method: 'GET',
         })
 
@@ -44,4 +46,39 @@ export const receiveContactsFromBackend = async ()=> {
     }
 
 
+}
+
+export const sendNotesToBackend = async (uri: string)=> {
+    try {
+        // Do some processing on audio file/notes (ref: https://stackoverflow.com/a/64980847)
+        const uriParts = uri.split(".");
+        const fileExtension = uriParts[uriParts.length - 1];
+
+        // convert uri file to blob for typescript
+        const uri_response = await fetch(uri);
+        const uri_blob = await uri_response.blob();
+        console.log(`URI BLOB: ${JSON.stringify(uri_blob)}`)
+
+
+        const formData = new FormData();
+        formData.append('file', uri_blob, `recording.${fileExtension}`);
+        
+        console.log(`FORMDATA LIST: ${JSON.stringify(formData)}`)
+        console.log(`BLOB SIZE: ${uri_blob.size}`);
+
+        // using the address from host 0.0.0.0, makes it work on android
+        const response = await fetch(`${backendAddress}/api/notes`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'multipart/form-data',
+            },
+            body: formData
+    
+        })
+
+        // TODO: Need to add check if response was good 
+    }
+    catch (e) {
+        throw new Error(`Error sending notes to backend: ${e}`);
+    }
 }

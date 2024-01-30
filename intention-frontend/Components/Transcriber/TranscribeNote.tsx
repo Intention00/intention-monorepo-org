@@ -1,6 +1,7 @@
 import { View, Button, TextInput } from "react-native"
 import { useState, useEffect } from "react";
 import { Audio } from "expo-av"
+import { sendNotesToBackend } from "../ContactSync/backendService";
 
 const TranscriberNote: React.FC = ()=> {
 
@@ -76,7 +77,7 @@ const TranscriberNote: React.FC = ()=> {
 
     
     return (
-        <View style={{flex: 2, flexDirection: "column"}}>
+        <View style={{flex: 1, flexDirection: "column"}}>
              <Button
                 title={recording ? 'Stop Recording' : 'Start Recording'}
                 onPress={recording ? stopRecording : startRecording}/>
@@ -90,6 +91,7 @@ const TranscriberNote: React.FC = ()=> {
             />
             
             <Button title="Play Sound" onPress={playSound} />
+            <Button title="Send to backend" onPress={()=> {sendNotesToBackend(audioUri)}} />
         </View>
     )
 }

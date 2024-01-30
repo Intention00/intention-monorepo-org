@@ -1,5 +1,5 @@
 
 
-export const transcribeToText = ()=> {
+export const transcribeToText = (audioFile)=> {
     
 }
