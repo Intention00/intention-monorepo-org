@@ -74,6 +74,12 @@ export const sendNotesToBackend = async (uri: string)=> {
             const errorMessage = await response.json();
             console.error(`Server returned an error: ${JSON.stringify(errorMessage)}`);
         }
+        else {
+            const transcribedResponse = await response.json();
+            const transcribedAudio = transcribedResponse['data']
+            console.log(`Server returned: ${transcribedAudio}`)
+            return transcribedAudio;
+        }
 
 
     }

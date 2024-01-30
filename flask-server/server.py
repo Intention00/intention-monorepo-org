@@ -61,7 +61,9 @@ def receive_notes():
         with open(file_path, 'wb') as file:
             file.write(audio_blob)
 
-        return jsonify({'message': 'File saved successfully'}), 200
+        transcribed_audio = transcribe()
+
+        return jsonify({'message': 'File saved successfully', 'data': transcribed_audio}), 200
 
     except Exception as err:
         return jsonify({'error': str(err)}), 500

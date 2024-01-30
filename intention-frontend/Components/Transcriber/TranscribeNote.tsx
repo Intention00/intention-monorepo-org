@@ -72,6 +72,14 @@ const TranscriberNote: React.FC = ()=> {
 
     // audio test end
 
+    async function updateNoteBox() {
+        const transcribedNotes = await sendNotesToBackend(audioUri);
+        if (transcribedNotes) {
+            setTranscribedText(transcribedNotes);
+        }
+
+    }
+
     // testing text input button
     const [transcribedText, setTranscribedText] = useState('')
 
@@ -91,7 +99,7 @@ const TranscriberNote: React.FC = ()=> {
             />
             
             <Button title="Play Sound" onPress={playSound} />
-            <Button title="Send to backend" onPress={()=> {sendNotesToBackend(audioUri)}} />
+            <Button title="Send to backend" onPress={updateNoteBox} />
         </View>
     )
 }
