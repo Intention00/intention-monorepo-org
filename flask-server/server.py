@@ -1,6 +1,7 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 from process_contacts import ProcessContacts
+from transcriber import transcribe
 import os
 
 app = Flask(__name__)

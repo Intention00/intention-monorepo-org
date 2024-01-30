@@ -3,3 +3,5 @@
 android
 ios
 flask-server/.env
+*.m4a
+*.pyc
