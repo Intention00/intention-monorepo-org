@@ -2,6 +2,7 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 from process_contacts import ProcessContacts
 from transcriber import transcribe
+from process_notes import ProcessNotes
 import os
 
 app = Flask(__name__)
@@ -20,6 +21,7 @@ contactList = [cont1, cont2]
 
 # Contacts processor
 contacts_processor = ProcessContacts()
+notes_processor = ProcessNotes()
       
 
 @app.route("/")
@@ -42,10 +44,9 @@ def receive_data():
 def send_data():
     return jsonify(contacts_processor.contacts)
 
-# Retrieves notes from frontend
-@app.route("/api/notes", methods=["POST"])
-def receive_notes():
-
+# Retrieves notes to transcribe from frontend
+@app.route("/api/transcribe", methods=["POST"])
+def receive_note_transcribe():
     try:
         # Get audio file from request
         audio_blob = request.data 
@@ -69,6 +70,17 @@ def receive_notes():
         return jsonify({'error': str(err)}), 500
 
 
+# Retrieves notes to save from frontend
+@app.route("/api/note", methods=["POST"])
+def receive_note():
+    try:
+        data = request.get_json()
+        notes_processor.read_note(data)
+        notes_processor.save_note(1, 2)
+
+        return jsonify({'message': 'Note received.'}), 200
+    except Exception as err:
+        return jsonify({'error': str(err)}), 500
 
 if __name__ == "__main__":
     # added host to test, it seems to make it work on android

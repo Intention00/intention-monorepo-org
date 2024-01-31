@@ -1,7 +1,7 @@
 import { View, Button, TextInput } from "react-native"
 import { useState, useEffect } from "react";
 import { Audio } from "expo-av"
-import { sendNotesToBackend } from "../ContactSync/backendService";
+import { sendNotesToBackend, sendFinalNotesToBackend } from "../ContactSync/backendService";
 
 const TranscriberNote: React.FC = ()=> {
 
@@ -98,8 +98,9 @@ const TranscriberNote: React.FC = ()=> {
                 style={{ marginTop: 15, borderWidth: 1, padding: 10}}
             />
             
+            <Button title="Transcribe" onPress={updateNoteBox} />
+            <Button title="Save" onPress={()=> sendFinalNotesToBackend(transcribedText)} />
             <Button title="Play Sound" onPress={playSound} />
-            <Button title="Send to backend" onPress={updateNoteBox} />
         </View>
     )
 }

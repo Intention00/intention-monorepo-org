@@ -1,4 +1,5 @@
-const backendAddress = "http://192.168.1.27:5100"
+// const backendAddress = "http://192.168.1.27:5100"
+const backendAddress = "http://72.233.177.91:5100"
 
 // Send contacts to backend api
 export const sendContactsToBackend = async (contactsData: any[])=> {
@@ -60,7 +61,7 @@ export const sendNotesToBackend = async (uri: string)=> {
         const uri_response = await fetch(uri);
         const uri_blob = await uri_response.blob();
 
-        const response = await fetch(`${backendAddress}/api/notes`, {
+        const response = await fetch(`${backendAddress}/api/transcribe`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'audio/mp4',
@@ -85,5 +86,26 @@ export const sendNotesToBackend = async (uri: string)=> {
     }
     catch (e) {
         throw new Error(`Error sending notes to backend: ${e}`);
+    }
+}
+
+export const sendFinalNotesToBackend = async (note: string)=> {
+    try {
+        const response = await fetch(`${backendAddress}/api/note`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(note)
+    
+        })
+
+        if (!response.ok) {
+            const errorMessage = await response.json();
+            console.error(`Server returned an error: ${JSON.stringify(errorMessage)}`);
+        }
+    } 
+    catch (error) {
+        throw new Error(`Error sending final note to backend: ${error}`);
     }
 }
