@@ -34,15 +34,18 @@ def receive_data():
     try: 
         data = request.get_json()
         contacts_processor.read_contacts(data)
-
-        return jsonify({'message': 'Data received.'})
+        # currently using hardcoded user_id 4
+        contacts_processor.sync_contacts(4)
+        return jsonify({'message': 'Contacts received.'}), 200
     
     except Exception as err:
         return jsonify({'message': str(err)})
     
 @app.route("/api/contacts", methods=['GET'])
 def send_data():
-    return jsonify(contacts_processor.contacts)
+    # currently using hardcoded user_id 4
+    contacts_processor.retrieve_db_contacts(4)
+    return jsonify(contacts_processor.contacts), 200
 
 # Retrieves notes to transcribe from frontend
 @app.route("/api/transcribe", methods=["POST"])
