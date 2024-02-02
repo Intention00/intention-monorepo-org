@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { Audio } from "expo-av"
 import { sendNotesToBackend, sendFinalNotesToBackend } from "../ContactSync/backendService";
 
-const TranscriberNote: React.FC = ()=> {
+const TranscriberNote: React.FC <{contact}> = ({contact})=> {
 
     // Recording test
 
@@ -99,7 +99,7 @@ const TranscriberNote: React.FC = ()=> {
             />
             
             <Button title="Transcribe" onPress={updateNoteBox} />
-            <Button title="Save" onPress={()=> sendFinalNotesToBackend(transcribedText)} />
+            <Button title="Save" onPress={()=> sendFinalNotesToBackend(transcribedText, contact.contactID)} />
             <Button title="Play Sound" onPress={playSound} />
         </View>
     )

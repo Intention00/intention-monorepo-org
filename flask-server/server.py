@@ -79,7 +79,7 @@ def receive_note():
     try:
         data = request.get_json()
         notes_processor.read_note(data)
-        notes_processor.save_note(1, 2)
+        notes_processor.save_note()
 
         return jsonify({'message': 'Note received.'}), 200
     except Exception as err:

@@ -5,13 +5,21 @@ const backendAddress = "http://192.168.1.27:5100"
 export const sendContactsToBackend = async (contactsData: any[])=> {
 
     try {
-        const formattedContacts = contactsData.map((contact)=> ({
-            // name: contact.firstName + " " + contact.lastName,
-            firstName: contact.firstName,
-            lastName: contact.lastName,
-            number: '000-000-0000'
-        }))
+        const formattedContacts = contactsData.map((contact)=> {
 
+            // TODO: Add ability to choose mobile numbers only, not just the first one
+
+            // const phoneNumber = contact.phoneNumbers.find((number)=> {number.label === "mobile"});     
+            const selectedNum = contact.phoneNumbers[0].digits;
+            
+            return {
+                firstName: contact.firstName,
+                lastName: contact.lastName,
+                // number: phoneNumber ? phoneNumber.number : '000-000-0000'
+                number: selectedNum ? selectedNum : '0000000000'
+            }
+        })
+        
         // using the address from host 0.0.0.0, makes it work on android
         const response = await fetch(`${backendAddress}/api/contacts`, {
             method: 'POST',
@@ -39,6 +47,7 @@ export const receiveContactsFromBackend = async ()=> {
         })
 
         const contacts_received = await response.json();
+        console.log(`NEW CONTACTS RECEIVED: ${JSON.stringify(contacts_received)}`);
         return contacts_received;
         // TODO: check if response is good
     }
@@ -89,14 +98,14 @@ export const sendNotesToBackend = async (uri: string)=> {
     }
 }
 
-export const sendFinalNotesToBackend = async (note: string)=> {
+export const sendFinalNotesToBackend = async (note: string, contactID: string)=> {
     try {
         const response = await fetch(`${backendAddress}/api/note`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify(note)
+            body: JSON.stringify({note: note, contactID: contactID})
     
         })
 

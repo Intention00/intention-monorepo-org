@@ -10,9 +10,9 @@ const ContactModal: React.FC <{contact, toggleModalVisibility}> = ({contact, tog
                 <View style={styles.modalTextContainer}>
                     <Text style={[styles.modalText, {textAlign: 'center', paddingBottom: 40}]}>Contact details:</Text>
                     <Text style={styles.modalText}>Name: {`${contact.firstName} ${contact.lastName}`}</Text>
-                    <Text style={styles.modalText}>Phone: 000-000-0000</Text>
+                    <Text style={styles.modalText}>Phone: {contact.number}</Text>
 
-                    <TranscriberNote></TranscriberNote>
+                    <TranscriberNote contact={contact}></TranscriberNote>
                 </View>
 
                 <Button title="Edit Name"></Button>

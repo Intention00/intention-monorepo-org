@@ -21,7 +21,7 @@ class ProcessContacts():
             with DBConnection() as db_conn:
                 if db_conn:
                     sql_statement = """
-                        SELECT ContactID, FirstName, LastName FROM Contact WHERE UserID = %s;
+                        SELECT ContactID, FirstName, LastName, Phone FROM Contact WHERE UserID = %s;
                     """
                     db_conn.execute(sql_statement, (user_id,))
                     db_contacts = db_conn.fetchall()
@@ -30,7 +30,8 @@ class ProcessContacts():
                         {
                             'contactID': contact['ContactID'],
                             'firstName': contact['FirstName'],
-                            'lastName': contact['LastName']
+                            'lastName': contact['LastName'],
+                            'number': contact['Phone']
                         } for contact in db_contacts
                     ]
 
@@ -43,7 +44,7 @@ class ProcessContacts():
         with DBConnection() as db_conn:
             if db_conn:
                 sql_statement = """
-                    INSERT IGNORE INTO Contact (FirstName, LastName, UserID) VALUES (%s, %s, %s);
+                    INSERT IGNORE INTO Contact (FirstName, LastName, UserID, Phone) VALUES (%s, %s, %s, %s);
                 """
                 for contact in self.contacts:
-                    db_conn.execute(sql_statement, (contact['firstName'], contact['lastName'], user_id))
+                    db_conn.execute(sql_statement, (contact['firstName'], contact['lastName'], user_id, contact['number']))
