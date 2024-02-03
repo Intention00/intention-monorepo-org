@@ -9,9 +9,13 @@ export const sendContactsToBackend = async (contactsData: any[])=> {
 
             // TODO: Add ability to choose mobile numbers only, not just the first one
 
-            // const phoneNumber = contact.phoneNumbers.find((number)=> {number.label === "mobile"});     
-            const selectedNum = contact.phoneNumbers[0].digits;
+            // const phoneNumber = contact.phoneNumbers.find((number)=> {number.label === "mobile"});    
             
+            // only works on ios
+            // const selectedNum = contact.phoneNumbers[0].digits;
+            const selectedNum = contact.phoneNumbers[0].number.replace('(', '').
+                replace(')', '').replace('-', '').replace(' ', '');
+
             return {
                 firstName: contact.firstName,
                 lastName: contact.lastName,
@@ -19,6 +23,7 @@ export const sendContactsToBackend = async (contactsData: any[])=> {
                 number: selectedNum ? selectedNum : '0000000000'
             }
         })
+
         
         // using the address from host 0.0.0.0, makes it work on android
         const response = await fetch(`${backendAddress}/api/contacts`, {
