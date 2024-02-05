@@ -23,26 +23,20 @@ def generate_summary(text):
         model="gpt-3.5-turbo",
         messages=[
             {"role": "system", "content": "You are a helpful assistant. Talking directly to the user"},
-            {"role": "user", "content": f"Summarize the following text: {text}"}
+            {"role": "user", "content": f"Given some context of a person, can you give me a summary about them? More specifically my relationship with them as well: {text}"}
             ]
     )
     content_section = response.choices[0].message.content
     return content_section
     
-def generate_questions(text, contact_name):
+def generate_questions(text):
     response = client.chat.completions.create(
         model="gpt-3.5-turbo",
         messages=[
             {"role": "system", "content": "You are a helpful assistant. Talking directly to the user"},
-            {"role": "user", "content": f"Generate questions for me to ask {contact_name} based on the following context I've provided about them: {text}"}
+            {"role": "user", "content": f"Given some context of a person, can you give me some questions to ask them?: {text}"}
             ]
     )
     content_section = response.choices[0].message.content
     return content_section
-
-
-# contact = "Andrew"
-
-# print(generate_summary(transcribe()))
-# print(generate_questions(transcribe(), contact))
 

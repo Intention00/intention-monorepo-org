@@ -1,7 +1,7 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 from process_contacts import ProcessContacts
-from transcriber import transcribe
+from audio_processing import generate_questions, generate_summary, transcribe
 from process_notes import ProcessNotes
 import os
 
@@ -84,6 +84,30 @@ def receive_note():
         return jsonify({'message': 'Note received.'}), 200
     except Exception as err:
         return jsonify({'error': str(err)}), 500
+    
+
+@app.route('/generate-summary', methods=['POST'])
+def handle_generate_summary():
+    # Get text from the request payload
+    text = request.json.get('text', '')
+    
+    # Generate summary using transcriber.py
+    summary = generate_summary(text)
+    
+    # Return the generated summary
+    return jsonify({'summary': summary})
+
+@app.route('/generate-questions', methods=['POST'])
+def handle_generate_questions():
+    # Get text from the request payload
+    text = request.json.get('text', '')
+
+    # Generate questions using transcriber.py
+    questions = generate_questions(text)
+
+    # Return the generated questions
+    return jsonify({'questions': questions})
+
 
 if __name__ == "__main__":
     # added host to test, it seems to make it work on android
