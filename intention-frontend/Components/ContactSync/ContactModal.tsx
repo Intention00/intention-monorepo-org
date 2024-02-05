@@ -1,5 +1,6 @@
 import { View, Text, Button, StyleSheet } from "react-native"
 import TranscriberNote from '../Transcriber/TranscribeNote'
+import AI_Generations from "../AI_Generations/AI_Generations"
 
 const ContactModal: React.FC <{contact, toggleModalVisibility}> = ({contact, toggleModalVisibility})=> {
 
@@ -13,6 +14,8 @@ const ContactModal: React.FC <{contact, toggleModalVisibility}> = ({contact, tog
                     <Text style={styles.modalText}>Phone: {contact.number}</Text>
 
                     <TranscriberNote contact={contact}></TranscriberNote>
+                    {/* <AI_Generations></AI_Generations> */}
+                    
                 </View>
 
                 <Button title="Edit Name"></Button>
