@@ -1,10 +1,13 @@
-import { View, Text, Button, StyleSheet } from "react-native"
+import { View, Text, Button, StyleSheet,ScrollView } from "react-native"
 import TranscriberNote from '../Transcriber/TranscribeNote'
+import React, {useState} from "react";
 import AI_Generations from "../AI_Generations/AI_Generations"
 
 const ContactModal: React.FC <{contact, toggleModalVisibility}> = ({contact, toggleModalVisibility})=> {
-
-
+    const [currentStep, setCurrentStep] = useState("transcriber"); // Default to transcriber
+    const handleRecordingComplete = () => {
+        setCurrentStep("AI_Generations");
+    };
     return (
         <View style={[styles.centeredView, styles.modalView]}>
             <View style={[styles.modalBox]}>
@@ -12,9 +15,10 @@ const ContactModal: React.FC <{contact, toggleModalVisibility}> = ({contact, tog
                     <Text style={[styles.modalText, {textAlign: 'center', paddingBottom: 40}]}>Contact details:</Text>
                     <Text style={styles.modalText}>Name: {`${contact.firstName} ${contact.lastName}`}</Text>
                     <Text style={styles.modalText}>Phone: {contact.number}</Text>
-
-                    <TranscriberNote contact={contact}></TranscriberNote>
-                    {/* <AI_Generations></AI_Generations> */}
+                    <ScrollView>
+                        <TranscriberNote contact={contact}></TranscriberNote>
+                        <AI_Generations></AI_Generations>
+                    </ScrollView>
                     
                 </View>
 

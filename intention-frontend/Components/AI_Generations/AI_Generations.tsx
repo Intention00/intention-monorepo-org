@@ -71,11 +71,11 @@ const AI_Generations: React.FC = ()=> {
                     placeholder="Click Generate Questions"
                     />
                     <TouchableOpacity style = {styles.generateButton} onPress={generateSummary}>
-                    <Text style={styles.buttonText}>Generate Summary</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style = {styles.generateButton} onPress={generateQuestions}>
-                    <Text style={styles.buttonText}>Generate Questions</Text>
-                </TouchableOpacity>
+                        <Text style={styles.buttonText}>Generate Summary</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style = {styles.generateButton} onPress={generateQuestions}>
+                        <Text style={styles.buttonText}>Generate Questions</Text>
+                    </TouchableOpacity>
 
         </View>
         
