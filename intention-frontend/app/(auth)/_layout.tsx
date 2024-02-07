@@ -48,7 +48,7 @@ const TabsPage = () => {
         redirect={!isSignedIn}
       />
       <Tabs.Screen
-      name="ContactSync1"
+      name="contactSync1"
       options={{
         headerTitle: 'Contact Sync,',
         tabBarIcon: ({ color, size }) => <Ionicons name="person-outline" size={size} color={color} />,
