@@ -1,7 +1,7 @@
 import { View, Text, Button, StyleSheet,ScrollView } from "react-native"
-import TranscriberNote from '../Transcriber/TranscribeNote'
+import {TranscriberNote} from '../Transcriber/TranscribeNote'
 import React, {useState} from "react";
-import AI_Generations from "../AI_Generations/AI_Generations"
+import {AI_Generations} from "../AI_Generations/AI_Generations"
 
 const ContactModal: React.FC <{contact, toggleModalVisibility}> = ({contact, toggleModalVisibility})=> {
     const [currentStep, setCurrentStep] = useState("transcriber"); // Default to transcriber
@@ -67,4 +67,4 @@ const styles = StyleSheet.create({
     }
 })
 
-export default ContactModal;
+export {ContactModal};

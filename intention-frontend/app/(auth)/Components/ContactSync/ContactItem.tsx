@@ -21,7 +21,7 @@ const ContactItem: React.FC<{contact: Contact}> = ({contact})=> {
     );
 }
 
-export default ContactItem;
+export {ContactItem};
 
 
 {/* <ContactItem contact={{firstName: 'test', lastName: 'person', phoneNumber: {}}}></ContactItem> */}

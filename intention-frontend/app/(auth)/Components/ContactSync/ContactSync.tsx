@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import {View, Text, SafeAreaView} from 'react-native';
 import { sendContactsToBackend, receiveContactsFromBackend } from './backendService';
 import { saveContactsFromUser } from './contactService';
-import ContactList from './ContactList';
+import {ContactList} from './ContactList';
 
 const ContactSync: React.FC = ()=> {
 
@@ -65,4 +65,4 @@ const ContactSync: React.FC = ()=> {
     );
 };
 
-export default ContactSync;
+export {ContactSync};

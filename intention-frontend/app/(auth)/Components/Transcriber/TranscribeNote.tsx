@@ -105,4 +105,4 @@ const TranscriberNote: React.FC <{contact}> = ({contact})=> {
     )
 }
 
-export default TranscriberNote;
+export {TranscriberNote};

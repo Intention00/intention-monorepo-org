@@ -152,4 +152,4 @@ const styles = StyleSheet.create({
 
 });
 
-export default AI_Generations
+export {AI_Generations}

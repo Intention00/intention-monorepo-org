@@ -1,6 +1,6 @@
 import React from 'react';
 import {View, Text} from 'react-native';
-import ContactSync from '../ContactSync/ContactSync';
+import {ContactSync} from '../ContactSync/ContactSync';
 /*
 const Home2: React.FC = ()=> {
     return (

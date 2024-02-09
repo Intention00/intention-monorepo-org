@@ -1,7 +1,7 @@
 import { View, Text } from 'react-native';
 import React from 'react';
 import { useUser } from '@clerk/clerk-expo';
-import ContactSync from './Components/ContactSync/ContactSync';
+import {ContactSync} from './Components/ContactSync/ContactSync';
 
 
 const contactSync1 = () => {

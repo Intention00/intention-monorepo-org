@@ -1,6 +1,6 @@
 import { View, SafeAreaView, FlatList, TouchableHighlight, Modal } from "react-native";
-import ContactItem from "./ContactItem";
-import ContactModal from './ContactModal'
+import {ContactItem} from "./ContactItem";
+import {ContactModal} from './ContactModal'
 import { useState } from "react";
 
 const ContactList: React.FC <{contacts: any[]}> = ({contacts})=> {
@@ -33,4 +33,4 @@ const ContactList: React.FC <{contacts: any[]}> = ({contacts})=> {
     );
 }
 
-export default ContactList;
+export {ContactList};
