@@ -3,7 +3,7 @@
 const backendAddress = "http://127.0.0.1:5100"
 
 // Send contacts to backend api
-export const sendContactsToBackend = async (contactsData: any[])=> {
+export const sendContactsToBackend = async (userID: number, contactsData: any[])=> {
 
     try {
         const formattedContacts = contactsData.map((contact)=> {
@@ -32,7 +32,7 @@ export const sendContactsToBackend = async (contactsData: any[])=> {
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify(formattedContacts)
+            body: JSON.stringify({'userID': userID, 'contacts': formattedContacts})
     
         })
 
@@ -44,11 +44,11 @@ export const sendContactsToBackend = async (contactsData: any[])=> {
 
 }
 
-export const receiveContactsFromBackend = async ()=> {
+export const receiveContactsFromBackend = async (userID: number)=> {
     try {
         
         // using the address from host 0.0.0.0, makes it work on android
-        const response = await fetch(`${backendAddress}/api/contacts`, {
+        const response = await fetch(`${backendAddress}/api/contacts?userID=${userID}`, {
             method: 'GET',
         })
 

@@ -3,6 +3,8 @@ import {View, Text, SafeAreaView} from 'react-native';
 import { sendContactsToBackend, receiveContactsFromBackend } from './backendService';
 import { saveContactsFromUser } from './contactService';
 import {ContactList} from './ContactList';
+import { userIDContext } from '../UserSync/userIDContext';
+
 
 const ContactSync: React.FC = ()=> {
 
@@ -15,13 +17,16 @@ const ContactSync: React.FC = ()=> {
             try {
                 const fetchedContacts = await saveContactsFromUser();
 
+                // placeholder for userID logic
+                const userID = 4;
+
                 // Contacts array isn't empty, so we found some contacts
                 if (fetchedContacts.length > 0) {
                     
                     // Used to set contacts = to received contacts from device
                     // setContacts(fetchedContacts);
 
-                    await sendContactsToBackend(fetchedContacts);
+                    await sendContactsToBackend(userID, fetchedContacts);
 
                 }
                 else {
@@ -29,7 +34,7 @@ const ContactSync: React.FC = ()=> {
                 }
 
                 // Set contacts to those retrieved from database
-                const recContacts = await receiveContactsFromBackend();
+                const recContacts = await receiveContactsFromBackend(userID);
                 setContacts(recContacts);
 
             }
@@ -59,8 +64,10 @@ const ContactSync: React.FC = ()=> {
 
     return (
         <SafeAreaView>
-            <Text style={{marginTop: 10}}>{error}</Text>
-            <ContactList contacts={contacts}></ContactList>
+            <userIDContext.Provider value={0}>
+                <Text style={{marginTop: 10}}>{error}</Text>
+                <ContactList contacts={contacts}></ContactList>
+            </userIDContext.Provider>
         </SafeAreaView>
     );
 };
