@@ -2,6 +2,7 @@ import { View, Text, Button, TextInput, StyleSheet } from 'react-native';
 import { useState } from 'react';
 import { useUser } from '@clerk/clerk-expo';
 
+
 const Profile = () => {
   const { user } = useUser();
   const [firstName, setFirstName] = useState(user.firstName);
