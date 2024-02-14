@@ -128,6 +128,5 @@ def return_user_id():
 if __name__ == "__main__":
     # added host to test, it seems to make it work on android
    app.run(debug=True,  port=5100, host='0.0.0.0')
-#    , ssl_context='adhoc'
     
     # app.run(debug=True,  port=5100)
