@@ -33,9 +33,12 @@ def home():
 def receive_data():
     try: 
         data = request.get_json()
-        contacts_processor.read_contacts(data)
-        # currently using hardcoded user_id 4
-        contacts_processor.sync_contacts(4)
+        user_id = data['userID']
+        contacts = data['contacts']
+        contacts_processor.read_contacts(contacts)
+        
+        # gets for specific user from frontend
+        contacts_processor.sync_contacts(user_id)
         return jsonify({'message': 'Contacts received.'}), 200
     
     except Exception as err:
@@ -43,8 +46,10 @@ def receive_data():
     
 @app.route("/api/contacts", methods=['GET'])
 def send_data():
-    # currently using hardcoded user_id 4
-    contacts_processor.retrieve_db_contacts(4)
+    user_id = request.args.get('userID')
+
+    # gets for specific user from frontend
+    contacts_processor.retrieve_db_contacts(user_id)
     return jsonify(contacts_processor.contacts), 200
 
 # Retrieves notes to transcribe from frontend
