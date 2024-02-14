@@ -3,7 +3,8 @@ import { Slot, useRouter, useSegments } from 'expo-router';
 import { useEffect } from 'react';
 import * as SecureStore from 'expo-secure-store';
 
-const CLERK_PUBLISHABLE_KEY = 'pk_test_ZGlzY3JldGUta2FuZ2Fyb28tMzEuY2xlcmsuYWNjb3VudHMuZGV2JA';
+// const CLERK_PUBLISHABLE_KEY = 'pk_test_ZGlzY3JldGUta2FuZ2Fyb28tMzEuY2xlcmsuYWNjb3VudHMuZGV2JA';
+const CLERK_PUBLISHABLE_KEY = 'pk_test_ZW1lcmdpbmctbXVkZmlzaC0yNC5jbGVyay5hY2NvdW50cy5kZXYk';
 
 const InitialLayout = () => {
   const { isLoaded, isSignedIn } = useAuth();
