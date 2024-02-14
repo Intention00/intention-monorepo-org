@@ -1,6 +1,6 @@
 // const backendAddress = "http://192.168.1.27:5100"
 //const backendAddress = "http://72.233.177.88:5100"
-const backendAddress = "https://127.0.0.1:5100"
+const backendAddress = "http://127.0.0.1:5100"
 
 // Send contacts to backend api
 export const sendContactsToBackend = async (userID: number, contactsData: any[])=> {
@@ -121,5 +121,25 @@ export const sendFinalNotesToBackend = async (note: string, contactID: string)=>
     } 
     catch (error) {
         throw new Error(`Error sending final note to backend: ${error}`);
+    }
+}
+
+export const receiveUserIDBackend = async (email: string)=> {
+    try {
+        const response = await fetch(`${backendAddress}/api/users?email=${email}`, {
+            method: 'GET',
+        })
+
+        if (!response.ok) {
+            const errorMessage = await response.json();
+            console.error(`Server returned an error: ${JSON.stringify(errorMessage)}`);
+        }
+        else {
+            const userID = await response.json();
+            return userID;
+        }
+    } 
+    catch (error) {
+        throw new Error(`Error retrieving userID from backend: ${error}`);
     }
 }

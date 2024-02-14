@@ -1,15 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import {View, Text, SafeAreaView} from 'react-native';
-import { sendContactsToBackend, receiveContactsFromBackend } from './backendService';
+import { sendContactsToBackend, receiveContactsFromBackend, receiveUserIDBackend } from './backendService';
 import { saveContactsFromUser } from './contactService';
 import {ContactList} from './ContactList';
 import { userIDContext } from '../UserSync/userIDContext';
+import { useUser } from '@clerk/clerk-expo';
+import { handleUser } from '../UserSync/userService';
 
 
 const ContactSync: React.FC = ()=> {
 
     const [error, setError] = useState(undefined);
     const [contacts, setContacts] = useState(undefined);
+    const { user } = useUser();
+    const userEmail = user['primaryEmailAddress']['emailAddress'];
 
     useEffect(()=> {
         (async ()=> {
@@ -18,7 +22,9 @@ const ContactSync: React.FC = ()=> {
                 const fetchedContacts = await saveContactsFromUser();
 
                 // placeholder for userID logic
-                const userID = 4;
+                const userID = await handleUser(userEmail)
+                
+
 
                 // Contacts array isn't empty, so we found some contacts
                 if (fetchedContacts.length > 0) {
