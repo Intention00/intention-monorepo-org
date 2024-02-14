@@ -3,6 +3,7 @@ from flask_cors import CORS
 from process_contacts import ProcessContacts
 from audio_processing import generate_questions, generate_summary, transcribe
 from process_notes import ProcessNotes
+from process_users import ProcessUsers
 import os
 
 app = Flask(__name__)
@@ -22,6 +23,7 @@ contactList = [cont1, cont2]
 # Contacts processor
 contacts_processor = ProcessContacts()
 notes_processor = ProcessNotes()
+user_processor = ProcessUsers()
       
 
 @app.route("/")
@@ -113,9 +115,19 @@ def handle_generate_questions():
     # Return the generated questions
     return jsonify({'questions': questions})
 
+@app.route("/api/users", methods=['GET'])
+def return_user_id():
+    email = request.args.get('email')
+    user_processor.read_user(email)
+    user_id = user_processor.retrieve_user_id();
+
+    # print(f'Email for userID was: {email}')
+    return jsonify(user_id), 200
+
 
 if __name__ == "__main__":
     # added host to test, it seems to make it work on android
-   app.run(debug=True,  port=5100, host='0.0.0.0', ssl_context='adhoc')
+   app.run(debug=True,  port=5100, host='0.0.0.0')
+#    , ssl_context='adhoc'
     
     # app.run(debug=True,  port=5100)
