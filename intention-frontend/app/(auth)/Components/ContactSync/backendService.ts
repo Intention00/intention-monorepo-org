@@ -15,7 +15,7 @@ export const sendContactsToBackend = async (userID: number, contactsData: any[])
             // only works on ios
             // const selectedNum = contact.phoneNumbers[0].digits;
             const selectedNum = contact.phoneNumbers[0].number.replace('(', '').
-                replace(')', '').replace('-', '').replace(' ', '');
+                replace(')', '').replaceAll('-', '').replace(' ', '');
 
             return {
                 firstName: contact.firstName,
@@ -24,7 +24,6 @@ export const sendContactsToBackend = async (userID: number, contactsData: any[])
                 number: selectedNum ? selectedNum : '0000000000'
             }
         })
-
         
         // using the address from host 0.0.0.0, makes it work on android
         const response = await fetch(`${backendAddress}/api/contacts`, {
