@@ -9,6 +9,8 @@ const Register = () => {
 
   const [emailAddress, setEmailAddress] = useState('');
   const [password, setPassword] = useState('');
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
   const [pendingVerification, setPendingVerification] = useState(false);
   const [code, setCode] = useState('');
   const [loading, setLoading] = useState(false);
@@ -23,8 +25,10 @@ const Register = () => {
     try {
       // Create the user on Clerk
       await signUp.create({
+        firstName,
+        lastName,
         emailAddress,
-        password,
+        password
       });
 
       // Send verification Email
@@ -68,6 +72,8 @@ const Register = () => {
         <>
           <TextInput autoCapitalize="none" placeholder="intention@w.com" value={emailAddress} onChangeText={setEmailAddress} style={styles.inputField} />
           <TextInput placeholder="password" value={password} onChangeText={setPassword} secureTextEntry style={styles.inputField} />
+          <TextInput placeholder="first name" value={firstName} onChangeText={setFirstName} style={styles.inputField} />
+          <TextInput placeholder="last name" value={lastName} onChangeText={setLastName}  style={styles.inputField} />
 
           <Button onPress={onSignUpPress} title="Sign up" color={'#6c47ff'}></Button>
         </>

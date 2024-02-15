@@ -10,6 +10,7 @@ const Home = () => {
   return (
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
    <Text>Welcome, {user?.emailAddresses[0].emailAddress} 🎉</Text>
+   <Text> Guess what! I know your name {user?.firstName}</Text>
     
     </View>
   );
