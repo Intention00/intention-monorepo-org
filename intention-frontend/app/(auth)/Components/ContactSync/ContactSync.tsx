@@ -13,6 +13,7 @@ const ContactSync: React.FC = ()=> {
     const [error, setError] = useState(undefined);
     const [contacts, setContacts] = useState(undefined);
     const { user } = useUser();
+    const [userID, setUserID] = useState(undefined);
     const userEmail = user['primaryEmailAddress']['emailAddress'];
 
     useEffect(()=> {
@@ -20,9 +21,7 @@ const ContactSync: React.FC = ()=> {
             setError(undefined);
             try {
                 const fetchedContacts = await saveContactsFromUser();
-
-                // placeholder for userID logic
-                const userID = await handleUser(userEmail)
+                setUserID(await handleUser(userEmail));
                 
 
 
@@ -52,7 +51,7 @@ const ContactSync: React.FC = ()=> {
 
   
         
-    }, []);
+    }, [userID]);
 
     // // Going through the contacts list of phone numbers to display them all
     // const getPhoneNumbers = (contact)=> {
@@ -70,7 +69,7 @@ const ContactSync: React.FC = ()=> {
 
     return (
         <SafeAreaView>
-            <userIDContext.Provider value={0}>
+            <userIDContext.Provider value={userID}>
                 <Text style={{marginTop: 10}}>{error}</Text>
                 <ContactList contacts={contacts}></ContactList>
             </userIDContext.Provider>
