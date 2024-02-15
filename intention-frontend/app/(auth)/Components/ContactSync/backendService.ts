@@ -143,3 +143,25 @@ export const receiveUserIDBackend = async (email: string)=> {
         throw new Error(`Error retrieving userID from backend: ${error}`);
     }
 }
+
+// used for testing that will happen with jest to test user authentication and make
+//sure same email info from db matches user
+export const recieveUserEmailBackend = async (user_id: string)=> {
+    try {
+        const response = await fetch(`${backendAddress}/api/users/emailcheck?user_id=${user_id}`, {
+            method: 'GET',
+        })
+
+        if (!response.ok) {
+            const errorMessage = await response.json();
+            console.error(`Server returned an error: ${JSON.stringify(errorMessage)}`);
+        }
+        else {
+            const email = await response.json();
+            return email;
+        }
+    } 
+    catch (error) {
+        throw new Error(`Error retrieving email from backend: ${error}`);
+    }
+}
