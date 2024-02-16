@@ -1,4 +1,4 @@
-import { View, Button, TextInput } from "react-native"
+import { View, Button, TextInput, TouchableOpacity } from "react-native"
 import { useState, useEffect } from "react";
 import { Audio } from "expo-av"
 import { sendNotesToBackend, sendFinalNotesToBackend } from "../ContactSync/backendService";
@@ -42,6 +42,10 @@ const TranscriberNote: React.FC <{contact}> = ({contact})=> {
         console.log('Recording stopped and stored at', uri);
         setAudioUri(uri);
         console.log("URI TEST VALUE AT END IS:", audioUri);
+        const transcribedNotes = await sendNotesToBackend(uri);
+            if (transcribedNotes) {
+        setTranscribedText(transcribedNotes);
+    }
     }
 
     // recording test end
@@ -72,13 +76,13 @@ const TranscriberNote: React.FC <{contact}> = ({contact})=> {
 
     // audio test end
 
-    async function updateNoteBox() {
-        const transcribedNotes = await sendNotesToBackend(audioUri);
-        if (transcribedNotes) {
-            setTranscribedText(transcribedNotes);
-        }
+    // async function updateNoteBox() {
+    //     const transcribedNotes = await sendNotesToBackend(audioUri);
+    //     if (transcribedNotes) {
+    //         setTranscribedText(transcribedNotes);
+    //     }
 
-    }
+    // }
 
     // testing text input button
     const [transcribedText, setTranscribedText] = useState('')
@@ -97,10 +101,8 @@ const TranscriberNote: React.FC <{contact}> = ({contact})=> {
                 onChangeText={setTranscribedText}
                 style={{ marginTop: 15, borderWidth: 1, padding: 10}}
             />
-            
-            <Button title="Transcribe" onPress={updateNoteBox} />
             <Button title="Save" onPress={()=> sendFinalNotesToBackend(transcribedText, contact.contactID)} />
-            <Button title="Play Sound" onPress={playSound} />
+
         </View>
     )
 }

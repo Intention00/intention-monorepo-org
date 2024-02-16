@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import { View, Text, TextInput, Button, StyleSheet, Touchable, TouchableOpacity} from "react-native"
+import { View, Text, TextInput, Button, StyleSheet, TouchableOpacity} from "react-native"
 
 const AI_Generations: React.FC = ()=> {
 

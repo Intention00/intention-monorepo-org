@@ -2,6 +2,7 @@ import { View, Text, Button, StyleSheet,ScrollView } from "react-native"
 import {TranscriberNote} from '../Transcriber/TranscribeNote'
 import React, {useState} from "react";
 import {AI_Generations} from "../AI_Generations/AI_Generations"
+// import { TranscribeAndProcess } from "../AIFunctions/TranscribeAndProcess";
 
 const ContactModal: React.FC <{contact, toggleModalVisibility}> = ({contact, toggleModalVisibility})=> {
     const [currentStep, setCurrentStep] = useState("transcriber"); // Default to transcriber
@@ -18,6 +19,7 @@ const ContactModal: React.FC <{contact, toggleModalVisibility}> = ({contact, tog
                     <ScrollView>
                         <TranscriberNote contact={contact}></TranscriberNote>
                         <AI_Generations></AI_Generations>
+                        {/* <TranscribeAndProcess></TranscribeAndProcess> */}
                     </ScrollView>
                     
                 </View>
@@ -36,7 +38,7 @@ const styles = StyleSheet.create({
         // flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        height: '100%',
+        height: '105%',
         width: '100%',
     },
 
