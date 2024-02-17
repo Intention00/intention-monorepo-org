@@ -124,6 +124,26 @@ export const sendFinalNotesToBackend = async (note: string, contactID: string)=>
     }
 }
 
+// export const getSavedNoteFromBackend = async (contactID: string) => {
+//     try {
+//         const response = await fetch(`${backendAddress}/api/note?contactID=${contactID}`, {
+//             method: 'GET',
+//         });
+
+//         if (!response.ok) {
+//             const errorMessage = await response.json();
+//             console.error(`Server returned an error: ${JSON.stringify(errorMessage)}`);
+//             return null;
+//         } else {
+//             const savedNote = await response.json();
+//             return savedNote.note;
+//         }
+//     } catch (error) {
+//         throw new Error(`Error retrieving saved note from backend: ${error}`);
+//     }
+// }
+
+
 export const receiveUserIDBackend = async (email: string)=> {
     try {
         const response = await fetch(`${backendAddress}/api/users?email=${email}`, {

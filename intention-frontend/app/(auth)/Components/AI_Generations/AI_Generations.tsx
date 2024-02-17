@@ -55,27 +55,27 @@ const AI_Generations: React.FC = ()=> {
         <View>
             {/*Text Input for Notes*/}
             <TextInput
-                    style = {styles.notesInput}
-                    multiline
-                    numberOfLines={4}
-                    value={summary}
-                    onChangeText={(text) => setSummary(text)}
-                    placeholder="Please provide notes about ______"
-                    />
-                    <TextInput
-                    style = {styles.notesInput}
-                    multiline
-                    numberOfLines={4}
-                    value={questions}
-                    onChangeText={(text) => setQuestions(text)}
-                    placeholder="Click Generate Questions"
-                    />
-                    <TouchableOpacity style = {styles.generateButton} onPress={generateSummary}>
-                        <Text style={styles.buttonText}>Generate Summary</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style = {styles.generateButton} onPress={generateQuestions}>
-                        <Text style={styles.buttonText}>Generate Questions</Text>
-                    </TouchableOpacity>
+                style = {styles.notesInput}
+                multiline
+                numberOfLines={4}
+                value={summary}
+                onChangeText={(text) => setSummary(text)}
+                placeholder="Please provide notes about ______"
+            />
+            <TextInput
+                style = {styles.notesInput}
+                multiline
+                numberOfLines={4}
+                value={questions}
+                onChangeText={(text) => setQuestions(text)}
+                placeholder="Click Generate Questions"
+            />
+            <TouchableOpacity style = {styles.generateButton} onPress={generateSummary}>
+                <Text style={styles.buttonText}>Generate Summary</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style = {styles.generateButton} onPress={generateQuestions}>
+                <Text style={styles.buttonText}>Generate Questions</Text>
+            </TouchableOpacity>
 
         </View>
         

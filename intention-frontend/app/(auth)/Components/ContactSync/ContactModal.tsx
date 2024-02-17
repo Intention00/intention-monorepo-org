@@ -6,9 +6,9 @@ import {AI_Generations} from "../AI_Generations/AI_Generations"
 
 const ContactModal: React.FC <{contact, toggleModalVisibility}> = ({contact, toggleModalVisibility})=> {
     const [currentStep, setCurrentStep] = useState("transcriber"); // Default to transcriber
-    const handleRecordingComplete = () => {
-        setCurrentStep("AI_Generations");
-    };
+    // const handleRecordingComplete = () => {
+    //     setCurrentStep("AI_Generations");
+    // };
     return (
         <View style={[styles.centeredView, styles.modalView]}>
             <View style={[styles.modalBox]}>
@@ -18,7 +18,7 @@ const ContactModal: React.FC <{contact, toggleModalVisibility}> = ({contact, tog
                     <Text style={styles.modalText}>Phone: {contact.number}</Text>
                     <ScrollView>
                         <TranscriberNote contact={contact}></TranscriberNote>
-                        <AI_Generations></AI_Generations>
+                        {/* <AI_Generations></AI_Generations> */}
                         {/* <TranscribeAndProcess></TranscribeAndProcess> */}
                     </ScrollView>
                     

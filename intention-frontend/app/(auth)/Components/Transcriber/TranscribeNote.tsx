@@ -1,15 +1,17 @@
-import { View, Button, TextInput, TouchableOpacity } from "react-native"
-import { useState, useEffect } from "react";
+import { View, Text, Button, TextInput, TouchableOpacity, StyleSheet } from "react-native"
+import React, { useState, useEffect } from "react";
 import { Audio } from "expo-av"
 import { sendNotesToBackend, sendFinalNotesToBackend } from "../ContactSync/backendService";
 
 const TranscriberNote: React.FC <{contact}> = ({contact})=> {
 
-    // Recording test
+    // Recording test   
 
     const [recording, setRecording] = useState(undefined);
     const [permissionResponse, requestPermission] = Audio.usePermissions();
     const [audioUri, setAudioUri] = useState(undefined);
+    const [summary, setSummary] = useState<string>("");
+    const [questions, setQuestions] = useState<string>("");
 
     async function startRecording() {
         try {
@@ -87,6 +89,53 @@ const TranscriberNote: React.FC <{contact}> = ({contact})=> {
     // testing text input button
     const [transcribedText, setTranscribedText] = useState('')
 
+
+    // ====================================================================================
+    const generateSummary = async () => {
+        try {
+            // Make a network request to Flask server
+            const response = await fetch('http://127.0.0.1:5100/generate-summary', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ text: transcribedText }), // Use the saved transcription
+            });
+
+            // Handle the response
+            const data = await response.json();
+            const generatedSummary = data.summary;
+            // Update the state with the generated summary
+            setSummary(generatedSummary);
+            
+        } catch (error) {
+            console.error('Error generating summary:', error);
+        }
+    };
+
+
+    const generateQuestions = async () => {
+        try {
+            // Make a network request to Flask server
+            const response = await fetch('http://127.0.0.1:5100/generate-questions', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ text: transcribedText }), // Use the text from the top textbox
+            });
+
+            // Handle the response
+            const data = await response.json();
+            const generatedQuestions = data.questions;
+
+            // Update the state with the generated questions
+            setQuestions(generatedQuestions);
+        } catch (error) {
+            console.error('Error generating questions:', error);
+        }
+    };
+
     
     return (
         <View style={{flex: 1, flexDirection: "column"}}>
@@ -102,9 +151,55 @@ const TranscriberNote: React.FC <{contact}> = ({contact})=> {
                 style={{ marginTop: 15, borderWidth: 1, padding: 10}}
             />
             <Button title="Save" onPress={()=> sendFinalNotesToBackend(transcribedText, contact.contactID)} />
-
+            {/*Text Input for Notes*/}
+            <TextInput
+                style = {styles.notesInput}
+                multiline
+                numberOfLines={4}
+                value={summary}
+                onChangeText={(text) => setSummary(text)}
+                placeholder="Please provide notes about ______"
+            />
+            <TextInput
+                style = {styles.notesInput}
+                multiline
+                numberOfLines={4}
+                value={questions}
+                onChangeText={(text) => setQuestions(text)}
+                placeholder="Click Generate Questions"
+            />
+            <TouchableOpacity style = {styles.generateButton} onPress={generateSummary}>
+                <Text style={styles.buttonText}>Generate Summary</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style = {styles.generateButton} onPress={generateQuestions}>
+                <Text style={styles.buttonText}>Generate Questions</Text>
+            </TouchableOpacity>
         </View>
     )
 }
+const styles = StyleSheet.create ({
+    notesInput: {
+        height: 100,
+        borderColor: "gray",
+        borderWidth: 1,
+        borderRadius: 10,
+        marginTop: 2,
+        padding: 10,
+        marginRight: 10
+    },
 
+    generateButton: {
+        backgroundColor: "pink",
+        padding: 10,
+        borderRadius: 10,
+        marginVertical: 10,
+        alignItems: 'center',
+    },
+
+    buttonText: {
+        color: 'white',
+        fontWeight: 'bold',
+        fontSize: 16,
+    },
+})
 export {TranscriberNote};
