@@ -124,7 +124,7 @@ def return_user_id():
     # print(f'Email for userID was: {email}')
     return jsonify(user_id), 200
 
-@app.route("api/users/emailcheck", methods=['GET'])
+@app.route("/api/users/emailcheck", methods=['GET'])
 def return_user_email():
     user_id = request.args.get('user_id')
     user_processor.retrieve_user_email(user_id)
