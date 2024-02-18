@@ -1,5 +1,7 @@
 {
   "expo": {
+    "entryPoint": "./index.js",
+    "scheme": "intention-auth",
     "name": "intention-frontend",
     "slug": "intention-monorepo-all",
     "version": "1.0.0",
@@ -24,11 +26,11 @@
       [
         "expo-build-properties",
         {
-          "android": {
-            
-          }
+          "android": {}
         }
-      ]
+      ],
+      "expo-router",
+      "expo-secure-store"
     ],
     "ios": {
       "supportsTablet": true,
