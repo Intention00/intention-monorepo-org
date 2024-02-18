@@ -2,6 +2,9 @@ import { View, Text, Button, TextInput, TouchableOpacity, StyleSheet } from "rea
 import React, { useState, useEffect } from "react";
 import { Audio } from "expo-av"
 import { sendNotesToBackend, sendFinalNotesToBackend } from "../ContactSync/backendService";
+import { Feather } from '@expo/vector-icons';
+import { MaterialIcons } from '@expo/vector-icons';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 const TranscriberNote: React.FC <{contact}> = ({contact})=> {
 
@@ -99,7 +102,7 @@ const TranscriberNote: React.FC <{contact}> = ({contact})=> {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ text: transcribedText }), // Use the saved transcription
+                body: JSON.stringify({ text: transcribedText }), // Use the text from the top textbox
             });
 
             // Handle the response
@@ -139,67 +142,104 @@ const TranscriberNote: React.FC <{contact}> = ({contact})=> {
     
     return (
         <View style={{flex: 1, flexDirection: "column"}}>
-             <Button
-                title={recording ? 'Stop Recording' : 'Start Recording'}
-                onPress={recording ? stopRecording : startRecording}/>
+            <View style={{flexDirection: 'row'}}>
+                <TextInput             
+                    multiline
+                    value={transcribedText}
+                    placeholder="Press once to record, twice to stop"
+                    onChangeText={setTranscribedText}
+                    style={styles.notesInput}
+                />
+                <View style={styles.buttonBox}>
+                    <TouchableOpacity
+                        style={styles.button}
+                        onPress={recording ? stopRecording : startRecording}
+                        >
+                        <Feather name="mic" size={24} color="black" />
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        style={styles.button}
+                        onPress={() => sendFinalNotesToBackend(transcribedText, contact.contactID)}>
+                        <Feather name="save" size={24} color="black" />
+                    </TouchableOpacity>
+                </View>
+            </View>
 
-            <TextInput
-                multiline
-                value={transcribedText}
-                placeholder="Transcription Placeholder"
-                onChangeText={setTranscribedText}
-                style={{ marginTop: 15, borderWidth: 1, padding: 10}}
-            />
-            <Button title="Save" onPress={()=> sendFinalNotesToBackend(transcribedText, contact.contactID)} />
-            {/*Text Input for Notes*/}
-            <TextInput
-                style = {styles.notesInput}
-                multiline
-                numberOfLines={4}
-                value={summary}
-                onChangeText={(text) => setSummary(text)}
-                placeholder="Please provide notes about ______"
-            />
-            <TextInput
-                style = {styles.notesInput}
-                multiline
-                numberOfLines={4}
-                value={questions}
-                onChangeText={(text) => setQuestions(text)}
-                placeholder="Click Generate Questions"
-            />
-            <TouchableOpacity style = {styles.generateButton} onPress={generateSummary}>
-                <Text style={styles.buttonText}>Generate Summary</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style = {styles.generateButton} onPress={generateQuestions}>
-                <Text style={styles.buttonText}>Generate Questions</Text>
-            </TouchableOpacity>
+            {/* Summary */}
+            <View style={{flexDirection: 'row'}}>
+                <TextInput
+                    style = {styles.notesInput}
+                    multiline
+                    numberOfLines={4}
+                    value={summary}
+                    onChangeText={(text) => setSummary(text)}
+                    placeholder="No notes yet :)"
+                />
+                <View style={styles.buttonBox}>
+                    <TouchableOpacity
+                        style={styles.button}
+                        onPress={generateSummary}>
+                        <MaterialIcons name="summarize" size={24} color="black" />
+                        <Text style={styles.buttonText}>Summarize</Text>
+
+                    </TouchableOpacity>
+                </View>
+            </View>
+            
+            {/*Questions*/}
+            <View style={{flexDirection: 'row'}}>
+                <TextInput
+                    style = {styles.notesInput}
+                    multiline
+                    numberOfLines={4}
+                    value={questions}
+                    onChangeText={(text) => setQuestions(text)}
+                    placeholder="No Questions Yet"
+                />
+                <View style={styles.buttonBox}>
+                    <TouchableOpacity
+                        style={styles.button}
+                        onPress={generateQuestions}>
+                        {/* <MaterialCommunityIcons name="head-lightbulb-outline" size={24} color="black" /> */}
+                        <MaterialCommunityIcons name="head-lightbulb" size={30} color="black" />
+                        <Text style={styles.buttonText}>Questions</Text>
+                    </TouchableOpacity>
+                </View>
+            </View>
         </View>
     )
 }
 const styles = StyleSheet.create ({
     notesInput: {
-        height: 100,
-        borderColor: "gray",
-        borderWidth: 1,
-        borderRadius: 10,
-        marginTop: 2,
+        maxHeight: 100,
+        borderColor: 'gray', 
+        borderWidth: 1, 
         padding: 10,
-        marginRight: 10
+        borderRadius: 20, 
+        marginBottom: 10, 
+        width: 250,
     },
 
-    generateButton: {
-        backgroundColor: "pink",
-        padding: 10,
+    button: {
+        backgroundColor: 'lightblue',
+        padding: 6,
         borderRadius: 10,
-        marginVertical: 10,
+        marginTop: 10,
         alignItems: 'center',
     },
 
     buttonText: {
-        color: 'white',
-        fontWeight: 'bold',
-        fontSize: 16,
+      color: 'rgb(25, 25, 25)', 
+      fontSize: 12,
+      fontWeight: 'bold',
     },
+
+    buttonBox: {
+        flex: 1, 
+        padding: 5, 
+        justifyContent: 'center', 
+        paddingBottom: 20,
+    }
+
 })
 export {TranscriberNote};

@@ -34,7 +34,7 @@ def generate_questions(text):
         model="gpt-3.5-turbo",
         messages=[
             {"role": "system", "content": "You are a helpful assistant. Talking directly to the user"},
-            {"role": "user", "content": f"Given some context of a person, immediately list 10 conversation-provoking questions to directly ask them. List the questions from my point of view to them {text}"}
+            {"role": "user", "content": f"Given some context of a person, immediately list 10 conversation-provoking questions to directly ask them. List the questions from my point of view to them, address them to 'you' {text}"}
             ]
     )
     content_section = response.choices[0].message.content
