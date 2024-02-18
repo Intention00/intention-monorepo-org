@@ -7,15 +7,12 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 const TranscriberNote: React.FC <{contact}> = ({contact})=> {
-
-    // Recording test   
-
+    // Transcription Declarations
     const [recording, setRecording] = useState(undefined);
     const [permissionResponse, requestPermission] = Audio.usePermissions();
     const [audioUri, setAudioUri] = useState(undefined);
-    const [summary, setSummary] = useState<string>("");
-    const [questions, setQuestions] = useState<string>("");
 
+    // Microphone button START-RECORDING
     async function startRecording() {
         try {
             if (permissionResponse.status !== 'granted') {
@@ -37,6 +34,7 @@ const TranscriberNote: React.FC <{contact}> = ({contact})=> {
         }
     }
 
+    // Microphone Button STOP-RECORDING
     async function stopRecording() {
         console.log('Stopping recording..');
         setRecording(undefined);
@@ -53,10 +51,7 @@ const TranscriberNote: React.FC <{contact}> = ({contact})=> {
     }
     }
 
-    // recording test end
-
-    // audio test
-
+    // Function to test audio, Button was removed.
     const [sound, setSound] = useState(undefined);
     async function playSound() {
         try {
@@ -93,7 +88,15 @@ const TranscriberNote: React.FC <{contact}> = ({contact})=> {
     const [transcribedText, setTranscribedText] = useState('')
 
 
-    // ====================================================================================
+    // ==============================================================================================
+    // AI Generations
+    // ==============================================================================================
+    
+    // AI Generating Declarations
+    const [summary, setSummary] = useState<string>("");
+    const [questions, setQuestions] = useState<string>("");
+    
+    // Summarize Button Logic
     const generateSummary = async () => {
         try {
             // Make a network request to Flask server
@@ -108,6 +111,7 @@ const TranscriberNote: React.FC <{contact}> = ({contact})=> {
             // Handle the response
             const data = await response.json();
             const generatedSummary = data.summary;
+
             // Update the state with the generated summary
             setSummary(generatedSummary);
             
@@ -116,7 +120,7 @@ const TranscriberNote: React.FC <{contact}> = ({contact})=> {
         }
     };
 
-
+    // Questions Button Logic
     const generateQuestions = async () => {
         try {
             // Make a network request to Flask server
@@ -134,6 +138,7 @@ const TranscriberNote: React.FC <{contact}> = ({contact})=> {
 
             // Update the state with the generated questions
             setQuestions(generatedQuestions);
+
         } catch (error) {
             console.error('Error generating questions:', error);
         }
@@ -141,7 +146,10 @@ const TranscriberNote: React.FC <{contact}> = ({contact})=> {
 
     
     return (
+        // Modal Container
         <View style={{flex: 1, flexDirection: "column"}}>
+
+            {/* Transcriber section */}
             <View style={{flexDirection: 'row'}}>
                 <TextInput             
                     multiline
@@ -165,7 +173,7 @@ const TranscriberNote: React.FC <{contact}> = ({contact})=> {
                 </View>
             </View>
 
-            {/* Summary */}
+            {/* Summary Section*/}
             <View style={{flexDirection: 'row'}}>
                 <TextInput
                     style = {styles.notesInput}
@@ -186,7 +194,7 @@ const TranscriberNote: React.FC <{contact}> = ({contact})=> {
                 </View>
             </View>
             
-            {/*Questions*/}
+            {/* Questions Section */}
             <View style={{flexDirection: 'row'}}>
                 <TextInput
                     style = {styles.notesInput}
