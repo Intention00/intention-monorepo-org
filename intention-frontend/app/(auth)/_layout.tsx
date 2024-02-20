@@ -50,7 +50,7 @@ const TabsPage = () => {
       <Tabs.Screen
       name="contactSync1"
       options={{
-        headerTitle: 'Contact Sync,',
+        headerTitle: 'Contact Sync',
         tabBarIcon: ({ color, size }) => <Ionicons name="person-outline" size={size} color={color} />,
         tabBarLabel: 'Contact Sync',
         headerRight: () => <LogoutButton />

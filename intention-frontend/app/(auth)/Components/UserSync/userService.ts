@@ -1,4 +1,4 @@
-import { receiveUserIDBackend } from "../ContactSync/backendService";
+import { receiveUserIDBackend, recieveUserEmailBackend } from "../ContactSync/backendService";
 
 
 export const handleUser = async (userEmail) => {
@@ -19,4 +19,22 @@ export const handleUser = async (userEmail) => {
         return userID;
     }
 
+}
+
+export const checkUserEmail = async (userID) =>{
+    console.log("sending to backend ${userID}");
+    const userData = await recieveUserEmailBackend(userID)
+    const userEmail = userData['Email']
+
+    console.log(`GOT USER ID: ${userEmail}`);
+
+    if (userID === -1) {
+        // handle new user
+        console.log(`Wrong Email`);
+        return 1;
+    }
+    else {
+        console.log(`Correct Email: $userEmail}`);
+        return userID;
+    }
 }
