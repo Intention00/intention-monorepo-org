@@ -1,5 +1,6 @@
 import { receiveUserIDBackend, recieveUserEmailBackend } from "../ContactSync/backendService";
 
+
 export const handleUser = async (userEmail) => {
     console.log(`Sending to backend: ${userEmail}`);
     const userData = await receiveUserIDBackend(userEmail);
@@ -8,12 +9,13 @@ export const handleUser = async (userEmail) => {
     console.log(`GOT USER ID: ${userID}`);
 
     if (userID === -1) {
-        // handle new user
-        console.log(`NEW USER`);
+        // handle failed userid retrieval
+        console.log(`UserID Fail`);
+        // Showing default user 1 instead
         return 1;
     }
     else {
-        console.log(`EXISTING USER: ${userID}`);
+        console.log(`EXISTING/ADDED USER: ${userID}`);
         return userID;
     }
 

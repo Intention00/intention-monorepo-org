@@ -1,6 +1,7 @@
-// const backendAddress = "http://192.168.1.27:5100"
+// const backendAddress = "http://192.168.0.73:5100"
 //const backendAddress = "http://72.233.177.88:5100"
-const backendAddress = "http://127.0.0.1:5100"
+ const backendAddress = "http://127.0.0.1:5100"
+
 
 // Send contacts to backend api
 export const sendContactsToBackend = async (userID: number, contactsData: any[])=> {
@@ -124,6 +125,26 @@ export const sendFinalNotesToBackend = async (note: string, contactID: string)=>
     }
 }
 
+// export const getSavedNoteFromBackend = async (contactID: string) => {
+//     try {
+//         const response = await fetch(`${backendAddress}/api/note?contactID=${contactID}`, {
+//             method: 'GET',
+//         });
+
+//         if (!response.ok) {
+//             const errorMessage = await response.json();
+//             console.error(`Server returned an error: ${JSON.stringify(errorMessage)}`);
+//             return null;
+//         } else {
+//             const savedNote = await response.json();
+//             return savedNote.note;
+//         }
+//     } catch (error) {
+//         throw new Error(`Error retrieving saved note from backend: ${error}`);
+//     }
+// }
+
+
 export const receiveUserIDBackend = async (email: string)=> {
     try {
         const response = await fetch(`${backendAddress}/api/users?email=${email}`, {
@@ -143,6 +164,7 @@ export const receiveUserIDBackend = async (email: string)=> {
         throw new Error(`Error retrieving userID from backend: ${error}`);
     }
 }
+
 
 // used for testing that will happen with jest to test user authentication and make
 //sure same email info from db matches user

@@ -91,6 +91,17 @@ def receive_note():
         return jsonify({'message': 'Note received.'}), 200
     except Exception as err:
         return jsonify({'error': str(err)}), 500
+
+# @app.route("/api/saved-note", methods=["GET"])
+# def get_saved_note():
+#     try:
+#         # NEeds to implement logic to retrieve the saved note from the database
+#         saved_note = retrieve_saved_note_from_database()
+
+#         # Return the saved note in the response
+#         return jsonify({'saved_note': saved_note}), 200
+#     except Exception as err:
+#         return jsonify({'error': str(err)}), 500
     
 
 @app.route('/generate-summary', methods=['POST'])
