@@ -1,3 +1,5 @@
+// Test generated with help from openai, and modified for our specific code
+
 import {
     sendContactsToBackend,
     receiveContactsFromBackend,
@@ -12,7 +14,7 @@ import {
 
 // Mock the response data
 const mockResponseData = {
-data: 'Mocked data',
+    data: 'Mocked data',
 };
 
 // Mock the fetch implementation
@@ -22,6 +24,10 @@ json: jest.fn().mockResolvedValue(mockResponseData),
 });
 
 describe('Backend Service Tests', () => {
+    afterEach(() => {
+        jest.clearAllMocks();
+    });
+
     it('should send contacts to the backend', async () => {
         const userID = 123;
         const contactsData = [{ firstName: 'John', lastName: 'Doe', phoneNumbers: [{number: "1234567890"}]}];
