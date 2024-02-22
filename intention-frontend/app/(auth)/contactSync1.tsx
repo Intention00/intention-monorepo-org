@@ -20,7 +20,7 @@ const ContactSync1 = () => {
           });
   
           if (data.length > 0) {
-            const contact = data[1];
+            const contact = data[5];
             console.log(contact);
           }
         }

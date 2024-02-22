@@ -53,6 +53,7 @@ def send_data():
 
         # gets for specific user from frontend
         contacts_processor.retrieve_db_contacts(user_id)
+       
         return jsonify(contacts_processor.contacts), 200
     
     except Exception as err:
