@@ -21,8 +21,8 @@ const ContactSync: React.FC = ()=> {
             setError(undefined);
             try {
                 const fetchedContacts = await saveContactsFromUser();
-                setUserID(await handleUser(userEmail));
-                
+                const tempUserID = await handleUser(userEmail);
+                setUserID(tempUserID);
 
 
                 // Contacts array isn't empty, so we found some contacts
@@ -31,7 +31,7 @@ const ContactSync: React.FC = ()=> {
                     // Used to set contacts = to received contacts from device
                     // setContacts(fetchedContacts);
 
-                    await sendContactsToBackend(userID, fetchedContacts);
+                    await sendContactsToBackend(tempUserID, fetchedContacts);
 
                 }
                 else {
@@ -39,7 +39,7 @@ const ContactSync: React.FC = ()=> {
                 }
 
                 // Set contacts to those retrieved from database
-                const recContacts = await receiveContactsFromBackend(userID);
+                const recContacts = await receiveContactsFromBackend(tempUserID);
                 setContacts(recContacts);
 
             }
@@ -51,7 +51,7 @@ const ContactSync: React.FC = ()=> {
 
   
         
-    }, [userID]);
+    }, []);
 
     // // Going through the contacts list of phone numbers to display them all
     // const getPhoneNumbers = (contact)=> {

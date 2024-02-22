@@ -1,4 +1,4 @@
-// const backendAddress = "http://192.168.0.73:5100"
+// const backendAddress = "http://192.168.1.27:5100"
 //const backendAddress = "http://72.233.177.88:5100"
  // const backendAddress = "http://127.0.0.1:5100"
  const backendAddress = "http://10.0.0.5:5100"
@@ -55,7 +55,6 @@ export const sendContactsToBackend = async (userID: number, contactsData: any[])
 
 export const receiveContactsFromBackend = async (userID: number)=> {
     try {
-        
         // using the address from host 0.0.0.0, makes it work on android
         const response = await fetch(`${backendAddress}/api/contacts?userID=${userID}`, {
             method: 'GET',
