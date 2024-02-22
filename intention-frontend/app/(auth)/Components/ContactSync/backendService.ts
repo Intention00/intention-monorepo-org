@@ -1,6 +1,7 @@
 // const backendAddress = "http://192.168.0.73:5100"
 //const backendAddress = "http://72.233.177.88:5100"
- const backendAddress = "http://127.0.0.1:5100"
+ // const backendAddress = "http://127.0.0.1:5100"
+ const backendAddress = "http://10.0.0.5:5100"
 
 
 // Send contacts to backend api
@@ -32,6 +33,9 @@ export const sendContactsToBackend = async (userID: number, contactsData: any[])
             headers: {
                 'Content-Type': 'application/json',
             },
+
+               
+
             body: JSON.stringify({'userID': userID, 'contacts': formattedContacts})
     
         })
@@ -40,6 +44,11 @@ export const sendContactsToBackend = async (userID: number, contactsData: any[])
     }
     catch (e) {
         throw new Error(`Error sending contacts to backend: ${e}`);
+        console.log('backendAddress:', backendAddress);
+        console.log('userID:', userID);
+        
+
+        
     }
 
 }
