@@ -160,7 +160,7 @@ const TranscriberNote: React.FC <{contact}> = ({contact})=> {
                 />
                 <View style={styles.buttonBox}>
                     <TouchableOpacity
-                        style={styles.button}
+                        style={[styles.button, recording ? styles.recordingButton : styles.notRecordingButton]}
                         onPress={recording ? stopRecording : startRecording}
                         >
                         <Feather name="mic" size={24} color="black" />
@@ -247,6 +247,14 @@ const styles = StyleSheet.create ({
         padding: 5, 
         justifyContent: 'center', 
         paddingBottom: 20,
+    },
+
+    recordingButton: {
+        backgroundColor: 'red'
+    }, 
+
+    notRecordingButton: {
+        backgroundColor: 'lightblue'
     }
 
 })
