@@ -5,7 +5,7 @@
 Deletes the specified user.
 
 - **URL Params**  
-  _Required:_ `id: int`
+  _Required:_ `id: int`\
   _Required:_ `full: bool`
 - **Data Params**  
   None

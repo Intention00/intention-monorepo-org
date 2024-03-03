@@ -1,6 +1,8 @@
 '''
 DELETE /api/users/:id
 
+Purpose: 
+
 Input parameters:
 - id (int): The userid of the person whose data we want to delete from DB
 - full (bool): Whether we want a full deletion of the user, or only all data except account
