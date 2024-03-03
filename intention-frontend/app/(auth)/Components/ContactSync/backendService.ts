@@ -1,4 +1,4 @@
-const backendAddress = "http://192.168.1.27:5100"
+export const backendAddress = "http://192.168.1.27:5100"
 // const backendAddress = "http://72.233.177.87:5100"
   // const backendAddress = "http://127.0.0.1:5100"
 //   const backendAddress = "http://10.0.0.5:5100"
