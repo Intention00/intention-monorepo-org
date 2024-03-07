@@ -100,7 +100,7 @@ const TranscriberNote: React.FC <{contact}> = ({contact})=> {
     const generateSummary = async () => {
         try {
             // Make a network request to Flask server
-            const response = await fetch('http://127.0.0.1:5100/generate-summary', {
+            const response = await fetch('https://intention-server.up.railway.app/generate-summary', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -124,7 +124,7 @@ const TranscriberNote: React.FC <{contact}> = ({contact})=> {
     const generateQuestions = async () => {
         try {
             // Make a network request to Flask server
-            const response = await fetch('http://127.0.0.1:5100/generate-questions', {
+            const response = await fetch('https://intention-server.up.railway.app/generate-questions', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
