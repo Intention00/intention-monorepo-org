@@ -1,12 +1,25 @@
 import { View, Text, Button, TextInput, StyleSheet } from 'react-native';
 import { useState } from 'react';
 import { useUser } from '@clerk/clerk-expo';
+import { DeleteUser } from './Components/DeleteUser/DeleteUser';
+import { DeleteUserData } from './Components/DeleteUser/DeleteUserData';
+import { handleUser } from './Components/UserSync/userService';
+import { userIDContext } from './Components/UserSync/userIDContext';
 
 
 const Profile = () => {
   const { user } = useUser();
   const [firstName, setFirstName] = useState(user.firstName);
   const [lastName, setLastName] = useState(user.lastName);
+
+  // temporary retrieval for userID, need to change for better solution
+  const [userID, setUserID] = useState(undefined);
+  const userEmail = user['primaryEmailAddress']['emailAddress'];
+
+  (async ()=> {
+    const tempUserID = await handleUser(userEmail);
+    setUserID(tempUserID);
+  })()
 
   const onSaveUser = async () => {
     try {
@@ -30,6 +43,12 @@ const Profile = () => {
       <TextInput placeholder="First Name" value={firstName} onChangeText={setFirstName} style={styles.inputField} />
       <TextInput placeholder="Last Name" value={lastName} onChangeText={setLastName} style={styles.inputField} />
       <Button onPress={onSaveUser} title="Update account" color={'#6c47ff'}></Button>
+      <View style={{marginTop: 100}}>
+        <userIDContext.Provider value={userID}>
+          <DeleteUser></DeleteUser>
+          <DeleteUserData></DeleteUserData>
+        </userIDContext.Provider>
+      </View>
     </View>
   );
 };

@@ -146,6 +146,22 @@ def return_user_email():
     user_id = request.args.get('user_id')
     user_processor.retrieve_user_email(user_id)
 
+@app.route("/api/users/<user_id>", methods=['DELETE'])
+def delete_user_data(user_id):
+    try: 
+        full_delete = request.args.get('full', default='false').lower() == 'true'
+
+        if full_delete:
+            user_processor.delete_user(user_id)
+            return jsonify(), 204
+        else:
+            user_processor.delete_user_data(user_id)
+            return jsonify(), 204
+        
+    except Exception as err:
+        return jsonify({'error': str(err)}), 500
+
+
 
 if __name__ == "__main__":
     # added host to test, it seems to make it work on android
