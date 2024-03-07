@@ -1,4 +1,5 @@
 from dotenv import load_dotenv
+import certifi
 
 # Load environment variables from the .env file
 load_dotenv()
@@ -15,7 +16,7 @@ class DBConnection:
     self.db = os.getenv("DATABASE")
     self.autocommit = True
     self.ssl_verify_identity = True
-    self.ssl_ca = '/etc/ssl/cert.pem'
+    self.ssl_ca = certifi.where()
 
 
   # can use notation of "with DBConnection() as db_conn:". acts similar to opening a file with "with"
