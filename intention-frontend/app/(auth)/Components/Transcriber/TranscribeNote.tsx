@@ -5,6 +5,7 @@ import { sendNotesToBackend, sendFinalNotesToBackend } from "../ContactSync/back
 import { Feather } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { backendAddress } from "../ContactSync/backendService";
 
 const TranscriberNote: React.FC <{contact}> = ({contact})=> {
     // Transcription Declarations
@@ -100,7 +101,7 @@ const TranscriberNote: React.FC <{contact}> = ({contact})=> {
     const generateSummary = async () => {
         try {
             // Make a network request to Flask server
-            const response = await fetch('https://intention-server.up.railway.app/generate-summary', {
+            const response = await fetch(`${backendAddress}/generate-summary`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -124,7 +125,7 @@ const TranscriberNote: React.FC <{contact}> = ({contact})=> {
     const generateQuestions = async () => {
         try {
             // Make a network request to Flask server
-            const response = await fetch('https://intention-server.up.railway.app/generate-questions', {
+            const response = await fetch(`${backendAddress}/generate-questions`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
