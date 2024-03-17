@@ -7,22 +7,28 @@ class ProcessUsers():
     def read_user(self, email):
         self.email = email
 
+    # Returns the userid for the given email, and creates new
+    # entry if the user doesn't already exist.
     def retrieve_user_id(self):
         with DBConnection() as db_conn:
             if db_conn:
+                # Insert new user if it is one, otherwise ignore
+                sql_statement = """
+                    INSERT IGNORE INTO User (Email) VALUES (%s);
+                """
+                db_conn.execute(sql_statement, (self.email,))
+
+                # Get the userid for that new user we just added
                 sql_statement = """
                     SELECT UserID FROM User WHERE Email = %s;
                 """
                 db_conn.execute(sql_statement, (self.email,))
                 db_info = db_conn.fetchall()
 
+                # Something went wrong
                 if len(db_info) == 0:
-                    sql_statement = """
-                        INSERT INTO User (Email) VALUES (%s);
-                    """
-                    db_conn.execute(sql_statement, (self.email,))
-                    db_info = db_conn.fetchall()
-            
+                    return -1
+
                 db_user_id = db_info[0]
                 print(f"userID from DB: {db_user_id}; for email: {self.email}")
                 return db_user_id
