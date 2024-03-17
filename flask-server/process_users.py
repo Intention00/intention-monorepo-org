@@ -22,9 +22,6 @@ class ProcessUsers():
                     """
                     db_conn.execute(sql_statement, (self.email,))
                     db_info = db_conn.fetchall()
-
-                    if len(db_info) == 0:
-                        return {'UserID': -1}
             
                 db_user_id = db_info[0]
                 print(f"userID from DB: {db_user_id}; for email: {self.email}")
