@@ -53,20 +53,7 @@ const ContactSync: React.FC = ()=> {
         
     }, []);
 
-    // // Going through the contacts list of phone numbers to display them all
-    // const getPhoneNumbers = (contact)=> {
-    //     if (contact.phoneNumbers !== undefined) {
-    //         return contact.phoneNumbers.map((phoneNumber, index)=> {
-    //             return (
-    //                 <View key={index}>
-    //                     <Text>{phoneNumber.label}: {phoneNumber.number}</Text>
-    //                 </View>
-    //             )
-    //         })
-    //     }
-    // }
-
-
+    
     return (
         <SafeAreaView style={{flex:1, width: '100%'}}>
             <userIDContext.Provider value={userID}>
