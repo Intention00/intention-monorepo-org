@@ -1,4 +1,5 @@
 import * as Contacts from 'expo-contacts';
+import { sendContactsToBackend, receiveContactsFromBackend } from './backendService';
 
 // Requesting contact permission and retrieving contacts from user's device
 // Returns either an array of the data if successful or an empty array if not.
@@ -30,4 +31,16 @@ export const saveContactsFromUser = async ()=> {
     catch (err) {
         throw new Error(`Error requesting contact information: ${err}`);
     }
+}
+
+/* 
+    Used to only save the selected contacts to the DB
+*/
+export const syncContacts = async (userID: number)=> {
+    const fetchedContacts = await saveContactsFromUser();
+    // Contacts array isn't empty, so we found some contacts
+    if (fetchedContacts.length > 0) {
+        await sendContactsToBackend(userID, fetchedContacts);
+    }
+
 }

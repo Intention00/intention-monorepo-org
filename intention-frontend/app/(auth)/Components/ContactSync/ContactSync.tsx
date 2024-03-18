@@ -6,6 +6,7 @@ import {ContactList} from './ContactList';
 import { userIDContext } from '../UserSync/userIDContext';
 import { useUser } from '@clerk/clerk-expo';
 import { handleUser } from '../UserSync/userService';
+import { SyncContactButton } from './SyncContactsButton';
 
 
 const ContactSync: React.FC = ()=> {
@@ -20,23 +21,9 @@ const ContactSync: React.FC = ()=> {
         (async ()=> {
             setError(undefined);
             try {
-                const fetchedContacts = await saveContactsFromUser();
+                // const fetchedContacts = await saveContactsFromUser();
                 const tempUserID = await handleUser(userEmail);
                 setUserID(tempUserID);
-
-
-                // Contacts array isn't empty, so we found some contacts
-                if (fetchedContacts.length > 0) {
-                    
-                    // Used to set contacts = to received contacts from device
-                    // setContacts(fetchedContacts);
-
-                    await sendContactsToBackend(tempUserID, fetchedContacts);
-
-                }
-                else {
-                    setError('No contacts available.');
-                }
 
                 // Set contacts to those retrieved from database
                 const recContacts = await receiveContactsFromBackend(tempUserID);
@@ -58,6 +45,7 @@ const ContactSync: React.FC = ()=> {
         <SafeAreaView style={{flex:1, width: '100%'}}>
             <userIDContext.Provider value={userID}>
                 <Text style={{marginTop: 10}}>{error}</Text>
+                <SyncContactButton></SyncContactButton>
                 <ContactList contacts={contacts}></ContactList>
             </userIDContext.Provider>
         </SafeAreaView>
