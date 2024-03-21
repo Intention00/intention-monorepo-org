@@ -6,7 +6,7 @@ import {ContactList} from './ContactList';
 import { userIDContext } from '../UserSync/userIDContext';
 import { useUser } from '@clerk/clerk-expo';
 import { handleUser } from '../UserSync/userService';
-import { SyncContactButton } from './SyncContactsButton';
+import { SyncContactButton } from './SyncContactButton';
 
 
 const ContactSync: React.FC = ()=> {

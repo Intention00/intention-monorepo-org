@@ -34,6 +34,30 @@ export const saveContactsFromUser = async ()=> {
 }
 
 /* 
+    Used to process formatting of contacts before sending to 
+    backend (used to be during backend save)
+*/
+export const formatContacts = (contactsData)=> {
+    try {
+        const formattedContacts = contactsData.map((contact)=> {
+            const selectedNum = contact.phoneNumbers[0].number.replace('(', '').
+                replace(')', '').replaceAll('-', '').replace(' ', '');
+
+            return {
+                firstName: contact.firstName,
+                lastName: contact.lastName,
+                number: selectedNum ? selectedNum : '0000000000'
+            }
+        })
+
+        return formattedContacts;
+    }
+    catch (e) {
+        return [];
+    }
+}
+
+/* 
     Used to only save the selected contacts to the DB
 */
 export const syncContacts = async (userID: number)=> {
