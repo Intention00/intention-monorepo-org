@@ -5,25 +5,6 @@ export const backendAddress = "https://intention-server.up.railway.app"
 export const sendContactsToBackend = async (userID: number, contactsData: any[])=> {
 
     try {
-        const formattedContacts = contactsData.map((contact)=> {
-
-            // TODO: Add ability to choose mobile numbers only, not just the first one
-
-            // const phoneNumber = contact.phoneNumbers.find((number)=> {number.label === "mobile"});    
-            
-            // only works on ios
-            // const selectedNum = contact.phoneNumbers[0].digits;
-            const selectedNum = contact.phoneNumbers[0].number.replace('(', '').
-                replace(')', '').replaceAll('-', '').replace(' ', '');
-
-            return {
-                firstName: contact.firstName,
-                lastName: contact.lastName,
-                // number: phoneNumber ? phoneNumber.number : '000-000-0000'
-                number: selectedNum ? selectedNum : '0000000000'
-            }
-        })
-        
         // using the address from host 0.0.0.0, makes it work on android
         const response = await fetch(`${backendAddress}/api/contacts`, {
             method: 'POST',
@@ -31,21 +12,14 @@ export const sendContactsToBackend = async (userID: number, contactsData: any[])
                 'Content-Type': 'application/json',
             },
 
-               
-
-            body: JSON.stringify({'userID': userID, 'contacts': formattedContacts})
+            body: JSON.stringify({'userID': userID, 'contacts': contactsData})
     
         })
 
         // TODO: Need to add check if response was good 
     }
     catch (e) {
-        throw new Error(`Error sending contacts to backend: ${e}`);
-        console.log('backendAddress:', backendAddress);
-        console.log('userID:', userID);
-        
-
-        
+        throw new Error(`Error sending contacts to backend: ${e}`);  
     }
 
 }

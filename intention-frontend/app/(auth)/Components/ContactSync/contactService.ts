@@ -60,11 +60,8 @@ export const formatContacts = (contactsData)=> {
 /* 
     Used to only save the selected contacts to the DB
 */
-export const syncContacts = async (userID: number)=> {
-    const fetchedContacts = await saveContactsFromUser();
-    // Contacts array isn't empty, so we found some contacts
-    if (fetchedContacts.length > 0) {
-        await sendContactsToBackend(userID, fetchedContacts);
-    }
+export const syncContacts = async (userID: number, contacts: any[])=> {
+    await sendContactsToBackend(userID, contacts);
+
 
 }

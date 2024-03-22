@@ -1,6 +1,3 @@
-// const selectedNum = contact.phoneNumbers[0].number.replace('(', '').
-//                 replace(')', '').replaceAll('-', '').replace(' ', '');
-
 import { View, Text, StyleSheet } from "react-native";
 import { Image } from 'expo-image'
 
