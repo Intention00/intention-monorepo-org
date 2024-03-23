@@ -6,6 +6,7 @@ import {ContactList} from './ContactList';
 import { userIDContext } from '../UserSync/userIDContext';
 import { useUser } from '@clerk/clerk-expo';
 import { handleUser } from '../UserSync/userService';
+import { SyncContactButton } from './SyncContactButton';
 
 
 const ContactSync: React.FC = ()=> {
@@ -20,23 +21,9 @@ const ContactSync: React.FC = ()=> {
         (async ()=> {
             setError(undefined);
             try {
-                const fetchedContacts = await saveContactsFromUser();
+                // const fetchedContacts = await saveContactsFromUser();
                 const tempUserID = await handleUser(userEmail);
                 setUserID(tempUserID);
-
-
-                // Contacts array isn't empty, so we found some contacts
-                if (fetchedContacts.length > 0) {
-                    
-                    // Used to set contacts = to received contacts from device
-                    // setContacts(fetchedContacts);
-
-                    await sendContactsToBackend(tempUserID, fetchedContacts);
-
-                }
-                else {
-                    setError('No contacts available.');
-                }
 
                 // Set contacts to those retrieved from database
                 const recContacts = await receiveContactsFromBackend(tempUserID);
@@ -53,25 +40,15 @@ const ContactSync: React.FC = ()=> {
         
     }, []);
 
-    // // Going through the contacts list of phone numbers to display them all
-    // const getPhoneNumbers = (contact)=> {
-    //     if (contact.phoneNumbers !== undefined) {
-    //         return contact.phoneNumbers.map((phoneNumber, index)=> {
-    //             return (
-    //                 <View key={index}>
-    //                     <Text>{phoneNumber.label}: {phoneNumber.number}</Text>
-    //                 </View>
-    //             )
-    //         })
-    //     }
-    // }
-
-
+    
     return (
         <SafeAreaView style={{flex:1, width: '100%'}}>
             <userIDContext.Provider value={userID}>
                 <Text style={{marginTop: 10}}>{error}</Text>
-                <ContactList contacts={contacts}></ContactList>
+                <SyncContactButton updateContacts={setContacts}></SyncContactButton>
+                <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+                    {(contacts === undefined || contacts.length === 0) ? (<Text>Use the sync button above to add some contacts!</Text>) : (<ContactList contacts={contacts}></ContactList>)}
+                </View>
             </userIDContext.Provider>
         </SafeAreaView>
     );

@@ -1,4 +1,5 @@
 import * as Contacts from 'expo-contacts';
+import { sendContactsToBackend } from './backendService';
 
 // Requesting contact permission and retrieving contacts from user's device
 // Returns either an array of the data if successful or an empty array if not.
@@ -30,4 +31,37 @@ export const saveContactsFromUser = async ()=> {
     catch (err) {
         throw new Error(`Error requesting contact information: ${err}`);
     }
+}
+
+/* 
+    Used to process formatting of contacts before sending to 
+    backend (used to be during backend save)
+*/
+export const formatContacts = (contactsData)=> {
+    try {
+        const formattedContacts = contactsData.map((contact)=> {
+            const selectedNum = contact.phoneNumbers[0].number.replace('(', '').
+                replace(')', '').replaceAll('-', '').replace(' ', '');
+
+            return {
+                firstName: contact.firstName,
+                lastName: contact.lastName,
+                number: selectedNum ? selectedNum : '0000000000'
+            }
+        })
+
+        return formattedContacts;
+    }
+    catch (e) {
+        return [];
+    }
+}
+
+/* 
+    Used to only save the selected contacts to the DB
+*/
+export const syncContacts = async (userID: number, contacts: any[])=> {
+    await sendContactsToBackend(userID, contacts);
+
+
 }
