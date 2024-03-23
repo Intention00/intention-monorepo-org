@@ -19,6 +19,7 @@ const ContactSync: React.FC = ()=> {
 
     useEffect(()=> {
         (async ()=> {
+            console.log("USE EFFECT RUNNING!")
             setError(undefined);
             try {
                 // const fetchedContacts = await saveContactsFromUser();
@@ -45,7 +46,7 @@ const ContactSync: React.FC = ()=> {
         <SafeAreaView style={{flex:1, width: '100%'}}>
             <userIDContext.Provider value={userID}>
                 <Text style={{marginTop: 10}}>{error}</Text>
-                <SyncContactButton></SyncContactButton>
+                <SyncContactButton updateContacts={setContacts}></SyncContactButton>
                 <ContactList contacts={contacts}></ContactList>
             </userIDContext.Provider>
         </SafeAreaView>

@@ -4,7 +4,7 @@ import { useState } from "react";
 import { SyncContactSelector } from "./SyncContactSelector";
 
 
-const SyncContactButton: React.FC = ()=> {
+const SyncContactButton: React.FC <{updateContacts}> = ({updateContacts})=> {
     const [modalVisible, setModalVisible] = useState(false);
 
     return (
@@ -14,7 +14,7 @@ const SyncContactButton: React.FC = ()=> {
 
             <Modal visible={modalVisible} transparent={true} onRequestClose={()=> {setModalVisible(false)}} animationType="slide">
                     <SafeAreaView>
-                        <SyncContactSelector toggleModalVisibility={()=> {setModalVisible(false)}}></SyncContactSelector>
+                        <SyncContactSelector updateContacts={updateContacts} toggleModalVisibility={()=> {setModalVisible(false)}}></SyncContactSelector>
                     </SafeAreaView>
                 </Modal>
         </View>

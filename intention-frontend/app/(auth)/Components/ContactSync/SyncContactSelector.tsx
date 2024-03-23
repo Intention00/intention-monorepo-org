@@ -4,13 +4,14 @@ import { useEffect, useState, useContext } from "react";
 import { userIDContext } from "../UserSync/userIDContext";
 import { formatContacts, saveContactsFromUser, syncContacts } from "./contactService";
 import { SyncContactItem } from "./SyncContactItem";
+import { receiveContactsFromBackend } from "./backendService";
 
 
 // Still need to fix select all button. If you already have some contacts synced and try
 // using select all before saving new contacts, it doesn't save any of the new ones.
 // It only works when no contacts are synced with DB. Probably has to do with ignore duplicates
 // logic for db inserstions.
-const SyncContactSelector: React.FC <{toggleModalVisibility}> = ({toggleModalVisibility})=> {
+const SyncContactSelector: React.FC <{toggleModalVisibility, updateContacts}> = ({toggleModalVisibility, updateContacts})=> {
     const userID = useContext(userIDContext)
     const [contacts, setContacts] = useState([]);
     const [checkedItems, setCheckedItems] = useState([]);
@@ -41,6 +42,10 @@ const SyncContactSelector: React.FC <{toggleModalVisibility}> = ({toggleModalVis
             selectedContacts.push(contacts[idx]);
         }
         await syncContacts(userID, selectedContacts);
+
+        // update contacts to return changed contacts to ContactSync component
+        const newContacts = await receiveContactsFromBackend(userID);
+        updateContacts(newContacts);
     }
 
     return (
