@@ -29,7 +29,7 @@ const SyncContactButton: React.FC <{updateContacts}> = ({updateContacts})=> {
 
 const styles = StyleSheet.create({
     button: {
-        paddingLeft: 35,
+        paddingLeft: 30,
         // position: 'absolute',
         alignItems: 'flex-start',
         marginTop: 0,
