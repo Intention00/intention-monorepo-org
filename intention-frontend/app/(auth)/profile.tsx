@@ -1,10 +1,10 @@
 import { View, Text, Button, TextInput, StyleSheet } from 'react-native';
 import { useState } from 'react';
 import { useUser } from '@clerk/clerk-expo';
-import { DeleteUser } from './Components/DeleteUser/DeleteUser';
-import { DeleteUserData } from './Components/DeleteUser/DeleteUserData';
-import { handleUser } from './Components/UserSync/userService';
-import { userIDContext } from './Components/UserSync/userIDContext';
+import { DeleteUser } from '../../Components/DeleteUser/DeleteUser';
+import { DeleteUserData } from '../../Components/DeleteUser/DeleteUserData';
+import { handleUser } from '../../Components/UserSync/userService';
+import { userIDContext } from '../../Components/UserSync/userIDContext';
 
 
 const Profile = () => {

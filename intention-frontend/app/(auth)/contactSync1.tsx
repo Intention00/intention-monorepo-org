@@ -1,8 +1,8 @@
 import { View, Text } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { useUser } from '@clerk/clerk-expo';
-import {ContactSync} from './Components/ContactSync/ContactSync';
-import { saveContactsFromUser } from './Components/ContactSync/contactService';
+import {ContactSync} from '../../Components/ContactSync/ContactSync';
+import { saveContactsFromUser } from '../../Components/ContactSync/contactService';
 import * as Contacts from 'expo-contacts';
 
 const ContactSync1 = () => {
@@ -12,20 +12,6 @@ const ContactSync1 = () => {
   useEffect(() => {
     if (user) {
       setIsUserLoggedIn(true);
-      (async () => {
-        const { status } = await Contacts.requestPermissionsAsync();
-        if (status === 'granted') {
-          const { data } = await Contacts.getContactsAsync({
-            fields: [Contacts.Fields.Emails],
-          });
-  
-          if (data.length > 0) {
-            const contact = data[5];
-            console.log(contact);
-          }
-        }
-      })();
-      console.log("save contacts attempt");
       
       // Optionally, any other actions to be performed after user login
     } else {
