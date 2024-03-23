@@ -1,5 +1,5 @@
-import { handleUser } from "../app/(auth)/Components/UserSync/userService";
-import { receiveUserIDBackend } from "../app/(auth)/Components/ContactSync/backendService";
+import { handleUser } from "../Components/UserSync/userService";
+import { receiveUserIDBackend } from "../Components/ContactSync/backendService";
 import renderer from "react-test-renderer";
 
 // tells jest to mock the backend service module, specificually the recieveUserID func. 
