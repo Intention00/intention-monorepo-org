@@ -2,7 +2,7 @@
   "expo": {
     "entryPoint": "./index.js",
     "scheme": "intention-auth",
-    "name": "intention-frontend",
+    "name": "Intention",
     "slug": "intention-monorepo-all",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -37,7 +37,7 @@
       "infoPlist": {
         "NSContactsUsageDescription": "Allow $(PRODUCT_NAME) to access your contacts."
       },
-      "bundleIdentifier": "com.intention.intention-monorepo-all"
+      "bundleIdentifier": "com.intention.intention"
     },
     "android": {
       "adaptiveIcon": {
@@ -49,7 +49,7 @@
         "android.permission.WRITE_CONTACTS",
         "android.permission.INTERNET"
       ],
-      "package": "com.intention.intentionmonorepoall"
+      "package": "com.intention.intention"
     },
     "web": {
       "favicon": "./assets/favicon.png"
