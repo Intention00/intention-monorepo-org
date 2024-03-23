@@ -52,7 +52,9 @@ const SyncContactSelector: React.FC <{toggleModalVisibility, updateContacts}> = 
         <View style={[styles.centeredView, styles.modalView]}>
             <View style={[styles.modalBox]}>
                 <View style={styles.modalTextContainer}>
-                    <Text>Select Contacts to Sync</Text>
+                    <View style={{borderRadius: 50, marginBottom: 10}}>
+                        <Text style={{textAlign: 'center', backgroundColor: 'rgb(107,71,255)', padding: 10, fontSize: 24, marginRight: 10, color: 'white',}}>Select Contacts to Sync</Text>
+                    </View>
                     <View>
                         <FlatList 
                             data={contacts} 
