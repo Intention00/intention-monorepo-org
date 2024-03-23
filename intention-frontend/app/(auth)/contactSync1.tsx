@@ -12,20 +12,6 @@ const ContactSync1 = () => {
   useEffect(() => {
     if (user) {
       setIsUserLoggedIn(true);
-      (async () => {
-        const { status } = await Contacts.requestPermissionsAsync();
-        if (status === 'granted') {
-          const { data } = await Contacts.getContactsAsync({
-            fields: [Contacts.Fields.Emails],
-          });
-  
-          if (data.length > 0) {
-            const contact = data[5];
-            console.log(contact);
-          }
-        }
-      })();
-      console.log("save contacts attempt");
       
       // Optionally, any other actions to be performed after user login
     } else {
