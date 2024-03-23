@@ -6,16 +6,21 @@ import { formatContacts, saveContactsFromUser, syncContacts } from "./contactSer
 import { SyncContactItem } from "./SyncContactItem";
 import { receiveContactsFromBackend } from "./backendService";
 
+// Component for selecting contacts to sync with the backend
 
 // Still need to fix select all button. If you already have some contacts synced and try
 // using select all before saving new contacts, it doesn't save any of the new ones.
 // It only works when no contacts are synced with DB. Probably has to do with ignore duplicates
 // logic for db inserstions.
 const SyncContactSelector: React.FC <{toggleModalVisibility, updateContacts}> = ({toggleModalVisibility, updateContacts})=> {
+    // Retrieve the user ID from the context
     const userID = useContext(userIDContext)
+
+    // State variables to manage contacts and selected checkboxes
     const [contacts, setContacts] = useState([]);
     const [checkedItems, setCheckedItems] = useState([]);
 
+    // Effect hook to fetch contacts from the user's device upon component mount
     useEffect(()=> {
         (async ()=> {
             const fetchedContacts = await saveContactsFromUser();
@@ -24,6 +29,7 @@ const SyncContactSelector: React.FC <{toggleModalVisibility, updateContacts}> = 
         })()
     }, []);
 
+    // Handler function for checkbox selection
     const handleCheckBoxSelection = (id)=> {
         const isChecked = checkedItems.includes(id);
         if (isChecked) {
@@ -34,16 +40,20 @@ const SyncContactSelector: React.FC <{toggleModalVisibility, updateContacts}> = 
         }
     }
 
+    // Function to save selected contacts to the backend
     const saveSelectedContacts = async()=> {
         const selectedContacts = [];
         toggleModalVisibility(false);
 
+        // Build an array of selected contacts based on their indexes
         for (const idx of checkedItems) {
             selectedContacts.push(contacts[idx]);
         }
+
+        // Sync selected contacts with the backend
         await syncContacts(userID, selectedContacts);
 
-        // update contacts to return changed contacts to ContactSync component
+        // Update the list of contacts in the parent component
         const newContacts = await receiveContactsFromBackend(userID);
         updateContacts(newContacts);
     }
@@ -80,6 +90,7 @@ const SyncContactSelector: React.FC <{toggleModalVisibility, updateContacts}> = 
 
 }
 
+// Styles for the SyncContactSelector component
 const styles = StyleSheet.create({
     centeredView: {
         justifyContent: 'center',

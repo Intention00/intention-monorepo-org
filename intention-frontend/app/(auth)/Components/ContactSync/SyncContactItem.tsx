@@ -23,10 +23,6 @@ const SyncContactItem: React.FC<{contact: Contact}> = ({contact})=> {
                 transition={1000}
             />
 
-            {/* <Text>UserID: {userID}</Text>
-            <Text>ContactID: {contact.contactID}</Text>
-            <Text>First Name: {contact.firstName}</Text>
-            <Text>Last Name: {contact.lastName}</Text> */}
             <View style={styles.containerText}>
                 <Text style={styles.nameText}>{contact.firstName} {contact.lastName}</Text>
                 <Text style={styles.phoneText}>Phone: {contact.number}</Text>
@@ -65,13 +61,4 @@ const styles = StyleSheet.create({
 
 })
 
-
-
-
-
-
-
 export {SyncContactItem};
-
-
-{/* <ContactItem contact={{firstName: 'test', lastName: 'person', phoneNumber: {}}}></ContactItem> */}
