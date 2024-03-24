@@ -40,15 +40,27 @@ export const saveContactsFromUser = async ()=> {
 export const formatContacts = (contactsData)=> {
     try {
         const formattedContacts = contactsData.map((contact)=> {
+            // Check to see if number exists, otherwise ignore contact
+            try {
+                const numCheck = contact.phoneNumbers[0].number;
+            }
+            catch {
+                return null;
+            }
+
+            // Added temporary way to remove +1 area code, need to adjust for more flexibility
             const selectedNum = contact.phoneNumbers[0].number.replace('(', '').
-                replace(')', '').replaceAll('-', '').replace(' ', '');
+            replace(')', '').replaceAll('-', '').replace('+1 ', '').replace(' ', '');
+
+            const firstName = contact.firstName || '';
+            const lastName = contact.lastName || '';
 
             return {
-                firstName: contact.firstName,
-                lastName: contact.lastName,
-                number: selectedNum ? selectedNum : '0000000000'
+                firstName: firstName,
+                lastName: lastName,
+                number: selectedNum
             }
-        })
+        }).filter(contact => contact !== null);
 
         return formattedContacts;
     }
