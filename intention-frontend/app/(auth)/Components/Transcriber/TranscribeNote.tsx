@@ -6,6 +6,7 @@ import { Feather } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { backendAddress } from "../ContactSync/backendService";
+import * as Clipboard from 'expo-clipboard';
 
 const TranscriberNote: React.FC <{contact}> = ({contact})=> {
     // Transcription Declarations
@@ -95,7 +96,8 @@ const TranscriberNote: React.FC <{contact}> = ({contact})=> {
     
     // AI Generating Declarations
     const [summary, setSummary] = useState<string>("");
-    const [questions, setQuestions] = useState<string>("");
+    const [questions, setQuestions] = useState<string[]>([]);
+
     
     // Summarize Button Logic
     const generateSummary = async () => {
@@ -121,7 +123,6 @@ const TranscriberNote: React.FC <{contact}> = ({contact})=> {
         }
     };
 
-    // Questions Button Logic
     const generateQuestions = async () => {
         try {
             // Make a network request to Flask server
@@ -132,19 +133,28 @@ const TranscriberNote: React.FC <{contact}> = ({contact})=> {
                 },
                 body: JSON.stringify({ text: transcribedText }), // Use the text from the top textbox
             });
-
+    
             // Handle the response
             const data = await response.json();
             const generatedQuestions = data.questions;
-
-            // Update the state with the generated questions
-            setQuestions(generatedQuestions);
-
+    
+            // Ensure generatedQuestions is an array before setting state
+            if (Array.isArray(generatedQuestions)) {
+                // Update the state with the generated questions
+                setQuestions(generatedQuestions);
+            } else {
+                console.error('Generated questions is not an array:', generatedQuestions);
+            }
+    
         } catch (error) {
             console.error('Error generating questions:', error);
         }
     };
-
+    
+    const copyToClipboard = async (text) => {
+        await Clipboard.setStringAsync(text);
+      };
+      
     
     return (
         // Modal Container
@@ -196,25 +206,25 @@ const TranscriberNote: React.FC <{contact}> = ({contact})=> {
             </View>
             
             {/* Questions Section */}
-            <View style={{flexDirection: 'row'}}>
-                <TextInput
-                    style = {styles.notesInput}
-                    multiline
-                    numberOfLines={4}
-                    value={questions}
-                    onChangeText={(text) => setQuestions(text)}
-                    placeholder="No Questions Yet"
-                />
-                <View style={styles.buttonBox}>
-                    <TouchableOpacity
-                        style={styles.button}
-                        onPress={generateQuestions}>
-                        {/* <MaterialCommunityIcons name="head-lightbulb-outline" size={24} color="black" /> */}
-                        <MaterialCommunityIcons name="head-lightbulb" size={30} color="black" />
-                        <Text style={styles.buttonText}>Questions</Text>
-                    </TouchableOpacity>
-                </View>
+            <View style={{ flexDirection: 'column' }}>
+                <TouchableOpacity
+                    style={styles.generateButton}
+                    onPress={generateQuestions}>
+                    <Text style={styles.generateButtonText}>Generate Questions</Text>
+                </TouchableOpacity>
+                {questions.map((question, index) => (
+                    <View key={index} style={styles.questionContainer}>
+                        <Text style={styles.questionText}>{question}</Text>
+                        <TouchableOpacity
+                            style={styles.copyButton}
+                            onPress={() => copyToClipboard(question)}>
+                            <Feather name="copy" size={24} color="black" />
+                        </TouchableOpacity>
+                    </View>
+                ))}
             </View>
+
+
         </View>
     )
 }
@@ -256,7 +266,31 @@ const styles = StyleSheet.create ({
 
     notRecordingButton: {
         backgroundColor: 'lightblue'
-    }
+    },
 
+    questionContainer: {
+        backgroundColor: '',
+        flexDirection: 'row',
+        width: "90%"
+    },
+
+    questionText: {
+        backgroundColor: 'lightblue'
+    },
+
+    generateButton:{
+        backgroundColor: "lightpink",
+        marginBottom: 8
+    },
+
+    generateButtonText: {
+        fontSize: 15
+        
+    },
+
+    copyButton:{
+        backgroundColor: "lightgreen",
+        
+    },
 })
 export {TranscriberNote};

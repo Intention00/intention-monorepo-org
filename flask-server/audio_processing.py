@@ -23,7 +23,7 @@ def generate_summary(text):
         model="gpt-3.5-turbo",
         messages=[
             {"role": "system", "content": "You are a helpful assistant. Talking directly to the user"},
-            {"role": "user", "content": f"Given context of a person, immediately give me a summary about them. More specifically my relationship with them as well. Talk to me directly like 'You and ___ have a strong relationship' ... : {text}"}
+            {"role": "user", "content": f"Take this text given of my relationship with (name provided). Immediately provide simple bullet points, explaining the intricacies of our relationship and key details that are useful for me to reference later when reaching out. Here is the text: {text}"}
             ]
     )
     content_section = response.choices[0].message.content
@@ -34,9 +34,10 @@ def generate_questions(text):
         model="gpt-3.5-turbo",
         messages=[
             {"role": "system", "content": "You are a helpful assistant. Talking directly to the user"},
-            {"role": "user", "content": f"Given some context of a person, immediately list 10 conversation-provoking questions to directly ask them. List the questions from my point of view to them, address them to 'you' {text}"}
+            {"role": "user", "content": f"You are trying to reach out to (name provided). It has been a long time and you don't know what to say. Given these notes about the last time you spoke with them, give me 3 introduction text messages I could send to them to start a new conversation: {text}"}
             ]
     )
     content_section = response.choices[0].message.content
-    return content_section
+    questions = content_section.split('\n')
+    return questions
 
