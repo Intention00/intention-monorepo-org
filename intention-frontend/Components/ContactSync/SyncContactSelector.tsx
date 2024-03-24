@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, FlatList, Button,  } from "react-native"
+import { View, Text, StyleSheet, FlatList, Button } from "react-native"
 import CheckBox from 'expo-checkbox';
 import { useEffect, useState, useContext } from "react";
 import { userIDContext } from "../UserSync/userIDContext";
@@ -68,7 +68,7 @@ const SyncContactSelector: React.FC <{toggleModalVisibility, updateContacts}> = 
                     <View>
                         <FlatList 
                             data={contacts} 
-                            style={{marginTop: 15, maxHeight: 600}} 
+                            style={{marginTop: 15, maxHeight: 300}} 
                             renderItem={({item, index})=> (   
                                 <View style={styles.contactCheckBoxRow}>
                                     <SyncContactItem contact={item}></SyncContactItem>
