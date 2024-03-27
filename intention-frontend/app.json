@@ -4,9 +4,9 @@
     "scheme": "intention-auth",
     "name": "Intention",
     "slug": "intention-monorepo-all",
-    "version": "0.5.0",
+    "version": "0.5.1",
     "orientation": "portrait",
-    "icon": "./assets/placeholder.png",
+    "icon": "./assets/logo.png",
     "userInterfaceStyle": "light",
     "splash": {
       "image": "./assets/splash.png",
@@ -41,7 +41,7 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/placeholder.png",
+        "foregroundImage": "./assets/logo.png",
         "backgroundColor": "#ffffff"
       },
       "permissions": [
