@@ -2,7 +2,7 @@
 // Might be useful to leverage openai to generate our future automatic tests
 
 import * as Contacts from 'expo-contacts';
-import { saveContactsFromUser } from '../Components/ContactSync/contactService';
+import { saveContactsFromUser } from '../Components/ContactsTab/DisplayContacts/contactService';
 
 // Mocking expo-contacts methods with explicit types
 const mockRequestPermissionsAsync = jest.spyOn(Contacts, 'requestPermissionsAsync') as jest.MockedFunction<typeof Contacts.requestPermissionsAsync>;

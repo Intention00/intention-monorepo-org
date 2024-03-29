@@ -1,8 +1,8 @@
 import { View, Text } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { useUser } from '@clerk/clerk-expo';
-import {ContactSync} from '../../Components/ContactSync/ContactSync';
-import { saveContactsFromUser } from '../../Components/ContactSync/contactService';
+import {ContactSync} from '../../Components/ContactsTab/DisplayContacts/ContactSync';
+import { saveContactsFromUser } from '../../Components/ContactsTab/DisplayContacts/contactService';
 import * as Contacts from 'expo-contacts';
 
 const ContactSync1 = () => {

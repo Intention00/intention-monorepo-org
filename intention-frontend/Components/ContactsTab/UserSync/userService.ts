@@ -1,4 +1,4 @@
-import { receiveUserIDBackend, recieveUserEmailBackend } from "../ContactSync/backendService";
+import { receiveUserIDBackend, recieveUserEmailBackend } from "../../Generic/backendService";
 
 
 export const handleUser = async (userEmail) => {

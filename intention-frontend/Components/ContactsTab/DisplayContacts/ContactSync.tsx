@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import {View, Text, SafeAreaView} from 'react-native';
-import { sendContactsToBackend, receiveContactsFromBackend, receiveUserIDBackend } from './backendService';
+import { sendContactsToBackend, receiveContactsFromBackend, receiveUserIDBackend } from '../../Generic/backendService';
 import { saveContactsFromUser } from './contactService';
 import {ContactList} from './ContactList';
 import { userIDContext } from '../UserSync/userIDContext';
 import { useUser } from '@clerk/clerk-expo';
 import { handleUser } from '../UserSync/userService';
-import { SyncContactButton } from './SyncContactButton';
+import { SyncContactButton } from '../SyncContacts/SyncContactButton';
 
 
 const ContactSync: React.FC = ()=> {

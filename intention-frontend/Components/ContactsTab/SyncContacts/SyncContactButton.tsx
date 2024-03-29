@@ -1,7 +1,8 @@
-import { View, Modal, SafeAreaView, StyleSheet, TouchableHighlight } from "react-native"
+import { View, Modal, SafeAreaView, TouchableHighlight } from "react-native"
 import { useState } from "react";
 import { SyncContactSelector } from "./SyncContactSelector";
 import { FontAwesome } from '@expo/vector-icons';
+import { styles } from "./SyncContactButton.style";
 
 // This component represents a button used to trigger contact synchronization
 const SyncContactButton: React.FC <{updateContacts}> = ({updateContacts})=> {
@@ -21,17 +22,5 @@ const SyncContactButton: React.FC <{updateContacts}> = ({updateContacts})=> {
         </View>
     )
 }
-
-// Stylesheet for the SyncContactButton component
-const styles = StyleSheet.create({
-    // Adjustments for the button's position and appearance
-    button: {
-        paddingLeft: 30,
-        // position: 'absolute',
-        alignItems: 'flex-start',
-        marginTop: 0,
-        paddingTop: 0
-    },
-})
 
 export {SyncContactButton}

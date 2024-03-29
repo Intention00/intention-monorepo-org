@@ -1,4 +1,4 @@
-import { backendAddress } from "../ContactSync/backendService";
+import { backendAddress } from "../../Generic/backendService";
 
 export const deleteUserData = async (userID: number)=> {
     try {

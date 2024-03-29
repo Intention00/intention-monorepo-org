@@ -1,11 +1,11 @@
 import { View, Text, Button, TextInput, TouchableOpacity, StyleSheet } from "react-native"
 import React, { useState, useEffect } from "react";
 import { Audio } from "expo-av"
-import { sendNotesToBackend, sendFinalNotesToBackend } from "../ContactSync/backendService";
+import { sendNotesToBackend, sendFinalNotesToBackend } from "../../Generic/backendService";
 import { Feather } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { backendAddress } from "../ContactSync/backendService";
+import { backendAddress } from "../../Generic/backendService";
 import * as Clipboard from 'expo-clipboard';
 
 const TranscriberNote: React.FC <{contact}> = ({contact})=> {

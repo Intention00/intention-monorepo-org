@@ -1,7 +1,7 @@
 import React, {useContext} from "react";
 import { View, Text, Button} from "react-native"
 import {deleteUserData} from './deleteUserService'
-import { userIDContext } from "../UserSync/userIDContext";
+import { userIDContext } from "../../ContactsTab/UserSync/userIDContext";
 
 
 const DeleteUserData: React.FC = ()=> {

@@ -7,7 +7,7 @@ import {
     sendFinalNotesToBackend,
     receiveUserIDBackend,
     recieveUserEmailBackend,
-} from '../Components/ContactSync/backendService';
+} from '../Components/Generic/backendService';
 
 // Mock the fetch function
 //   jest.mock('node-fetch');
