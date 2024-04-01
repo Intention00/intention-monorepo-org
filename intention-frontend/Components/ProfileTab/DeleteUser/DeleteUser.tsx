@@ -10,7 +10,7 @@ const DeleteUser: React.FC = ()=> {
 
     return(
         <View>
-            <Button title="Delete User" onPress={()=> {deleteUser(userID)}}></Button>
+            <Button color={'#6c47ff'} title="Delete User" onPress={()=> {deleteUser(userID)}}></Button>
         </View>
     )
 }

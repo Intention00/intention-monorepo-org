@@ -10,7 +10,7 @@ const DeleteUserData: React.FC = ()=> {
 
     return(
         <View>
-            <Button title="Delete User Data" onPress={()=> {deleteUserData(userID)}}></Button>
+            <Button color={'#6c47ff'} title="Delete User Data" onPress={()=> {deleteUserData(userID)}}></Button>
         </View>
     )
 }
