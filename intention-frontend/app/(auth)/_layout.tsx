@@ -27,7 +27,11 @@ const TabsPage = () => {
           backgroundColor: '#6c47ff',
         },
         headerTintColor: '#fff',
-      }}>
+        tabBarStyle: {
+          backgroundColor: '#161616'
+        }
+      }}
+    >
       <Tabs.Screen
         name="home"
         options={{

@@ -1,10 +1,11 @@
-import { View, Text, StyleSheet, FlatList, Button } from "react-native"
+import { View, Text, FlatList, Button } from "react-native"
 import CheckBox from 'expo-checkbox';
 import { useEffect, useState, useContext } from "react";
 import { userIDContext } from "../UserSync/userIDContext";
-import { formatContacts, saveContactsFromUser, syncContacts } from "./contactService";
+import { formatContacts, saveContactsFromUser, syncContacts } from "../DisplayContacts/contactService";
 import { SyncContactItem } from "./SyncContactItem";
-import { receiveContactsFromBackend } from "./backendService";
+import { receiveContactsFromBackend } from "../../Generic/backendService";
+import { styles } from "./SyncContactSelector.style";
 
 // Component for selecting contacts to sync with the backend
 
@@ -89,51 +90,5 @@ const SyncContactSelector: React.FC <{toggleModalVisibility, updateContacts}> = 
     )
 
 }
-
-// Styles for the SyncContactSelector component
-const styles = StyleSheet.create({
-    centeredView: {
-        justifyContent: 'center',
-        alignItems: 'center',
-        height: '105%',
-        width: '100%',
-    },
-
-    modalView: {
-        backgroundColor: 'rgba(10, 10, 10, 0.5)',
-    },
-
-    modalBox: {
-        height: 600,
-        width: 350,
-        backgroundColor: 'white',
-        borderRadius: 40,
-    },
-
-    modalTextContainer: {
-        paddingTop: 50,
-        paddingLeft: 10,
-        flex: 1,
-        flexDirection: 'column',
-    },
-    contactCheckBoxRow: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        paddingHorizontal: 10,
-        width: '100%',
-    },
-    checkbox: {
-        alignSelf: 'center',
-        marginLeft: 'auto',
-    },
-    modalExitButtons: {
-        flexDirection: "row", 
-        alignContent: 'center', 
-        justifyContent: 'space-around', 
-        paddingBottom: 30, 
-        paddingHorizontal: 50
-    }
-})
 
 export {SyncContactSelector}

@@ -1,10 +1,11 @@
 import { View, Text, Button, TextInput, StyleSheet } from 'react-native';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useUser } from '@clerk/clerk-expo';
-import { DeleteUser } from '../../Components/DeleteUser/DeleteUser';
-import { DeleteUserData } from '../../Components/DeleteUser/DeleteUserData';
-import { handleUser } from '../../Components/UserSync/userService';
-import { userIDContext } from '../../Components/UserSync/userIDContext';
+import { DeleteUser } from '../../Components/ProfileTab/DeleteUser/DeleteUser';
+import { DeleteUserData } from '../../Components/ProfileTab/DeleteUser/DeleteUserData';
+import { handleUser } from '../../Components/ContactsTab/UserSync/userService';
+import { userIDContext } from '../../Components/ContactsTab/UserSync/userIDContext';
+import { styles as global } from '../../Components/Generic/global.style';
 
 
 const Profile = () => {
@@ -16,10 +17,13 @@ const Profile = () => {
   const [userID, setUserID] = useState(undefined);
   const userEmail = user['primaryEmailAddress']['emailAddress'];
 
-  (async ()=> {
-    const tempUserID = await handleUser(userEmail);
-    setUserID(tempUserID);
-  })()
+  useEffect(()=> {
+    (async ()=> {
+      const tempUserID = await handleUser(userEmail);
+      setUserID(tempUserID);
+    })()
+  }, []);
+
 
   const onSaveUser = async () => {
     try {
@@ -35,13 +39,13 @@ const Profile = () => {
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={{ textAlign: 'center' }}>
+    <View style={[global.background, styles.container]}>
+      <Text style={[global.bodyText, { textAlign: 'center' }]}>
         Good morning {user.firstName} {user.lastName}!
       </Text>
 
-      <TextInput placeholder="First Name" value={firstName} onChangeText={setFirstName} style={styles.inputField} />
-      <TextInput placeholder="Last Name" value={lastName} onChangeText={setLastName} style={styles.inputField} />
+      <TextInput placeholder="First Name" value={firstName} placeholderTextColor={global.inputBox.color} onChangeText={setFirstName} style={[global.inputBox, styles.inputField]} />
+      <TextInput placeholder="Last Name" value={lastName} placeholderTextColor={global.inputBox.color} onChangeText={setLastName} style={[global.inputBox, styles.inputField]} />
       <Button onPress={onSaveUser} title="Update account" color={'#6c47ff'}></Button>
       <View style={{marginTop: 100}}>
         <userIDContext.Provider value={userID}>
@@ -66,7 +70,6 @@ const styles = StyleSheet.create({
     borderColor: '#6c47ff',
     borderRadius: 4,
     padding: 10,
-    backgroundColor: '#fff',
   },
 });
 

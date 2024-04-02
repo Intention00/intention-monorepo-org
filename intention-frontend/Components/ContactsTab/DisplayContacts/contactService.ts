@@ -1,5 +1,5 @@
 import * as Contacts from 'expo-contacts';
-import { sendContactsToBackend } from './backendService';
+import { sendContactsToBackend } from '../../Generic/backendService';
 
 // Requesting contact permission and retrieving contacts from user's device
 // Returns either an array of the data if successful or an empty array if not.

@@ -1,9 +1,10 @@
 import { View, Text } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { useUser } from '@clerk/clerk-expo';
-import {ContactSync} from '../../Components/ContactSync/ContactSync';
-import { saveContactsFromUser } from '../../Components/ContactSync/contactService';
+import {ContactSync} from '../../Components/ContactsTab/DisplayContacts/ContactSync';
+import { saveContactsFromUser } from '../../Components/ContactsTab/DisplayContacts/contactService';
 import * as Contacts from 'expo-contacts';
+import { styles as global } from '../../Components/Generic/global.style';
 
 const ContactSync1 = () => {
   const { user } = useUser();
@@ -20,7 +21,7 @@ const ContactSync1 = () => {
   }, [user]); // Depend on the user object
 
   return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+    <View style={[{ flex: 1, justifyContent: 'center', alignItems: 'center' }, global.background]}>
       {isUserLoggedIn && <ContactSync />}
     </View>
   );
