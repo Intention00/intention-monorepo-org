@@ -36,9 +36,9 @@ const ContactList: React.FC <{contacts: any[]}> = ({contacts})=> {
                     
             )}/>
 
-            <Modal visible={modalVisible} transparent={true} onRequestClose={()=> {setModalVisible(false)}} animationType="slide">
+            <Modal visible={modalVisible} transparent={true} onRequestClose={()=> {setModalVisible(false)}} animationType="fade">
                 <SafeAreaView>
-                    <ContactModal contact={selectedContact} toggleModalVisibility={()=> {setModalVisible(false)}}></ContactModal>
+                    <ContactModal contact={selectedContact} toggleModalVisibility={()=> {setModalVisible(false)}}/>
                 </SafeAreaView>
             </Modal>
 

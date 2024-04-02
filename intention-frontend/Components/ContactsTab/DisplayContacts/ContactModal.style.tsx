@@ -1,44 +1,71 @@
 import { StyleSheet } from "react-native"
+import { styles as global } from "../../Generic/global.style"
 
 const styles = StyleSheet.create({
     centeredView: {
         justifyContent: 'center',
         alignItems: 'center',
-        height: '105%',
+        height: '100%',
         width: '100%',
     },
 
     modalView: {
-        backgroundColor: 'rgba(10, 10, 10, 0.5)',
+        backgroundColor: 'rgba(10, 10, 10, 0.6)',
     },
 
     modalBox: {
         height: 600,
-        width: 350,
-        backgroundColor: 'white',
-        borderRadius: 40,
+        width: 370,
+        backgroundColor: global.background.backgroundColor,
+        borderRadius: 30,
+    },
+
+    modalExit :{
+        // color: global.inputBox.color,
+        color: "#515151",
+        fontSize: 30
+    },
+
+    modalHeader: {
+        // backgroundColor: global.inputBox.backgroundColor,
+        // borderRadius: 10,
+        // padding: 10,
+        paddingLeft: 15,
+        paddingTop: 15,
+        marginRight: 10,
+        marginBottom: 30,
+        flexDirection: 'row',
+    },
+
+    modalHeaderText: {
+        textAlign: 'center',
+        color: global.inputBox.color,
+        marginLeft: 65,
+        fontSize: 24,
     },
 
     modalTextContainer: {
-        paddingTop: 50,
+        paddingTop: 10,
         paddingLeft: 10,
         flex: 1,
         flexDirection: 'column',
-        // justifyContent: 'space-between',
+    },
+
+    modalNameBox: {
+        backgroundColor: global.inputBox.backgroundColor,
+        borderRadius: 10,
+        padding: 10,
+        width: 300
+        
     },
 
     modalText: {
-        textAlign: 'left',
-        marginBottom: 20,
+        textAlign: 'center',
         fontSize: 16,
-        fontWeight: '500'
+        fontWeight: '500',
+        color: global.inputBox.color,
     },
-    image: {
-        width: 120, 
-        height: 120,
-        borderRadius: 75,
-        marginRight: 10,
-    },
+
 })
 
 export {styles}
