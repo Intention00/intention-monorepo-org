@@ -1,6 +1,11 @@
 import { StyleSheet } from "react-native"
 
 const styles = StyleSheet.create({
+    // Accent color: #ffcc00
+    // Primary color: #ffffff
+    // Background color: #161616
+    // Input box background: #383838
+    // Input box color: #bcbcbc
     background: {
         backgroundColor: '#161616',
     },
@@ -13,6 +18,14 @@ const styles = StyleSheet.create({
         color: '#ffffff',
     },
 
+    subText: {
+        color: '#bcbcbc',
+    },
+
+    accentColor: {
+        color: '#ffcc00'
+    },
+
     inputBox: {
         backgroundColor: '#383838',
         color: '#bcbcbc',
@@ -20,13 +33,3 @@ const styles = StyleSheet.create({
 })
 
 export {styles}
-
-// const Card = (props) => {
-//   return (
-//     <div style={styles.Card}>
-//       {props.children}
-//     </div>
-//   );
-// };
-
-// export default Card;
