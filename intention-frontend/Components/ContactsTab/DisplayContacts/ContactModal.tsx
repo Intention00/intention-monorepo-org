@@ -29,7 +29,7 @@ const ContactModal: React.FC <{contact, toggleModalVisibility}> = ({contact, tog
                     </View>
                     
                     
-                    <ScrollView>
+                    <ScrollView style={{marginBottom: 30}}>
                         <TranscriberNote contact={contact}></TranscriberNote>
                     </ScrollView>
                     
