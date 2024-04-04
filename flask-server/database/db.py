@@ -11,6 +11,7 @@ class DBConnection:
     load_dotenv()
 
     self.host = os.getenv("DATABASE_HOST")
+    self.port = os.getenv("DATABASE_PORT")
     self.user = os.getenv("DATABASE_USERNAME")
     self.passwd = os.getenv("DATABASE_PASSWORD")
     self.db = os.getenv("DATABASE")
@@ -24,12 +25,13 @@ class DBConnection:
     try:
       self.connection = mysql.connector.connect(
         host = self.host,
+        port = self.port,
         user = self.user,
         passwd = self.passwd,
         db = self.db,
         autocommit = self.autocommit,
-        ssl_verify_identity = self.ssl_verify_identity,
-        ssl_ca = self.ssl_ca
+        # ssl_verify_identity = self.ssl_verify_identity,
+        # ssl_ca = self.ssl_ca,
       )
       self.cursor = self.connection.cursor(dictionary=True)
       return self.cursor
