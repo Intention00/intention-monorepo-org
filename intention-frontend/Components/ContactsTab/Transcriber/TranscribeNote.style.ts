@@ -46,13 +46,22 @@ const styles = StyleSheet.create ({
     },
 
     questionContainer: {
-        backgroundColor: '',
         flexDirection: 'row',
         width: "90%",
     },
 
     questionText: {
-        backgroundColor: 'lightblue'
+        // backgroundColor: '',
+        color: global.bodyText.color
+    },
+
+    horizontalDivider: {
+        height: 2,
+        backgroundColor: '#ffffff',
+        // backgroundColor: '#282828',
+        borderRadius: 2,
+        marginTop: 10,
+        marginBottom: 10
     },
 
     generateButton:{

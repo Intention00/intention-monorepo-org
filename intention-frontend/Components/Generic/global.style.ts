@@ -6,6 +6,7 @@ const styles = StyleSheet.create({
     // Background color: #161616
     // Input box background: #383838
     // Input box color: #bcbcbc
+    // Tab bar color: #282828
     background: {
         backgroundColor: '#161616',
     },

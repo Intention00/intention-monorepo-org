@@ -38,6 +38,10 @@ def generate_questions(text):
             ]
     )
     content_section = response.choices[0].message.content
-    questions = content_section.split('\n')
-    return questions
+
+    # Quick fix to fix issue with empty copy buttons and remove quotes and numbers from questions
+    questions = list(filter(lambda x: x.strip(), content_section.split('\n')))
+    questions_without_nums = [question.split('. ')[1].replace('"', '') for question in questions]
+
+    return questions_without_nums
 

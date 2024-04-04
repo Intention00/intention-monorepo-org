@@ -186,15 +186,22 @@ const TranscriberNote: React.FC <{contact}> = ({contact})=> {
                 </TouchableOpacity>
 
                 {questions.map((question, index) => (
-                    <View key={index} style={styles.questionContainer}>
-                        <Text style={styles.questionText}>{question}</Text>
-                        <TouchableOpacity
-                            style={styles.copyButton}
-                            onPress={() => copyToClipboard(question)}>
-                            <Feather name="copy" size={24} color="black" />
-                        </TouchableOpacity>
+                    <View key={index}>
+                        <View style={styles.questionContainer}>
+                            <Text style={styles.questionText}>{question}</Text>
+                            {/* <TouchableOpacity
+                                style={styles.copyButton}
+                                onPress={() => copyToClipboard(question)}>
+                                <Feather name="copy" size={24} color="black" />
+                            </TouchableOpacity> */}
+                        </View>
+
+                        <View style={styles.horizontalDivider}></View>
                     </View>
+                    
+                    
                 ))}
+                
             </View>
 
 
