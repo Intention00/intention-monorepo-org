@@ -29,7 +29,8 @@ const TabsPage = () => {
         headerTintColor: '#fff',
         tabBarStyle: {
           backgroundColor: '#282828'
-        }
+        },
+        tabBarActiveTintColor: '#FFCC00'
       }}
     >
       <Tabs.Screen
