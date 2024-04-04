@@ -126,7 +126,7 @@ const TranscriberNote: React.FC <{contact}> = ({contact})=> {
       };
       
     const handleQuestionClick = (question) => {
-        Alert.alert('Question Copied', 'The question has been copied.', 
+        Alert.alert('Question Copied', '', 
             [{text: 'Ok', onPress: ()=> console.log('Ok pressed.')}]);
         copyToClipboard(question);
     }
@@ -197,11 +197,11 @@ const TranscriberNote: React.FC <{contact}> = ({contact})=> {
                                 <Text style={styles.questionText}>{question}</Text>
                             </TouchableOpacity>
                             
-                            <TouchableOpacity
+                            {/* <TouchableOpacity
                                 style={styles.copyButton}
                                 onPress={() => copyToClipboard(question)}>
                                 <Feather name="copy" size={24} color="black" />
-                            </TouchableOpacity>
+                            </TouchableOpacity> */}
                         </View>
 
                         <View style={styles.horizontalDivider}></View>

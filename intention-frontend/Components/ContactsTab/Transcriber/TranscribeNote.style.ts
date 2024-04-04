@@ -61,15 +61,14 @@ const styles = StyleSheet.create ({
     },
 
     horizontalDivider: {
-        height: 2,
+        height: 1,
         backgroundColor: '#282828',
         borderRadius: 2,
-        // marginTop: 10,
-        // marginBottom: 10
+        marginTop: 4,
+        marginBottom: 4
     },
 
     generateButton:{
-        // backgroundColor: "lightpink",
         marginVertical: 30,
         alignItems: 'center'
     },
@@ -79,10 +78,10 @@ const styles = StyleSheet.create ({
         color: global.subText.color,
     },
 
-    copyButton:{
-        backgroundColor: "lightgreen",
+    // copyButton:{
+    //     backgroundColor: "lightgreen",
         
-    },
+    // },
 })
 
 export {styles}
