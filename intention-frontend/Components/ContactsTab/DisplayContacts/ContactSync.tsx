@@ -7,6 +7,7 @@ import { userIDContext } from '../UserSync/userIDContext';
 import { useUser } from '@clerk/clerk-expo';
 import { handleUser } from '../UserSync/userService';
 import { SyncContactButton } from '../SyncContacts/SyncContactButton';
+import { styles as global } from '../../Generic/global.style';
 
 
 const ContactSync: React.FC = ()=> {
@@ -47,7 +48,7 @@ const ContactSync: React.FC = ()=> {
                 <Text style={{marginTop: 10}}>{error}</Text>
                 <SyncContactButton updateContacts={setContacts}></SyncContactButton>
                 <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-                    {(contacts === undefined || contacts.length === 0) ? (<Text>Use the sync button above to add some contacts!</Text>) : (<ContactList contacts={contacts}></ContactList>)}
+                    {(contacts === undefined || contacts.length === 0) ? (<Text style={global.bodyText}>Use the sync button above to add some contacts!</Text>) : (<ContactList contacts={contacts}></ContactList>)}
                 </View>
             </userIDContext.Provider>
         </SafeAreaView>
