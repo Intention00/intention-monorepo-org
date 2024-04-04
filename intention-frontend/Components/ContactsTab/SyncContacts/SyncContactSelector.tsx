@@ -1,4 +1,4 @@
-import { View, Text, FlatList, Button } from "react-native"
+import { View, Text, FlatList, Button, TouchableOpacity } from "react-native"
 import CheckBox from 'expo-checkbox';
 import { useEffect, useState, useContext } from "react";
 import { userIDContext } from "../UserSync/userIDContext";
@@ -6,6 +6,7 @@ import { formatContacts, saveContactsFromUser, syncContacts } from "../DisplayCo
 import { SyncContactItem } from "./SyncContactItem";
 import { receiveContactsFromBackend } from "../../Generic/backendService";
 import { styles } from "./SyncContactSelector.style";
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 // Component for selecting contacts to sync with the backend
 
@@ -62,27 +63,48 @@ const SyncContactSelector: React.FC <{toggleModalVisibility, updateContacts}> = 
     return (
         <View style={[styles.centeredView, styles.modalView]}>
             <View style={[styles.modalBox]}>
+                <View style={styles.modalHeader}>
+                    <MaterialCommunityIcons style={styles.modalExit} name="window-close" onPress={toggleModalVisibility}/>
+                    <Text style={styles.modalHeaderText}>Sync Contacts</Text>
+                </View>
+
                 <View style={styles.modalTextContainer}>
-                    <View style={{borderRadius: 50, marginBottom: 10}}>
-                        <Text style={{textAlign: 'center', backgroundColor: 'rgb(107,71,255)', padding: 10, fontSize: 24, marginRight: 10, color: 'white',}}>Select Contacts to Sync</Text>
-                    </View>
                     <View>
                         <FlatList 
                             data={contacts} 
-                            style={{marginTop: 15, maxHeight: 300}} 
+                            style={styles.contactsList} 
                             renderItem={({item, index})=> (   
                                 <View style={styles.contactCheckBoxRow}>
                                     <SyncContactItem contact={item}></SyncContactItem>
                                     <CheckBox style={styles.checkbox} value={checkedItems.includes(index)} onValueChange={()=> handleCheckBoxSelection(index)}></CheckBox>
                                 </View>
                         )}/>
-                        
                     </View>
-                    <Button title="Select All" onPress={()=> setCheckedItems([...Array(contacts.length).keys()])}></Button>
+
+                    <View style={styles.selectButtons}>
+                        <TouchableOpacity
+                            onPress={()=> setCheckedItems([])}>
+
+                            <Text style={styles.contactsListSelectText}>Deselect All</Text>
+                        </TouchableOpacity>
+
+                        <TouchableOpacity
+                            onPress={()=> setCheckedItems([...Array(contacts.length).keys()])}>
+
+                            <Text style={styles.contactsListSelectText}>Select All</Text>
+                        </TouchableOpacity>
+                    </View>
+
+        
+
                 </View>
-                <View style={styles.modalExitButtons}>
-                    <Button title="Save" onPress={saveSelectedContacts}></Button>
-                    <Button title="Close" onPress={toggleModalVisibility}></Button>
+                <View>
+                    <TouchableOpacity
+                        style={styles.saveButton}
+                        onPress={saveSelectedContacts}>
+
+                        <Text style={styles.saveText}>Save</Text>
+                    </TouchableOpacity>
                 </View>
                 
             </View>

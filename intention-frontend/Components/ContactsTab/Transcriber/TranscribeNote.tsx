@@ -1,12 +1,12 @@
-import { View, Text, Button, TextInput, TouchableOpacity, StyleSheet } from "react-native"
-import React, { useState, useEffect } from "react";
+import { View, Text, TextInput, TouchableOpacity, Alert } from "react-native"
+import React, { useState } from "react";
 import { Audio } from "expo-av"
 import { sendNotesToBackend, sendFinalNotesToBackend } from "../../Generic/backendService";
 import { Feather } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { backendAddress } from "../../Generic/backendService";
 import * as Clipboard from 'expo-clipboard';
+import { styles } from "./TranscribeNote.style";
 
 const TranscriberNote: React.FC <{contact}> = ({contact})=> {
     // Transcription Declarations
@@ -40,51 +40,21 @@ const TranscriberNote: React.FC <{contact}> = ({contact})=> {
     async function stopRecording() {
         console.log('Stopping recording..');
         setRecording(undefined);
+
         await recording.stopAndUnloadAsync();
-        await Audio.setAudioModeAsync({ 
-            allowsRecordingIOS: false,});
+        await Audio.setAudioModeAsync({allowsRecordingIOS: false});
         const uri = recording.getURI();
+
         console.log('Recording stopped and stored at', uri);
+
         setAudioUri(uri);
         console.log("URI TEST VALUE AT END IS:", audioUri);
+
         const transcribedNotes = await sendNotesToBackend(uri);
-            if (transcribedNotes) {
-        setTranscribedText(transcribedNotes);
-    }
-    }
-
-    // Function to test audio, Button was removed.
-    const [sound, setSound] = useState(undefined);
-    async function playSound() {
-        try {
-            console.log('Loading Sound');
-            console.log("URI TEST VALUE AT START OF AUDIO IS:", audioUri);
-            const { sound } = await Audio.Sound.createAsync({uri: audioUri});
-            setSound(sound);
-            console.log('Playing Sound');
-            await sound.playAsync();
-        }
-        catch (err) {
-            console.error("Failed to load sound", err);
+        if (transcribedNotes) {
+            setTranscribedText(transcribedNotes);
         }
     }
-
-    useEffect(() => {
-        return sound ? () => {
-            console.log('Unloading Sound');
-            sound.unloadAsync();
-        } : undefined;
-    }, [sound]);
-
-    // audio test end
-
-    // async function updateNoteBox() {
-    //     const transcribedNotes = await sendNotesToBackend(audioUri);
-    //     if (transcribedNotes) {
-    //         setTranscribedText(transcribedNotes);
-    //     }
-
-    // }
 
     // testing text input button
     const [transcribedText, setTranscribedText] = useState('')
@@ -155,6 +125,11 @@ const TranscriberNote: React.FC <{contact}> = ({contact})=> {
         await Clipboard.setStringAsync(text);
       };
       
+    const handleQuestionClick = (question) => {
+        Alert.alert('Question Copied', '', 
+            [{text: 'Ok', onPress: ()=> console.log('Ok pressed.')}]);
+        copyToClipboard(question);
+    }
     
     return (
         // Modal Container
@@ -162,18 +137,19 @@ const TranscriberNote: React.FC <{contact}> = ({contact})=> {
 
             {/* Transcriber section */}
             <View style={{flexDirection: 'row'}}>
-                <TextInput             
+                <TextInput
                     multiline
                     value={transcribedText}
                     placeholder="Press once to record, twice to stop"
+                    placeholderTextColor={styles.placeHolderTextColor.color}
                     onChangeText={setTranscribedText}
                     style={styles.notesInput}
                 />
                 <View style={styles.buttonBox}>
                     <TouchableOpacity
                         style={[styles.button, recording ? styles.recordingButton : styles.notRecordingButton]}
-                        onPress={recording ? stopRecording : startRecording}
-                        >
+                        onPress={recording ? stopRecording : startRecording}>
+                        
                         <Feather name="mic" size={24} color="black" />
                     </TouchableOpacity>
                     <TouchableOpacity
@@ -193,6 +169,7 @@ const TranscriberNote: React.FC <{contact}> = ({contact})=> {
                     value={summary}
                     onChangeText={(text) => setSummary(text)}
                     placeholder="No notes yet :)"
+                    placeholderTextColor={styles.placeHolderTextColor.color}
                 />
                 <View style={styles.buttonBox}>
                     <TouchableOpacity
@@ -212,85 +189,32 @@ const TranscriberNote: React.FC <{contact}> = ({contact})=> {
                     onPress={generateQuestions}>
                     <Text style={styles.generateButtonText}>Generate Questions</Text>
                 </TouchableOpacity>
+
                 {questions.map((question, index) => (
-                    <View key={index} style={styles.questionContainer}>
-                        <Text style={styles.questionText}>{question}</Text>
-                        <TouchableOpacity
-                            style={styles.copyButton}
-                            onPress={() => copyToClipboard(question)}>
-                            <Feather name="copy" size={24} color="black" />
-                        </TouchableOpacity>
+                    <View key={index}>
+                        <View style={styles.questionContainer}>
+                            <TouchableOpacity style={styles.questionTextBox} onPress={()=> handleQuestionClick(question)}>
+                                <Text style={styles.questionText}>{question}</Text>
+                            </TouchableOpacity>
+                            
+                            {/* <TouchableOpacity
+                                style={styles.copyButton}
+                                onPress={() => copyToClipboard(question)}>
+                                <Feather name="copy" size={24} color="black" />
+                            </TouchableOpacity> */}
+                        </View>
+
+                        <View style={styles.horizontalDivider}></View>
                     </View>
+                    
+                    
                 ))}
+                
             </View>
 
 
         </View>
     )
 }
-const styles = StyleSheet.create ({
-    notesInput: {
-        maxHeight: 100,
-        borderColor: 'gray', 
-        borderWidth: 1, 
-        padding: 10,
-        borderRadius: 20, 
-        marginBottom: 10, 
-        width: 250,
-    },
 
-    button: {
-        backgroundColor: 'lightblue',
-        padding: 6,
-        borderRadius: 10,
-        marginTop: 10,
-        alignItems: 'center',
-    },
-
-    buttonText: {
-      color: 'rgb(25, 25, 25)', 
-      fontSize: 12,
-      fontWeight: 'bold',
-    },
-
-    buttonBox: {
-        flex: 1, 
-        padding: 5, 
-        justifyContent: 'center', 
-        paddingBottom: 20,
-    },
-
-    recordingButton: {
-        backgroundColor: 'red'
-    }, 
-
-    notRecordingButton: {
-        backgroundColor: 'lightblue'
-    },
-
-    questionContainer: {
-        backgroundColor: '',
-        flexDirection: 'row',
-        width: "90%"
-    },
-
-    questionText: {
-        backgroundColor: 'lightblue'
-    },
-
-    generateButton:{
-        backgroundColor: "lightpink",
-        marginBottom: 8
-    },
-
-    generateButtonText: {
-        fontSize: 15
-        
-    },
-
-    copyButton:{
-        backgroundColor: "lightgreen",
-        
-    },
-})
 export {TranscriberNote};

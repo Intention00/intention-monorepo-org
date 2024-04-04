@@ -1,4 +1,5 @@
 import { StyleSheet } from "react-native"
+import { styles as global } from "../../Generic/global.style"
 
 const styles = StyleSheet.create({
     container: {
@@ -19,12 +20,13 @@ const styles = StyleSheet.create({
     },
 
     nameText: {
-        fontSize: 18,
-        fontWeight: 'bold',
+        fontSize: 14,
+        color: global.bodyText.color
     },
 
     phoneText: {
-        fontSize: 16
+        fontSize: 10,
+        color: global.subText.color
     }
 
 })

@@ -1,10 +1,9 @@
-import { View, Text, Button,ScrollView } from "react-native"
+import { View, Text, Button,ScrollView, TouchableHighlight } from "react-native"
 import {TranscriberNote} from '../Transcriber/TranscribeNote'
 import React, {useState} from "react";
 import { Image } from 'expo-image'
 import { styles } from "./ContactModal.style";
-// import {AI_Generations} from "../AI_Generations/AI_Generations"
-// import { TranscribeAndProcess } from "../AIFunctions/TranscribeAndProcess";
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 const ContactModal: React.FC <{contact, toggleModalVisibility}> = ({contact, toggleModalVisibility})=> {
     const [currentStep, setCurrentStep] = useState("transcriber"); // Default to transcriber
@@ -16,38 +15,25 @@ const ContactModal: React.FC <{contact, toggleModalVisibility}> = ({contact, tog
     return (
         <View style={[styles.centeredView, styles.modalView]}>
             <View style={[styles.modalBox]}>
+                <View style={styles.modalHeader}>
+                    <MaterialCommunityIcons style={styles.modalExit} name="window-close" onPress={toggleModalVisibility}/>
+                    <Text style={styles.modalHeaderText}>Contact Details</Text>
+                </View>
+                
                 <View style={styles.modalTextContainer}>
-                    <View style={{borderRadius: 50, marginBottom: 10}}>
-                        <Text style={{textAlign: 'center', backgroundColor: 'rgb(107,71,255)', padding: 10, fontSize: 24, marginRight: 10, color: 'white',}}>Contact Details</Text>
-                    </View>
-                    
-                    <View style={{flexDirection: 'row', marginBottom: 10}}>
-                        <Image
-                            style={styles.image}
-                            source="https:/picsum.photos/seed/696/3000/2000"
-                            placeholder={blurhash}
-                            contentFit="cover"
-                            transition={2500}
-                        />
-                        <View style={{justifyContent: 'center'}}>
+                    <View style={{alignItems: 'center', marginBottom: 30, marginRight: 10}}>
+                        <View style={styles.modalNameBox}>
                             <Text style={styles.modalText}>{`${contact.firstName} ${contact.lastName}`}</Text>
-                            <Text style={styles.modalText}>Phone: {contact.number}</Text>
                         </View>
-                        
+                            
                     </View>
                     
                     
-                    <ScrollView>
+                    <ScrollView style={{marginBottom: 30}}>
                         <TranscriberNote contact={contact}></TranscriberNote>
-                        {/* <AI_Generations></AI_Generations> */}
-                        {/* <TranscribeAndProcess></TranscribeAndProcess> */}
                     </ScrollView>
                     
                 </View>
-
-                <Button title="Edit Name"></Button>
-                <Button title="Close" onPress={toggleModalVisibility}></Button>
-                
             </View>
 
         </View>
