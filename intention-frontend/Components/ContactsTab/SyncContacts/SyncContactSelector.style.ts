@@ -54,12 +54,6 @@ const styles = StyleSheet.create({
         maxHeight: 350
     },
 
-    contactsListSelectButton:{
-        marginVertical: 30,
-        // alignItems: 'flex-end',
-        // marginRight: 50
-    },
-
     contactsListSelectText: {
         color: global.subText.color,
         fontSize: 16
@@ -70,7 +64,8 @@ const styles = StyleSheet.create({
         alignContent: 'center', 
         justifyContent: 'space-around', 
         paddingBottom: 30, 
-        paddingHorizontal: 20
+        paddingHorizontal: 20,
+        marginTop: 30,
     },
 
     contactCheckBoxRow: {
@@ -95,13 +90,6 @@ const styles = StyleSheet.create({
         fontSize: 16
     },
 
-    // modalExitButtons: {
-    //     flexDirection: "row", 
-    //     alignContent: 'center', 
-    //     justifyContent: 'space-around', 
-    //     paddingBottom: 30, 
-    //     paddingHorizontal: 50
-    // }
 })
 
 export {styles}

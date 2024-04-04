@@ -83,14 +83,12 @@ const SyncContactSelector: React.FC <{toggleModalVisibility, updateContacts}> = 
 
                     <View style={styles.selectButtons}>
                         <TouchableOpacity
-                            style={styles.contactsListSelectButton}
                             onPress={()=> setCheckedItems([])}>
 
                             <Text style={styles.contactsListSelectText}>Deselect All</Text>
                         </TouchableOpacity>
 
                         <TouchableOpacity
-                            style={styles.contactsListSelectButton}
                             onPress={()=> setCheckedItems([...Array(contacts.length).keys()])}>
 
                             <Text style={styles.contactsListSelectText}>Select All</Text>
