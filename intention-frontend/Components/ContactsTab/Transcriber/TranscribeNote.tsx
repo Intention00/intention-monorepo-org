@@ -1,4 +1,4 @@
-import { View, Text, TextInput, TouchableOpacity } from "react-native"
+import { View, Text, TextInput, TouchableOpacity, Alert } from "react-native"
 import React, { useState } from "react";
 import { Audio } from "expo-av"
 import { sendNotesToBackend, sendFinalNotesToBackend } from "../../Generic/backendService";
@@ -125,6 +125,11 @@ const TranscriberNote: React.FC <{contact}> = ({contact})=> {
         await Clipboard.setStringAsync(text);
       };
       
+    const handleQuestionClick = (question) => {
+        Alert.alert('Question Copied', 'The question has been copied.', 
+            [{text: 'Ok', onPress: ()=> console.log('Ok pressed.')}]);
+        copyToClipboard(question);
+    }
     
     return (
         // Modal Container
@@ -188,12 +193,15 @@ const TranscriberNote: React.FC <{contact}> = ({contact})=> {
                 {questions.map((question, index) => (
                     <View key={index}>
                         <View style={styles.questionContainer}>
-                            <Text style={styles.questionText}>{question}</Text>
-                            {/* <TouchableOpacity
+                            <TouchableOpacity style={styles.questionTextBox} onPress={()=> handleQuestionClick(question)}>
+                                <Text style={styles.questionText}>{question}</Text>
+                            </TouchableOpacity>
+                            
+                            <TouchableOpacity
                                 style={styles.copyButton}
                                 onPress={() => copyToClipboard(question)}>
                                 <Feather name="copy" size={24} color="black" />
-                            </TouchableOpacity> */}
+                            </TouchableOpacity>
                         </View>
 
                         <View style={styles.horizontalDivider}></View>

@@ -50,18 +50,22 @@ const styles = StyleSheet.create ({
         width: "90%",
     },
 
+    questionTextBox: {
+        // backgroundColor: global.inputBox.backgroundColor,
+        borderRadius: 10,
+        padding: 5
+    },
+
     questionText: {
-        // backgroundColor: '',
-        color: global.bodyText.color
+        color: global.bodyText.color,
     },
 
     horizontalDivider: {
         height: 2,
-        backgroundColor: '#ffffff',
-        // backgroundColor: '#282828',
+        backgroundColor: '#282828',
         borderRadius: 2,
-        marginTop: 10,
-        marginBottom: 10
+        // marginTop: 10,
+        // marginBottom: 10
     },
 
     generateButton:{
