@@ -7,6 +7,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { backendAddress } from "../../Generic/backendService";
 import * as Clipboard from 'expo-clipboard';
 import { styles } from "./TranscribeNote.style";
+import { shareQuestion } from "./ShareQuestions/shareQuestion";
 
 const TranscriberNote: React.FC <{contact}> = ({contact})=> {
     // Transcription Declarations
@@ -126,9 +127,10 @@ const TranscriberNote: React.FC <{contact}> = ({contact})=> {
       };
       
     const handleQuestionClick = (question) => {
-        Alert.alert('Question Copied', '', 
-            [{text: 'Ok', onPress: ()=> console.log('Ok pressed.')}]);
-        copyToClipboard(question);
+        // Alert.alert('Question Copied', '', 
+        //     [{text: 'Ok', onPress: ()=> console.log('Ok pressed.')}]);
+        // copyToClipboard(question);
+        shareQuestion(question);
     }
     
     return (
@@ -197,21 +199,13 @@ const TranscriberNote: React.FC <{contact}> = ({contact})=> {
                                 <Text style={styles.questionText}>{question}</Text>
                             </TouchableOpacity>
                             
-                            {/* <TouchableOpacity
-                                style={styles.copyButton}
-                                onPress={() => copyToClipboard(question)}>
-                                <Feather name="copy" size={24} color="black" />
-                            </TouchableOpacity> */}
                         </View>
 
                         <View style={styles.horizontalDivider}></View>
                     </View>
-                    
-                    
                 ))}
-                
-            </View>
 
+            </View>
 
         </View>
     )
