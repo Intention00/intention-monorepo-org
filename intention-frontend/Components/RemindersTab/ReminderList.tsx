@@ -10,25 +10,40 @@ const ReminderList: React.FC <{reminders: any[]}> = ({reminders})=> {
         setSelectedReminder(reminder);
     };
 
+    const renderHourlyReminders = (hourlyReminders) => {
+        return (
+            <View>
+                {hourlyReminders.map((reminder, index) => (
+                    <TouchableHighlight 
+                        key={index}
+                        style={styles.contactItem}
+                        underlayColor={'rgba(10, 10, 10, 0.25)'} 
+                        onPress={()=> {onReminderClick(reminder)}}>
+                        <ReminderItem reminder={reminder}></ReminderItem>
+                    </TouchableHighlight>
+                ))}
+            </View>
+        );
+    };
 
+    // Helper function to render each hour and its associated reminders
+    const renderHourlyBoxes = () => {
+        const hours = Object.keys(reminders);
+        return (
+            <View>
+                {hours.map(hour => (
+                    <View key={hour}>
+                        <Text style={{color: 'gray'}}>{hour}:00</Text>
+                        {renderHourlyReminders(reminders[hour])}
+                    </View>
+                ))}
+            </View>
+        );
+    };
 
     return (
         <View style={{flex: 1, marginTop: 15, width:'100%'}}>
-            <FlatList 
-              data={reminders} 
-              style={{marginTop: 0, maxHeight: 600}} 
-              renderItem={({item})=> (
-                <View>
-                    <TouchableHighlight 
-                        style={styles.contactItem} 
-                        underlayColor={'rgba(10, 10, 10, 0.25)'} 
-                        onPress={()=> {onReminderClick(item)}}>
-
-                        <ReminderItem reminder={item}></ReminderItem>
-                        
-                    </TouchableHighlight>
-                </View>     
-            )}/>
+            {renderHourlyBoxes()}
         </View>
     );
 }

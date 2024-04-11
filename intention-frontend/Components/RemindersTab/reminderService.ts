@@ -24,6 +24,11 @@ const getDesiredReminders = async ()=> {
         },
 
         {
+            contact: {contactID: -2, firstName: 'test-1', lastName: 'item-1', number: '0000000000'}, 
+            reminder: {dateTime: '2024-04-10 19:45:00', frequency: 'monthly'}
+        },
+
+        {
             contact: {contactID: -1, firstName: 'test', lastName: 'item', number: '0000000000'}, 
             reminder: {dateTime: '2024-04-10 09:00:00', frequency: 'weekly'}
         }, 

@@ -36,7 +36,7 @@ const UpcomingReminders: React.FC = ()=> {
     return (
         <SafeAreaView>
             <userIDContext.Provider value={userID}>
-                <ReminderList reminders={remindersData}></ReminderList>
+                {(remindersData === undefined) ? <Text style={{color: 'white'}}>Loading</Text> : <ReminderList reminders={remindersData}></ReminderList>}
             </userIDContext.Provider>
         </SafeAreaView>
     )
