@@ -19,21 +19,21 @@ Values (123, ‘2024-04-10 09:00:00’, 1);
 const getDesiredReminders = async ()=> {
     const reminderData = [
         {
-            contact: {contactID: -2, firstName: 'test0', lastName: 'item0', number: '0000000000'}, 
+            contact: {contactID: -2, firstName: 'John', lastName: 'Doe', number: '0000000000'}, 
             reminder: {dateTime: '2024-04-11 19:30:00', frequency: 'monthly'}
         },
 
         {
-            contact: {contactID: -2, firstName: 'test-1', lastName: 'item-1', number: '0000000000'}, 
+            contact: {contactID: -2, firstName: 'Adam', lastName: 'Berk', number: '0000000000'}, 
             reminder: {dateTime: '2024-04-11 19:45:00', frequency: 'monthly'}
         },
 
         {
-            contact: {contactID: -1, firstName: 'test', lastName: 'item', number: '0000000000'}, 
+            contact: {contactID: -1, firstName: 'Ted', lastName: 'Kline', number: '0000000000'}, 
             reminder: {dateTime: '2024-04-11 09:00:00', frequency: 'weekly'}
         }, 
         {
-            contact: {contactID: -2, firstName: 'test2', lastName: 'item2', number: '0000000000'}, 
+            contact: {contactID: -2, firstName: 'Alex', lastName: 'Martelli', number: '0000000000'}, 
             reminder: {dateTime: '2024-04-11 14:00:00', frequency: 'monthly'}
         }
     ];
@@ -72,10 +72,12 @@ const processRemindersData = (remindersData)=> {
         })
 
         // Bundle reminders into hours, so that we can then easily display them later
-        const bundledReminders = {
-            0: [], 1: [], 2: [], 3: [], 4: [], 5: [], 6: [], 7: [], 8: [], 9: [], 10: [], 11: [], 12: [],
-            13: [], 14: [], 15: [], 16: [], 17: [], 18: [], 19: [], 20: [], 21: [], 22: [], 23: [], 24: [],
-        };
+        // const bundledReminders = {
+        //     0: [], 1: [], 2: [], 3: [], 4: [], 5: [], 6: [], 7: [], 8: [], 9: [], 10: [], 11: [], 12: [],
+        //     13: [], 14: [], 15: [], 16: [], 17: [], 18: [], 19: [], 20: [], 21: [], 22: [], 23: [], 24: [],
+        // };
+
+        const bundledReminders = {};
         currentDayReminders.forEach((reminder) => {
             const reminderData = new Date(reminder.reminder.dateTime);
             const hourBucket = reminderData.getHours();

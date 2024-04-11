@@ -6,20 +6,22 @@ const styles = StyleSheet.create({
         height: 2,
         backgroundColor: '#282828',
         borderRadius: 2,
-        marginTop: 10,
+        // marginTop: 10,
         marginBottom: 10,
-        width: 230
     },
 
     reminderItem: {
-        // marginBottom: 20,
-        // backgroundColor: 'lightblue',
-        // borderRadius: 50,
-        // padding: 10
+        marginLeft: 100,
     },
 
     hourBox: {
         marginLeft: 10,
+        width: 50
+    }, 
+
+    reminderBox: {
+        alignItems: 'center',
+        
     }
 
 })

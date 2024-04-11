@@ -36,14 +36,18 @@ const ReminderList: React.FC <{reminders: any[]}> = ({reminders})=> {
                 style={{maxHeight: 600}} 
                 renderItem={({item})=> (
                     <View>
-                        <View style={styles.hourBox}>
-                            <Text style={{color: 'gray'}}>{item}:00</Text>
+                        <View style={{flexDirection: 'row'}}>
+                            <View style={styles.hourBox}>
+                                <Text style={{color: 'gray', textAlign: 'right'}}>{item}:00</Text>
+                            </View>
+                            <View style={styles.reminderBox}>
+                                {renderHourlyReminders(reminders[item])}
+                                
+                            </View>   
                         </View>
-                        <View style={{alignItems: 'center'}}>
-                            {renderHourlyReminders(reminders[item])}
-                            <View style={styles.horizontalDivider}></View>
-                        </View>    
+                        <View style={styles.horizontalDivider}></View> 
                     </View>
+                    
                 )}
             /> 
         );
