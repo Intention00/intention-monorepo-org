@@ -1,7 +1,8 @@
 import { View, SafeAreaView, FlatList, TouchableHighlight, Text } from "react-native";
 import { ReminderItem } from "./ReminderItem";
 import { useState } from "react";
-import { styles } from "../ContactsTab/DisplayContacts/ContactList.style";
+// import { styles } from "../ContactsTab/DisplayContacts/ContactList.style";
+import { styles } from "./ReminderList.style";
 
 const ReminderList: React.FC <{reminders: any[]}> = ({reminders})=> {
     const [selectedReminder, setSelectedReminder] = useState(undefined);
@@ -16,7 +17,7 @@ const ReminderList: React.FC <{reminders: any[]}> = ({reminders})=> {
                 {hourlyReminders.map((reminder, index) => (
                     <TouchableHighlight 
                         key={index}
-                        style={styles.contactItem}
+                        style={styles.reminderItem}
                         underlayColor={'rgba(10, 10, 10, 0.25)'} 
                         onPress={()=> {onReminderClick(reminder)}}>
                         <ReminderItem reminder={reminder}></ReminderItem>
@@ -30,19 +31,26 @@ const ReminderList: React.FC <{reminders: any[]}> = ({reminders})=> {
     const renderHourlyBoxes = () => {
         const hours = Object.keys(reminders);
         return (
-            <View>
-                {hours.map(hour => (
-                    <View key={hour}>
-                        <Text style={{color: 'gray'}}>{hour}:00</Text>
-                        {renderHourlyReminders(reminders[hour])}
+            <FlatList
+                data={hours}
+                style={{maxHeight: 600}} 
+                renderItem={({item})=> (
+                    <View>
+                        <View style={styles.hourBox}>
+                            <Text style={{color: 'gray'}}>{item}:00</Text>
+                        </View>
+                        <View style={{alignItems: 'center'}}>
+                            {renderHourlyReminders(reminders[item])}
+                            <View style={styles.horizontalDivider}></View>
+                        </View>    
                     </View>
-                ))}
-            </View>
+                )}
+            /> 
         );
     };
 
     return (
-        <View style={{flex: 1, marginTop: 15, width:'100%'}}>
+        <View style={{flex: 1, marginTop: 150}}>
             {renderHourlyBoxes()}
         </View>
     );
