@@ -5,7 +5,6 @@ import { handleUser } from '../../Components/ContactsTab/UserSync/userService';
 import { UpcomingReminders } from '../../Components/RemindersTab/UpcomingReminders';
 import { styles as global } from '../../Components/Generic/global.style';
 
-
 const Reminders = () => {
     const { user } = useUser();
     const [firstName, setFirstName] = useState(user.firstName);

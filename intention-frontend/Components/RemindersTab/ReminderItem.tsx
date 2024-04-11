@@ -8,7 +8,8 @@ interface Reminder {
         number: string;
     },
     reminder: {
-        time: string,
+        dateTime: string,
+        frequency: string,
     }
     
 }
@@ -19,7 +20,7 @@ const ReminderItem: React.FC <{reminder: Reminder}> = ({reminder})=> {
     return (
         <View style={{flexDirection: 'row'}}>
             <Text style={{color: 'white'}}>{reminder.contact.firstName} {reminder.contact.lastName}</Text>
-            <Text style={{color: 'white'}}>{reminder.reminder.time}</Text>
+            <Text style={{color: 'white'}}>{reminder.reminder.dateTime}</Text>
         </View>
     );
 }
