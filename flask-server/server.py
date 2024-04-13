@@ -4,6 +4,7 @@ from process_contacts import ProcessContacts
 from audio_processing import generate_questions, generate_summary, transcribe
 from process_notes import ProcessNotes
 from process_users import ProcessUsers
+from process_tags import ProcessTags
 import os
 
 app = Flask(__name__)
@@ -24,6 +25,8 @@ contactList = [cont1, cont2]
 contacts_processor = ProcessContacts()
 notes_processor = ProcessNotes()
 user_processor = ProcessUsers()
+tags_processor = ProcessTags()
+
       
 
 @app.route("/")
