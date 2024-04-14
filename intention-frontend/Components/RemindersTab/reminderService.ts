@@ -1,3 +1,4 @@
+import { receiveRemindersFromBackend } from "../Generic/backendService";
 
 /*
 Reminders (contact_id, reminder_datetime, reminder_frequency)
@@ -16,28 +17,8 @@ Values (123, ‘2024-04-10 09:00:00’, 1);
         reminder: {reminder related stuff}
     }
 */
-const getDesiredReminders = async ()=> {
-    const reminderData = [
-        {
-            contact: {contactID: -2, firstName: 'John', lastName: 'Doe', number: '0000000000'}, 
-            reminder: {dateTime: '2024-04-11 19:30:00', frequency: 'monthly'}
-        },
-
-        {
-            contact: {contactID: -2, firstName: 'Adam', lastName: 'Berk', number: '0000000000'}, 
-            reminder: {dateTime: '2024-04-11 19:45:00', frequency: 'monthly'}
-        },
-
-        {
-            contact: {contactID: -1, firstName: 'Ted', lastName: 'Kline', number: '0000000000'}, 
-            reminder: {dateTime: '2024-04-11 09:00:00', frequency: 'weekly'}
-        }, 
-        {
-            contact: {contactID: -2, firstName: 'Alex', lastName: 'Martelli', number: '0000000000'}, 
-            reminder: {dateTime: '2024-04-11 14:00:00', frequency: 'monthly'}
-        }
-    ];
-
+const getDesiredReminders = async (userID)=> {
+    const reminderData = await receiveRemindersFromBackend(userID);
     const processedData = processRemindersData(reminderData);
 
     return processedData;
@@ -77,7 +58,9 @@ const processRemindersData = (remindersData)=> {
         //     13: [], 14: [], 15: [], 16: [], 17: [], 18: [], 19: [], 20: [], 21: [], 22: [], 23: [], 24: [],
         // };
 
+        // Only displays hours that reminders exists for
         const bundledReminders = {};
+
         currentDayReminders.forEach((reminder) => {
             const reminderData = new Date(reminder.reminder.dateTime);
             const hourBucket = reminderData.getHours();

@@ -4,6 +4,7 @@ from process_contacts import ProcessContacts
 from audio_processing import generate_questions, generate_summary, transcribe
 from process_notes import ProcessNotes
 from process_users import ProcessUsers
+from process_reminders import ProcessReminders
 import os
 
 app = Flask(__name__)
@@ -24,6 +25,7 @@ contactList = [cont1, cont2]
 contacts_processor = ProcessContacts()
 notes_processor = ProcessNotes()
 user_processor = ProcessUsers()
+reminders_processor = ProcessReminders()
       
 
 @app.route("/")
@@ -161,6 +163,21 @@ def delete_user_data(user_id):
     except Exception as err:
         return jsonify({'error': str(err)}), 500
 
+# 
+@app.route("/api/reminders", methods=['GET'])
+def return_user_reminders():
+    try: 
+        user_id = request.args.get('userID')
+        
+        # get reminders for the specified user_id
+        reminders_processor.read_user(user_id)
+        reminders = reminders_processor.retrieve_reminders()
+       
+        return jsonify(reminders), 200
+    
+    except Exception as err:
+        return jsonify({'message': str(err)}), 500
+    
 
 
 if __name__ == "__main__":

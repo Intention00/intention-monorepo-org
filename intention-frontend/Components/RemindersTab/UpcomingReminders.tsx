@@ -5,7 +5,6 @@ import { handleUser } from "../ContactsTab/UserSync/userService";
 import { useUser } from '@clerk/clerk-expo';
 import { userIDContext } from "../ContactsTab/UserSync/userIDContext";
 import { ReminderList } from "./ReminderList";
-import { ReminderItem } from "./ReminderItem";
 
 const UpcomingReminders: React.FC = ()=> {
     const [remindersData, setRemindersData] = useState(undefined);
@@ -20,8 +19,8 @@ const UpcomingReminders: React.FC = ()=> {
                 setUserID(tempUserID);
 
                 // get the reminders related data and each contact
-                const tempRemindersData = await getDesiredReminders()
-                setRemindersData(tempRemindersData)
+                const tempRemindersData = await getDesiredReminders(tempUserID);
+                setRemindersData(tempRemindersData);
 
             }
             catch (err) {
@@ -30,8 +29,6 @@ const UpcomingReminders: React.FC = ()=> {
             
         })()
     }, []);
-
-    console.log(`RemindersData: ${JSON.stringify(remindersData)}`)
 
     return (
         <SafeAreaView style={{flex:1, width: '100%'}}>

@@ -1,5 +1,5 @@
 export const backendAddress = "https://intention-server.up.railway.app"
-// export const backendAddress = "http://192.168.0.73:5100"
+// export const backendAddress = "http://192.168.1.27:5100"
 
 // Send contacts to backend api
 export const sendContactsToBackend = async (userID: number, contactsData: any[])=> {
@@ -165,4 +165,22 @@ export const recieveUserEmailBackend = async (user_id: string)=> {
     catch (error) {
         throw new Error(`Error retrieving email from backend: ${error}`);
     }
+}
+
+// Retrieves the desired users reminders from the backend
+export const receiveRemindersFromBackend = async (userID: number)=> {
+    try {
+        const response = await fetch(`${backendAddress}/api/reminders?userID=${userID}`, {
+            method: 'GET',
+        })
+
+        const reminders_received = await response.json();
+        console.log(`NEW REMINDERS RECEIVED: ${JSON.stringify(reminders_received)}`);
+        return reminders_received;
+    }
+    catch (err) {
+        throw new Error(`Error receiving reminders from backend: ${err}`);
+    }
+
+
 }
