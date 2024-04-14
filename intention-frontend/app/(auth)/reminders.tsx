@@ -2,7 +2,7 @@ import { View, Text } from 'react-native';
 import { useEffect, useState } from 'react';
 import { useUser } from '@clerk/clerk-expo';
 import { handleUser } from '../../Components/ContactsTab/UserSync/userService';
-import { UpcomingReminders } from '../../Components/RemindersTab/UpcomingReminders';
+import { UpcomingReminders } from '../../Components/RemindersTab/DisplayReminders/UpcomingReminders';
 import { styles as global } from '../../Components/Generic/global.style';
 
 const Reminders = () => {

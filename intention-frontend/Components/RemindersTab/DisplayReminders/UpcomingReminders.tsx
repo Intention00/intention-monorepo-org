@@ -1,10 +1,11 @@
 import { SafeAreaView, Text, FlatList } from "react-native"
 import { useState, useEffect } from "react"
 import { getDesiredReminders } from "./reminderService";
-import { handleUser } from "../ContactsTab/UserSync/userService";
+import { handleUser } from "../../ContactsTab/UserSync/userService";
 import { useUser } from '@clerk/clerk-expo';
-import { userIDContext } from "../ContactsTab/UserSync/userIDContext";
+import { userIDContext } from "../../ContactsTab/UserSync/userIDContext";
 import { ReminderList } from "./ReminderList";
+import { NewReminderButton } from "../NewReminder/NewReminderButton";
 
 const UpcomingReminders: React.FC = ()=> {
     const [remindersData, setRemindersData] = useState(undefined);
@@ -34,6 +35,7 @@ const UpcomingReminders: React.FC = ()=> {
         <SafeAreaView style={{flex:1, width: '100%'}}>
             <userIDContext.Provider value={userID}>
                 {(remindersData === undefined) ? <Text style={{color: 'white'}}>Loading</Text> : <ReminderList reminders={remindersData}></ReminderList>}
+                <NewReminderButton></NewReminderButton>
             </userIDContext.Provider>
         </SafeAreaView>
     )

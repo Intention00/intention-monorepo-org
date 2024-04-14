@@ -1,4 +1,4 @@
-import { receiveRemindersFromBackend } from "../Generic/backendService";
+import { receiveRemindersFromBackend } from "../../Generic/backendService";
 
 /*
 Reminders (contact_id, reminder_datetime, reminder_frequency)

@@ -22,20 +22,20 @@ class ProcessReminders():
                 return [
                             {
                                 'contact': {'contactID': -2, 'firstName': 'John', 'lastName': 'Doe', 'number': '0000000000'}, 
-                                'reminder': {'dateTime': '2024-04-13 19:30:00', 'frequency': 'monthly'}
+                                'reminder': {'dateTime': '2024-04-14 19:30:00', 'frequency': 'monthly'}
                             },
 
                             {
                                 'contact': {'contactID': -2, 'firstName': 'Adam', 'lastName': 'Berk', 'number': '0000000000'}, 
-                                'reminder': {'dateTime': '2024-04-13 19:45:00', 'frequency': 'monthly'}
+                                'reminder': {'dateTime': '2024-04-14 19:45:00', 'frequency': 'monthly'}
                             },
 
                             {
                                 'contact': {'contactID': -1, 'firstName': 'Ted', 'lastName': 'Kline', 'number': '0000000000'}, 
-                                'reminder': {'dateTime': '2024-04-13 09:00:00', 'frequency': 'weekly'}
+                                'reminder': {'dateTime': '2024-04-14 09:00:00', 'frequency': 'weekly'}
                             }, 
                             {
                                 'contact': {'contactID': -2, 'firstName': 'Alex', 'lastName': 'Martelli', 'number': '0000000000'}, 
-                                'reminder': {'dateTime': '2024-04-13 14:00:00', 'frequency': 'monthly'}
+                                'reminder': {'dateTime': '2024-04-14 14:00:00', 'frequency': 'monthly'}
                             }
                         ]
