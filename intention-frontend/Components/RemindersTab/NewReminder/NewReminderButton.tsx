@@ -17,7 +17,6 @@ const NewReminderButton: React.FC = ()=> {
 
             <Modal visible={modalVisible} transparent={true} onRequestClose={()=> {setModalVisible(false)}} animationType='fade'>
                     <SafeAreaView>
-                        {/* <SyncContactSelector updateContacts={updateContacts} toggleModalVisibility={()=> {setModalVisible(false)}}/> */}
                         <NewReminderModal toggleModalVisibility={()=> setModalVisible(false)}></NewReminderModal>
                     </SafeAreaView>
                 </Modal>

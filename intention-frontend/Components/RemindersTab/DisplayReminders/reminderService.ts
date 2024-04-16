@@ -33,16 +33,50 @@ const processRemindersData = (remindersData)=> {
         // To check the current day, month, and year
         const currentDate = new Date();
 
+        // Checking initial reminders
+        console.log(`INITIAL REMINDERS: ${JSON.stringify(remindersData)}`)
+
         // To filter the contacts for only the upcoming day (can expand to week, month, etc if req.)
         // (Also might be better to filter on serverside, and then only use those)
         const currentDayReminders = remindersData.filter(reminder=> {
             const reminderDate = new Date(reminder.reminder.dateTime);
-            return (
-                currentDate.getDay() === reminderDate.getDay() &&
-                currentDate.getMonth() === reminderDate.getMonth() &&
-                currentDate.getFullYear() === reminderDate.getFullYear()
-            )
+            const frequency = reminder.reminder.frequency;
+
+            // return (
+            //     currentDate.getDay() === reminderDate.getDay() &&
+            //     currentDate.getMonth() === reminderDate.getMonth() &&
+            //     currentDate.getFullYear() === reminderDate.getFullYear()
+            // )
+
+            const currentHour = currentDate.getHours();
+            const currentMinute = currentDate.getMinutes();
+            const reminderHour = reminderDate.getHours();
+            const reminderMinute = reminderDate.getMinutes();
+
+            if (frequency === 'daily') { 
+                return (
+
+                    // checks to see if the reminder has already passed today
+                    (currentHour < reminderHour) ||
+                    (currentHour === reminderHour && currentMinute <= reminderMinute)
+                );
+            }
+            else if (frequency === 'weekly') {
+                return (
+                    // checks to see if it has been a week
+                    (currentDate.getDay() === reminderDate.getDay()) && 
+                    // checks to see if the reminder has already passed today
+                    (currentHour < reminderHour) ||
+                    (currentHour === reminderHour && currentMinute <= reminderMinute)
+                );    
+            }
+            else if (frequency === 'monthly') {
+                console.log('monthly')
+            }
         })
+
+        // Checking filtered reminders
+        console.log(`FILTERED REMINDERS: ${JSON.stringify(currentDayReminders)}`)
 
         // Sort the reminders from most recent to least recent.
         // Determines which time is greater, and uses that to sort.
@@ -78,8 +112,6 @@ const processRemindersData = (remindersData)=> {
     } catch (error) {
         console.error(error);
     }
-
 }
-
 
 export {getDesiredReminders}

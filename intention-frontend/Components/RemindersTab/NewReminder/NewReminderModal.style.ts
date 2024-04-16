@@ -1,7 +1,7 @@
 import { StyleSheet } from "react-native"
 import { styles as global } from "../../Generic/global.style"
 
-// Styles for the SyncContactSelector component
+// Styles for the NewReminderModal component
 const styles = StyleSheet.create({
     centeredView: {
         justifyContent: 'center',
@@ -63,14 +63,19 @@ const styles = StyleSheet.create({
         fontSize: 16
     },
 
-    saveButton:{
-        marginBottom: 40,
-        alignItems: 'center'
+    modalNameBox: {
+        backgroundColor: global.inputBox.backgroundColor,
+        borderRadius: 10,
+        padding: 10,
+        width: 300
+        
     },
 
-    saveText: {
-        color: global.accentColor.color,
-        fontSize: 16
+    modalNameText: {
+        textAlign: 'center',
+        fontSize: 16,
+        fontWeight: '500',
+        color: global.inputBox.color,
     },
 
 })

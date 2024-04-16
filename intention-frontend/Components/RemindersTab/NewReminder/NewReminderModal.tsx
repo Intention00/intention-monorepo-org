@@ -1,9 +1,14 @@
-import { View, Text, Button, TouchableOpacity } from "react-native"
+import { View, Text, Button, TouchableOpacity, ScrollView } from "react-native"
 import { styles } from "./NewReminderModal.style"
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { TranscriberNote } from "../../ContactsTab/Transcriber/TranscribeNote";
 
 
 const NewReminderModal: React.FC <{toggleModalVisibility}> = ({toggleModalVisibility})=> {
+
+    // Placeholder for provided info
+    const contact = {firstName: 'John', lastName: 'Doe'}
+
     return (
         <View style={[styles.centeredView, styles.modalView]}>
             <View style={[styles.modalBox]}>
@@ -13,6 +18,18 @@ const NewReminderModal: React.FC <{toggleModalVisibility}> = ({toggleModalVisibi
                 </View>
 
                 <View style={styles.modalTextContainer}>
+
+                    <View style={{alignItems: 'center', marginBottom: 30, marginRight: 10}}>
+                            <View style={styles.modalNameBox}>
+                                <Text style={styles.modalNameText}>{`${contact.firstName} ${contact.lastName}`}</Text>
+                            </View>
+                    </View>
+
+                    <ScrollView style={{marginBottom: 30}}>
+                        <TranscriberNote contact={contact}></TranscriberNote>
+                    </ScrollView>
+
+
 
                     <View style={styles.selectButtons}>
                         <TouchableOpacity
