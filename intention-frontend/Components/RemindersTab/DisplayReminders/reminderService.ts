@@ -1,4 +1,4 @@
-import { receiveRemindersFromBackend } from "../../Generic/backendService";
+
 
 /*
 Reminders (contact_id, reminder_datetime, reminder_frequency)
@@ -17,9 +17,8 @@ Values (123, ‘2024-04-10 09:00:00’, 1);
         reminder: {reminder related stuff}
     }
 */
-const getDesiredReminders = async (userID)=> {
-    const reminderData = await receiveRemindersFromBackend(userID);
-    const processedData = processRemindersData(reminderData);
+const getDesiredReminders = (reminderData, selectedDay)=> {
+    const processedData = processRemindersData(reminderData, selectedDay);
 
     return processedData;
 }
@@ -28,10 +27,25 @@ const getDesiredReminders = async (userID)=> {
  * Processes the reminders data retrieved from the db. Changes it from
  * string to datetime, allowing us to then further process it going forward.
  */
-const processRemindersData = (remindersData)=> {
+const processRemindersData = (remindersData, selectedDay)=> {
     try {
-        // To check the current day, month, and year
-        const currentDate = new Date();
+        
+        // let currentDate = undefined
+
+        // if (day === undefined) {
+        //     // To check the current day, month, and year
+        //     currentDate = new Date()
+        // }
+        // else {
+        //     currentDate = new Date()
+        // }
+        const currentDate = new Date()
+        
+        if (selectedDay !== currentDate.getDay()) {
+            currentDate.setDate(currentDate.getDate() - currentDate.getDay() + selectedDay);
+        }
+        
+        console.log(`today: ${currentDate.getDay()}`)
 
         // Checking initial reminders
         console.log(`INITIAL REMINDERS: ${JSON.stringify(remindersData)}`)
@@ -41,12 +55,6 @@ const processRemindersData = (remindersData)=> {
         const currentDayReminders = remindersData.filter(reminder=> {
             const reminderDate = new Date(reminder.reminder.dateTime);
             const frequency = reminder.reminder.frequency;
-
-            // return (
-            //     currentDate.getDay() === reminderDate.getDay() &&
-            //     currentDate.getMonth() === reminderDate.getMonth() &&
-            //     currentDate.getFullYear() === reminderDate.getFullYear()
-            // )
 
             const currentHour = currentDate.getHours();
             const currentMinute = currentDate.getMinutes();
