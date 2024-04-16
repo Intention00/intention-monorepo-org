@@ -1,5 +1,4 @@
 
-
 /*
 Reminders (contact_id, reminder_datetime, reminder_frequency)
 Values (123, ‘2024-04-10 09:00:00’, 1);
@@ -29,16 +28,6 @@ const getDesiredReminders = (reminderData, selectedDay)=> {
  */
 const processRemindersData = (remindersData, selectedDay)=> {
     try {
-        
-        // let currentDate = undefined
-
-        // if (day === undefined) {
-        //     // To check the current day, month, and year
-        //     currentDate = new Date()
-        // }
-        // else {
-        //     currentDate = new Date()
-        // }
         const currentDate = new Date()
         
         if (selectedDay !== currentDate.getDay()) {

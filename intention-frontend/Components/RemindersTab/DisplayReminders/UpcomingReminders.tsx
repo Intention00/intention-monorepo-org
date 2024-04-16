@@ -57,6 +57,10 @@ const UpcomingReminders: React.FC = ()=> {
         return (
             <View>
                 <SegmentedControl
+                    style={{marginTop: 20,
+                        backgroundColor: '#161616',
+                        borderRadius: 0, height: 80}}
+                    tintColor='#ffcc00'
                     values={['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']}
                     selectedIndex={selectedDay}
                     onChange={(event) => {

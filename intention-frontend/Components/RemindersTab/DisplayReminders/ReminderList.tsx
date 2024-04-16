@@ -31,30 +31,33 @@ const ReminderList: React.FC <{reminders: any[]}> = ({reminders})=> {
     const renderHourlyBoxes = () => {
         const hours = Object.keys(reminders);
         return (
-            <FlatList
-                data={hours}
-                style={{maxHeight: 600}} 
-                renderItem={({item})=> (
-                    <View>
-                        <View style={{flexDirection: 'row'}}>
-                            <View style={styles.hourBox}>
-                                <Text style={{color: 'gray', textAlign: 'right'}}>{item}:00</Text>
+            <View>
+                <View style={styles.horizontalDivider}></View> 
+                <FlatList
+                    data={hours}
+                    style={{maxHeight: 600}} 
+                    renderItem={({item})=> (
+                        <View>
+                            <View style={{flexDirection: 'row'}}>
+                                <View style={styles.hourBox}>
+                                    <Text style={{color: 'gray', textAlign: 'right'}}>{item}:00</Text>
+                                </View>
+                                <View style={styles.reminderBox}>
+                                    {renderHourlyReminders(reminders[item])}
+                                    
+                                </View>   
                             </View>
-                            <View style={styles.reminderBox}>
-                                {renderHourlyReminders(reminders[item])}
-                                
-                            </View>   
+                            <View style={styles.horizontalDivider}></View> 
                         </View>
-                        <View style={styles.horizontalDivider}></View> 
-                    </View>
-                    
-                )}
-            /> 
+                        
+                    )}
+                /> 
+            </View>
         );
     };
 
     return (
-        <View style={{flex: 1, marginTop: 150}}>
+        <View style={{flex: 1, marginTop: 20}}>
             {renderHourlyBoxes()}
         </View>
     );

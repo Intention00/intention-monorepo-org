@@ -15,7 +15,7 @@ const styles = StyleSheet.create({
 
     hourBox: {
         marginLeft: 10,
-        width: 50
+        width: 50,
     }, 
 
     reminderBox: {
