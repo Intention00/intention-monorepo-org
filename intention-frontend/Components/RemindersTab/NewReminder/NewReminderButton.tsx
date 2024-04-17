@@ -19,7 +19,7 @@ const NewReminderButton: React.FC = ()=> {
                     <SafeAreaView>
                         <NewReminderModal toggleModalVisibility={()=> setModalVisible(false)}></NewReminderModal>
                     </SafeAreaView>
-                </Modal>
+            </Modal>
         </View>
     )
 }
