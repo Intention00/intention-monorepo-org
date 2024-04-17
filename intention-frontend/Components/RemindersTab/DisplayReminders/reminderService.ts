@@ -30,8 +30,14 @@ const processRemindersData = (remindersData, selectedDay)=> {
     try {
         const currentDate = new Date()
         
+        // Does some calculations to adjust the currentDate value to match that
+        // of the chosen day
         if (selectedDay !== currentDate.getDay()) {
             currentDate.setDate(currentDate.getDate() - currentDate.getDay() + selectedDay);
+            
+            // sets to start of day for whatever day is selected
+            currentDate.setHours(0, 0, 0, 0);
+            
         }
         
         console.log(`today: ${currentDate.getDay()}`)

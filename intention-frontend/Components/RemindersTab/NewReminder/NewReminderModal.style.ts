@@ -31,14 +31,14 @@ const styles = StyleSheet.create({
         paddingLeft: 15,
         paddingTop: 15,
         marginRight: 10,
-        marginBottom: 20,
+        marginBottom: 30,
         flexDirection: 'row',
     },
 
     modalHeaderText: {
         textAlign: 'center',
         color: global.inputBox.color,
-        marginLeft: 90,
+        marginLeft: 95,
         fontSize: 24,
     },
 

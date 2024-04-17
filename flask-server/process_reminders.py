@@ -27,7 +27,7 @@ class ProcessReminders():
 
                             {
                                 'contact': {'contactID': -2, 'firstName': 'Jessica', 'lastName': 'Blake', 'number': '0000000000'}, 
-                                'reminder': {'dateTime': '2024-04-14 19:30:00', 'frequency': 'daily'}
+                                'reminder': {'dateTime': '2024-04-14 18:30:00', 'frequency': 'daily'}
                             },
 
                             {
@@ -42,12 +42,12 @@ class ProcessReminders():
 
                             {
                                 'contact': {'contactID': -1, 'firstName': 'Ted', 'lastName': 'Kline', 'number': '0000000000'}, 
-                                'reminder': {'dateTime': '2024-04-14 09:00:00', 'frequency': 'weekly'}
+                                'reminder': {'dateTime': '2024-04-14 12:50:00', 'frequency': 'weekly'}
                             }, 
 
                             {
                                 'contact': {'contactID': -1, 'firstName': 'Bob', 'lastName': 'Iger', 'number': '0000000000'}, 
-                                'reminder': {'dateTime': '2024-04-07 09:45:00', 'frequency': 'weekly'}
+                                'reminder': {'dateTime': '2024-04-07 12:45:00', 'frequency': 'weekly'}
                             }, 
 
                             {
