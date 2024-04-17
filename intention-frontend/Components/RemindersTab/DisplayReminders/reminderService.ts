@@ -34,7 +34,7 @@ const processRemindersData = (remindersData, selectedDay)=> {
         // of the chosen day
         if (selectedDay !== currentDate.getDay()) {
             currentDate.setDate(currentDate.getDate() - currentDate.getDay() + selectedDay);
-            
+
             // sets to start of day for whatever day is selected
             currentDate.setHours(0, 0, 0, 0);
             
@@ -58,7 +58,6 @@ const processRemindersData = (remindersData, selectedDay)=> {
 
             if (frequency === 'daily') { 
                 return (
-
                     // checks to see if the reminder has already passed today
                     (currentHour < reminderHour) ||
                     (currentHour === reminderHour && currentMinute <= reminderMinute)
@@ -69,12 +68,22 @@ const processRemindersData = (remindersData, selectedDay)=> {
                     // checks to see if it has been a week
                     (currentDate.getDay() === reminderDate.getDay()) && 
                     // checks to see if the reminder has already passed today
-                    (currentHour < reminderHour) ||
-                    (currentHour === reminderHour && currentMinute <= reminderMinute)
+                    ((currentHour < reminderHour) ||
+                    (currentHour === reminderHour && currentMinute <= reminderMinute))
                 );    
             }
+
+            // Need to decide if based on same day of next month, or same date
             else if (frequency === 'monthly') {
-                console.log('monthly')
+                // Just checking for same date each month for simplicity
+                return (
+                    (currentDate.getDate() === reminderDate.getDate()) && 
+                    // checks to see if the reminder has already passed today
+                    ((currentHour < reminderHour) ||
+                    (currentHour === reminderHour && currentMinute <= reminderMinute))
+                )
+
+
             }
         })
 
