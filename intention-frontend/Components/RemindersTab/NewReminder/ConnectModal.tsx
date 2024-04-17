@@ -82,7 +82,7 @@ const ConnectModal: React.FC <{toggleModalVisibility}> = ({toggleModalVisibility
                 </View>
 
                 <Modal visible={yesModalVisible} transparent={true} onRequestClose={()=> {setYesModalVisible(false)}} animationType='fade'>
-                    <YesConnectedModal toggleModalVisibility={()=> setYesModalVisible(false)}></YesConnectedModal>
+                    <YesConnectedModal contact={contact} toggleModalVisibility={toggleModalVisibility} toggleYesModalVisability={()=> setYesModalVisible(false)}></YesConnectedModal>
                 </Modal>
             </View>
         </View>
