@@ -1,12 +1,12 @@
 import { View, Text, Modal, TouchableOpacity, ScrollView } from "react-native"
-import { styles } from "./NewReminderModal.style"
+import { styles } from "./ConnectModal.style"
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { TranscriberNote } from "../../ContactsTab/Transcriber/TranscribeNote";
 import { useState, useEffect } from "react";
 import { YesConnectedModal } from "./YesConnectedModal";
 
 
-const NewReminderModal: React.FC <{toggleModalVisibility}> = ({toggleModalVisibility})=> {
+const ConnectModal: React.FC <{toggleModalVisibility}> = ({toggleModalVisibility})=> {
 
     // Placeholder for provided info
     const contact = {contactID: 6, firstName: 'Hank', lastName: 'Zakroff'}
@@ -89,4 +89,4 @@ const NewReminderModal: React.FC <{toggleModalVisibility}> = ({toggleModalVisibi
     )
 }
 
-export {NewReminderModal}
+export {ConnectModal}
