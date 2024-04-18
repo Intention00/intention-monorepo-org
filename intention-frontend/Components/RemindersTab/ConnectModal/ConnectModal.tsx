@@ -13,6 +13,7 @@ const ConnectModal: React.FC <{toggleModalVisibility}> = ({toggleModalVisibility
     const contact = {contactID: 6, firstName: 'Hank', lastName: 'Zakroff'}
     const [yesModalVisible, setYesModalVisible] = useState(false);
     const [connectionScore, setConnectionScore] = useState(0);
+    const [scoreUpdated, setScoreUpdated] = useState(false);
 
     useEffect(()=> {
         (async ()=> {
@@ -29,11 +30,14 @@ const ConnectModal: React.FC <{toggleModalVisibility}> = ({toggleModalVisibility
 
     const handleConnectedYes = async ()=> {
         console.log('Clicked Yes');
-
-        const tempScore = connectionScore + 1
-        setConnectionScore(tempScore);
-        await sendScoreToBackend(contact.contactID, tempScore);
-        console.log(`Score: ${tempScore}`);
+            
+        if (!scoreUpdated) {
+            const tempScore = connectionScore + 1
+            setConnectionScore(tempScore);
+            await sendScoreToBackend(contact.contactID, tempScore);
+            setScoreUpdated(true);
+            console.log(`Score: ${tempScore}`);
+        }
 
         setYesModalVisible(true);
 

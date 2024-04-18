@@ -11,7 +11,7 @@ const styles = StyleSheet.create({
     },
 
     modalView: {
-        backgroundColor: 'rgba(10, 10, 10, 0.6)',
+        backgroundColor: 'rgba(10, 10, 10, 0.9)',
     },
 
     modalBox: {
