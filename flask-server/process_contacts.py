@@ -18,36 +18,30 @@ class ProcessContacts():
 
     # Getting contacts from DB and saving them in contacts variable
     def retrieve_db_contacts(self, user_id):
-            with DBConnection() as db_conn:
-                if db_conn:
-                    sql_statement = """
-                        SELECT ContactID, FirstName, LastName, Phone FROM Contact WHERE UserID = %s;
-                    """
-                    db_conn.execute(sql_statement, (user_id,))
-                    db_contacts = db_conn.fetchall()
+        with DBConnection() as db_conn:
+            if db_conn:
+                sql_statement = """
+                    SELECT ContactID, FirstName, LastName, Phone FROM Contact WHERE UserID = %s;
+                """
+                db_conn.execute(sql_statement, (user_id,))
+                db_contacts = db_conn.fetchall()
 
-                    self.contacts = [
-                        {
-                            'contactID': contact['ContactID'],
-                            'firstName': contact['FirstName'],
-                            'lastName': contact['LastName'],
-                            'number': contact['Phone']
-                        } for contact in db_contacts
-                    ]
+                self.contacts = [
+                    {
+                        'contactID': contact['ContactID'],
+                        'firstName': contact['FirstName'],
+                        'lastName': contact['LastName'],
+                        'number': contact['Phone']
+                    } for contact in db_contacts
+                ]
 
-                    # print(f'Contacts for {user_id}: ')
-                    # for contact in self.db_contacts:
-                    #     print(contact)
+                # print(f'Contacts for {user_id}: ')
+                # for contact in self.db_contacts:
+                #     print(contact)
 
     # work in progress to insert in contacts that aren't already in the database
     def sync_contacts(self, user_id):
         with DBConnection() as db_conn:
-            # if db_conn:
-            #     sql_statement = """
-            #         INSERT IGNORE INTO Contact (FirstName, LastName, UserID, Phone) VALUES (%s, %s, %s, %s);
-            #     """
-            #     for contact in self.contacts:
-            #         db_conn.execute(sql_statement, (contact['firstName'], contact['lastName'], user_id, contact['number']))
             if db_conn:
                 # check each contact
                 for contact in self.contacts:
@@ -70,3 +64,27 @@ class ProcessContacts():
                             INSERT INTO Contact (FirstName, LastName, UserID, Phone) VALUES (%s, %s, %s, %s);
                         """
                         db_conn.execute(sql_statement, (contact['firstName'], contact['lastName'], user_id, contact['number']))
+
+    # Retrieves the current score for that specific contact
+    def retrieve_score(self, contact_id):
+        with DBConnection() as db_conn:
+                if db_conn:
+                    sql_statement = """
+                        SELECT Score FROM Contact WHERE ContactID = %s;
+                    """
+                    db_conn.execute(sql_statement, (contact_id,))
+                    db_score = db_conn.fetchone()
+
+                    db_score = {'score': db_score['Score']}
+
+                    return db_score
+
+    # Sets the new score to that provided
+    def set_score(self, contact_id, score):
+        with DBConnection() as db_conn:
+                if db_conn:
+                    sql_statement = """
+                        UPDATE Contact SET Score = %s WHERE ContactID = %s;
+                    """
+                    db_conn.execute(sql_statement, (score, contact_id))
+                    

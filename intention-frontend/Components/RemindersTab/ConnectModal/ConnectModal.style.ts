@@ -42,6 +42,12 @@ const styles = StyleSheet.create({
         fontSize: 24,
     },
 
+    scoreText: {
+        color: global.accentColor.color,
+        marginLeft: 75,
+        fontSize: 24,
+    },
+
     modalTextContainer: {
         paddingTop: 10,
         paddingLeft: 10,

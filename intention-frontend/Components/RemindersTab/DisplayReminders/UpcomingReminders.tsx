@@ -5,7 +5,7 @@ import { handleUser } from "../../ContactsTab/UserSync/userService";
 import { useUser } from '@clerk/clerk-expo';
 import { userIDContext } from "../../ContactsTab/UserSync/userIDContext";
 import { ReminderList } from "./ReminderList";
-import { NewReminderButton } from "../NewReminder/NewReminderButton";
+import { NewReminderButton } from "./NewReminderButton";
 import SegmentedControl from '@react-native-segmented-control/segmented-control';
 import { receiveRemindersFromBackend } from "../../Generic/backendService";
 

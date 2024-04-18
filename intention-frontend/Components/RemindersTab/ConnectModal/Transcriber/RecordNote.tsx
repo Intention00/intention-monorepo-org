@@ -3,8 +3,6 @@ import React, { useState } from "react";
 import { Audio } from "expo-av"
 import { sendNotesToBackend, sendFinalNotesToBackend } from "../../../Generic/backendService";
 import { Feather } from '@expo/vector-icons';
-import { MaterialIcons } from '@expo/vector-icons';
-import { backendAddress } from "../../../Generic/backendService";
 import { styles } from "./RecordNote.style";
 
 const RecordNote: React.FC <{contact, modalToggle, yesModalToggle}> = ({contact, modalToggle, yesModalToggle})=> {
@@ -63,7 +61,7 @@ const RecordNote: React.FC <{contact, modalToggle, yesModalToggle}> = ({contact,
 
     const handleClose = ()=> {
         yesModalToggle();
-        modalToggle();
+        // modalToggle();
     }
 
     // testing text input button

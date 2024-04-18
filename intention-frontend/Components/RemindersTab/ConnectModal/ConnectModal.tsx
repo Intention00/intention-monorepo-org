@@ -1,9 +1,10 @@
 import { View, Text, Modal, TouchableOpacity, ScrollView } from "react-native"
 import { styles } from "./ConnectModal.style"
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { TranscriberNote } from "../../ContactsTab/Transcriber/TranscribeNote";
 import { useState, useEffect } from "react";
 import { YesConnectedModal } from "./YesConnectedModal";
+import { GenerateQuestions } from "./Transcriber/GenerateQuestions";
+import { receiveScoreFromBackend, sendScoreToBackend } from "../../Generic/backendService"
 
 
 const ConnectModal: React.FC <{toggleModalVisibility}> = ({toggleModalVisibility})=> {
@@ -17,6 +18,8 @@ const ConnectModal: React.FC <{toggleModalVisibility}> = ({toggleModalVisibility
         (async ()=> {
             try {
                 // get connection score, and set it in connectionScore
+                const tempScore = await receiveScoreFromBackend(contact.contactID);
+                setConnectionScore(tempScore.score);
             }
             catch (err) {
 
@@ -24,11 +27,12 @@ const ConnectModal: React.FC <{toggleModalVisibility}> = ({toggleModalVisibility
         })()
     }, []);
 
-    const handleConnectedYes = ()=> {
+    const handleConnectedYes = async ()=> {
         console.log('Clicked Yes');
 
         const tempScore = connectionScore + 1
         setConnectionScore(tempScore);
+        await sendScoreToBackend(contact.contactID, tempScore);
         console.log(`Score: ${tempScore}`);
 
         setYesModalVisible(true);
@@ -52,6 +56,7 @@ const ConnectModal: React.FC <{toggleModalVisibility}> = ({toggleModalVisibility
                 <View style={styles.modalHeader}>
                     <MaterialCommunityIcons style={styles.modalExit} name="window-close" onPress={toggleModalVisibility}/>
                     <Text style={styles.modalHeaderText}>Connect</Text>
+                    {}<Text style={styles.scoreText}>{connectionScore}</Text>
                 </View>
 
                 <View style={styles.modalTextContainer}>
@@ -63,7 +68,8 @@ const ConnectModal: React.FC <{toggleModalVisibility}> = ({toggleModalVisibility
                     </View>
 
                     <ScrollView style={{marginBottom: 30}}>
-                        <TranscriberNote contact={contact}></TranscriberNote>
+                        {/* <TranscriberNote contact={contact}></TranscriberNote> */}
+                        <GenerateQuestions></GenerateQuestions>
                     </ScrollView>
 
                     <View style={styles.selectButtons}>

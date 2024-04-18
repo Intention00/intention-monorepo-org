@@ -1,7 +1,6 @@
 import { View, SafeAreaView, FlatList, TouchableHighlight, Text } from "react-native";
 import { ReminderItem } from "./ReminderItem";
 import { useState } from "react";
-// import { styles } from "../ContactsTab/DisplayContacts/ContactList.style";
 import { styles } from "./ReminderList.style";
 
 const ReminderList: React.FC <{reminders: any[]}> = ({reminders})=> {

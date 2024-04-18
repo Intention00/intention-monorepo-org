@@ -178,7 +178,32 @@ def return_user_reminders():
     except Exception as err:
         return jsonify({'message': str(err)}), 500
     
+# Returns the current score for a specific contact for a user
+@app.route("/api/score", methods=['GET'])
+def return_contact_score():
+    try: 
+        contact_id = request.args.get('contactID')
+        score = contacts_processor.retrieve_score(contact_id)
+        return jsonify(score), 200
+    
+    except Exception as err:
+        return jsonify({'message': str(err)}), 500
+    
+# Sets the contacts score to a certain value for a user
+@app.route("/api/score", methods=['PUT'])
+def handle_contact_score():
+    try: 
+        data = request.get_json()
+        contact_id = data['contactID']
+        score = data['score']
 
+        contacts_processor.set_score(contact_id, score)
+
+        return jsonify({'message': 'Score set.'}), 204
+    
+    except Exception as err:
+        return jsonify({'message': str(err)}), 500
+    
 
 if __name__ == "__main__":
     # added host to test, it seems to make it work on android

@@ -2,7 +2,7 @@ import { View, Modal, SafeAreaView, TouchableHighlight } from "react-native"
 import { useState } from "react";
 import { FontAwesome } from '@expo/vector-icons';
 import { styles as global } from "../../Generic/global.style";
-import { ConnectModal } from "./ConnectModal";
+import { ConnectModal } from "../ConnectModal/ConnectModal";
 
 // This component represents a button used to trigger contact synchronization
 const NewReminderButton: React.FC = ()=> {
