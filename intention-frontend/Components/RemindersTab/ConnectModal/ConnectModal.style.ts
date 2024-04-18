@@ -79,7 +79,7 @@ const styles = StyleSheet.create({
 
     modalNameText: {
         textAlign: 'center',
-        fontSize: 16,
+        fontSize: 20,
         fontWeight: '500',
         color: global.inputBox.color,
     },
