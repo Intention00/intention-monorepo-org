@@ -21,8 +21,6 @@ const ReminderItem: React.FC <{reminder: Reminder}> = ({reminder})=> {
     return (
         <View style={styles.test1}>
             <View style={{flexDirection: 'row'}}>
-                {/* <Text style={{color: 'white'}}>{reminder.contact.firstName} {reminder.contact.lastName}</Text>
-                <Text style={{color: 'white'}}>{reminder.reminder.dateTime}</Text> */}
                 <Text style={{color: 'white'}}>Connect with {reminder.contact.firstName} {reminder.contact.lastName}</Text>
             </View>
         </View>

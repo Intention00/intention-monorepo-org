@@ -18,9 +18,17 @@ const styles = StyleSheet.create({
         width: 50,
     }, 
 
+    hourText: {
+        color: 'gray', 
+        textAlign: 'right'
+    },
+
     reminderBox: {
         alignItems: 'center',
-        
+    },
+
+    reminderList: {
+        maxHeight: 400,
     }
 
 })
