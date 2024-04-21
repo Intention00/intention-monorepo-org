@@ -167,7 +167,12 @@ export const recieveUserEmailBackend = async (user_id: string)=> {
     }
 }
 
-// Retrieves the desired users reminders from the backend
+/**
+ * Retrieves the desired user's reminders from the backend
+ * 
+ * @param userID
+ * @returns reminders retrieved from the database
+ */
 export const receiveRemindersFromBackend = async (userID: number)=> {
     try {
         const response = await fetch(`${backendAddress}/api/reminders?userID=${userID}`, {
@@ -184,7 +189,12 @@ export const receiveRemindersFromBackend = async (userID: number)=> {
 
 }
 
-// Retrieves the desired users score from the backend for a particular contact
+/**
+ * Retrieves the desired user's score from the backend for a particular contact
+ * 
+ * @param contactID 
+ * @returns score obtained from database for the contact
+ */
 export const receiveScoreFromBackend = async (contactID: number)=> {
     try {
         const response = await fetch(`${backendAddress}/api/score?contactID=${contactID}`, {
@@ -205,7 +215,15 @@ export const receiveScoreFromBackend = async (contactID: number)=> {
     }
 }
 
-// Sends the desired user's score to the backend for a particular contact
+/**
+ * Sends the desired user's score to the backend for a particular contact
+ * 
+ * (Thinking about this now, our implementation of the score system could be
+ * exploited client-side, but that seems out of scope for this project)
+ * 
+ * @param contactID - contact to set score for
+ * @param score - value to set the score to
+ */
 export const sendScoreToBackend = async (contactID: number, score: number)=> {
     try {
         const response = await fetch(`${backendAddress}/api/score`, {
