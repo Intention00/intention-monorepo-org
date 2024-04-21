@@ -184,3 +184,45 @@ export const receiveRemindersFromBackend = async (userID: number)=> {
 
 
 }
+
+// Retrieves the desired users score from the backend for a particular contact
+export const receiveScoreFromBackend = async (contactID: number)=> {
+    try {
+        const response = await fetch(`${backendAddress}/api/score?contactID=${contactID}`, {
+            method: 'GET',
+        })
+
+        if (!response.ok) {
+            throw new Error(`Error retrieving score from backend: ${response.status} - ${response.statusText}`);
+        }
+
+        const score_received = await response.json();
+
+        console.log(`NEW SCORE RECEIVED: ${JSON.stringify(score_received)}`);
+        return score_received;
+    }
+    catch (err) {
+        throw new Error(`Error receiving score from backend: ${err}`);
+    }
+}
+
+// Sends the desired user's score to the backend for a particular contact
+export const sendScoreToBackend = async (contactID: number, score: number)=> {
+    try {
+        const response = await fetch(`${backendAddress}/api/score`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({contactID: contactID, score: score})
+        })
+
+        if (!response.ok) {
+            const errorMessage = await response.json();
+            console.error(`Server returned an error: ${JSON.stringify(errorMessage)}`);
+        }
+    } 
+    catch (error) {
+        throw new Error(`Error sending score to backend: ${error}`);
+    }
+}
