@@ -182,7 +182,6 @@ export const receiveRemindersFromBackend = async (userID: number)=> {
         throw new Error(`Error receiving reminders from backend: ${err}`);
     }
 
-
 }
 
 // Retrieves the desired users score from the backend for a particular contact
