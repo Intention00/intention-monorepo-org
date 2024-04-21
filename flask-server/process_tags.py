@@ -1,15 +1,19 @@
 from database.db import DBConnection
 class ProcessTags():
 
-    def __init__(self, tagNames = []) -> None:
-        self.tags = tagNames
+    def __init__(self, contacts = [], ) -> None:
+        self.contactsWTags = contacts
+        
+    def add_contactID(self, contacts):
+        self.contactsWTags = contacts
 
-    def __init__(self, tagNames = [], tagLimit = 5)-> None:
-        self.tags = tagNames
-        self.limit = tagLimit
 
     def add_tag(self, tagName):
         self.tags.append(tagName)
+    
+    def remove_tag(self, tagName):
+        #logic to remove tag
+        return
 
     
 
@@ -57,8 +61,51 @@ class ProcessTags():
             #what should it return?  a -1? 
 
             
-    
-   # def delete_tag_db(self, user_id, contact_id, tagName):
+    #DELETES tag by getting userid, finding the tagID with tag name, and removing all tags associated with 
+    #the specific users contacts
+    def delete_tag_db(self, user_id, tagName):
+        with DBConnection() as db_conn:
+            if db_conn:
+            # Start a transaction
+                db_conn.begin()
+
+                try:
+                # Find the tagID associated with the tagName and userID
+                    find_tag_sql = """
+                SELECT TagID FROM Tags WHERE UserID = %s AND TagName = %s;
+                """
+                    cursor = db_conn.cursor()
+                    cursor.execute(find_tag_sql, (user_id, tagName))
+                    tag_record = cursor.fetchone()
+
+                    if tag_record:
+                        tag_id = tag_record[0]
+
+                    # Delete all associations of this tag with contacts for this user
+                        delete_contact_tags_sql = """
+                    DELETE FROM ContactTags WHERE TagID = %s;
+                    """
+                        cursor.execute(delete_contact_tags_sql, (tag_id,))
+
+                    # Delete the tag itself from the Tags table
+                        delete_tag_sql = """
+                    DELETE FROM Tags WHERE TagID = %s;
+                    """
+                        cursor.execute(delete_tag_sql, (tag_id,))
+
+                    # Commit the transaction
+                        db_conn.commit()
+
+                        return True  # Indicate success
+                    else:
+                    # No tag found with the provided name and user ID
+                        db_conn.rollback()  # Roll back the transaction
+                        return False  # Indicate failure
+                except Exception as e:
+                # Handle any exception, rollback the transaction and re-raise the exception
+                    db_conn.rollback()
+                    raise
+
 
     
         
