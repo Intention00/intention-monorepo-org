@@ -4,10 +4,11 @@ class ProcessReminders():
     def __init__(self, user_id = -1) -> None:
         self.user_id = user_id
 
+    # sets the user_id data member with specified value
     def read_user(self, user_id):
         self.user_id = user_id
 
-    # Gets all the reminders for the selected user
+    # Gets all the reminders for the current user
     def retrieve_reminders(self):
         with DBConnection() as db_conn:
             if db_conn:

@@ -9,7 +9,6 @@ class ProcessContacts():
     def add_contact(self, contact): 
         self.contacts.append(contact)
 
-
     def clear_contacts(self):
         self.contacts.clear()
 
@@ -69,20 +68,22 @@ class ProcessContacts():
     def retrieve_score(self, contact_id):
         with DBConnection() as db_conn:
                 if db_conn:
+                    # Retrieve score for contact
                     sql_statement = """
                         SELECT Score FROM Contact WHERE ContactID = %s;
                     """
                     db_conn.execute(sql_statement, (contact_id,))
                     db_score = db_conn.fetchone()
 
+                    # formats the score according to frontend expected format
                     db_score = {'score': db_score['Score']}
-
                     return db_score
 
-    # Sets the new score to that provided
+    # Sets the new score to that provided for specified contact
     def set_score(self, contact_id, score):
         with DBConnection() as db_conn:
                 if db_conn:
+                    # Updates the score for a contact (all contacts start with default of 0)
                     sql_statement = """
                         UPDATE Contact SET Score = %s WHERE ContactID = %s;
                     """
