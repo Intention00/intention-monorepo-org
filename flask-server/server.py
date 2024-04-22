@@ -164,8 +164,8 @@ def delete_user_data(user_id):
     except Exception as err:
         return jsonify({'error': str(err)}), 500
     
-@app.route('/contact_tags/<contact_id>', methods=['GET'])
-def get_contact_tags(contact_id):
+@app.route('/api/contact_tags/<user_id>/<contact_id>', methods=['GET'])
+def get_contact_tags(user_id, contact_id):
  #   user_id = request.args.get('user_id', type=int)
    # contact_id = request.args.get('contact_id', type=int)
 
@@ -173,9 +173,8 @@ def get_contact_tags(contact_id):
         return jsonify({'error': 'Missing user_id or contact_id'}), 400
 
     
-    contacts_processor.retrieve_db_contact_tag(contact_id)
-    tags = contacts_processor.contactWtags 
-    return jsonify({'contact_id': contact_id, 'tags': tags})
+    tags = tags_processor.retrieve_db_contact_tag(user_id, contact_id)
+    return jsonify({'contact_id': contact_id, 'tags': tags, 'user_id': user_id,})
     
 
 

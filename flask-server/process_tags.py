@@ -32,6 +32,9 @@ class ProcessTags():
     
     def retrieve_db_contact_tag(self, user_id, contact_id):
         with DBConnection() as db_conn: 
+            if db_conn is None: 
+                print("failed to connect with database")
+                return []
             if db_conn:
                 sql_statement = """
                 SELECT t.tag_id, t.tag_name
@@ -43,6 +46,7 @@ class ProcessTags():
             cursor = db_conn.cursor()
             cursor.execute(sql_statement, (contact_id, user_id))
             return cursor.fetchall()
+
 
     def add_tag_db(self, user_id, contact_id):
         if self.limit <= self.check_tag_limit:

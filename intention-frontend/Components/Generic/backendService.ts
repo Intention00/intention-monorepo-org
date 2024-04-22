@@ -1,5 +1,7 @@
-export const backendAddress = "https://intention-server.up.railway.app"
+// export const backendAddress = "https://intention-server.up.railway.app"
 // export const backendAddress = "http://192.168.0.73:5100"
+
+ export const backendAddress = "http://127.0.0.1:5100"
 
 // Send contacts to backend api
 export const sendContactsToBackend = async (userID: number, contactsData: any[])=> {
