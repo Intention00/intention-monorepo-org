@@ -34,6 +34,17 @@ const TabsPage = () => {
       }}
     >
       <Tabs.Screen
+      name="reminders"
+      options={{
+        headerTitle: 'Upcoming Reminders',
+        tabBarIcon: ({ color, size }) => <Ionicons name="calendar-outline" size={size} color={color} />,
+        tabBarLabel: 'Reminders',
+        headerRight: () => <LogoutButton />
+      }}
+      redirect={!isSignedIn}
+      />
+
+      <Tabs.Screen
         name="home"
         options={{
           headerTitle: 'Home',
@@ -42,6 +53,7 @@ const TabsPage = () => {
         }}
         redirect={!isSignedIn}
       />
+
       <Tabs.Screen
         name="profile"
         options={{
@@ -52,6 +64,7 @@ const TabsPage = () => {
         }}
         redirect={!isSignedIn}
       />
+
       <Tabs.Screen
       name="contactSync1"
       options={{

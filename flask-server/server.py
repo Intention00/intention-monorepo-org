@@ -4,6 +4,7 @@ from process_contacts import ProcessContacts
 from audio_processing import generate_questions, generate_summary, transcribe
 from process_notes import ProcessNotes
 from process_users import ProcessUsers
+from process_reminders import ProcessReminders
 import os
 
 app = Flask(__name__)
@@ -24,34 +25,40 @@ contactList = [cont1, cont2]
 contacts_processor = ProcessContacts()
 notes_processor = ProcessNotes()
 user_processor = ProcessUsers()
+reminders_processor = ProcessReminders()
       
 
 @app.route("/")
 def home():
     return "Hello World"
 
-# Retrieves a list of contacts from the frontend
+# Retrieves a list of contacts from the frontend and saves to database
 @app.route("/api/contacts", methods=["POST"])
 def receive_data():
     try: 
+        # Sets parameters from api call
         data = request.get_json()
         user_id = data['userID']
         contacts = data['contacts']
+
+        # Reads the received contacts in processor
         contacts_processor.read_contacts(contacts)
         
-        # gets for specific user from frontend
+        # compares saved contacts to db contacts for user, and syncs them
         contacts_processor.sync_contacts(user_id)
         return jsonify({'message': 'Contacts received.'}), 200
     
     except Exception as err:
         return jsonify({'message': str(err)})
-    
+
+# Sends contacts to frontend for a specific user
 @app.route("/api/contacts", methods=['GET'])
 def send_data():
     try: 
+        # Retrieves desired userID from frontend
         user_id = request.args.get('userID')
 
-        # gets for specific user from frontend
+        # gets all contacts for specified user
         contacts_processor.retrieve_db_contacts(user_id)
        
         return jsonify(contacts_processor.contacts), 200
@@ -60,7 +67,7 @@ def send_data():
         return jsonify({'message': str(err)}), 500
 
 
-# Retrieves notes to transcribe from frontend
+# Retrieves voice notes to transcribe from frontend
 @app.route("/api/transcribe", methods=["POST"])
 def receive_note_transcribe():
     try:
@@ -78,6 +85,7 @@ def receive_note_transcribe():
         with open(file_path, 'wb') as file:
             file.write(audio_blob)
 
+        # obtains transcribed note from processor
         transcribed_audio = transcribe()
 
         return jsonify({'message': 'File saved successfully', 'data': transcribed_audio}), 200
@@ -86,11 +94,14 @@ def receive_note_transcribe():
         return jsonify({'error': str(err)}), 500
 
 
-# Retrieves notes to save from frontend
+# Retrieves notes to save from frontend, and saves them in database
 @app.route("/api/note", methods=["POST"])
 def receive_note():
     try:
+        # Extracts data from api call
         data = request.get_json()
+
+        # sets data into notes_processor and saves note
         notes_processor.read_note(data)
         notes_processor.save_note()
 
@@ -132,28 +143,40 @@ def handle_generate_questions():
     # Return the generated questions
     return jsonify({'questions': questions})
 
+# Gets the user_id from the user's email
 @app.route("/api/users", methods=['GET'])
 def return_user_id():
+    # Retrieves the email from api parameter
     email = request.args.get('email')
-    user_processor.read_user(email)
-    user_id = user_processor.retrieve_user_id();
 
-    # print(f'Email for userID was: {email}')
+    # sets the email in user_processor
+    user_processor.read_user(email)
+
+    # retrieves user_id using the set email
+    user_id = user_processor.retrieve_user_id();
+    
     return jsonify(user_id), 200
 
+# Retrieves the user's email using their user_id
 @app.route("/api/users/emailcheck", methods=['GET'])
 def return_user_email():
     user_id = request.args.get('user_id')
     user_processor.retrieve_user_email(user_id)
 
+# Deletes the desired user's data, either full or partial delete- 
+# if you add '?full=true' to end of api call, then full delete, otherwise partial
 @app.route("/api/users/<user_id>", methods=['DELETE'])
 def delete_user_data(user_id):
     try: 
+        # checks to see if full delete is required
         full_delete = request.args.get('full', default='false').lower() == 'true'
 
+        # if full delete, then delete user along with data
         if full_delete:
             user_processor.delete_user(user_id)
             return jsonify(), 204
+        
+        # if partial delete, only delete user related data, not user itself
         else:
             user_processor.delete_user_data(user_id)
             return jsonify(), 204
@@ -161,7 +184,56 @@ def delete_user_data(user_id):
     except Exception as err:
         return jsonify({'error': str(err)}), 500
 
+# Getting all reminders for a desired user using userID
+@app.route("/api/reminders", methods=['GET'])
+def return_user_reminders():
+    try: 
+        # getting user_id from api call
+        user_id = request.args.get('userID')
+        
+        # setting the user_id data member to user_id
+        reminders_processor.read_user(user_id)
 
+        # retrieving all the reminders for this user
+        reminders = reminders_processor.retrieve_reminders()
+       
+        return jsonify(reminders), 200
+    
+    except Exception as err:
+        return jsonify({'message': str(err)}), 500
+    
+# Returns the current score for a specific contact from the database
+@app.route("/api/score", methods=['GET'])
+def return_contact_score():
+    try: 
+        # getting contact_id from api call
+        contact_id = request.args.get('contactID')
+
+        # retrieving score from db
+        score = contacts_processor.retrieve_score(contact_id)
+        return jsonify(score), 200
+    
+    except Exception as err:
+        return jsonify({'message': str(err)}), 500
+    
+# Sets the contacts score to a certain value for a contact
+@app.route("/api/score", methods=['PUT'])
+def handle_contact_score():
+    try: 
+        # retrieving contactID, score from url parameters
+        data = request.get_json()
+        contact_id = data['contactID']
+        score = data['score']
+
+        # sets/updates the desired score for the specific 
+        # contact to the database
+        contacts_processor.set_score(contact_id, score)
+
+        return jsonify({'message': 'Score set.'}), 204
+    
+    except Exception as err:
+        return jsonify({'message': str(err)}), 500
+    
 
 if __name__ == "__main__":
     # added host to test, it seems to make it work on android

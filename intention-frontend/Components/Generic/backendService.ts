@@ -1,5 +1,5 @@
 export const backendAddress = "https://intention-server.up.railway.app"
-// export const backendAddress = "http://192.168.0.73:5100"
+// export const backendAddress = "http://192.168.1.27:5100"
 
 // Send contacts to backend api
 export const sendContactsToBackend = async (userID: number, contactsData: any[])=> {
@@ -164,5 +164,82 @@ export const recieveUserEmailBackend = async (user_id: string)=> {
     } 
     catch (error) {
         throw new Error(`Error retrieving email from backend: ${error}`);
+    }
+}
+
+/**
+ * Retrieves the desired user's reminders from the backend
+ * 
+ * @param userID
+ * @returns reminders retrieved from the database
+ */
+export const receiveRemindersFromBackend = async (userID: number)=> {
+    try {
+        const response = await fetch(`${backendAddress}/api/reminders?userID=${userID}`, {
+            method: 'GET',
+        })
+
+        const reminders_received = await response.json();
+        console.log(`NEW REMINDERS RECEIVED: ${JSON.stringify(reminders_received)}`);
+        return reminders_received;
+    }
+    catch (err) {
+        throw new Error(`Error receiving reminders from backend: ${err}`);
+    }
+
+}
+
+/**
+ * Retrieves the desired user's score from the backend for a particular contact
+ * 
+ * @param contactID 
+ * @returns score obtained from database for the contact
+ */
+export const receiveScoreFromBackend = async (contactID: number)=> {
+    try {
+        const response = await fetch(`${backendAddress}/api/score?contactID=${contactID}`, {
+            method: 'GET',
+        })
+
+        if (!response.ok) {
+            throw new Error(`Error retrieving score from backend: ${response.status} - ${response.statusText}`);
+        }
+
+        const score_received = await response.json();
+
+        console.log(`NEW SCORE RECEIVED: ${JSON.stringify(score_received)}`);
+        return score_received;
+    }
+    catch (err) {
+        throw new Error(`Error receiving score from backend: ${err}`);
+    }
+}
+
+/**
+ * Sends the desired user's score to the backend for a particular contact
+ * 
+ * (Thinking about this now, our implementation of the score system could be
+ * exploited client-side, but that seems out of scope for this project)
+ * 
+ * @param contactID - contact to set score for
+ * @param score - value to set the score to
+ */
+export const sendScoreToBackend = async (contactID: number, score: number)=> {
+    try {
+        const response = await fetch(`${backendAddress}/api/score`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({contactID: contactID, score: score})
+        })
+
+        if (!response.ok) {
+            const errorMessage = await response.json();
+            console.error(`Server returned an error: ${JSON.stringify(errorMessage)}`);
+        }
+    } 
+    catch (error) {
+        throw new Error(`Error sending score to backend: ${error}`);
     }
 }

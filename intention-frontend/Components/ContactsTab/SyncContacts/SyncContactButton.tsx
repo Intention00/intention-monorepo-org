@@ -15,7 +15,7 @@ const SyncContactButton: React.FC <{updateContacts}> = ({updateContacts})=> {
             <TouchableHighlight style={styles.button}>
                 <FontAwesome name="refresh" size={24} color={global.accentColor.color} onPress={()=>{setModalVisible(true)}}/>
             </TouchableHighlight>
-            <Modal visible={modalVisible} transparent={true} onRequestClose={()=> {setModalVisible(false)}} animationType="slide">
+            <Modal visible={modalVisible} transparent={true} onRequestClose={()=> {setModalVisible(false)}} animationType="fade">
                     <SafeAreaView>
                         <SyncContactSelector updateContacts={updateContacts} toggleModalVisibility={()=> {setModalVisible(false)}}/>
                     </SafeAreaView>
