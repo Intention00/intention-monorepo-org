@@ -1,8 +1,9 @@
 from database.db import DBConnection
 class ProcessTags():
 
-    def __init__(self, contacts = [], ) -> None:
+    def __init__(self, contacts = []) -> None:
         self.contactsWTags = contacts
+        
         
     def add_contactID(self, contacts):
         self.contactsWTags = contacts
@@ -17,11 +18,11 @@ class ProcessTags():
 
     
 
-    def check_tag_limit(self, user_id):
+   # def check_tag_limit(self, user_id):
         with DBConnection() as db_conn:
             if db_conn:
                 sql_statement = """
-                    "SELECT COUNT(*) FROM Tags WHERE user_id = %s"
+                    
                     """
             cursor = db_conn.cursor()
             cursor.execute(sql_statement, (user_id,))
@@ -29,7 +30,7 @@ class ProcessTags():
             return row_count
         
     
-    
+    #this will get contacts from db to display contact modal 
     def retrieve_db_contact_tag(self, user_id, contact_id):
         with DBConnection() as db_conn: 
             if db_conn is None: 
@@ -47,26 +48,30 @@ class ProcessTags():
             cursor.execute(sql_statement, (contact_id, user_id))
             return cursor.fetchall()
 
-
-    def add_tag_db(self, user_id, contact_id):
-        if self.limit <= self.check_tag_limit:
-            with DBConnection() as db_conn: 
-                if db_conn: 
-                    sql_statement = """ 
-
+    #this will take user input
+    def add_tag_user_db(self, user_id , tag):
+        
+        with DBConnection() as db_conn: 
+            if db_conn: 
+                sql_statement = """ 
+                        
                         """
                 cursor = db_conn.cursor()
-                cursor.execute(sql_statement, (contact_id, user_id))
+                cursor.execute(sql_statement, ( user_id))
                 return cursor.fetchall()
             
-        else: 
-            pass 
+       
             #what should i make logic be for if add tag cant happen, just leave it? 
             #what should it return?  a -1? 
-
+    def add_tag_to_contact(self, user_id, contact_id, tag):
+        return 
             
+    
     #DELETES tag by getting userid, finding the tagID with tag name, and removing all tags associated with 
     #the specific users contacts
+
+    # for sql first must delete from contacttag table, and then must 
+    # delete from tags  
     def delete_tag_db(self, user_id, tagName):
         with DBConnection() as db_conn:
             if db_conn:
@@ -93,9 +98,9 @@ class ProcessTags():
 
                     # Delete the tag itself from the Tags table
                         delete_tag_sql = """
-                    DELETE FROM Tags WHERE TagID = %s;
+                    DELETE FROM Tags WHERE TagID = %s and UserID = %s;
                     """
-                        cursor.execute(delete_tag_sql, (tag_id,))
+                        cursor.execute(delete_tag_sql, (tag_id, user_id))
 
                     # Commit the transaction
                         db_conn.commit()
