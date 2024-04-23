@@ -234,6 +234,19 @@ def handle_contact_score():
     except Exception as err:
         return jsonify({'message': str(err)}), 500
     
+# Returns the reminder for a specific contact from the database
+@app.route("/api/reminder", methods=['GET'])
+def return_contact_reminder():
+    try: 
+        # getting contact_id from api call
+        contact_id = request.args.get('contactID')
+
+        # retrieving score from db
+        reminder = reminders_processor.retrieve_contact_reminder(contact_id)
+        return jsonify(reminder), 200
+    
+    except Exception as err:
+        return jsonify({'message': str(err)}), 500
 
 if __name__ == "__main__":
     # added host to test, it seems to make it work on android
