@@ -42,6 +42,24 @@ class ProcessReminders():
                 """
                 db_conn.execute(sql_statement, (contact_id, reminder['dateTime'], reminder['frequency']))
                 
+    # Updates the reminder for the specified contact
+    def edit_contact_reminder(self, contact_id, reminder):
+        with DBConnection() as db_conn:
+            if db_conn:
+                sql_statement = """
+                    UPDATE Reminders SET StartDateTime = %s, Frequency = %s WHERE ContactID = %s;
+                """
+                db_conn.execute(sql_statement, (reminder['dateTime'], reminder['frequency'], contact_id))
+
+    # Deletes the reminder for the specified contact
+    def delete_contact_reminder(self, contact_id):
+        with DBConnection() as db_conn:
+            if db_conn:
+                sql_statement = """
+                    DELETE FROM Reminders WHERE ContactID = %s;
+                """
+                db_conn.execute(sql_statement, (contact_id,))
+                
                           
     # Gets all the reminders for the current user
     def retrieve_reminders(self):
