@@ -32,6 +32,16 @@ class ProcessReminders():
                 except Exception as err:
                     print(f'Reminder retrieval failed: {err}')
                     return None
+                
+    # Adds the reminder for the specified contact
+    def add_contact_reminder(self, contact_id, reminder):
+        with DBConnection() as db_conn:
+            if db_conn:
+                sql_statement = """
+                    INSERT INTO Reminders (ContactID, StartDateTime, Frequency) VALUES (%s, %s, %s);
+                """
+                db_conn.execute(sql_statement, (contact_id, reminder['dateTime'], reminder['frequency']))
+                
                           
     # Gets all the reminders for the current user
     def retrieve_reminders(self):

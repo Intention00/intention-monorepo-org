@@ -241,9 +241,27 @@ def return_contact_reminder():
         # getting contact_id from api call
         contact_id = request.args.get('contactID')
 
-        # retrieving score from db
+        # retrieving reminder from db
         reminder = reminders_processor.retrieve_contact_reminder(contact_id)
         return jsonify(reminder), 200
+    
+    except Exception as err:
+        return jsonify({'message': str(err)}), 500
+    
+# Inserts the reminder for a specific contact from the database
+@app.route("/api/reminder", methods=['POST'])
+def insert_contact_reminder():
+    try: 
+        # getting contact_id from api call
+        contact_id = request.args.get('contactID')
+
+        # Extracting data
+        data = request.get_json()
+        reminder_data = data['reminder']
+
+        # insert reminder to db
+        reminders_processor.add_contact_reminder(contact_id, reminder_data)
+        return jsonify({'message': 'Reminder added.'}), 204
     
     except Exception as err:
         return jsonify({'message': str(err)}), 500
