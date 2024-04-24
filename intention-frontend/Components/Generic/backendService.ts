@@ -186,7 +186,6 @@ export const receiveRemindersFromBackend = async (userID: number)=> {
     catch (err) {
         throw new Error(`Error receiving reminders from backend: ${err}`);
     }
-
 }
 
 /**
@@ -241,5 +240,106 @@ export const sendScoreToBackend = async (contactID: number, score: number)=> {
     } 
     catch (error) {
         throw new Error(`Error sending score to backend: ${error}`);
+    }
+}
+
+/**
+ * Retrieves the desired contact's reminder from the backend
+ * 
+ * @param contactID
+ * @returns reminder retrieved from the database
+ */
+export const receiveReminderFromBackend = async (contactID: number)=> {
+    try {
+        const response = await fetch(`${backendAddress}/api/reminder?contactID=${contactID}`, {
+            method: 'GET',
+        })
+
+        if (!response.ok) {
+            const errorMessage = await response.json();
+            console.error(`Server returned an error: ${JSON.stringify(errorMessage)}`);
+        }
+        else {
+            const reminder_received = await response.json();
+            console.log(`NEW REMINDER RECEIVED: ${JSON.stringify(reminder_received)}`);
+            return reminder_received;
+        }
+    }
+    catch (err) {
+        throw new Error(`Error receiving reminder from backend: ${err}`);
+    }
+}
+
+/**
+ * Sends the desired contact's new reminder to the backend
+ * 
+ * @param contactID
+ * @returns nothing
+ */
+export const sendReminderToBackend = async (contactID: number, reminder: Object)=> {
+    try {
+        const response = await fetch(`${backendAddress}/api/reminder?contactID=${contactID}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(reminder)
+        })
+
+        if (!response.ok) {
+            const errorMessage = await response.json();
+            console.error(`Server returned an error: ${JSON.stringify(errorMessage)}`);
+        }
+    }
+    catch (err) {
+        throw new Error(`Error saving new reminder to backend: ${err}`);
+    }
+}
+
+/**
+ * Sends the desired contact's reminder edit to the backend
+ * 
+ * @param contactID
+ * @returns nothing
+ */
+export const sendReminderEditToBackend = async (contactID: number, reminder: Object)=> {
+    try {
+        const response = await fetch(`${backendAddress}/api/reminder?contactID=${contactID}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(reminder)
+        })
+
+        if (!response.ok) {
+            const errorMessage = await response.json();
+            console.error(`Server returned an error: ${JSON.stringify(errorMessage)}`);
+        }
+    }
+    catch (err) {
+        throw new Error(`Error editing reminder in backend: ${err}`);
+    }
+}
+
+/**
+ * Deletes desired contact's reminder from the backend
+ * 
+ * @param contactID
+ * @returns nothing
+ */
+export const deleteReminderFromBackend = async (contactID: number)=> {
+    try {
+        const response = await fetch(`${backendAddress}/api/reminder?contactID=${contactID}`, {
+            method: 'DELETE',
+        })
+
+        if (!response.ok) {
+            const errorMessage = await response.json();
+            console.error(`Server returned an error: ${JSON.stringify(errorMessage)}`);
+        }
+    }
+    catch (err) {
+        throw new Error(`Error deleting reminder from backend: ${err}`);
     }
 }

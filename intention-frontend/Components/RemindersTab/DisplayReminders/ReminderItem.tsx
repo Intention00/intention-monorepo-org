@@ -16,7 +16,6 @@ interface Reminder {
 }
 
 const ReminderItem: React.FC <{reminder: Reminder}> = ({reminder})=> {
-    console.log(`Item: ${JSON.stringify(reminder)}`)
 
     return (
         <View style={styles.test1}>

@@ -21,7 +21,7 @@ const NewReminderButton: React.FC = ()=> {
 
             <Modal visible={modalVisible} transparent={true} onRequestClose={()=> {setModalVisible(false)}} animationType='fade'>
                     <SafeAreaView>
-                        <ConnectModal toggleModalVisibility={()=> setModalVisible(false)}></ConnectModal>
+                        {/* <ConnectModal toggleModalVisibility={()=> setModalVisible(false)}></ConnectModal> */}
                     </SafeAreaView>
             </Modal>
         </View>
