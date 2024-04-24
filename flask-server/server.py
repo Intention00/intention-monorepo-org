@@ -212,8 +212,12 @@ def delete_tag_from_contact(user_id, contact_id, tag):
     tags_processor.delete_tag_for_contact(user_id, contact_id, tag)
     return jsonify({'tag': tag, 'user-id': user_id, 'contact': contact_id})
 
+#maybe dont need this , talk to raj 
+@app.route("/api/tags/<user_id>", methods=['GET'])
+def sendTags(user_id):
 
 
+    return
 
 if __name__ == "__main__":
     # added host to test, it seems to make it work on android
