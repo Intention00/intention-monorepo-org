@@ -17,15 +17,20 @@ class ProcessTags():
         #logic to remove tag
         return
 
+#should definetely have user_id here but oh well 
     def get_tagID(self, tag_name): 
         with DBConnection() as db_conn: 
             if db_conn:
                 sql_statement = """
-                SELECT TagID FROM Tags WHERE TagName = %s"
-                    """
-                db_conn.execute(sql_statement, tag_name)
+                SELECT TagID FROM Tags WHERE TagName = %s
+                """
+                db_conn.execute(sql_statement, (tag_name,))
                 result = db_conn.fetchone()
-                return result[0]
+                if result:
+                    return result.get("TagID")
+                else:
+                    return None
+
 
     
 
@@ -43,20 +48,20 @@ class ProcessTags():
     def check_tag_exists(self, user_id, tag_name): 
         with DBConnection() as db_conn:
             if db_conn:
-                # Prepare a SQL statement to check if a tag exists for a user
+            # Prepare a SQL statement to check if a tag exists for a user
                 sql_statement = """
                     SELECT EXISTS (
                         SELECT 1 FROM Tags WHERE UserID = %s AND TagName = %s
                     )
                     """
-                # Execute the SQL statement with the user ID and tag name
+            # Execute the SQL statement with the user ID and tag name
                 db_conn.execute(sql_statement, (user_id, tag_name))
-                # Fetch the result
+            # Fetch the result
                 result = db_conn.fetchone()
-                print(result)
-                # The result is a tuple where the first item is a boolean
-                tag_exists = result
+            # The result is a tuple where the first item is a boolean
+                tag_exists = result  # Access the first item of the tuple
                 return tag_exists
+
             
 
     #this will get contacts from db to display contact modal 
@@ -100,7 +105,7 @@ class ProcessTags():
                    
                 # Execute the SQL statement with the tag name and user ID
                 
-
+#need to add a stop here if duplicate entry ..... 4/24, works fine w new data
     def add_tag_to_contact(self, user_id, contact_id, tag_name):
             if self.check_tag_exists(user_id, tag_name):
                 tagID = self.get_tagID(tag_name)
@@ -111,55 +116,5 @@ class ProcessTags():
                     db_conn.execute(sql_statement, (contact_id, tagID))
         
     
-    
-    #DELETES tag by getting userid, finding the tagID with tag name, and removing all tags associated with 
-    #the specific users contacts
-
-    # for sql first must delete from contacttag table, and then must 
-    # delete from tags  
-    def delete_tag_db(self, user_id, tagName):
-        with DBConnection() as db_conn:
-            if db_conn:
-            # Start a transaction
-                db_conn.begin()
-
-                try:
-                # Find the tagID associated with the tagName and userID
-                    find_tag_sql = """
-                SELECT TagID FROM Tags WHERE UserID = %s AND TagName = %s;
-                """
-                    cursor = db_conn.cursor()
-                    cursor.execute(find_tag_sql, (user_id, tagName))
-                    tag_record = cursor.fetchone()
-
-                    if tag_record:
-                        tag_id = tag_record[0]
-
-                    # Delete all associations of this tag with contacts for this user
-                        delete_contact_tags_sql = """
-                    DELETE FROM ContactTags WHERE TagID = %s;
-                    """
-                        cursor.execute(delete_contact_tags_sql, (tag_id,))
-
-                    # Delete the tag itself from the Tags table
-                        delete_tag_sql = """
-                    DELETE FROM Tags WHERE TagID = %s and UserID = %s;
-                    """
-                        cursor.execute(delete_tag_sql, (tag_id, user_id))
-
-                    # Commit the transaction
-                        db_conn.commit()
-
-                        return True  # Indicate success
-                    else:
-                    # No tag found with the provided name and user ID
-                        db_conn.rollback()  # Roll back the transaction
-                        return False  # Indicate failure
-                except Exception as e:
-                # Handle any exception, rollback the transaction and re-raise the exception
-                    db_conn.rollback()
-                    raise
-
-
-    
-        
+    def delete_tag_for_contact(self, user_id, contact_id, tag_name):
+        return 
