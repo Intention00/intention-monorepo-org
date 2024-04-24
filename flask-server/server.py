@@ -202,6 +202,16 @@ def delete_tag_to_user(user_id, tag):
     tags_processor.delete_tag_user_db(user_id, tag)
     return jsonify({'tag': tag, 'user_id': user_id,})
 
+@app.route('/api/add_tag_to_contact/<user_id>/<contact_id>/<tag>', methods=['POST'])
+def add_tag_to_contact(user_id, contact_id, tag):
+
+    if user_id is None:
+        return jsonify({'error': 'Missing user_id or contact_id'}), 400
+    
+    tags_processor.add_tag_to_contact(user_id, contact_id, tag)
+    return jsonify({'tag': tag, 'user_id': user_id, 'contact': contact_id})
+
+
 
 
 if __name__ == "__main__":

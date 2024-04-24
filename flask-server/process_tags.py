@@ -17,9 +17,19 @@ class ProcessTags():
         #logic to remove tag
         return
 
+    def get_tagID(self, tag_name): 
+        with DBConnection() as db_conn: 
+            if db_conn:
+                sql_statement = """
+                SELECT TagID FROM Tags WHERE TagName = %s"
+                    """
+                db_conn.execute(sql_statement, tag_name)
+                result = db_conn.fetchone()
+                return result[0]
+
     
 
-   # def check_tag_limit(self, user_id):
+    def check_tag_limit(self, user_id):
         with DBConnection() as db_conn:
             if db_conn:
                 sql_statement = """
@@ -38,13 +48,14 @@ class ProcessTags():
                     SELECT EXISTS (
                         SELECT 1 FROM Tags WHERE UserID = %s AND TagName = %s
                     )
-                """
+                    """
                 # Execute the SQL statement with the user ID and tag name
                 db_conn.execute(sql_statement, (user_id, tag_name))
                 # Fetch the result
                 result = db_conn.fetchone()
+                print(result)
                 # The result is a tuple where the first item is a boolean
-                tag_exists = result[0]
+                tag_exists = result
                 return tag_exists
             
 
@@ -91,10 +102,15 @@ class ProcessTags():
                 
 
     def add_tag_to_contact(self, user_id, contact_id, tag_name):
-            if(self.check_tag_exists(user_id, tag_name)):
-                return
+            if self.check_tag_exists(user_id, tag_name):
+                tagID = self.get_tagID(tag_name)
+                with DBConnection() as db_conn: 
+                    sql_statement = """
+                        INSERT INTO ContactTags (ContactID, TagID) VALUES(%s, %s)
+                        """
+                    db_conn.execute(sql_statement, (contact_id, tagID))
         
-            
+    
     
     #DELETES tag by getting userid, finding the tagID with tag name, and removing all tags associated with 
     #the specific users contacts
