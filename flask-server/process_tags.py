@@ -1,4 +1,5 @@
 from database.db import DBConnection
+
 class ProcessTags():
 
     def __init__(self, contacts = []) -> None:
@@ -29,7 +30,24 @@ class ProcessTags():
             row_count = cursor.fetchone()[0]
             return row_count
         
-    
+    def check_tag_exists(self, user_id, tag_name): 
+        with DBConnection() as db_conn:
+            if db_conn:
+                # Prepare a SQL statement to check if a tag exists for a user
+                sql_statement = """
+                    SELECT EXISTS (
+                        SELECT 1 FROM Tags WHERE UserID = %s AND TagName = %s
+                    )
+                """
+                # Execute the SQL statement with the user ID and tag name
+                db_conn.execute(sql_statement, (user_id, tag_name))
+                # Fetch the result
+                result = db_conn.fetchone()
+                # The result is a tuple where the first item is a boolean
+                tag_exists = result[0]
+                return tag_exists
+            
+
     #this will get contacts from db to display contact modal 
     def retrieve_db_contact_tag(self, user_id, contact_id):
         with DBConnection() as db_conn: 
@@ -48,23 +66,34 @@ class ProcessTags():
             cursor.execute(sql_statement, (contact_id, user_id))
             return cursor.fetchall()
 
-    #this will take user input
-    def add_tag_user_db(self, user_id , tag):
+    #this will take user input for tag and add it to tag for user 
+    def add_tag_user_db(self, user_id, tag_name):
+        with DBConnection() as db_conn:
+            if db_conn:
+                # Prepare a SQL statement to insert a new tag for a user
+                    sql_statement = """
+                    INSERT INTO Tags (TagName, UserID) VALUES (%s, %s)
+                """
+                    db_conn.execute(sql_statement, (tag_name, user_id))
+                   
+               
+    #function will delete tag associated with user... (need to add contacttag deletion later on)
+    def delete_tag_user_db(self, user_id, tag_name):
+        with DBConnection() as db_conn:
+            if db_conn:
+                # Prepare a SQL statement to insert a new tag for a user
+                sql_statement = """
+                     DELETE FROM Tags WHERE UserID = %s AND TagName = %s
+                    """
+                db_conn.execute(sql_statement, (user_id, tag_name))
+                   
+                # Execute the SQL statement with the tag name and user ID
+                
+
+    def add_tag_to_contact(self, user_id, contact_id, tag_name):
+            if(self.check_tag_exists(user_id, tag_name)):
+                return
         
-        with DBConnection() as db_conn: 
-            if db_conn: 
-                sql_statement = """ 
-                        
-                        """
-                cursor = db_conn.cursor()
-                cursor.execute(sql_statement, ( user_id))
-                return cursor.fetchall()
-            
-       
-            #what should i make logic be for if add tag cant happen, just leave it? 
-            #what should it return?  a -1? 
-    def add_tag_to_contact(self, user_id, contact_id, tag):
-        return 
             
     
     #DELETES tag by getting userid, finding the tagID with tag name, and removing all tags associated with 
