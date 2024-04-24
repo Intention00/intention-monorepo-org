@@ -1,13 +1,17 @@
-import { View, SafeAreaView, FlatList, TouchableHighlight, Text } from "react-native";
+import { View, SafeAreaView, FlatList, TouchableHighlight, Text, Modal } from "react-native";
 import { ReminderItem } from "./ReminderItem";
 import { useState } from "react";
 import { styles } from "./ReminderList.style";
+import { ConnectModal } from "../ConnectModal/ConnectModal";
 
 const ReminderList: React.FC <{reminders: any[]}> = ({reminders})=> {
     const [selectedReminder, setSelectedReminder] = useState(undefined);
+    // State to manage the visibility of the modal for selecting contacts to sync
+    const [modalVisible, setModalVisible] = useState(false);
 
     const onReminderClick = (reminder)=> {
         setSelectedReminder(reminder);
+        setModalVisible(true)
     };
 
     const renderHourlyReminders = (hourlyReminders) => {
@@ -60,6 +64,12 @@ const ReminderList: React.FC <{reminders: any[]}> = ({reminders})=> {
     return (
         <View style={{flex: 1, marginTop: 20}}>
             {renderHourlyBoxes()}
+
+            <Modal visible={modalVisible} transparent={true} onRequestClose={()=> {setModalVisible(false)}} animationType='fade'>
+                    <SafeAreaView>
+                        <ConnectModal fullReminder={selectedReminder} toggleModalVisibility={()=> setModalVisible(false)}></ConnectModal>
+                    </SafeAreaView>
+            </Modal>
         </View>
     );
 }

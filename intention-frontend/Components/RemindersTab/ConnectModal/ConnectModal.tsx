@@ -7,10 +7,11 @@ import { GenerateQuestions } from "./Transcriber/GenerateQuestions";
 import { receiveScoreFromBackend, sendScoreToBackend } from "../../Generic/backendService"
 
 
-const ConnectModal: React.FC <{toggleModalVisibility}> = ({toggleModalVisibility})=> {
+const ConnectModal: React.FC <{fullReminder, toggleModalVisibility}> = ({fullReminder, toggleModalVisibility})=> {
 
     // Placeholder for provided info
-    const contact = {contactID: 6, firstName: 'Hank', lastName: 'Zakroff'}
+    // const contact = {contactID: 6, firstName: 'Hank', lastName: 'Zakroff'}
+    const contact = fullReminder.contact;
     const [yesModalVisible, setYesModalVisible] = useState(false);
     const [connectionScore, setConnectionScore] = useState(0);
     const [scoreUpdated, setScoreUpdated] = useState(false);
