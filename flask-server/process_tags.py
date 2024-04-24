@@ -45,6 +45,7 @@ class ProcessTags():
             row_count = cursor.fetchone()[0]
             return row_count
         
+        
     def check_tag_exists(self, user_id, tag_name): 
         with DBConnection() as db_conn:
             if db_conn:
@@ -62,7 +63,23 @@ class ProcessTags():
                 tag_exists = result  # Access the first item of the tuple
                 return tag_exists
 
-            
+        
+    def check_contact_exists(self, user_id, contact_id):
+        with DBConnection() as db_conn:
+            if db_conn:
+            # Prepare a SQL statement to check if a tag exists for a user
+                sql_statement = """
+                    SELECT EXISTS (
+                        SELECT 1 FROM Contact WHERE UserID = %s AND ContactID = %s
+                    )
+                    """
+            # Execute the SQL statement with the user ID and tag name
+                db_conn.execute(sql_statement, (user_id, contact_id))
+            # Fetch the result
+                result = db_conn.fetchone()
+            # The result is a tuple where the first item is a boolean
+                contact_exists = result  # Access the first item of the tuple
+                return contact_exists
 
     #this will get contacts from db to display contact modal 
     def retrieve_db_contact_tag(self, user_id, contact_id):
@@ -117,4 +134,15 @@ class ProcessTags():
         
     
     def delete_tag_for_contact(self, user_id, contact_id, tag_name):
-        return 
+        if  self.check_contact_exists(user_id, contact_id):
+          
+
+            tag_id = self.get_tagID(tag_name)
+
+            with DBConnection() as db_conn:
+                sql_statement = """
+                    DELETE FROM ContactTags WHERE ContactID = %s AND TagID = %s
+                """
+
+                db_conn.execute(sql_statement, (contact_id, tag_id))
+            

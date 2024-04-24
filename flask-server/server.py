@@ -209,7 +209,7 @@ def delete_tag_from_contact(user_id, contact_id, tag):
     if user_id is None:
         return jsonify({'error': 'Missing user_id or contact_id'}), 400
     
-    tags_processor.delete_tag_for_contact
+    tags_processor.delete_tag_for_contact(user_id, contact_id, tag)
     return jsonify({'tag': tag, 'user-id': user_id, 'contact': contact_id})
 
 
