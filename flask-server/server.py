@@ -164,18 +164,18 @@ def delete_user_data(user_id):
     except Exception as err:
         return jsonify({'error': str(err)}), 500
     
-@app.route('/api/contact_tags/<user_id>/<contact_id>', methods=['GET'])
+@app.route('/api/contact-tags/<user_id>/<contact_id>', methods=['GET'])
 def get_contact_tags(user_id, contact_id):
  #   user_id = request.args.get('user_id', type=int)
    # contact_id = request.args.get('contact_id', type=int)
 
     if contact_id is None:
-        return jsonify({'error': 'Missing user_id or contact_id'}), 400
+        return jsonify({'error': 'Missing user-id or contact-id'}), 400
     
     tags = tags_processor.retrieve_db_contact_tag(user_id, contact_id)
     return jsonify({'contact_id': contact_id, 'tags': tags, 'user_id': user_id,})
     
-@app.route('/api/add_tag/<user_id>/<contact_id>/<tag>', methods=['POST'])
+@app.route('/api/add-tag/<user_id>/<contact_id>/<tag>', methods=['POST'])
 def add_tag_to_user_contact(user_id, contact_id, tag):
 
     if contact_id is None:
@@ -184,7 +184,7 @@ def add_tag_to_user_contact(user_id, contact_id, tag):
     tags_processor.add_tag_user_db(user_id, tag)
     return jsonify({'tag': tag, 'user_id': user_id,})
 
-@app.route('/api/add_tag_user/<user_id>/<tag>', methods=['POST'])
+@app.route('/api/add-tag-user/<user_id>/<tag>', methods=['POST'])
 def add_tag_to_user(user_id, tag):
 
     if user_id is None:
@@ -193,7 +193,7 @@ def add_tag_to_user(user_id, tag):
     tags_processor.add_tag_user_db(user_id, tag)
     return jsonify({'tag': tag, 'user_id': user_id,})
 
-@app.route('/api/delete_tag_user/<user_id>/<tag>', methods=['POST'])
+@app.route('/api/delete-tag-user/<user_id>/<tag>', methods=['POST'])
 def delete_tag_to_user(user_id, tag):
 
     if user_id is None:
@@ -202,14 +202,14 @@ def delete_tag_to_user(user_id, tag):
     tags_processor.delete_tag_user_db(user_id, tag)
     return jsonify({'tag': tag, 'user_id': user_id,})
 
-@app.route('/api/add_tag_to_contact/<user_id>/<contact_id>/<tag>', methods=['POST'])
+@app.route('/api/add-tag-to-contact/<user_id>/<contact_id>/<tag>', methods=['POST'])
 def add_tag_to_contact(user_id, contact_id, tag):
 
     if user_id is None:
         return jsonify({'error': 'Missing user_id or contact_id'}), 400
     
     tags_processor.add_tag_to_contact(user_id, contact_id, tag)
-    return jsonify({'tag': tag, 'user_id': user_id, 'contact': contact_id})
+    return jsonify({'tag': tag, 'user-id': user_id, 'contact': contact_id})
 
 
 
