@@ -97,12 +97,12 @@ const TranscriberNote: React.FC <{contact}> = ({contact})=> {
     const generateQuestions = async () => {
         try {
             // Make a network request to Flask server
-            const response = await fetch(`${backendAddress}/generate-questions`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ text: transcribedText }), // Use the text from the top textbox
+            const response = await fetch(`${backendAddress}/api/generate-questions`, {
+                method: 'GET',
+                // headers: {
+                //     'Content-Type': 'application/json',
+                // },
+                // body: JSON.stringify({ text: transcribedText }), // Use the text from the top textbox
             });
     
             // Handle the response

@@ -297,6 +297,48 @@ def delete_contact_reminder():
     
     except Exception as err:
         return jsonify({'message': str(err)}), 500
+    
+# Returns all the notes for a specific contact from the database
+@app.route("/api/notes", methods=['GET'])
+def return_contact_notes():
+    try: 
+        # getting contact_id from api call
+        contact_id = request.args.get('contactID')
+
+        # retrieving reminder from db
+        notes = notes_processor.get_notes(contact_id)
+
+        return jsonify(notes), 200
+    
+    except Exception as err:
+        return jsonify({'message': str(err)}), 500
+    
+# Returns summary of all the notes for a specific contact from the database
+@app.route("/api/notes-summary", methods=['GET'])
+def return_notes_summary():
+    try: 
+        # getting contact_id from api call
+        contact_id = request.args.get('contactID')
+
+        # retrieving reminder from db
+        summary = notes_processor.get_notes_summary(contact_id)
+
+        return jsonify(summary), 200
+    
+    except Exception as err:
+        return jsonify({'message': str(err)}), 500
+    
+# Returns an array of questions generated from the specific contact's summary
+@app.route('/api/generate-questions', methods=['GET'])
+def generate_questions():
+    # getting contact_id from api call
+    contact_id = request.args.get('contactID')
+
+    # Generate questions using transcriber.py
+    questions = notes_processor.get_summary_questions(contact_id)
+
+    # Return the generated questions
+    return jsonify({'questions': questions})
 
 if __name__ == "__main__":
     # added host to test, it seems to make it work on android
