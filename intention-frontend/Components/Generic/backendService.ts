@@ -168,3 +168,31 @@ export const recieveUserEmailBackend = async (user_id: string)=> {
         throw new Error(`Error retrieving email from backend: ${error}`);
     }
 }
+
+
+export const getUserTags = async(user_id: string)=>{
+    
+    return -1
+}
+
+export const getContactTags = async(user_id: string, contact_id: string)=>{
+    
+    return -1
+}
+
+export const addContactTag = async(user_id: string, contact_id: string, tag_name: string)=>{
+    
+    return -1
+}
+export const deleteContactTag = async(user_id: string, contact_id: string, tag_name: string)=>{
+    
+    return -1
+}
+export const addTagUser = async(user_id: string, tag_name: string)=>{
+    
+    return -1
+}
+export const deleteUserTag = async(user_id: string, tag_name: string)=>{
+    
+    return -1
+}

@@ -83,21 +83,26 @@ class ProcessTags():
 
     #this will get contacts from db to display contact modal 
     def retrieve_db_contact_tag(self, user_id, contact_id):
-        with DBConnection() as db_conn: 
-            if db_conn is None: 
-                print("failed to connect with database")
-                return []
-            if db_conn:
-                sql_statement = """
-                SELECT t.tag_id, t.tag_name
-                FROM Tags t
-                JOIN ContactTags ct ON t.tag_id = ct.tag_id
-                JOIN Contacts c ON ct.contact_id = c.contact_id
-                WHERE c.contact_id = %s AND c.user_id = %s;
+        try:
+            with DBConnection() as db_conn: 
+                if db_conn is None: 
+                    print("Failed to connect with the database")
+                    return []
+                if db_conn:
+                    sql_statement = """
+                SELECT T.TagName
+                FROM Tags T
+                JOIN ContactTags CT ON T.TagID = CT.TagID
+                JOIN Contact C ON CT.ContactID = C.ContactID
+                WHERE C.ContactID = %s AND C.UserID = %s;
                 """
-            cursor = db_conn.cursor()
-            cursor.execute(sql_statement, (contact_id, user_id))
-            return cursor.fetchall()
+                    
+                    db_conn.execute(sql_statement, (contact_id, user_id))
+                    return db_conn.fetchall()
+        except Exception as e:
+            print("An error occurred:", str(e))
+        return []
+
 
     #this will take user input for tag and add it to tag for user 
     def add_tag_user_db(self, user_id, tag_name):
