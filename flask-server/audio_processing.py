@@ -67,16 +67,18 @@ def generate_questions(summary):
         response = client.chat.completions.create(
             model="gpt-3.5-turbo",
             messages=[
-                {"role": "system", "content": "You are a helpful human assistant. Talking directly to the user. You provide warm but casual advice. You only return what was asked without any further input."},
-                {"role": "user", "content": f"I are trying to reach out to {dummy_name}. It has been a long time and I don't know what to say. Given these notes about our relationship, give me 3 personable introduction text messages I could send to them to start a new conversation. Only return the questions- provide them in the format of an array, with the format [question1, question2, question3]. Here are the notes: {summary}"}
+                {"role": "system", "content": "You are a helpful human assistant. Talking directly to the user. You provide warm but casual advice. You only return what was asked without any further input. You don't ask any further questions."},
+                {"role": "user", "content": f"I are trying to reach out to {dummy_name}. It has been a long time and I don't know what to say. Given these notes about our relationship, give me 3 personable introduction text messages I could send to them to start a new conversation. Only return the questions- provide them in the format of an array, seperated by commas, with the format [\"question1\", \"question2\", \"question3\"]. Here are the notes: {summary}"}
                 ]
         )
+        # Only return the questions- provide them in the format of an array, with the format [question1, question2, question3]
         content_section = response.choices[0].message.content
     else:
         content_section = ["Please add some notes!", "", ""]
 
 
     # Quick fix to fix issue with empty copy buttons and remove quotes and numbers from questions
+    # questions = content_section.splitlines()
     # questions = list(filter(lambda x: x.strip(), content_section.split('\n')))
     # questions_without_nums = [question.split('. ')[1].replace('"', '') for question in questions]
     print(f"Q: {content_section}")

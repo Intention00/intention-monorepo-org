@@ -97,7 +97,7 @@ const TranscriberNote: React.FC <{contact}> = ({contact})=> {
     const generateQuestions = async () => {
         try {
             // Make a network request to Flask server
-            const response = await fetch(`${backendAddress}/api/generate-questions`, {
+            const response = await fetch(`${backendAddress}/api/generate-questions?contactID=${contact.contactID}`, {
                 method: 'GET',
                 // headers: {
                 //     'Content-Type': 'application/json',
@@ -107,7 +107,7 @@ const TranscriberNote: React.FC <{contact}> = ({contact})=> {
     
             // Handle the response
             const data = await response.json();
-            const generatedQuestions = data.questions;
+            const generatedQuestions = JSON.parse(data.questions);
     
             // Ensure generatedQuestions is an array before setting state
             if (Array.isArray(generatedQuestions)) {
