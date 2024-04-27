@@ -1,6 +1,7 @@
 from database.db import DBConnection
 from audio_processing import generate_notes_summary
 from audio_processing import generate_questions
+import json
 class ProcessNotes():
     def __init__(self, note_pkg = None) -> None:
         if note_pkg:
@@ -61,6 +62,11 @@ class ProcessNotes():
     # Returns some questions generated for the contact using their summary
     def get_summary_questions(self, contact_id, firstName):
         summary = self.get_notes_summary(contact_id)
-        questions = generate_questions(summary, firstName)
+        questions = json.loads(generate_questions(summary, firstName))
         
-        return questions
+        formatted_questions = []
+
+        for value in questions.values():
+            formatted_questions.append(value)
+        
+        return formatted_questions

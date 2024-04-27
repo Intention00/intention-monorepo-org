@@ -74,7 +74,7 @@ const ConnectModal: React.FC <{fullReminder, toggleModalVisibility}> = ({fullRem
 
                     <ScrollView style={{marginBottom: 30}}>
                         {/* <TranscriberNote contact={contact}></TranscriberNote> */}
-                        <GenerateQuestions></GenerateQuestions>
+                        <GenerateQuestions contact={contact}></GenerateQuestions>
                     </ScrollView>
 
                     <View style={styles.selectButtons}>

@@ -5,13 +5,13 @@ import { shareQuestion } from "../../../ContactsTab/Transcriber/ShareQuestions/s
 shareQuestion
 import { styles } from "./GenerateQuestions.style"
 
-const GenerateQuestions: React.FC = ()=> {
+const GenerateQuestions: React.FC <{contact}> = ({contact})=> {
     const [questions, setQuestions] = useState<string[]>([]);
 
     useEffect(()=> {
         (async ()=> {
             try {
-                const tempQuestions = await generateQuestions();
+                const tempQuestions = await generateQuestions(contact);
                 setQuestions(tempQuestions);
             }
             catch (err) {
@@ -21,7 +21,7 @@ const GenerateQuestions: React.FC = ()=> {
     }, []);
 
     const handleGenerateQuestions = async ()=> {
-        const tempQuestions = await generateQuestions();
+        const tempQuestions = await generateQuestions(contact);
         setQuestions(tempQuestions);
     }
 

@@ -1,18 +1,16 @@
 import { backendAddress } from "../../../Generic/backendService";
 
-const generateQuestions = async () => {
+const generateQuestions = async (contact) => {
     try {
         // Make a network request to Flask server
-        const response = await fetch(`${backendAddress}/generate-questions`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ text: "Me and Jake met at Subway, where we were both getting ourselves sandwiches. We spoke about the best type of cheese before heading our separate ways." }), // Use the text from the top textbox
+        const response = await fetch(`${backendAddress}/api/generate-questions?contactID=${contact.contactID}
+        &firstName=${contact.firstName}`, {
+            method: 'GET',
         });
 
         // Handle the response
         const data = await response.json();
+        // const generatedQuestions = JSON.parse(data.questions);
         const generatedQuestions = data.questions;
 
         // Ensure generatedQuestions is an array before setting state

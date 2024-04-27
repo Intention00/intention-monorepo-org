@@ -100,15 +100,11 @@ const TranscriberNote: React.FC <{contact}> = ({contact})=> {
             const response = await fetch(`${backendAddress}/api/generate-questions?contactID=${contact.contactID}
             &firstName=${contact.firstName}`, {
                 method: 'GET',
-                // headers: {
-                //     'Content-Type': 'application/json',
-                // },
-                // body: JSON.stringify({ text: transcribedText }), // Use the text from the top textbox
             });
     
             // Handle the response
             const data = await response.json();
-            const generatedQuestions = JSON.parse(data.questions);
+            const generatedQuestions = data.questions;
     
             // Ensure generatedQuestions is an array before setting state
             if (Array.isArray(generatedQuestions)) {

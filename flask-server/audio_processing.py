@@ -63,23 +63,18 @@ def generate_notes_summary(notes, contact_id):
 
 def generate_questions(summary, firstName):
     if summary:
+        # add dont assume timeline
         print(f"Name was: {firstName}")
         response = client.chat.completions.create(
             model="gpt-3.5-turbo",
+            response_format={'type': 'json_object'},
             messages=[
-                {"role": "system", "content": "You are a helpful human assistant. Talking directly to the user. You provide warm but casual advice. You only return what was asked without any further input. You don't ask any further questions."},
-                {"role": "user", "content": f"I are trying to reach out to {firstName}. It has been a long time and I don't know what to say. Given these notes about our relationship, give me 3 personable introduction text messages I could send to them to start a new conversation. I'll be sending these directly, so make sure they don't require any editing. Only return the questions- provide them in the format of an array, seperated by commas, with the format [\"question1\", \"question2\", \"question3\"]. Here are the notes: {summary}"}
+                {"role": "system", "content": "You are a helpful human assistant. Talking directly to the user. You provide warm but casual advice. You only return what was asked without any further input. You don't ask any further questions. You also don't use emojis."},
+                {"role": "user", "content": f"I am trying to reach out to {firstName}. It has been a long time and I don't know what to say. Given these notes about our relationship, give me 3 personable introduction text messages I could send to them to start a new conversation. I'll be sending these directly, so make sure they don't require any editing. Only return the questions- provide them in the format of a json object  with the keys  \"question1\", \"question2\", \"question3\". Don't assume how long it has been since our last conversation. Don't combine things that we did at different times together unless it makes sense. Make sure to pay attention to when a particular note ours takes place- this could be something from the distant past, recently, or even the future. Here are the notes: {summary}"}
                 ]
         )
-        # Only return the questions- provide them in the format of an array, with the format [question1, question2, question3]
         content_section = response.choices[0].message.content
     else:
-        content_section = "[\"Please add some notes!\", \"\", \"\"]"
+        content_section = "{\"question1\": \"Please add some notes!\", \"question2\": \"\", \"question3\": \"\"}"
 
-
-    # Quick fix to fix issue with empty copy buttons and remove quotes and numbers from questions
-    # questions = content_section.splitlines()
-    # questions = list(filter(lambda x: x.strip(), content_section.split('\n')))
-    # questions_without_nums = [question.split('. ')[1].replace('"', '') for question in questions]
-    print(f"Q: {content_section}")
     return content_section
