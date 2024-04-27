@@ -6,7 +6,7 @@ import { DeleteUserData } from '../../Components/ProfileTab/DeleteUser/DeleteUse
 import { handleUser } from '../../Components/ContactsTab/UserSync/userService';
 import { userIDContext } from '../../Components/ContactsTab/UserSync/userIDContext';
 import { styles as global } from '../../Components/Generic/global.style';
-
+import { UserProfileTags } from '../../Components/ContactsTab/ContactsTagging/UserTag';
 
 const Profile = () => {
   const { user } = useUser();
@@ -53,6 +53,8 @@ const Profile = () => {
           <DeleteUserData></DeleteUserData>
         </userIDContext.Provider>
       </View>
+      <UserProfileTags></UserProfileTags>
+
     </View>
   );
 };

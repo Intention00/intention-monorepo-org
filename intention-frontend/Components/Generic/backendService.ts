@@ -171,8 +171,26 @@ export const recieveUserEmailBackend = async (user_id: string)=> {
 
 
 export const getUserTags = async(user_id: string)=>{
+    try {
+        const response = await fetch(`${backendAddress}/api/tags/?user_id=${user_id}`, {
+            method: 'GET',
+        })
+
+        if (!response.ok) {
+            const errorMessage = await response.json();
+            console.error(`Server returned an error: ${JSON.stringify(errorMessage)}`);
+        }
+        else {
+            const tags = await response.json();
+            
+            return tags;
+        }
+    } 
+    catch (error) {
+        
+        throw new Error(`Error retrieving user tags from backend fish: ${error}`);
+    }
     
-    return -1
 }
 
 export const getContactTags = async(user_id: string, contact_id: string)=>{

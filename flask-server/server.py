@@ -218,7 +218,7 @@ def sendTags(user_id):
     if user_id is None: 
         return jsonify({'error': 'Missing user_id or contact_id'}), 400
     tags = tags_processor.get_user_tags(user_id)
-    return jsonify({'tags': tags, 'user-id': user_id})
+    return jsonify({'tags': tags,})
 
     
 

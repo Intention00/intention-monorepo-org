@@ -4,24 +4,29 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, Button, ScrollView } from 'react-native';
 import { Tag } from './tag';
-import { apiService } from './apiService';
+import { getUserTags } from '../../Generic/backendService';
 import { styles } from './ContactTags.style';
+import { handleUser } from '../UserSync/userService';
+import { useUser } from '@clerk/clerk-expo';
 
 const TaggingScreen: React.FC = () => {
   const [tags, setTags] = useState<string[]>([]);
+  const {user} = useUser();
+  const [userID, setUserID] = useState(undefined);
+
   
   useEffect(() => {
     // Fetch user's tags from the backend when the component mounts
-    const fetchTags = async () => {
+    const fetchContactTags = async () => {
       try {
-        const userTags = await apiService.getUserTags();
+        const userTags = await getUserTags(userID);
         setTags(userTags);
       } catch (error) {
         console.error('Error fetching user tags:', error);
       }
     };
 
-    fetchTags();
+    fetchContactTags();
   }, []);
 
   const handleAddTag = async () => {
