@@ -333,9 +333,10 @@ def return_notes_summary():
 def generate_questions():
     # getting contact_id from api call
     contact_id = request.args.get('contactID')
+    contact_first_name = request.args.get('firstName')
 
     # Generate questions using transcriber.py
-    questions = notes_processor.get_summary_questions(contact_id)
+    questions = notes_processor.get_summary_questions(contact_id, contact_first_name)
 
     # Return the generated questions
     return jsonify({'questions': questions})

@@ -14,12 +14,19 @@ class ProcessNotes():
 
     # saves the note to the specified contactid in database
     def save_note(self):
-        with DBConnection() as db_conn:
-            if db_conn:
-                sql_statement = """
-                    INSERT IGNORE INTO Notes (TranscribedNotes, ContactID) VALUES (%s, %s);
-                """
-                db_conn.execute(sql_statement, (self.note, self.contactID))
+        # only save if the note actually has text
+        if self.note.strip():
+            with DBConnection() as db_conn:
+                if db_conn:
+                    # Insert note to database
+                    sql_statement = """
+                        INSERT IGNORE INTO Notes (TranscribedNotes, ContactID) VALUES (%s, %s);
+                    """
+                    db_conn.execute(sql_statement, (self.note, self.contactID))
+
+                    # Generate a new summary of the notes with this, and save in db
+                    self.save_notes_summary(self.contactID)
+                    
 
     # Returns all the saved notes for a desired contact
     def get_notes(self, contact_id):
@@ -34,23 +41,26 @@ class ProcessNotes():
 
                 return formatted_notes
             
+    # Returns a summary generated from all the notes for the specific contact
     def get_notes_summary(self, contact_id):
         notes = self.get_notes(contact_id)
         generated_summary = generate_notes_summary(notes, contact_id)
 
         return generated_summary
     
-    def get_summary_questions(self, contact_id):
+    # Updates the contact's summary in the database using their notes
+    def save_notes_summary(self, contact_id):
+        with DBConnection() as db_conn:
+            if db_conn:
+                summary = self.get_notes_summary(contact_id)
+                sql_statement = """
+                    UPDATE Contact SET Summary = %s WHERE ContactID = %s;
+                """
+                db_conn.execute(sql_statement, (summary, contact_id))
+
+    # Returns some questions generated for the contact using their summary
+    def get_summary_questions(self, contact_id, firstName):
         summary = self.get_notes_summary(contact_id)
-        questions = generate_questions(summary)
+        questions = generate_questions(summary, firstName)
         
         return questions
-
-
-    # def get_summary(self):
-    #     with DBConnection() as db_conn:
-    #         if db_conn:
-    #             sql_statement = """
-    #                 INSERT IGNORE INTO Notes (TranscribedNotes, ContactID) VALUES (%s, %s);
-    #             """
-    #             db_conn.execute(sql_statement, (self.note, self.contactID))
