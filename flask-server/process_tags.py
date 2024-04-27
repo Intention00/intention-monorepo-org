@@ -150,4 +150,25 @@ class ProcessTags():
                 """
 
                 db_conn.execute(sql_statement, (contact_id, tag_id))
+
+    def get_user_tags(self, user_id):
+        try:
+            with DBConnection() as db_conn: 
+                if db_conn is None: 
+                    print("Failed to connect with the database")
+                    return []
+                if db_conn:
+                    sql_statement = """
+                SELECT TagName FROM Tags WHERE UserID = %s
+                
+                """
+                    
+                    db_conn.execute(sql_statement, (user_id,))
+                    return db_conn.fetchall()
+        except Exception as e:
+            print("An error occurred:", str(e))
+        return []
+            
+                
+
             

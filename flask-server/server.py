@@ -215,9 +215,12 @@ def delete_tag_from_contact(user_id, contact_id, tag):
 #maybe dont need this , talk to raj 
 @app.route("/api/tags/<user_id>", methods=['GET'])
 def sendTags(user_id):
+    if user_id is None: 
+        return jsonify({'error': 'Missing user_id or contact_id'}), 400
+    tags = tags_processor.get_user_tags(user_id)
+    return jsonify({'tags': tags, 'user-id': user_id})
 
-
-    return
+    
 
 if __name__ == "__main__":
     # added host to test, it seems to make it work on android

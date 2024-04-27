@@ -184,6 +184,7 @@ export const addContactTag = async(user_id: string, contact_id: string, tag_name
     
     return -1
 }
+
 export const deleteContactTag = async(user_id: string, contact_id: string, tag_name: string)=>{
     
     return -1
