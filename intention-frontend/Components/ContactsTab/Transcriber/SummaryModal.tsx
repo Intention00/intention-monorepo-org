@@ -12,6 +12,7 @@ const SummaryModal: React.FC <{contact, toggleModalVisibility}> = ({contact, tog
         (async ()=> {
             try {
                 const tempSummary = await getSummaryFromBackend(contact.contactID);
+                console.log(`Summary is: ${JSON.stringify(tempSummary)}`)
                 setSummary(tempSummary);
 
             }

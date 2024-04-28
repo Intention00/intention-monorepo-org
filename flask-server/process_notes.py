@@ -36,26 +36,40 @@ class ProcessNotes():
         with DBConnection() as db_conn:
             if db_conn:
                 sql_statement = """
-                    SELECT TranscribedNotes FROM Notes WHERE ContactID = %s;
+                    SELECT NoteDate, TranscribedNotes FROM Notes WHERE ContactID = %s;
                 """
                 db_conn.execute(sql_statement, (contact_id,))
                 notes = db_conn.fetchall()
-                formatted_notes = [note['TranscribedNotes'] for note in notes]
+                formatted_notes = [{'date': note['NoteDate'], 'note': note['TranscribedNotes']} for note in notes]
+                print(f'Formatted Notes: {formatted_notes}')
 
                 return formatted_notes
             
     # Returns a summary generated from all the notes for the specific contact
-    def get_notes_summary(self, contact_id):
+    def gen_notes_summary(self, contact_id):
         notes = self.get_notes(contact_id)
         generated_summary = generate_notes_summary(notes, contact_id)
 
         return generated_summary
     
+    # Retrieves summary saved in database
+    def get_summary(self, contact_id):
+        with DBConnection() as db_conn:
+            if db_conn:
+                sql_statement = """
+                    SELECT Summary FROM Contact WHERE ContactID = %s;
+                """
+                db_conn.execute(sql_statement, (contact_id,))
+
+                summary = db_conn.fetchone()
+
+                return summary['Summary']
+    
     # Updates the contact's summary in the database using their notes
     def save_notes_summary(self, contact_id):
         with DBConnection() as db_conn:
             if db_conn:
-                summary = self.get_notes_summary(contact_id)
+                summary = self.gen_notes_summary(contact_id)
                 sql_statement = """
                     UPDATE Contact SET Summary = %s WHERE ContactID = %s;
                 """
@@ -79,7 +93,7 @@ class ProcessNotes():
 
     # Returns some questions generated for the contact using their summary
     def get_summary_questions(self, contact_id, firstName):
-        summary = self.get_notes_summary(contact_id)
+        summary = self.get_summary(contact_id)
         newest_note = self.get_newest_note(contact_id)
 
         # testing conversational_style
@@ -101,3 +115,4 @@ class ProcessNotes():
         conversational_style = generate_conversational_style(notes)
         print(f"Style is: {conversational_style}")
         return conversational_style
+    

@@ -38,7 +38,7 @@ const styles = StyleSheet.create({
 
     modalSummaryText: {
         textAlign: 'left',
-        fontSize: 16,
+        fontSize: 8,
         fontWeight: '500',
         color: global.inputBox.color,
     },

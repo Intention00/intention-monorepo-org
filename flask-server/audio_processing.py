@@ -36,7 +36,7 @@ def generate_notes_summary(notes, contact_id):
             model="gpt-3.5-turbo",
             messages=[
                 {"role": "system", "content": "You are a helpful human assistant. Talking directly to the user."},
-                {"role": "user", "content": f"Take this array of notes describing one of my relationships and immediately provide simple bullet points, explaining the intricacies of our relationship and key details that are useful for me to reference later when reaching out. Only provide those bullet points, don't say anything else. Here are the notes: {notes}"}
+                {"role": "user", "content": f"Take this array of notes and their time and date, describing one of my relationships and provide simple bullet points, explaining the intricacies of our relationship and key details that are useful for me to reference later when reaching out. Only include the notes information in the summary and return this as a bulleted list. Pay close attention to the details between notes and update the summary for any discrepancies- prioritizing the more recent notes as being more accurate. Put information that is most recent at the top of the summary. Your summary should be targeted to me. Only provide those bullet points, don't say anything else. Here are the notes: {notes}."}
             ],
             top_p=0.1
         )
@@ -48,6 +48,7 @@ def generate_notes_summary(notes, contact_id):
 def generate_questions(summary, newest_note, firstName, style):
     if summary:
         # add dont assume timeline
+        # 
         print(f"Name was: {firstName}")
         response = client.chat.completions.create(
             model="gpt-3.5-turbo",
@@ -55,7 +56,7 @@ def generate_questions(summary, newest_note, firstName, style):
             messages=[
                 {"role": "system", "content": "You are a human chameleon, able to perfectly mimic someone after some analysis. You are talking directly to someone that knows the human you are mimicking."},
 
-                {"role": "user", "content": f"Generate 3 personable ways to reach out to {firstName}. You'll be sending these directly, so make sure they don't require any editing. Only return the questions- provide them in the format of a json object with the keys \"question1\", \"question2\", \"question3\". This is an analysis of the conversation style of the human you are mimicking: {style}. Follow the analysis exactly, and act as if that is you. Here are some notes regarding their relationship: {summary}. This is the most recent note between them, place extra emphasis on it: {newest_note}. Keep track of what the human you're mimicking told {firstName}, and what {firstName} told them. Only use the information you have- don't make up any information regarding their past interactions or relationship, and don't make any mistakes. "}, 
+                {"role": "user", "content": f"Generate 3 personable ways to reach out to {firstName}. You'll be sending these directly, so make sure they don't require any editing. Only return the questions- provide them in the format of a json object with the keys \"question1\", \"question2\", \"question3\". This is an analysis of the conversation style of the human you are mimicking: {style}. Follow the analysis exactly, and act as if that is you. Here are some notes regarding their relationship: {summary}. This is the most recent note between them, place extra emphasis on it: {newest_note}. Keep track of what the human you're mimicking told {firstName}, and what {firstName} told them. Only use the information you have- don't make up any information regarding their past interactions or relationship, and don't make any mistakes. If you don't have enough information to work with, think of some openers that are unrelated to the notes, but they would probably appreciate. Don't mention any other names other than yourself and {firstName}."}, 
             ],
 
             # messages=[
