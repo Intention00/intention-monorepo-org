@@ -1,4 +1,4 @@
-import { View, Text, TextInput, TouchableOpacity, Alert } from "react-native"
+import { View, Text, TextInput, TouchableOpacity, Modal, Button } from "react-native"
 import React, { useState } from "react";
 import { Audio } from "expo-av"
 import { sendNotesToBackend, sendFinalNotesToBackend } from "../../Generic/backendService";
@@ -8,12 +8,14 @@ import { backendAddress } from "../../Generic/backendService";
 import * as Clipboard from 'expo-clipboard';
 import { styles } from "./TranscribeNote.style";
 import { shareQuestion } from "./ShareQuestions/shareQuestion";
+import { SummaryModal } from "./SummaryModal";
 
 const TranscriberNote: React.FC <{contact}> = ({contact})=> {
     // Transcription Declarations
     const [recording, setRecording] = useState(undefined);
     const [permissionResponse, requestPermission] = Audio.usePermissions();
     const [audioUri, setAudioUri] = useState(undefined);
+    const [summaryModalVisible, setSummaryModalVisible] = useState(false);
 
     // Microphone button START-RECORDING
     async function startRecording() {
@@ -180,6 +182,13 @@ const TranscriberNote: React.FC <{contact}> = ({contact})=> {
                     </TouchableOpacity>
                 </View>
             </View>
+
+            {/* Summary modal */}
+            <Button title="Summary" onPress={()=> setSummaryModalVisible(true)}></Button>
+
+            <Modal visible={summaryModalVisible} transparent={true} onRequestClose={()=> {setSummaryModalVisible(false)}} animationType='fade'>
+                <SummaryModal contact={contact} toggleModalVisibility={()=> setSummaryModalVisible(false)}></SummaryModal>
+            </Modal>
             
             {/* Questions Section */}
             <View style={{ flexDirection: 'column' }}>
