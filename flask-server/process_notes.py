@@ -94,6 +94,8 @@ class ProcessNotes():
 
         return formatted_questions
 
+    # Experimental method to make the generated questions more natural and fitting
+    # to the user.
     def conversation_style(self, contact_id):
         notes = self.get_notes(contact_id)
         conversational_style = generate_conversational_style(notes)

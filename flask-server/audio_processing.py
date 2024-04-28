@@ -29,22 +29,6 @@ def generate_summary(text):
     content_section = response.choices[0].message.content
     return content_section
     
-# def generate_questions(text):
-#     response = client.chat.completions.create(
-#         model="gpt-3.5-turbo",
-#         messages=[
-#             {"role": "system", "content": "You are a helpful assistant. Talking directly to the user"},
-#             {"role": "user", "content": f"You are trying to reach out to (name provided). It has been a long time and you don't know what to say. Given these notes about the last time you spoke with them, give me 3 introduction text messages I could send to them to start a new conversation: {text}"}
-#             ]
-#     )
-#     content_section = response.choices[0].message.content
-
-#     # Quick fix to fix issue with empty copy buttons and remove quotes and numbers from questions
-#     questions = list(filter(lambda x: x.strip(), content_section.split('\n')))
-#     questions_without_nums = [question.split('. ')[1].replace('"', '') for question in questions]
-
-#     return questions_without_nums
-
 # summary generated from all the notes for a given contact
 def generate_notes_summary(notes, contact_id):
     if notes:
@@ -72,8 +56,6 @@ def generate_questions(summary, newest_note, firstName, style):
                 {"role": "system", "content": "You are a human chameleon, able to perfectly mimic someone after some analysis. You are talking directly to someone that knows the human you are mimicking."},
 
                 {"role": "user", "content": f"Generate 3 personable ways to reach out to {firstName}. You'll be sending these directly, so make sure they don't require any editing. Only return the questions- provide them in the format of a json object with the keys \"question1\", \"question2\", \"question3\". This is an analysis of the conversation style of the human you are mimicking: {style}. Follow the analysis exactly, and act as if that is you. Here are some notes regarding their relationship: {summary}. This is the most recent note between them, place extra emphasis on it: {newest_note}. Keep track of what the human you're mimicking told {firstName}, and what {firstName} told them. Only use the information you have- don't make up any information regarding their past interactions or relationship, and don't make any mistakes. "}, 
-                 
-                # {"role": "user", "content": f"Here are the notes: {summary}. This is our most recent note, so give it a higher priority while generating these questions: {newest_note}. Loosen up while generating the questions. Use this analysis of my writing style while generating these questions to make them sound like they came from me: {style}."}
             ],
 
             # messages=[
