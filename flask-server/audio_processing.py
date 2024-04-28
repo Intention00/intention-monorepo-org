@@ -47,14 +47,14 @@ def generate_summary(text):
 
 # summary generated from all the notes for a given contact
 def generate_notes_summary(notes, contact_id):
-    dummy_name = "Hank"
     if notes:
         response = client.chat.completions.create(
             model="gpt-3.5-turbo",
             messages=[
-                {"role": "system", "content": "You are a helpful assistant. Talking directly to the user."},
-                {"role": "user", "content": f"Take this arry of text given of my relationship with {dummy_name}. Immediately provide simple bullet points, explaining the intricacies of our relationship and key details that are useful for me to reference later when reaching out. Only provide those bullet points, don't say anything else. Here is the text: {notes}"}
-            ]
+                {"role": "system", "content": "You are a helpful human assistant. Talking directly to the user."},
+                {"role": "user", "content": f"Take this array of notes describing one of my relationships and immediately provide simple bullet points, explaining the intricacies of our relationship and key details that are useful for me to reference later when reaching out. Only provide those bullet points, don't say anything else. Here are the notes: {notes}"}
+            ],
+            top_p=0.1
         )
         content_section = response.choices[0].message.content
     else:
@@ -69,9 +69,13 @@ def generate_questions(summary, firstName):
             model="gpt-3.5-turbo",
             response_format={'type': 'json_object'},
             messages=[
-                {"role": "system", "content": "You are a helpful human assistant. Talking directly to the user. You provide warm but casual advice. You only return what was asked without any further input. You don't ask any further questions. You also don't use emojis."},
-                {"role": "user", "content": f"I am trying to reach out to {firstName}. It has been a long time and I don't know what to say. Given these notes about our relationship, give me 3 personable introduction text messages I could send to them to start a new conversation. I'll be sending these directly, so make sure they don't require any editing. Only return the questions- provide them in the format of a json object  with the keys  \"question1\", \"question2\", \"question3\". Don't assume how long it has been since our last conversation. Don't combine things that we did at different times together unless it makes sense. Make sure to pay attention to when a particular note ours takes place- this could be something from the distant past, recently, or even the future. Here are the notes: {summary}"}
-                ]
+                {"role": "system", "content": "You are a helpful human assistant. Talking directly to the user. You provide warm and casual advice. You only return what was asked without any further input. You don't ask any further questions. You also don't use emojis."},
+
+                {"role": "user", "content": f"I am trying to reach out to {firstName} and don't know what to say. Given some notes about our relationship, give me 3 personable introduction text messages I could send to them to start a new conversation. I'll be sending these directly, so make sure they don't require any editing. For example, don't generate any questions that require me to replace placeholders with my name or any other personalized information- only use the information you have. Only return the questions- provide them in the format of a json object with the keys \"question1\", \"question2\", \"question3\". Make sure the questions you generate are organic, and can start a natural conversation. Also make sure to keep track of what I told {firstName}, and what they told me."}, 
+                 
+                {"role": "user", "content": f"Here are the notes: {summary}"}
+            ],
+            top_p=0.1
         )
         content_section = response.choices[0].message.content
     else:

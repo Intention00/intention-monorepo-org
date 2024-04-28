@@ -2,6 +2,7 @@ from database.db import DBConnection
 from audio_processing import generate_notes_summary
 from audio_processing import generate_questions
 import json
+from datetime import datetime
 class ProcessNotes():
     def __init__(self, note_pkg = None) -> None:
         if note_pkg:
@@ -17,13 +18,15 @@ class ProcessNotes():
     def save_note(self):
         # only save if the note actually has text
         if self.note.strip():
+            current_datetime = datetime.now()
+            formatted_datetime = current_datetime.strftime('%Y-%m-%d %H:%M:%S')
             with DBConnection() as db_conn:
                 if db_conn:
                     # Insert note to database
                     sql_statement = """
-                        INSERT IGNORE INTO Notes (TranscribedNotes, ContactID) VALUES (%s, %s);
+                        INSERT IGNORE INTO Notes (TranscribedNotes, ContactID, NoteDate) VALUES (%s, %s, %s);
                     """
-                    db_conn.execute(sql_statement, (self.note, self.contactID))
+                    db_conn.execute(sql_statement, (self.note, self.contactID, formatted_datetime))
 
                     # Generate a new summary of the notes with this, and save in db
                     self.save_notes_summary(self.contactID)
