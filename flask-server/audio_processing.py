@@ -61,7 +61,7 @@ def generate_notes_summary(notes, contact_id):
         content_section = ""
     return content_section
 
-def generate_questions(summary, firstName):
+def generate_questions(summary, newest_note, firstName):
     if summary:
         # add dont assume timeline
         print(f"Name was: {firstName}")
@@ -71,9 +71,9 @@ def generate_questions(summary, firstName):
             messages=[
                 {"role": "system", "content": "You are a helpful human assistant. Talking directly to the user. You provide warm and casual advice. You only return what was asked without any further input. You don't ask any further questions. You also don't use emojis."},
 
-                {"role": "user", "content": f"I am trying to reach out to {firstName} and don't know what to say. Given some notes about our relationship, give me 3 personable introduction text messages I could send to them to start a new conversation. I'll be sending these directly, so make sure they don't require any editing. For example, don't generate any questions that require me to replace placeholders with my name or any other personalized information- only use the information you have. Only return the questions- provide them in the format of a json object with the keys \"question1\", \"question2\", \"question3\". Make sure the questions you generate are organic, and can start a natural conversation. Also make sure to keep track of what I told {firstName}, and what they told me."}, 
+                {"role": "user", "content": f"I am trying to reach out to {firstName} and don't know what to say. Given some notes about our relationship, give me 3 personable introduction text messages I could send to them to start a new conversation. I'll be sending these directly, so make sure they don't require any editing. For example, don't generate any questions that require me to replace placeholders with my name or any other personalized information- only use the information you have. Only return the questions- provide them in the format of a json object with the keys \"question1\", \"question2\", \"question3\". Don't put any text in single quotes while generating these questions. Make sure the questions you generate are organic, and can start a natural conversation. Also make sure to keep track of what I told {firstName}, and what they told me."}, 
                  
-                {"role": "user", "content": f"Here are the notes: {summary}"}
+                {"role": "user", "content": f"Here are the notes: {summary}. This is our most recent note, so give it a higher priority while generating these questions: {newest_note}. Loosen up while generating the questions."}
             ],
             top_p=0.1
         )
@@ -81,4 +81,20 @@ def generate_questions(summary, firstName):
     else:
         content_section = "{\"question1\": \"Please add some notes!\", \"question2\": \"\", \"question3\": \"\"}"
 
+    return content_section
+
+# conversational style summarized from all the notes for a given contact
+def generate_conversational_style(notes):
+    if notes:
+        response = client.chat.completions.create(
+            model="gpt-3.5-turbo",
+            messages=[
+                {"role": "system", "content": "You are an expert linguist and psychologist writing your analysis about the user. You generate precise notes that accurately contain your analysis of the user's conversation style."},
+                {"role": "user", "content": f"Analyze my conversation style from this array of notes describing one of my relationships. Analyze my style concisely, using words and phrases that best describe it as succinctly as possible. Describe everything one would require to mimic my conversational style. Here are the notes: {notes}."}
+            ],
+            top_p=0.1
+        )
+        content_section = response.choices[0].message.content
+    else:
+        content_section = ""
     return content_section

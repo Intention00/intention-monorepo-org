@@ -1,6 +1,5 @@
 from database.db import DBConnection
-from audio_processing import generate_notes_summary
-from audio_processing import generate_questions
+from audio_processing import generate_notes_summary, generate_questions, generate_conversational_style
 import json
 from datetime import datetime
 class ProcessNotes():
@@ -62,14 +61,40 @@ class ProcessNotes():
                 """
                 db_conn.execute(sql_statement, (summary, contact_id))
 
+    # Obtains the most recent note from the database
+    def get_newest_note(self, contact_id):
+        with DBConnection() as db_conn:
+            if db_conn:
+                sql_statement = """
+                    SELECT TranscribedNotes FROM Notes WHERE ContactID = %s
+                    ORDER BY NoteDate DESC LIMIT 1;
+                """
+                db_conn.execute(sql_statement, (contact_id,))
+                note = db_conn.fetchone()
+
+                if note:
+                    return note['TranscribedNotes']
+                else:
+                    return None
+
     # Returns some questions generated for the contact using their summary
     def get_summary_questions(self, contact_id, firstName):
         summary = self.get_notes_summary(contact_id)
-        questions = json.loads(generate_questions(summary, firstName))
+        newest_note = self.get_newest_note(contact_id)
+
+        questions = json.loads(generate_questions(summary, newest_note, firstName))
         
         formatted_questions = []
 
         for value in questions.values():
             formatted_questions.append(value)
         
+        # testing conversational_style
+            self.conversation_style(contact_id)
+
         return formatted_questions
+
+    def conversation_style(self, contact_id):
+        notes = self.get_notes(contact_id)
+        conversational_style = generate_conversational_style(notes)
+        print(f"Style is: {conversational_style}")
