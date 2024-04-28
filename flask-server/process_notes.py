@@ -47,8 +47,11 @@ class ProcessNotes():
             
     # Returns a summary generated from all the notes for the specific contact
     def gen_notes_summary(self, contact_id):
+        current_datetime = datetime.now()
+        formatted_datetime = current_datetime.strftime('%Y-%m-%d %H:%M:%S')
+
         notes = self.get_notes(contact_id)
-        generated_summary = generate_notes_summary(notes, contact_id)
+        generated_summary = generate_notes_summary(notes, formatted_datetime, contact_id)
 
         return generated_summary
     

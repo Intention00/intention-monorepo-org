@@ -30,13 +30,13 @@ def generate_summary(text):
     return content_section
     
 # summary generated from all the notes for a given contact
-def generate_notes_summary(notes, contact_id):
+def generate_notes_summary(notes, date, contact_id):
     if notes:
         response = client.chat.completions.create(
             model="gpt-3.5-turbo",
             messages=[
                 {"role": "system", "content": "You are a helpful human assistant. Talking directly to the user."},
-                {"role": "user", "content": f"Take this array of notes and their time and date, describing one of my relationships and provide simple bullet points, explaining the intricacies of our relationship and key details that are useful for me to reference later when reaching out. Only include the notes information in the summary and return this as a bulleted list. Pay close attention to the details between notes and update the summary for any discrepancies- prioritizing the more recent notes as being more accurate. Put information that is most recent at the top of the summary. Your summary should be targeted to me. Only provide those bullet points, don't say anything else. Here are the notes: {notes}."}
+                {"role": "user", "content": f"The current date is: {date}. Take this array of notes and their times and dates, describing one of my relationships and provide simple bullet points, explaining the intricacies of our relationship and key details that are useful for me to reference later when reaching out. Pay close attention to the details between notes and update the summary for any discrepancies- prioritizing the more recent notes as being more accurate. Put information that is most recent at the top of the summary. Your summary should be targeted to me. Only provide those bullet points, don't say anything else. Here are the notes: {notes}."}
             ],
             top_p=0.1
         )
