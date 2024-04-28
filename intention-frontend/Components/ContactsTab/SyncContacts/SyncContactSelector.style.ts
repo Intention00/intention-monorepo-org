@@ -47,6 +47,7 @@ const styles = StyleSheet.create({
         paddingLeft: 10,
         flex: 1,
         flexDirection: 'column',
+        paddingRight: 10
     },
 
     contactsList: {
