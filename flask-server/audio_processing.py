@@ -61,7 +61,7 @@ def generate_notes_summary(notes, contact_id):
         content_section = ""
     return content_section
 
-def generate_questions(summary, newest_note, firstName):
+def generate_questions(summary, newest_note, firstName, style):
     if summary:
         # add dont assume timeline
         print(f"Name was: {firstName}")
@@ -73,7 +73,7 @@ def generate_questions(summary, newest_note, firstName):
 
                 {"role": "user", "content": f"I am trying to reach out to {firstName} and don't know what to say. Given some notes about our relationship, give me 3 personable introduction text messages I could send to them to start a new conversation. I'll be sending these directly, so make sure they don't require any editing. For example, don't generate any questions that require me to replace placeholders with my name or any other personalized information- only use the information you have. Only return the questions- provide them in the format of a json object with the keys \"question1\", \"question2\", \"question3\". Don't put any text in single quotes while generating these questions. Make sure the questions you generate are organic, and can start a natural conversation. Also make sure to keep track of what I told {firstName}, and what they told me."}, 
                  
-                {"role": "user", "content": f"Here are the notes: {summary}. This is our most recent note, so give it a higher priority while generating these questions: {newest_note}. Loosen up while generating the questions."}
+                {"role": "user", "content": f"Here are the notes: {summary}. This is our most recent note, so give it a higher priority while generating these questions: {newest_note}. Loosen up while generating the questions. Use this analysis of my writing style while generating these questions to make them sound like they came from me: {style}."}
             ],
             top_p=0.1
         )
@@ -88,9 +88,10 @@ def generate_conversational_style(notes):
     if notes:
         response = client.chat.completions.create(
             model="gpt-3.5-turbo",
+            response_format={'type': 'json_object'},
             messages=[
                 {"role": "system", "content": "You are an expert linguist and psychologist writing your analysis about the user. You generate precise notes that accurately contain your analysis of the user's conversation style."},
-                {"role": "user", "content": f"Analyze my conversation style from this array of notes describing one of my relationships. Analyze my style concisely, using words and phrases that best describe it as succinctly as possible. Describe everything one would require to mimic my conversational style. Here are the notes: {notes}."}
+                {"role": "user", "content": f"Analyze my conversation style from this array of notes describing one of my relationships. Analyze my style concisely, using words and phrases that best describe it as succinctly as possible. Describe everything one would require to mimic my conversational style using bullet points. Put all of your analysis in json format. Here are the notes: {notes}."}
             ],
             top_p=0.1
         )

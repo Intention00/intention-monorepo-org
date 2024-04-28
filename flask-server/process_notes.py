@@ -82,15 +82,15 @@ class ProcessNotes():
         summary = self.get_notes_summary(contact_id)
         newest_note = self.get_newest_note(contact_id)
 
-        questions = json.loads(generate_questions(summary, newest_note, firstName))
+        # testing conversational_style
+        style = self.conversation_style(contact_id)
+
+        questions = json.loads(generate_questions(summary, newest_note, firstName, style))
         
         formatted_questions = []
 
         for value in questions.values():
             formatted_questions.append(value)
-        
-        # testing conversational_style
-            self.conversation_style(contact_id)
 
         return formatted_questions
 
@@ -98,3 +98,4 @@ class ProcessNotes():
         notes = self.get_notes(contact_id)
         conversational_style = generate_conversational_style(notes)
         print(f"Style is: {conversational_style}")
+        return conversational_style
