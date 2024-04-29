@@ -53,6 +53,7 @@ const Profile = () => {
           <DeleteUserData></DeleteUserData>
         </userIDContext.Provider>
       </View>
+       
       <UserProfileTags></UserProfileTags>
 
     </View>

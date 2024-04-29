@@ -183,7 +183,10 @@ export const getUserTags = async(user_id)=>{
         }
         else {
             const tags = await response.json();
-            
+            console.log("user id for usercontacts")
+            console.log(user_id)
+            console.log(tags)
+            console.log("Get user contacts")
             return tags;
         }
     } 
@@ -219,7 +222,7 @@ export const getContactTags = async(user_id, contact_id )=>{
 
 export const addContactTag = async(user_id: string, contact_id: string, tag_name: string)=>{
     
-    return -1
+    return 0
 }
 
 export const deleteContactTag = async(user_id, contact_id, tag_name)=>{
@@ -242,11 +245,11 @@ export const deleteContactTag = async(user_id, contact_id, tag_name)=>{
         throw new Error(`Error retrieving contact tags from backend : ${error}`);
     }
 }
-export const addTagUser = async(user_id: string, tag_name: string)=>{
+export const addTagUser = async(user_id, tag_name)=>{
     
-    return -1
+    return 0
 }
-export const deleteUserTag = async(user_id: string, tag_name: string)=>{
+export const deleteUserTag = async(user_id, tag_name)=>{
     
-    return -1
+    return 0
 }
