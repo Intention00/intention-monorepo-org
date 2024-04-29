@@ -47,7 +47,7 @@ const styles = StyleSheet.create ({
 
     questionContainer: {
         flexDirection: 'row',
-        width: "90%",
+        width: "100%",
     },
 
     questionTextBox: {
