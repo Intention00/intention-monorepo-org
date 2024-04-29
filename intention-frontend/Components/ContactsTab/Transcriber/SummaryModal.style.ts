@@ -34,11 +34,12 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         padding: 10,
         width: 300, 
+        height: 250
     },
 
     modalSummaryText: {
         textAlign: 'left',
-        fontSize: 8,
+        fontSize: 12,
         fontWeight: '500',
         color: global.inputBox.color,
     },

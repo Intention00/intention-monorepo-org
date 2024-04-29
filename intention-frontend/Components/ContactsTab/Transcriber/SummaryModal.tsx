@@ -1,4 +1,4 @@
-import { View, Text } from "react-native"
+import { View, Text, ScrollView } from "react-native"
 import { styles } from "./SummaryModal.style"
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { getSummaryFromBackend } from "../../Generic/backendService";
@@ -47,9 +47,10 @@ const SummaryModal: React.FC <{contact, toggleModalVisibility}> = ({contact, tog
 
                     <View style={{alignItems: 'center', marginBottom: 50}}>
                             <View style={styles.modalSummaryBox}>
-                                {/* {(summary === undefined) ? <Text style={{color: 'white'}}>Loading</Text>
-                                : <Text style={styles.modalSummaryText}>{summary}</Text>} */}
-                                {displaySummary()}
+                                <ScrollView>
+                                    {displaySummary()}
+                                </ScrollView>
+                                
                             </View>
                     </View>
                 </View>
