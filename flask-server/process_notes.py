@@ -29,6 +29,8 @@ class ProcessNotes():
 
                     # Generate a new summary of the notes with this, and save in db
                     self.save_notes_summary(self.contactID)
+                    # Generates new conversation style and saves in db
+                    self.save_conversation_style(self.contactID)
                     
 
     # Returns all the saved notes for a desired contact
@@ -41,8 +43,6 @@ class ProcessNotes():
                 db_conn.execute(sql_statement, (contact_id,))
                 notes = db_conn.fetchall()
                 formatted_notes = [{'date': note['NoteDate'], 'note': note['TranscribedNotes']} for note in notes]
-                print(f'Formatted Notes: {formatted_notes}')
-
                 return formatted_notes
             
     # Returns a summary generated from all the notes for the specific contact
@@ -99,8 +99,12 @@ class ProcessNotes():
         summary = self.get_summary(contact_id)
         newest_note = self.get_newest_note(contact_id)
 
-        # testing conversational_style
-        style = self.conversation_style(contact_id)
+        # testing conversational_style (generates new everytime, no save)
+        # style = self.gen_conversation_style(contact_id)
+
+        # Gets style from db only, if it doesn't exist, currently uses nothing (no updates, cached)
+        style = self.get_conversation_style(contact_id)
+        print(f'style: {style}')
 
         questions = json.loads(generate_questions(summary, newest_note, firstName, style))
         
@@ -113,9 +117,31 @@ class ProcessNotes():
 
     # Experimental method to make the generated questions more natural and fitting
     # to the user.
-    def conversation_style(self, contact_id):
+    def gen_conversation_style(self, contact_id):
         notes = self.get_notes(contact_id)
         conversational_style = generate_conversational_style(notes)
         print(f"Style is: {conversational_style}")
         return conversational_style
     
+    # Saves generated style to the db
+    def save_conversation_style(self, contact_id):
+        with DBConnection() as db_conn:
+            if db_conn:
+                style = self.gen_conversation_style(contact_id)
+                sql_statement = """
+                    UPDATE Contact SET ConversationStyle = %s WHERE ContactID = %s;
+                """
+                db_conn.execute(sql_statement, (style, contact_id))
+    
+    # Retrieves style saved in database
+    def get_conversation_style(self, contact_id):
+        with DBConnection() as db_conn:
+            if db_conn:
+                sql_statement = """
+                    SELECT ConversationStyle FROM Contact WHERE ContactID = %s;
+                """
+                db_conn.execute(sql_statement, (contact_id,))
+
+                style = db_conn.fetchone()
+
+                return style['ConversationStyle']
