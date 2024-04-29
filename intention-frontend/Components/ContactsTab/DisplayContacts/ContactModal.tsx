@@ -30,14 +30,15 @@ const ContactModal: React.FC <{contact, toggleModalVisibility}> = ({contact, tog
                             
                     </View>
                     
-                    
                     <ScrollView style={{marginBottom: 30}}>
                         <TranscriberNote contact={contact}></TranscriberNote>
+                        <ContactTags contact={contact}></ContactTags>
+                        
                     </ScrollView>
                     
                 </View>
 
-                <ContactTags></ContactTags>
+                
             </View>
 
         </View>

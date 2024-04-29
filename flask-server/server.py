@@ -173,7 +173,7 @@ def get_contact_tags(user_id, contact_id):
         return jsonify({'error': 'Missing user-id or contact-id'}), 400
     
     tags = tags_processor.retrieve_db_contact_tag(user_id, contact_id)
-    return jsonify({'contact_id': contact_id, 'tags': tags, 'user_id': user_id,})
+    return tags
     
 
 @app.route('/api/add-tag-user/<user_id>/<tag>', methods=['POST'])

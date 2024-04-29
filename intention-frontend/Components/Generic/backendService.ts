@@ -194,9 +194,27 @@ export const getUserTags = async(user_id)=>{
     
 }
 
-export const getContactTags = async(user_id: string, contact_id: string)=>{
-    
-    return -1
+export const getContactTags = async(user_id, contact_id )=>{
+    try {
+        
+        const response = await fetch(`${backendAddress}/api/contact-tags/${user_id}/${contact_id}`, {
+            method: 'GET',
+        })
+
+        if (!response.ok) {
+            const errorMessage = await response.json();
+            console.error(`Server returned an error: ${JSON.stringify(errorMessage)}`);
+        }
+        else {
+            const tags = await response.json();
+            
+            return tags;
+        }
+    } 
+    catch (error) {
+        
+        throw new Error(`Error retrieving contact tags from backend : ${error}`);
+    }
 }
 
 export const addContactTag = async(user_id: string, contact_id: string, tag_name: string)=>{

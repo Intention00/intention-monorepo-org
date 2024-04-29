@@ -90,15 +90,20 @@ class ProcessTags():
                     return []
                 if db_conn:
                     sql_statement = """
-                SELECT T.TagName
-                FROM Tags T
-                JOIN ContactTags CT ON T.TagID = CT.TagID
-                JOIN Contact C ON CT.ContactID = C.ContactID
-                WHERE C.ContactID = %s AND C.UserID = %s;
-                """
+                    SELECT T.TagName
+                    FROM Tags T
+                    JOIN ContactTags CT ON T.TagID = CT.TagID
+                    JOIN Contact C ON CT.ContactID = C.ContactID
+                    WHERE C.ContactID = %s AND C.UserID = %s;
+                    """
                     
                     db_conn.execute(sql_statement, (contact_id, user_id))
-                    return db_conn.fetchall()
+                    tags =  db_conn.fetchall()
+    
+                    formattedContactTags= [tag['TagName'] for tag in tags]
+                    print(formattedContactTags)
+                    return formattedContactTags
+                
         except Exception as e:
             print("An error occurred:", str(e))
         return []
