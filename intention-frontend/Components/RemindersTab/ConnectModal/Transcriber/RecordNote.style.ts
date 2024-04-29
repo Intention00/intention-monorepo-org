@@ -43,7 +43,7 @@ const styles = StyleSheet.create ({
     }, 
 
     notRecordingButton: {
-        backgroundColor: 'lightblue'
+        backgroundColor: global.accentColor.color
     },
 
     saveText: {

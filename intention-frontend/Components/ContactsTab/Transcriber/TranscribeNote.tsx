@@ -4,6 +4,7 @@ import { Audio } from "expo-av"
 import { sendNotesToBackend, sendFinalNotesToBackend } from "../../Generic/backendService";
 import { Feather } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
+import { Ionicons } from '@expo/vector-icons';
 import { backendAddress } from "../../Generic/backendService";
 import * as Clipboard from 'expo-clipboard';
 import { styles } from "./TranscribeNote.style";
@@ -163,28 +164,28 @@ const TranscriberNote: React.FC <{contact}> = ({contact})=> {
 
             {/* Summary Section*/}
             <View style={{flexDirection: 'row'}}>
-                <TextInput
-                    style = {styles.notesInput}
-                    multiline
-                    numberOfLines={4}
-                    value={summary}
-                    onChangeText={(text) => setSummary(text)}
-                    placeholder="No notes yet :)"
-                    placeholderTextColor={styles.placeHolderTextColor.color}
-                />
+
                 <View style={styles.buttonBox}>
                     <TouchableOpacity
                         style={styles.button}
-                        onPress={generateSummary}>
-                        <MaterialIcons name="summarize" size={24} color="black" />
-                        <Text style={styles.buttonText}>Summarize</Text>
+                        onPress={generateQuestions}>
+                        <Ionicons name="create" size={24} color="black" />
+                        <Text style={styles.buttonText}>Generate Questions</Text>
+                    </TouchableOpacity>
+                </View>
 
+                <View style={styles.buttonBox}>
+                    <TouchableOpacity
+                        style={styles.button}
+                        onPress={()=> setSummaryModalVisible(true)}>
+                        <MaterialIcons name="summarize" size={24} color="black" />
+                        <Text style={styles.buttonText}>Summary</Text>
                     </TouchableOpacity>
                 </View>
             </View>
 
             {/* Summary modal */}
-            <Button title="Summary" onPress={()=> setSummaryModalVisible(true)}></Button>
+            {/* <Button title="Summary" onPress={()=> setSummaryModalVisible(true)}></Button> */}
 
             <Modal visible={summaryModalVisible} transparent={true} onRequestClose={()=> {setSummaryModalVisible(false)}} animationType='fade'>
                 <SummaryModal contact={contact} toggleModalVisibility={()=> setSummaryModalVisible(false)}></SummaryModal>
@@ -192,12 +193,6 @@ const TranscriberNote: React.FC <{contact}> = ({contact})=> {
             
             {/* Questions Section */}
             <View style={{ flexDirection: 'column' }}>
-                <TouchableOpacity
-                    style={styles.generateButton}
-                    onPress={generateQuestions}>
-                    <Text style={styles.generateButtonText}>Generate Questions</Text>
-                </TouchableOpacity>
-
                 {questions.map((question, index) => (
                     <View key={index}>
                         <View style={styles.questionContainer}>

@@ -27,9 +27,6 @@ const styles = StyleSheet.create({
     },
 
     modalHeader: {
-        // backgroundColor: global.inputBox.backgroundColor,
-        // borderRadius: 10,
-        // padding: 10,
         paddingLeft: 15,
         paddingTop: 15,
         marginRight: 10,
@@ -47,6 +44,7 @@ const styles = StyleSheet.create({
     modalTextContainer: {
         paddingTop: 10,
         paddingLeft: 10,
+        paddingRight: 10,
         flex: 1,
         flexDirection: 'column',
     },

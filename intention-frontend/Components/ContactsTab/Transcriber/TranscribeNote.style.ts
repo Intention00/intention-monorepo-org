@@ -17,7 +17,7 @@ const styles = StyleSheet.create ({
     },
 
     button: {
-        backgroundColor: 'lightblue',
+        backgroundColor: global.accentColor.color,
         padding: 6,
         borderRadius: 10,
         marginTop: 10,
@@ -42,7 +42,7 @@ const styles = StyleSheet.create ({
     }, 
 
     notRecordingButton: {
-        backgroundColor: 'lightblue'
+        backgroundColor: global.accentColor.color
     },
 
     questionContainer: {

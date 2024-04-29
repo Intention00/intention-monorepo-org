@@ -1,9 +1,10 @@
-import { View, TouchableOpacity, Text } from "react-native"
+import { View, TouchableOpacity, Text, ScrollView } from "react-native"
 import { useState, useEffect } from "react"
 import { generateQuestions } from "./questionService"
 import { shareQuestion } from "../../../ContactsTab/Transcriber/ShareQuestions/shareQuestion"
 shareQuestion
 import { styles } from "./GenerateQuestions.style"
+import { Ionicons } from '@expo/vector-icons';
 
 const GenerateQuestions: React.FC <{contact}> = ({contact})=> {
     const [questions, setQuestions] = useState<string[]>([]);
@@ -45,12 +46,17 @@ const GenerateQuestions: React.FC <{contact}> = ({contact})=> {
 
     return (
         <View style={{ flexDirection: 'column' }}>
-                <TouchableOpacity
-                    style={styles.generateButton}
-                    onPress={handleGenerateQuestions}>
-                    <Text style={styles.generateButtonText}>Generate New Questions</Text>
-                </TouchableOpacity>
-                {displayQuestions()}                
+                <View style={styles.buttonBox}>
+                    <TouchableOpacity
+                        style={styles.button}
+                        onPress={handleGenerateQuestions}>
+                        <Ionicons name="create" size={24} color="black" />
+                        <Text style={styles.buttonText}>Generate New Questions</Text>
+                    </TouchableOpacity>
+                </View>
+
+                {displayQuestions()}  
+                              
             </View>
     )
 }
