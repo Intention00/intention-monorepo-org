@@ -4,7 +4,7 @@
 import React, { useEffect, useState, useContext} from 'react';
 import { View, Text, Button, ScrollView } from 'react-native';
 import { Tag } from './tag';
-import { getContactTags, getUserTags } from '../../Generic/backendService';
+import { getContactTags, getUserTags, deleteContactTag } from '../../Generic/backendService';
 import { styles } from './ContactTags.style';
 import { handleUser } from '../UserSync/userService';
 import { useUser } from '@clerk/clerk-expo';
@@ -44,12 +44,12 @@ const ContactTags: React.FC  <{contact}> = ({contact})=> {
     }
   };
 
-  const handleDeleteTag = async (tagToDelete: string) => {
+  const handleDeleteTag = async (tagToDelete) => {
     try {
       // Implement logic to delete a tag through the backend API
-      await apiService.deleteTag(tagToDelete);
+      await deleteContactTag(userID, contact.contactID, tagToDelete);
       // After deleting the tag, fetch updated list of tags and set state
-      const updatedTags = await apiService.getUserTags();
+      const updatedTags = await getContactTags(userID, contact.contactID);
       setTags(updatedTags);
     } catch (error) {
       console.error('Error deleting tag:', error);

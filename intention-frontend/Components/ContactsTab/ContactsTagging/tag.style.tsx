@@ -5,7 +5,11 @@
 import { StyleSheet } from 'react-native';
 
  const styles = StyleSheet.create({
-  tag: {
+    tagContainer: {
+        flexDirection: 'row', // Ensure that the tag and the close button are aligned horizontally
+        alignItems: 'center', // Align items vertically within the container
+      },
+    tag: {
     backgroundColor: '#f0f0f0',
     paddingVertical: 5,
     paddingHorizontal: 10,
@@ -19,4 +23,4 @@ import { StyleSheet } from 'react-native';
   },
 });
 
-export {styles}
+export {styles};
