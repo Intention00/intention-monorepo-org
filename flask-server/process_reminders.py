@@ -40,7 +40,7 @@ class ProcessReminders():
                 sql_statement = """
                     INSERT INTO Reminders (ContactID, StartDateTime, Frequency) VALUES (%s, %s, %s);
                 """
-                db_conn.execute(sql_statement, (contact_id, reminder['dateTime'], reminder['frequency']))
+                db_conn.execute(sql_statement, (contact_id, reminder.dateTime, reminder.frequency))
                 
     # Updates the reminder for the specified contact
     def edit_contact_reminder(self, contact_id, reminder):

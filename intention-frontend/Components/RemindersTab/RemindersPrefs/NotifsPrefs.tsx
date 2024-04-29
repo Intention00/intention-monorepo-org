@@ -37,7 +37,7 @@ export default function Reminders(toggleModalVisibility) {
     try {
       const notificationContent = getNotificationContent();
       const trigger = getNotificationTrigger();
-
+    
       const identifier = await scheduleLocalNotification(notificationContent, trigger);
       setNotificationIdentifier(identifier);
       Alert.alert('Notification Scheduled', `A ${notificationContent.title} notification will repeat.`);
