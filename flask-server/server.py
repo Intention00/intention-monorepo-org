@@ -321,8 +321,8 @@ def return_notes_summary():
         contact_id = request.args.get('contactID')
 
         # retrieving summary from db
-        summary = notes_processor.gen_notes_summary(contact_id)
-        # summary = notes_processor.get_summary(contact_id)
+        # summary = notes_processor.gen_notes_summary(contact_id)
+        summary = notes_processor.get_summary(contact_id)
         print(f'Summary is: {summary}')
 
         return jsonify(summary), 200
