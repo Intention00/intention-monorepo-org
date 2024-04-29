@@ -7,7 +7,7 @@ import { View, Text, TouchableOpacity } from 'react-native';
 import {styles} from './tag.style'
 
 interface TagProps {
-  TagName: string;
+  tagName: string;
   onDelete: () => void;
 }
 

@@ -63,7 +63,7 @@ const UserProfileTags: React.FC = () => {
       <Text>Your Tags:</Text>
       <ScrollView>
         {tags.map(tag => (
-          <Tag key={tag} TagName={tag} onDelete={() => handleDeleteTag(tag)} />
+          <Tag key={tag} tagName={tag} onDelete={() => handleDeleteTag(tag)} />
         ))}
       </ScrollView>
       <Button title="Add Tag" onPress={() => setIsModalVisible(true)} />

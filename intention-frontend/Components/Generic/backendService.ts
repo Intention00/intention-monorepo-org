@@ -170,9 +170,10 @@ export const recieveUserEmailBackend = async (user_id: string)=> {
 }
 
 
-export const getUserTags = async(user_id: string)=>{
+export const getUserTags = async(user_id)=>{
     try {
-        const response = await fetch(`${backendAddress}/api/tags/?user_id=${user_id}`, {
+        
+        const response = await fetch(`${backendAddress}/api/tags/${user_id}`, {
             method: 'GET',
         })
 

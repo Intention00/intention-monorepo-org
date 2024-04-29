@@ -164,7 +164,10 @@ class ProcessTags():
                 """
                     
                     db_conn.execute(sql_statement, (user_id,))
-                    return db_conn.fetchall()
+                    tags =  db_conn.fetchall()
+                    formattedTags= [tag['TagName'] for tag in tags]
+                    print(formattedTags)
+                    return formattedTags
         except Exception as e:
             print("An error occurred:", str(e))
         return []

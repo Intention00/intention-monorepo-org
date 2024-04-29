@@ -1,32 +1,35 @@
 // build out tags
 // TaggingScreen.tsx
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext} from 'react';
 import { View, Text, Button, ScrollView } from 'react-native';
 import { Tag } from './tag';
 import { getUserTags } from '../../Generic/backendService';
 import { styles } from './ContactTags.style';
 import { handleUser } from '../UserSync/userService';
 import { useUser } from '@clerk/clerk-expo';
+import { userIDContext } from "../UserSync/userIDContext";
+import { styles as global } from '../../Generic/global.style';
 
-const TaggingScreen: React.FC = () => {
-  const [tags, setTags] = useState<string[]>([]);
+const ContactTags: React.FC = () => {
+  const [tags, setTags] = useState(undefined);
   const {user} = useUser();
-  const [userID, setUserID] = useState(undefined);
+  const userID = useContext(userIDContext);
 
   
   useEffect(() => {
     // Fetch user's tags from the backend when the component mounts
-    const fetchContactTags = async () => {
+     (async () => {
       try {
         const userTags = await getUserTags(userID);
         setTags(userTags);
+        console.log(userTags);
       } catch (error) {
         console.error('Error fetching user tags:', error);
       }
-    };
-
-    fetchContactTags();
+     })()
+  
+    
   }, []);
 
   const handleAddTag = async () => {
@@ -52,18 +55,26 @@ const TaggingScreen: React.FC = () => {
       console.error('Error deleting tag:', error);
     }
   };
+    function renderTags(){
+
+
+        return  (tags.map(tag => ( 
+            <Tag key={tag} tagName={tag} onDelete={() => handleDeleteTag(tag)} />
+            )))
+    }
 
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Your Tags:</Text>
-      <ScrollView style={styles.tagContainer}>
-        {tags.map(tag => (
-          <Tag key={tag} name={tag} onDelete={() => handleDeleteTag(tag)} />
-        ))}
-      </ScrollView>
+      { <ScrollView style={styles.tagContainer}>
+    {(tags === undefined) ? <Text style={global.bodyText}> Add some tags </Text> : renderTags() } 
+      
+      </ScrollView> }
+
+
       <Button title="Add Tag" onPress={handleAddTag} />
     </View>
   );
 };
 
-export { TaggingScreen };
+export { ContactTags };
