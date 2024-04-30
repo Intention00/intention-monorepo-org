@@ -2,7 +2,7 @@
 
 import { StyleSheet } from 'react-native';
 
- const styles = StyleSheet.create({
+const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#000', // dark background
@@ -63,11 +63,18 @@ import { StyleSheet } from 'react-native';
     borderRadius: 5,
     padding: 10,
     elevation: 2,
+    width: '40%', // Adjust the width to fit side by side
   },
   modalButtonText: {
     color: '#fff',
     fontWeight: 'bold',
     textAlign: 'center',
+  },
+  modalButtonContainer: {
+    flexDirection: 'row',  // Layout buttons in a row
+    justifyContent: 'space-evenly',  // Even space between buttons
+    width: '100%', // Ensure the container takes full width
+    padding: 10,  // Padding around the container
   },
   input: {
     height: 40,
@@ -80,5 +87,4 @@ import { StyleSheet } from 'react-native';
   },
 });
 
-
-export {styles}
+export { styles };

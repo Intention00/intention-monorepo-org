@@ -41,7 +41,7 @@ const ContactTags: React.FC  <{contact}> = ({contact})=> {
       // After adding the tag, fetch updated list of tags and set state
       const updatedTags =  await getContactTags(userID, contact.contactID);
       setTags(updatedTags);
-
+      setIsModalVisible(false);
     } catch (error) {
       console.error('Error adding tag:', error);
     }
