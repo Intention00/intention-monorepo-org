@@ -220,9 +220,25 @@ export const getContactTags = async(user_id, contact_id )=>{
     }
 }
 
-export const addContactTag = async(user_id: string, contact_id: string, tag_name: string)=>{
-    
-    return 0
+export const addContactTag = async(user_id, contact_id, tag_name)=>{
+    try {
+        
+        const response = await fetch(`${backendAddress}/api/add-tag-to-contact/${user_id}/${contact_id}/${tag_name}`, {
+            method: 'POST',
+        })
+
+        if (!response.ok) {
+            const errorMessage = await response.json();
+            console.error(`Server returned an error: ${JSON.stringify(errorMessage)}`);
+        }
+        else {
+            console.log("addUserTags worked")
+        }
+    } 
+    catch (error) {
+        
+        throw new Error(`Error adding contact tags from backend : ${error}`);
+    }
 }
 
 export const deleteContactTag = async(user_id, contact_id, tag_name)=>{
