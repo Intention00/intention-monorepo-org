@@ -4,6 +4,7 @@ class ProcessUsers():
     def __init__(self, email = "") -> None:
         self.email = email
 
+    # saves the user's email as a data member
     def read_user(self, email):
         self.email = email
 
@@ -52,21 +53,22 @@ class ProcessUsers():
             return db_email
             #ask raj how this logic works sos :::: 
         
-    # Example for later
-    # select * from Contact INNER JOIN User ON Contact.UserID = User.UserID WHERE Contact.UserID = 7;
-        
-    # Code to join on notes and contacts: select Contact.UserID, Contact.ContactID, Notes.NoteID from Contact inner join Notes on Contact.ContactID = Notes.ContactID where Contact.ContactID = 1;
+    # Deletes only the user's data from database: includes contacts, notes- everything
+    # except the user itself
     def delete_user_data(self, user_id):
         with DBConnection() as db_conn:
             if db_conn:
+                # Handles deleting all their contact related notes
                 delete_notes = """
                     DELETE Notes FROM Contact INNER JOIN Notes on 
                     Contact.ContactID = Notes.ContactID WHERE Contact.UserID = %s;
                 """
-
+                
+                # Deletes notes
                 db_conn.execute(delete_notes, (user_id,))
                 deleted_notes = db_conn.rowcount
 
+                # Deletes contacts
                 delete_contacts = """
                     DELETE Contact from Contact WHERE UserID = %s;
                 """
@@ -74,16 +76,24 @@ class ProcessUsers():
                 db_conn.execute(delete_contacts, (user_id,))
                 deleted_contacts = db_conn.rowcount
 
+                # Should probably return something to the route in server folder to show if successful-
+                # currently just prints how many notes and contacts were deleted
                 print(f"Deleted {deleted_notes} notes and {deleted_contacts} contacts.")
     
+    # Deletes full user from database- everything
     def delete_user(self, user_id):
+        # Delete all the user's data first
         self.delete_user_data(user_id)
         with DBConnection() as db_conn:
             if db_conn:
+                # Deletes the user itself
                 sql_statement = """
                     DELETE User from User WHERE UserID = %s;
                 """
 
                 db_conn.execute(sql_statement, (user_id,))
                 deleted_users = db_conn.rowcount
+
+                # Again, should return something to route, but currently 
+                # prints num of users deleted (should be just 1)
                 print(f"Deleted {deleted_users} users.")

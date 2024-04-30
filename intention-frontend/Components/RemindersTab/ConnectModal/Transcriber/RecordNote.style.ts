@@ -1,5 +1,5 @@
 import { StyleSheet } from "react-native"
-import { styles as global } from "../../Generic/global.style"
+import { styles as global } from "../../../Generic/global.style"
 
 const styles = StyleSheet.create ({
     notesInput: {
@@ -10,6 +10,7 @@ const styles = StyleSheet.create ({
         borderRadius: 10, 
         marginBottom: 10, 
         width: 250,
+        // height: 100,
     },
 
     placeHolderTextColor: {
@@ -17,7 +18,7 @@ const styles = StyleSheet.create ({
     },
 
     button: {
-        backgroundColor: global.accentColor.color,
+        backgroundColor: 'lightblue',
         padding: 6,
         borderRadius: 10,
         marginTop: 10,
@@ -45,43 +46,24 @@ const styles = StyleSheet.create ({
         backgroundColor: global.accentColor.color
     },
 
-    questionContainer: {
-        flexDirection: 'row',
-        width: "100%",
+    saveText: {
+        color: global.accentColor.color,
+        fontSize: 16
     },
 
-    questionTextBox: {
-        // backgroundColor: global.inputBox.backgroundColor,
-        borderRadius: 10,
-        padding: 5
+    exitButtons: {
+        flexDirection: "row", 
+        alignContent: 'center', 
+        justifyContent: 'space-around', 
+        paddingBottom: 30, 
+        paddingHorizontal: 20,
+        marginTop: 80,
     },
 
-    questionText: {
+    exitText: {
         color: global.bodyText.color,
+        fontSize: 16
     },
-
-    horizontalDivider: {
-        height: 1,
-        backgroundColor: '#282828',
-        borderRadius: 2,
-        marginTop: 4,
-        marginBottom: 4
-    },
-
-    generateButton:{
-        marginVertical: 30,
-        alignItems: 'center'
-    },
-
-    generateButtonText: {
-        fontSize: 15,
-        color: global.subText.color,
-    },
-
-    // copyButton:{
-    //     backgroundColor: "lightgreen",
-        
-    // },
 })
 
 export {styles}

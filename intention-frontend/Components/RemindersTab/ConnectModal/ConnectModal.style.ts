@@ -1,7 +1,7 @@
 import { StyleSheet } from "react-native"
 import { styles as global } from "../../Generic/global.style"
 
-// Styles for the SyncContactSelector component
+// Styles for the NewReminderModal component
 const styles = StyleSheet.create({
     centeredView: {
         justifyContent: 'center',
@@ -31,14 +31,20 @@ const styles = StyleSheet.create({
         paddingLeft: 15,
         paddingTop: 15,
         marginRight: 10,
-        marginBottom: 20,
+        marginBottom: 30,
         flexDirection: 'row',
     },
 
     modalHeaderText: {
         textAlign: 'center',
         color: global.inputBox.color,
-        marginLeft: 70,
+        marginLeft: 95,
+        fontSize: 24,
+    },
+
+    scoreText: {
+        color: global.accentColor.color,
+        marginLeft: 75,
         fontSize: 24,
     },
 
@@ -50,16 +56,6 @@ const styles = StyleSheet.create({
         paddingRight: 10
     },
 
-    contactsList: {
-        marginTop: 15, 
-        maxHeight: 350
-    },
-
-    contactsListSelectText: {
-        color: global.subText.color,
-        fontSize: 16
-    },
-
     selectButtons: {
         flexDirection: "row", 
         alignContent: 'center', 
@@ -69,26 +65,24 @@ const styles = StyleSheet.create({
         marginTop: 30,
     },
 
-    contactCheckBoxRow: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        paddingHorizontal: 10,
-        width: '100%',
-    },
-    checkbox: {
-        alignSelf: 'center',
-        marginLeft: 'auto',
-    },
-
-    saveButton:{
-        marginBottom: 40,
-        alignItems: 'center'
-    },
-
-    saveText: {
-        color: global.accentColor.color,
+    contactsListSelectText: {
+        color: global.subText.color,
         fontSize: 16
+    },
+
+    modalNameBox: {
+        backgroundColor: global.inputBox.backgroundColor,
+        borderRadius: 10,
+        padding: 10,
+        width: 300
+        
+    },
+
+    modalNameText: {
+        textAlign: 'center',
+        fontSize: 20,
+        fontWeight: '500',
+        color: global.inputBox.color,
     },
 
 })

@@ -370,5 +370,6 @@ export const getSummaryFromBackend = async (contactID: number) => {
         throw new Error(`Error receiving summary from backend: ${err}`);
     }
         
+
 };
 
