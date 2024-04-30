@@ -40,6 +40,7 @@ const Profile = () => {
 
   return (
     <View style={[global.background, styles.container]}>
+     <userIDContext.Provider value={userID}>
       <Text style={[global.bodyText, { textAlign: 'center' }]}>
         Good morning {user.firstName} {user.lastName}!
       </Text>
@@ -48,14 +49,17 @@ const Profile = () => {
       <TextInput placeholder="Last Name" value={lastName} placeholderTextColor={global.inputBox.color} onChangeText={setLastName} style={[global.inputBox, styles.inputField]} />
       <Button onPress={onSaveUser} title="Update account" color={'#6c47ff'}></Button>
       <View style={{marginTop: 100}}>
-        <userIDContext.Provider value={userID}>
+        
           <DeleteUser></DeleteUser>
           <DeleteUserData></DeleteUserData>
-        </userIDContext.Provider>
-      </View>
+          
        
+      </View>
+      
       <UserProfileTags></UserProfileTags>
-
+       
+     
+    </userIDContext.Provider>
     </View>
   );
 };

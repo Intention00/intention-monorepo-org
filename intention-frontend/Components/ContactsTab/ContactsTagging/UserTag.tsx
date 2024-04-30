@@ -9,12 +9,16 @@ import { useUser } from '@clerk/clerk-expo';
 import { userIDContext } from "../UserSync/userIDContext";
 import { handleUser } from '../UserSync/userService';
 
+
 const UserProfileTags: React.FC = () => {
-    const [tags, setTags] = useState(['damn']);
+    const [tags, setTags] = useState();
     const [newTag, setNewTag] = useState('');
     const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
-    const userID = useContext(userIDContext);
-    const {user} = useUser();
+    // const userID = useContext(userIDContext);
+    
+    const { user } = useUser();
+    const [userID, setUserID] = useState(undefined);
+    const userEmail = user['primaryEmailAddress']['emailAddress'];
 
    
     
@@ -24,9 +28,15 @@ const UserProfileTags: React.FC = () => {
     // Fetch user's tags from the backend when the component mounts
      (async () => {
       try {
-      //  const userTags = await getUserTags(userID);
-       // setTags(userTags);
-      //  console.log(userTags);
+        const tempUserID = await handleUser(userEmail);
+        setUserID(tempUserID);
+        console.log("user id frontend " + tempUserID)
+        const userTags = await getUserTags(tempUserID);
+        console.log("PRinting da tags")
+        console.log(userTags)
+        setTags(userTags);
+        
+       console.log(userTags);
       } catch (error) {
         console.error('Error fetching user tags:', error);
       }
@@ -40,8 +50,9 @@ const UserProfileTags: React.FC = () => {
         try {
             await addTagUser(userID, tagToAdd); // Add tag via backend service
             console.log("handle addtag called ")
-            setNewTag(''); // Clear new tag input
             getUserTags(userID); // Fetch updated user tags
+            setNewTag(''); // Clear new tag input
+            
             setIsModalVisible(false); // Close modal
         } catch (error) {
             console.error('Error adding tag:', error);
@@ -72,7 +83,7 @@ const UserProfileTags: React.FC = () => {
             <ScrollView style={styles.scrollView}>
             {(tags === undefined || tags.length === 0) ? <Text style={global.bodyText}> Add some tags </Text> : renderTags() } 
       
-            </ScrollView>
+            </ScrollView> 
             <TouchableOpacity style={styles.button} onPress={() => setIsModalVisible(true)}>
                 <Text style={styles.buttonText}>Add Tag</Text>
             </TouchableOpacity>
