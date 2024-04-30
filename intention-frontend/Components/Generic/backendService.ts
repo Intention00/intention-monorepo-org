@@ -370,4 +370,140 @@ export const getSummaryFromBackend = async (contactID: number) => {
         throw new Error(`Error receiving summary from backend: ${err}`);
     }
         
+
 };
+
+
+export const getUserTags = async(user_id)=>{
+    try {
+        
+        const response = await fetch(`${backendAddress}/api/tags/${user_id}`, {
+            method: 'GET',
+        })
+
+        if (!response.ok) {
+            const errorMessage = await response.json();
+            console.error(`Server returned an error: ${JSON.stringify(errorMessage)}`);
+        }
+        else {
+            const tags = await response.json();
+            console.log("user id for usercontacts")
+            console.log(user_id)
+            console.log(tags)
+            console.log("Get user contacts")
+            return tags;
+        }
+    } 
+    catch (error) {
+        
+        throw new Error(`Error retrieving user tags from backend fish: ${error}`);
+    }
+    
+}
+
+export const getContactTags = async(user_id, contact_id )=>{
+    try {
+        
+        const response = await fetch(`${backendAddress}/api/contact-tags/${user_id}/${contact_id}`, {
+            method: 'GET',
+        })
+
+        if (!response.ok) {
+            const errorMessage = await response.json();
+            console.error(`Server returned an error: ${JSON.stringify(errorMessage)}`);
+        }
+        else {
+            const tags = await response.json();
+            
+            return tags;
+        }
+    } 
+    catch (error) {
+        
+        throw new Error(`Error retrieving contact tags from backend : ${error}`);
+    }
+}
+
+export const addContactTag = async(user_id, contact_id, tag_name)=>{
+    try {
+        
+        const response = await fetch(`${backendAddress}/api/add-tag-to-contact/${user_id}/${contact_id}/${tag_name}`, {
+            method: 'POST',
+        })
+
+        if (!response.ok) {
+            const errorMessage = await response.json();
+            console.error(`Server returned an error: ${JSON.stringify(errorMessage)}`);
+        }
+        else {
+            console.log("addUserTags worked")
+        }
+    } 
+    catch (error) {
+        
+        throw new Error(`Error adding contact tags from backend : ${error}`);
+    }
+}
+
+export const deleteContactTag = async(user_id, contact_id, tag_name)=>{
+    try {
+        
+        const response = await fetch(`${backendAddress}/api/delete-tag-from-contact/${user_id}/${contact_id}/${tag_name}`, {
+            method: 'POST',
+        })
+
+        if (!response.ok) {
+            const errorMessage = await response.json();
+            console.error(`Server returned an error: ${JSON.stringify(errorMessage)}`);
+        }
+        else {
+            console.log("deleteContactTags worked")
+        }
+    } 
+    catch (error) {
+        
+        throw new Error(`Error retrieving contact tags from backend : ${error}`);
+    }
+}
+export const addTagUser = async(user_id, tag_name)=>{
+    try {
+        
+        const response = await fetch(`${backendAddress}/api/add-tag-user/${user_id}/${tag_name}`, {
+            method: 'POST',
+        })
+
+        if (!response.ok) {
+            const errorMessage = await response.json();
+            console.error(`Server returned an error: ${JSON.stringify(errorMessage)}`);
+        }
+        else {
+            console.log("addUserTags worked")
+        }
+    } 
+    catch (error) {
+        
+        throw new Error(`Error adding user tags from backend : ${error}`);
+    }
+}
+
+export const deleteUserTag = async(user_id, tag_name)=>{
+    try {
+        
+        const response = await fetch(`${backendAddress}/api/delete-tag-user/${user_id}/${tag_name}`, {
+            method: 'POST',
+        })
+
+        if (!response.ok) {
+            const errorMessage = await response.json();
+            console.error(`Server returned an error: ${JSON.stringify(errorMessage)}`);
+        }
+        else {
+            console.log("deleteContactTags worked")
+        }
+    } 
+    catch (error) {
+        
+        throw new Error(`Error deleting  user tags from backend : ${error}`);
+    }
+}
+

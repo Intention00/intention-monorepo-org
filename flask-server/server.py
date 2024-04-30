@@ -4,7 +4,11 @@ from process_contacts import ProcessContacts
 from audio_processing import generate_questions, generate_summary, transcribe
 from process_notes import ProcessNotes
 from process_users import ProcessUsers
+
+from process_tags import ProcessTags
+
 from process_reminders import ProcessReminders
+
 import os
 
 app = Flask(__name__)
@@ -25,7 +29,12 @@ contactList = [cont1, cont2]
 contacts_processor = ProcessContacts()
 notes_processor = ProcessNotes()
 user_processor = ProcessUsers()
+
+tags_processor = ProcessTags()
+
+
 reminders_processor = ProcessReminders()
+
       
 
 @app.route("/")
@@ -183,6 +192,65 @@ def delete_user_data(user_id):
         
     except Exception as err:
         return jsonify({'error': str(err)}), 500
+    
+@app.route('/api/contact-tags/<user_id>/<contact_id>', methods=['GET'])
+def get_contact_tags(user_id, contact_id):
+ #   user_id = request.args.get('user_id', type=int)
+   # contact_id = request.args.get('contact_id', type=int)
+
+    if contact_id is None:
+        return jsonify({'error': 'Missing user-id or contact-id'}), 400
+    
+    tags = tags_processor.retrieve_db_contact_tag(user_id, contact_id)
+    return tags
+    
+
+@app.route('/api/add-tag-user/<user_id>/<tag>', methods=['POST'])
+def add_tag_to_user(user_id, tag):
+
+    if user_id is None:
+        return jsonify({'error': 'Missing user_id or contact_id'}), 400
+    
+    tags_processor.add_tag_user_db(user_id, tag)
+    return jsonify({'tag': tag, 'user_id': user_id,})
+
+@app.route('/api/delete-tag-user/<user_id>/<tag>', methods=['POST'])
+def delete_tag_to_user(user_id, tag):
+
+
+    if user_id is None:
+        return jsonify({'error': 'Missing user_id or contact_id'}), 400
+    
+    tags_processor.delete_tag_user_db(user_id, tag)
+    return jsonify({'tag': tag, 'user_id': user_id,})
+
+@app.route('/api/add-tag-to-contact/<user_id>/<contact_id>/<tag>', methods=['POST'])
+def add_tag_to_contact(user_id, contact_id, tag):
+
+    if user_id is None:
+        return jsonify({'error': 'Missing user_id or contact_id'}), 400
+    
+    tags_processor.add_tag_to_contact(user_id, contact_id, tag)
+    return jsonify({'tag': tag, 'user-id': user_id, 'contact': contact_id})
+
+@app.route('/api/delete-tag-from-contact/<user_id>/<contact_id>/<tag>', methods=['POST'])
+def delete_tag_from_contact(user_id, contact_id, tag):
+
+    if user_id is None:
+        return jsonify({'error': 'Missing user_id or contact_id'}), 400
+    
+    tags_processor.delete_tag_for_contact(user_id, contact_id, tag)
+    return jsonify({'tag': tag, 'user-id': user_id, 'contact': contact_id})
+
+#maybe dont need this , talk to raj 
+@app.route("/api/tags/<user_id>", methods=['GET'])
+def sendTags(user_id):
+    if user_id is None: 
+        return jsonify({'error': 'Missing user_id or contact_id'}), 400
+    tags = tags_processor.get_user_tags(user_id)
+    return tags
+
+    
 
 # Getting all reminders for a desired user using userID
 @app.route("/api/reminders", methods=['GET'])
@@ -342,6 +410,7 @@ def generate_questions():
 
     # Return the generated questions
     return jsonify({'questions': questions})
+
 
 if __name__ == "__main__":
     # added host to test, it seems to make it work on android
