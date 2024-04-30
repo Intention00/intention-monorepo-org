@@ -251,7 +251,7 @@ def sendTags(user_id):
     return tags
 
     
-=======
+
 # Getting all reminders for a desired user using userID
 @app.route("/api/reminders", methods=['GET'])
 def return_user_reminders():
