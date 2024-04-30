@@ -46,13 +46,13 @@ const UserProfileTags: React.FC = () => {
   }, []);
 
 
-    const handleAddTag = async (tagToAdd) => {
+    const handleAddTag = async () => {
         try {
-            await addTagUser(userID, tagToAdd); // Add tag via backend service
+            await addTagUser(userID, newTag); // Add tag via backend service
             console.log("handle addtag called ")
-            getUserTags(userID); // Fetch updated user tags
+            const updatedTags = await getUserTags(userID); // Fetch updated user tags
             setNewTag(''); // Clear new tag input
-            
+            setTags(updatedTags)
             setIsModalVisible(false); // Close modal
         } catch (error) {
             console.error('Error adding tag:', error);
@@ -62,7 +62,8 @@ const UserProfileTags: React.FC = () => {
     const handleDeleteTag = async (tagToDelete) => {
         try {
             await deleteUserTag(userID, tagToDelete); // Delete tag via backend service
-            getUserTags(userID); // Fetch updated user tags
+            const updatedTags = await getUserTags(userID); // Fetch updated user tags
+            setTags(updatedTags)
             console.log("handle deletetag called ")
         } catch (error) {
             console.error('Error deleting tag:', error);

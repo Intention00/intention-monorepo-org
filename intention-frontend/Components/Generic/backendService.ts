@@ -246,10 +246,42 @@ export const deleteContactTag = async(user_id, contact_id, tag_name)=>{
     }
 }
 export const addTagUser = async(user_id, tag_name)=>{
-    
-    return 0
+    try {
+        
+        const response = await fetch(`${backendAddress}/api/add-tag-user/${user_id}/${tag_name}`, {
+            method: 'POST',
+        })
+
+        if (!response.ok) {
+            const errorMessage = await response.json();
+            console.error(`Server returned an error: ${JSON.stringify(errorMessage)}`);
+        }
+        else {
+            console.log("addUserTags worked")
+        }
+    } 
+    catch (error) {
+        
+        throw new Error(`Error adding user tags from backend : ${error}`);
+    }
 }
 export const deleteUserTag = async(user_id, tag_name)=>{
-    
-    return 0
+    try {
+        
+        const response = await fetch(`${backendAddress}/api/delete-tag-user/${user_id}/${tag_name}`, {
+            method: 'POST',
+        })
+
+        if (!response.ok) {
+            const errorMessage = await response.json();
+            console.error(`Server returned an error: ${JSON.stringify(errorMessage)}`);
+        }
+        else {
+            console.log("deleteContactTags worked")
+        }
+    } 
+    catch (error) {
+        
+        throw new Error(`Error deleting  user tags from backend : ${error}`);
+    }
 }

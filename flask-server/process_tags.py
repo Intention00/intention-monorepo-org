@@ -125,11 +125,22 @@ class ProcessTags():
         with DBConnection() as db_conn:
             if db_conn:
                 # Prepare a SQL statement to insert a new tag for a user
-                sql_statement = """
+                    delete_associations_sql = """
+                    DELETE FROM ContactTags
+                    WHERE TagID IN (
+                        SELECT TagID FROM Tags WHERE UserID = %s AND TagName = %s
+                    )
+                    """
+                    db_conn.execute(delete_associations_sql, (user_id, tag_name))
+                
+                    sql_statement = """
+                     
                      DELETE FROM Tags WHERE UserID = %s AND TagName = %s
                     """
-                db_conn.execute(sql_statement, (user_id, tag_name))
+                    db_conn.execute(sql_statement, (user_id, tag_name))
                    
+
+                  
                 # Execute the SQL statement with the tag name and user ID
                 
 #need to add a stop here if duplicate entry ..... 4/24, works fine w new data
