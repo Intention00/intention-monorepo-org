@@ -1,7 +1,5 @@
-// export const backendAddress = "https://intention-server.up.railway.app"
-// export const backendAddress = "http://192.168.0.73:5100"
-
- export const backendAddress = "http://127.0.0.1:5100"
+export const backendAddress = "https://intention-server.up.railway.app"
+// export const backendAddress = "http://192.168.1.27:5100"
 
 // Send contacts to backend api
 export const sendContactsToBackend = async (userID: number, contactsData: any[])=> {
@@ -169,11 +167,91 @@ export const recieveUserEmailBackend = async (user_id: string)=> {
     }
 }
 
-
-export const getUserTags = async(user_id)=>{
+/**
+ * Retrieves the desired user's reminders from the backend
+ * 
+ * @param userID
+ * @returns reminders retrieved from the database
+ */
+export const receiveRemindersFromBackend = async (userID: number)=> {
     try {
-        
-        const response = await fetch(`${backendAddress}/api/tags/${user_id}`, {
+        const response = await fetch(`${backendAddress}/api/reminders?userID=${userID}`, {
+            method: 'GET',
+        })
+
+        const reminders_received = await response.json();
+        console.log(`NEW REMINDERS RECEIVED: ${JSON.stringify(reminders_received)}`);
+        return reminders_received;
+    }
+    catch (err) {
+        throw new Error(`Error receiving reminders from backend: ${err}`);
+    }
+}
+
+/**
+ * Retrieves the desired user's score from the backend for a particular contact
+ * 
+ * @param contactID 
+ * @returns score obtained from database for the contact
+ */
+export const receiveScoreFromBackend = async (contactID: number)=> {
+    try {
+        const response = await fetch(`${backendAddress}/api/score?contactID=${contactID}`, {
+            method: 'GET',
+        })
+
+        if (!response.ok) {
+            throw new Error(`Error retrieving score from backend: ${response.status} - ${response.statusText}`);
+        }
+
+        const score_received = await response.json();
+
+        console.log(`NEW SCORE RECEIVED: ${JSON.stringify(score_received)}`);
+        return score_received;
+    }
+    catch (err) {
+        throw new Error(`Error receiving score from backend: ${err}`);
+    }
+}
+
+/**
+ * Sends the desired user's score to the backend for a particular contact
+ * 
+ * (Thinking about this now, our implementation of the score system could be
+ * exploited client-side, but that seems out of scope for this project)
+ * 
+ * @param contactID - contact to set score for
+ * @param score - value to set the score to
+ */
+export const sendScoreToBackend = async (contactID: number, score: number)=> {
+    try {
+        const response = await fetch(`${backendAddress}/api/score`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({contactID: contactID, score: score})
+        })
+
+        if (!response.ok) {
+            const errorMessage = await response.json();
+            console.error(`Server returned an error: ${JSON.stringify(errorMessage)}`);
+        }
+    } 
+    catch (error) {
+        throw new Error(`Error sending score to backend: ${error}`);
+    }
+}
+
+/**
+ * Retrieves the desired contact's reminder from the backend
+ * 
+ * @param contactID
+ * @returns reminder retrieved from the database
+ */
+export const receiveReminderFromBackend = async (contactID: number)=> {
+    try {
+        const response = await fetch(`${backendAddress}/api/reminder?contactID=${contactID}`, {
             method: 'GET',
         })
 
@@ -182,122 +260,115 @@ export const getUserTags = async(user_id)=>{
             console.error(`Server returned an error: ${JSON.stringify(errorMessage)}`);
         }
         else {
-            const tags = await response.json();
-            console.log("user id for usercontacts")
-            console.log(user_id)
-            console.log(tags)
-            console.log("Get user contacts")
-            return tags;
+            const reminder_received = await response.json();
+            console.log(`NEW REMINDER RECEIVED: ${JSON.stringify(reminder_received)}`);
+            return reminder_received;
         }
-    } 
-    catch (error) {
-        
-        throw new Error(`Error retrieving user tags from backend fish: ${error}`);
     }
-    
+    catch (err) {
+        throw new Error(`Error receiving reminder from backend: ${err}`);
+    }
 }
 
-export const getContactTags = async(user_id, contact_id )=>{
+/**
+ * Sends the desired contact's new reminder to the backend
+ * 
+ * @param contactID
+ * @returns nothing
+ */
+export const sendReminderToBackend = async (contactID: number, reminder: Object)=> {
     try {
-        
-        const response = await fetch(`${backendAddress}/api/contact-tags/${user_id}/${contact_id}`, {
+        const response = await fetch(`${backendAddress}/api/reminder?contactID=${contactID}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(reminder)
+        })
+
+        if (!response.ok) {
+            const errorMessage = await response.json();
+            console.error(`Server returned an error: ${JSON.stringify(errorMessage)}`);
+        }
+    }
+    catch (err) {
+        throw new Error(`Error saving new reminder to backend: ${err}`);
+    }
+}
+
+/**
+ * Sends the desired contact's reminder edit to the backend
+ * 
+ * @param contactID
+ * @returns nothing
+ */
+export const sendReminderEditToBackend = async (contactID: number, reminder: Object)=> {
+    try {
+        const response = await fetch(`${backendAddress}/api/reminder?contactID=${contactID}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(reminder)
+        })
+
+        if (!response.ok) {
+            const errorMessage = await response.json();
+            console.error(`Server returned an error: ${JSON.stringify(errorMessage)}`);
+        }
+    }
+    catch (err) {
+        throw new Error(`Error editing reminder in backend: ${err}`);
+    }
+}
+
+/**
+ * Deletes desired contact's reminder from the backend
+ * 
+ * @param contactID
+ * @returns nothing
+ */
+export const deleteReminderFromBackend = async (contactID: number)=> {
+    try {
+        const response = await fetch(`${backendAddress}/api/reminder?contactID=${contactID}`, {
+            method: 'DELETE',
+        })
+
+        if (!response.ok) {
+            const errorMessage = await response.json();
+            console.error(`Server returned an error: ${JSON.stringify(errorMessage)}`);
+        }
+    }
+    catch (err) {
+        throw new Error(`Error deleting reminder from backend: ${err}`);
+    }
+}
+
+/**
+ * Gets the desired contact's summary from the backend
+ * 
+ * @param contactID
+ * @returns nothing
+ */
+export const getSummaryFromBackend = async (contactID: number) => {
+    try {
+        // Make a network request to Flask server
+        const response = await fetch(`${backendAddress}/api/notes-summary?contactID=${contactID}`, {
             method: 'GET',
-        })
-
+        });
+        
         if (!response.ok) {
             const errorMessage = await response.json();
             console.error(`Server returned an error: ${JSON.stringify(errorMessage)}`);
         }
         else {
-            const tags = await response.json();
-            
-            return tags;
+            const summary_received = await response.json();
+            return summary_received;
         }
-    } 
-    catch (error) {
-        
-        throw new Error(`Error retrieving contact tags from backend : ${error}`);
     }
-}
-
-export const addContactTag = async(user_id, contact_id, tag_name)=>{
-    try {
-        
-        const response = await fetch(`${backendAddress}/api/add-tag-to-contact/${user_id}/${contact_id}/${tag_name}`, {
-            method: 'POST',
-        })
-
-        if (!response.ok) {
-            const errorMessage = await response.json();
-            console.error(`Server returned an error: ${JSON.stringify(errorMessage)}`);
-        }
-        else {
-            console.log("addUserTags worked")
-        }
-    } 
-    catch (error) {
-        
-        throw new Error(`Error adding contact tags from backend : ${error}`);
+    catch (err) {
+        throw new Error(`Error receiving summary from backend: ${err}`);
     }
-}
+        
+};
 
-export const deleteContactTag = async(user_id, contact_id, tag_name)=>{
-    try {
-        
-        const response = await fetch(`${backendAddress}/api/delete-tag-from-contact/${user_id}/${contact_id}/${tag_name}`, {
-            method: 'POST',
-        })
-
-        if (!response.ok) {
-            const errorMessage = await response.json();
-            console.error(`Server returned an error: ${JSON.stringify(errorMessage)}`);
-        }
-        else {
-            console.log("deleteContactTags worked")
-        }
-    } 
-    catch (error) {
-        
-        throw new Error(`Error retrieving contact tags from backend : ${error}`);
-    }
-}
-export const addTagUser = async(user_id, tag_name)=>{
-    try {
-        
-        const response = await fetch(`${backendAddress}/api/add-tag-user/${user_id}/${tag_name}`, {
-            method: 'POST',
-        })
-
-        if (!response.ok) {
-            const errorMessage = await response.json();
-            console.error(`Server returned an error: ${JSON.stringify(errorMessage)}`);
-        }
-        else {
-            console.log("addUserTags worked")
-        }
-    } 
-    catch (error) {
-        
-        throw new Error(`Error adding user tags from backend : ${error}`);
-    }
-}
-export const deleteUserTag = async(user_id, tag_name)=>{
-    try {
-        
-        const response = await fetch(`${backendAddress}/api/delete-tag-user/${user_id}/${tag_name}`, {
-            method: 'POST',
-        })
-
-        if (!response.ok) {
-            const errorMessage = await response.json();
-            console.error(`Server returned an error: ${JSON.stringify(errorMessage)}`);
-        }
-        else {
-            console.log("deleteContactTags worked")
-        }
-    } 
-    catch (error) {
-        
-        throw new Error(`Error deleting  user tags from backend : ${error}`);
-    }
-}
