@@ -4,6 +4,8 @@ import React, {useState} from "react";
 import { Image } from 'expo-image'
 import { styles } from "./ContactModal.style";
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { ContactTags } from '../../ContactsTab/ContactsTagging/ContactTags'
+
 
 const ContactModal: React.FC <{contact, toggleModalVisibility}> = ({contact, toggleModalVisibility})=> {
     const [currentStep, setCurrentStep] = useState("transcriber"); // Default to transcriber
@@ -28,12 +30,15 @@ const ContactModal: React.FC <{contact, toggleModalVisibility}> = ({contact, tog
                             
                     </View>
                     
-                    
                     <ScrollView style={{marginBottom: 30}}>
                         <TranscriberNote contact={contact}></TranscriberNote>
+                        <ContactTags contact={contact}></ContactTags>
+                        
                     </ScrollView>
                     
                 </View>
+
+                
             </View>
 
         </View>
