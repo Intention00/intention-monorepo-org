@@ -66,15 +66,14 @@ const ConnectModal: React.FC <{fullReminder, toggleModalVisibility}> = ({fullRem
 
                 <View style={styles.modalTextContainer}>
 
-                    <View style={{alignItems: 'center', marginBottom: 30, marginRight: 10}}>
-                            <View style={styles.modalNameBox}>
-                                <Text style={styles.modalNameText}>{`${contact.firstName} ${contact.lastName}`}</Text>
-                            </View>
-                    </View>
-
                     <ScrollView style={{marginBottom: 30}}>
-                        {/* <TranscriberNote contact={contact}></TranscriberNote> */}
-                        <GenerateQuestions></GenerateQuestions>
+                        <View style={{alignItems: 'center'}}>
+                                <View style={styles.modalNameBox}>
+                                    <Text style={styles.modalNameText}>{`${contact.firstName} ${contact.lastName}`}</Text>
+                                </View>
+                        </View>
+
+                        <GenerateQuestions contact={contact}></GenerateQuestions>
                     </ScrollView>
 
                     <View style={styles.selectButtons}>

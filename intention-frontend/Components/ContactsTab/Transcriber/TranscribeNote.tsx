@@ -1,19 +1,22 @@
-import { View, Text, TextInput, TouchableOpacity, Alert } from "react-native"
+import { View, Text, TextInput, TouchableOpacity, Modal, Button } from "react-native"
 import React, { useState } from "react";
 import { Audio } from "expo-av"
 import { sendNotesToBackend, sendFinalNotesToBackend } from "../../Generic/backendService";
 import { Feather } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
+import { Ionicons } from '@expo/vector-icons';
 import { backendAddress } from "../../Generic/backendService";
 import * as Clipboard from 'expo-clipboard';
 import { styles } from "./TranscribeNote.style";
 import { shareQuestion } from "./ShareQuestions/shareQuestion";
+import { SummaryModal } from "./SummaryModal";
 
 const TranscriberNote: React.FC <{contact}> = ({contact})=> {
     // Transcription Declarations
     const [recording, setRecording] = useState(undefined);
     const [permissionResponse, requestPermission] = Audio.usePermissions();
     const [audioUri, setAudioUri] = useState(undefined);
+    const [summaryModalVisible, setSummaryModalVisible] = useState(false);
 
     // Microphone button START-RECORDING
     async function startRecording() {
@@ -97,12 +100,9 @@ const TranscriberNote: React.FC <{contact}> = ({contact})=> {
     const generateQuestions = async () => {
         try {
             // Make a network request to Flask server
-            const response = await fetch(`${backendAddress}/generate-questions`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ text: transcribedText }), // Use the text from the top textbox
+            const response = await fetch(`${backendAddress}/api/generate-questions?contactID=${contact.contactID}
+            &firstName=${contact.firstName}`, {
+                method: 'GET',
             });
     
             // Handle the response
@@ -164,34 +164,35 @@ const TranscriberNote: React.FC <{contact}> = ({contact})=> {
 
             {/* Summary Section*/}
             <View style={{flexDirection: 'row'}}>
-                <TextInput
-                    style = {styles.notesInput}
-                    multiline
-                    numberOfLines={4}
-                    value={summary}
-                    onChangeText={(text) => setSummary(text)}
-                    placeholder="No notes yet :)"
-                    placeholderTextColor={styles.placeHolderTextColor.color}
-                />
+
                 <View style={styles.buttonBox}>
                     <TouchableOpacity
                         style={styles.button}
-                        onPress={generateSummary}>
-                        <MaterialIcons name="summarize" size={24} color="black" />
-                        <Text style={styles.buttonText}>Summarize</Text>
+                        onPress={generateQuestions}>
+                        <Ionicons name="create" size={24} color="black" />
+                        <Text style={styles.buttonText}>Generate Questions</Text>
+                    </TouchableOpacity>
+                </View>
 
+                <View style={styles.buttonBox}>
+                    <TouchableOpacity
+                        style={styles.button}
+                        onPress={()=> setSummaryModalVisible(true)}>
+                        <MaterialIcons name="summarize" size={24} color="black" />
+                        <Text style={styles.buttonText}>Summary</Text>
                     </TouchableOpacity>
                 </View>
             </View>
+
+            {/* Summary modal */}
+            {/* <Button title="Summary" onPress={()=> setSummaryModalVisible(true)}></Button> */}
+
+            <Modal visible={summaryModalVisible} transparent={true} onRequestClose={()=> {setSummaryModalVisible(false)}} animationType='fade'>
+                <SummaryModal contact={contact} toggleModalVisibility={()=> setSummaryModalVisible(false)}></SummaryModal>
+            </Modal>
             
             {/* Questions Section */}
             <View style={{ flexDirection: 'column' }}>
-                <TouchableOpacity
-                    style={styles.generateButton}
-                    onPress={generateQuestions}>
-                    <Text style={styles.generateButtonText}>Generate Questions</Text>
-                </TouchableOpacity>
-
                 {questions.map((question, index) => (
                     <View key={index}>
                         <View style={styles.questionContainer}>

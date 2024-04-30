@@ -343,3 +343,31 @@ export const deleteReminderFromBackend = async (contactID: number)=> {
         throw new Error(`Error deleting reminder from backend: ${err}`);
     }
 }
+
+/**
+ * Gets the desired contact's summary from the backend
+ * 
+ * @param contactID
+ * @returns nothing
+ */
+export const getSummaryFromBackend = async (contactID: number) => {
+    try {
+        // Make a network request to Flask server
+        const response = await fetch(`${backendAddress}/api/notes-summary?contactID=${contactID}`, {
+            method: 'GET',
+        });
+        
+        if (!response.ok) {
+            const errorMessage = await response.json();
+            console.error(`Server returned an error: ${JSON.stringify(errorMessage)}`);
+        }
+        else {
+            const summary_received = await response.json();
+            return summary_received;
+        }
+    }
+    catch (err) {
+        throw new Error(`Error receiving summary from backend: ${err}`);
+    }
+        
+};
