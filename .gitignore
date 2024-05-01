@@ -6,3 +6,4 @@ flask-server/.env
 flask-server/__pycache__/
 flask-server/temp_audio/
 flask-server/venv/
+*.pyc

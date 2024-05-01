@@ -33,23 +33,25 @@ const TabsPage = () => {
         tabBarActiveTintColor: '#FFCC00'
       }}
     >
+
       <Tabs.Screen
-      name="reminders"
-      options={{
-        headerTitle: 'Upcoming Reminders',
-        tabBarIcon: ({ color, size }) => <Ionicons name="calendar-outline" size={size} color={color} />,
-        tabBarLabel: 'Reminders',
-        headerRight: () => <LogoutButton />
-      }}
-      redirect={!isSignedIn}
+        name="contactSync1"
+        options={{
+          headerTitle: 'Contacts',
+          tabBarIcon: ({ color, size }) => <Ionicons name="person-outline" size={size} color={color} />,
+          tabBarLabel: 'Contacts',
+          headerRight: () => <LogoutButton />
+        }}
+        redirect={!isSignedIn}
       />
 
       <Tabs.Screen
-        name="home"
+        name="reminders"
         options={{
-          headerTitle: 'Home',
-          tabBarIcon: ({ color, size }) => <Ionicons name="home-outline" size={size} color={color} />,
-          tabBarLabel: 'Home',
+          headerTitle: 'Upcoming Reminders',
+          tabBarIcon: ({ color, size }) => <Ionicons name="calendar-outline" size={size} color={color} />,
+          tabBarLabel: 'Reminders',
+          headerRight: () => <LogoutButton />
         }}
         redirect={!isSignedIn}
       />
@@ -65,16 +67,7 @@ const TabsPage = () => {
         redirect={!isSignedIn}
       />
 
-      <Tabs.Screen
-      name="contactSync1"
-      options={{
-        headerTitle: 'Contact Sync',
-        tabBarIcon: ({ color, size }) => <Ionicons name="person-outline" size={size} color={color} />,
-        tabBarLabel: 'Contact Sync',
-        headerRight: () => <LogoutButton />
-      }}
-      redirect={!isSignedIn}
-      />
+      
     </Tabs>
   );
 };
