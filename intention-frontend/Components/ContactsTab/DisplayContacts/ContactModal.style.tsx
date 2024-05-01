@@ -21,8 +21,8 @@ const styles = StyleSheet.create({
     },
 
     modalExit :{
-        // color: global.inputBox.color,
-        color: "#515151",
+        color: global.accentColor.color,
+        // color: "#515151",
         fontSize: 30
     },
 
