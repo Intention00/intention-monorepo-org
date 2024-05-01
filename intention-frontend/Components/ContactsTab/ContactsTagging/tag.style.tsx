@@ -13,13 +13,13 @@ import { StyleSheet } from 'react-native';
     backgroundColor: '#f0f0f0',
     paddingVertical: 5,
     paddingHorizontal: 10,
-    borderRadius: 20,
+    borderRadius: 10,
     marginRight: 10,
-    marginBottom: 10,
+    marginVertical: 5,
   },
   tagText: {
     color: '#333',
-    fontSize: 16,
+    fontSize: 12,
   },
 });
 

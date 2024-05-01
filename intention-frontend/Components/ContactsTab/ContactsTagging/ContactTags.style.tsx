@@ -4,8 +4,14 @@ import { StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: '#000', // dark background
+    // flex: 1,
+    // backgroundColor: '#000', // dark background
+    width: 280,
+    alignSelf: 'center',
+    // verticalAlign: 'middle',
+    // alignItems: 'center',
+    // alignContent: 'center'
+    
   },
   text: {
     color: '#fff', // white text for dark background
@@ -28,16 +34,24 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   button: {
-    backgroundColor: '#555', // buttons in light grey to contrast the dark background
-    padding: 10,
-    margin: 10,
-    borderRadius: 5,
-    alignItems: 'center',
+    // backgroundColor: '#555', // buttons in light grey to contrast the dark background
+    // padding: 10,
+    // margin: 10,
+    // borderRadius: 5,
+    // alignItems: 'center',
   },
   buttonText: {
     color: '#fff',
     fontSize: 18,
   },
+
+  modalCenter: {
+    height: '100%',
+    width: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+
   modalView: {
     margin: 20,
     backgroundColor: '#222', // modal background
@@ -49,6 +63,7 @@ const styles = StyleSheet.create({
       width: 0,
       height: 2,
     },
+    width: 300,
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
     elevation: 5,

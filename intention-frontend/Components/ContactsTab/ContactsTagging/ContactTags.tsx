@@ -10,6 +10,7 @@ import { handleUser } from '../UserSync/userService';
 import { useUser } from '@clerk/clerk-expo';
 import { userIDContext } from "../UserSync/userIDContext";
 import { styles as global } from '../../Generic/global.style';
+import { AntDesign } from '@expo/vector-icons';
 
 const ContactTags: React.FC  <{contact}> = ({contact})=> {
   const [tags, setTags] = useState([]);
@@ -69,19 +70,23 @@ const ContactTags: React.FC  <{contact}> = ({contact})=> {
 
 return (
     <View style={styles.container}>
-        <Text style={styles.text}>Contact Tags:</Text>
-        <ScrollView style={styles.scrollView}>
-        {(tags === undefined || tags.length === 0) ? <Text style={global.bodyText}> Add some tags </Text> : renderTags() } 
-  
-        </ScrollView> 
-        <TouchableOpacity style={styles.button} onPress={() => setIsModalVisible(true)}>
-            <Text style={styles.buttonText}>Add Tag</Text>
-        </TouchableOpacity>
+        <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
+          <View style={{flex: 7, flexDirection: 'row', alignItems: 'center', flexWrap: 'wrap'}}>
+            {(tags === undefined || tags.length === 0) ? <Tag tagName='Add Tag' onDelete={()=> console.log('Add a tag')}></Tag> : renderTags() }  
+          </View>
+          <View style={{flex: 1}}>
+            <TouchableOpacity style={styles.button} onPress={() => setIsModalVisible(true)}>
+              <AntDesign name="plussquareo" size={24} color="white" />
+            </TouchableOpacity>
+          </View>
+        </View>
+        
         <Modal
             visible={isModalVisible}
             animationType="slide"
             transparent={true}
         >
+          <View style={styles.modalCenter}>
             <View style={styles.modalView}>
                 <TextInput
                     style={styles.input}
@@ -90,13 +95,19 @@ return (
                     value={newTag}
                     onChangeText={text => setNewTag(text)}
                 />
-                <TouchableOpacity style={styles.modalButton} onPress={handleAddTag}>
-                    <Text style={styles.modalButtonText}>Add</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.modalButton} onPress={() => setIsModalVisible(false)}>
-                    <Text style={styles.modalButtonText}>Cancel</Text>
-                </TouchableOpacity>
+
+                <View style={{flexDirection: 'row', marginTop: 15, width: '100%', justifyContent: 'space-around'}}>
+                  <TouchableOpacity style={styles.modalButton} onPress={handleAddTag}>
+                      <Text style={styles.modalButtonText}>Add</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity style={styles.modalButton} onPress={() => setIsModalVisible(false)}>
+                      <Text style={styles.modalButtonText}>Cancel</Text>
+                  </TouchableOpacity>
+                </View>
+                
             </View>
+          </View>
+          
         </Modal>
     </View>
 );
