@@ -10,9 +10,9 @@ import {
 import { userIDContext } from "../../ContactsTab/UserSync/userIDContext";
 
 import { Picker } from '@react-native-picker/picker';
+
 import * as Notifications from 'expo-notifications';
 
-import { v4 as uuidv4 } from 'uuid';
 
 
 import {
@@ -39,6 +39,7 @@ const NotificationPrefs: React.FC <{toggleModalVisibility}> = ({toggleModalVisib
     useEffect(() => {
       // Fetch contacts when component mounts
       fetchScheduledNotifications();
+      handlePermissionRequest();
 
       receiveContactsFromBackend(userID)
           .then((contacts) => {
@@ -74,7 +75,7 @@ const NotificationPrefs: React.FC <{toggleModalVisibility}> = ({toggleModalVisib
 
     const handleScheduleNotification = async () => {
         try {
-          const notificationContent = getNotificationContent();
+          const notificationContent = getNotificationContent(selectedContact);
           const trigger = getNotificationTrigger();
           const identifier = await scheduleLocalNotification(notificationContent, trigger);
           setNotificationIdentifier(identifier);
@@ -103,7 +104,7 @@ const NotificationPrefs: React.FC <{toggleModalVisibility}> = ({toggleModalVisib
             lastContacted: null // Assuming this is initially null
         };
         // Send reminder data to the backend
-        console.log(reminderData.dateTime)
+        console.log(reminderData.contactID)
         await sendReminderToBackend(selectedContact, reminderData);
         
 
@@ -123,13 +124,11 @@ const NotificationPrefs: React.FC <{toggleModalVisibility}> = ({toggleModalVisib
 
       const handleCancelNotification = async (identifier: string, contactID: number) => {
         try {
-          console.log("Canceling notification for identifier:", contactID); // Add this line
+          console.log("Canceling notification for contactID:", contactID); 
           // Remove/Cancel it locally first
           await cancelScheduledNotification(identifier);
-
           // Remove the reminder from the backend
-          await deleteReminderFromBackend(contactID);
-
+          // await deleteReminderFromBackend(contactID);
           Alert.alert('Notification Canceled', 'The scheduled notification has been canceled.');
           fetchScheduledNotifications(); // Update the list of scheduled notifications
         } catch (error) {
@@ -139,8 +138,8 @@ const NotificationPrefs: React.FC <{toggleModalVisibility}> = ({toggleModalVisib
       };
     
     
-    
-      const getNotificationContent = (): NotificationContent => {
+
+      const getNotificationContent = (contactID: number): NotificationContent => {
         let title = '';
         let body = '';
     
@@ -161,7 +160,9 @@ const NotificationPrefs: React.FC <{toggleModalVisibility}> = ({toggleModalVisib
             title = 'Sample Notification';
             body = 'This is a sample notification.';
         }
-    
+        const data = {
+          contactID: contactID.toString() // Convert contactID to string for data passing
+        };
         return { title, body };
       };
     
@@ -182,70 +183,106 @@ const NotificationPrefs: React.FC <{toggleModalVisibility}> = ({toggleModalVisib
         }
         return { repeats: true, seconds };
       };
-
+    const frequencies = ["Daily", "Weekly", "Monthly"];
+    
     return (
         <View style={[styles.centeredView, styles.modalView]}>
             <View style={[styles.modalBox]}>
                 <View style={styles.modalHeader}>
                     <MaterialCommunityIcons style={styles.modalExit} name="window-close" onPress={toggleModalVisibility}/>
-                    <Text style={styles.modalHeaderText}>Preferences</Text>
+                    <Text style={styles.modalHeaderText}> Notif Preferences</Text>
                     {/* Header */}
 
                 </View>
                 <View>
-                    <Button title="Request Notification Permission" onPress={handlePermissionRequest} />
-                    <Button title="Check Notification Permission" onPress={checkPermissionStatus} />
-                    <Button title="Schedule Notification" onPress={handleScheduleNotification} />
-                    {hasPermission ? <Text>Notification permission granted!</Text> : <Text>Notification permission not granted!</Text>}
-                    <Picker
-                        selectedValue={selectedFrequency}
-                        style={{ height: 50, width: 200 }}
-                        onValueChange={(itemValue, itemIndex) => {
-                          console.log('Selected Contact Value Changed:', itemValue);
-                          setSelectedFrequency(itemValue)}
-                        }
-                    >
-                        <Picker.Item label="Daily" value="Daily" />
-                        <Picker.Item label="Weekly" value="Weekly" />
-                        <Picker.Item label="Monthly" value="Monthly" /> 
-                    </Picker>
-                    
+                  {/* Permission Checker */}
+                  {/* {hasPermission ? <Text style={{color: 'white'}}>Notification permission granted!</Text> : <Text style = {{color: 'white'}}>Notification permission not granted!</Text>}*/}
+                  <Text style={{
+                    color: "white",
+                    fontSize: 18,
+                    fontWeight: 'bold',
+                    textAlign: 'center'
+                  }}>Please select a contact</Text>
+                  {/* Dropdown menu for contacts */}
+                  <Picker
+                    selectedValue={selectedContact}
+                    style={{ 
+                      marginTop: 5,
+                      backgroundColor: 'white', // Background color
+                      borderRadius: 10,            
+                    }}
+                    itemStyle={{
+                      backgroundColor: '#bcbcbc',
+                      fontSize: 15,
+                      height: 50,
+                      borderRadius: 10
 
-                    {/* Dropdown menu for contacts */}
-                    <Picker
-                        selectedValue={selectedContact}
-                        style={{ marginTop: 100, height: 50, width: 200 }}
-                        onValueChange={(itemValue) => {
-                          console.log('Selected Contact Value Changed:', itemValue);
+                    }}
+                    onValueChange={(itemValue) => {
+                      console.log('Selected Contact Value Changed:', itemValue);
+                      setSelectedContact(itemValue)
+                    }}>
+                      {contacts.map(contact => (
+                      <Picker.Item key={contact.contactID} label={`${contact.firstName} ${contact.lastName}`} value={contact.contactID} />
+                      ))}
+                  </Picker>
 
-                          setSelectedContact(itemValue)}}
-                    >
-                        {contacts.map(contact => (
-                            <Picker.Item key={contact.contactID} label={`${contact.firstName} ${contact.lastName}`} value={contact.contactID} />
-                        ))}
-                    </Picker>
+                  {/* Choose your frequency */}
+                   <Picker
+                    selectedValue={selectedFrequency}
+                    style={{ 
+                      marginTop: 5,
+                      backgroundColor: 'white', // Background color
+                      borderRadius: 10,
+                      
+                    }}
+                    itemStyle={{
+                      backgroundColor: '#bcbcbc',
+                      fontSize: 15,
+                      height: 50,
+                      borderRadius: 10,
 
-                    <View style={{ marginTop: 100 }}>
-                      <FlatList
-                          data={scheduledNotifications}
-                          renderItem={({ item }) => (
-                          <View>
-                              <Text>{item.content?.title}</Text>
-                              <Text>{item.content?.body}</Text>
-                              <Button title="Cancel Notification" onPress={() => handleCancelNotification(item.identifier, item.contactID)} />
-                          </View>
-                          )}
-                          keyExtractor={(item) => item.identifier.toString()}
-                      />
-                    </View>
+                    }}
+                    onValueChange={(itemValue, itemIndex) => {
+                      console.log('Selected Contact Value Changed:', itemValue);
+                      setSelectedFrequency(itemValue)
+                    }}>
+                      <Picker.Item label="Select a Contact" value = ""/>
+                      <Picker.Item label="Daily" value="Daily" />
+                      <Picker.Item label="Weekly" value="Weekly" />
+                      <Picker.Item label="Monthly" value="Monthly" /> 
+                  </Picker>
+
+                  {/* Schedule the Notification Locally & Store into Database */}
+                  <Button title="Schedule Notification" onPress={handleScheduleNotification} />
+                  <View style={{}}>
+                    <FlatList
                     
-                
-                    
-                    </View>
-            
-            </View>
-        </View>
+                    data={scheduledNotifications}
+                    renderItem={({ item }) => (
+                      <View style={{backgroundColor: '#bcbcbc', marginTop: 5, borderRadius: 10}}>
+                        <Text style={{
+                          color: 'white',
+                          textAlign: 'center',
+                          marginTop: 10
+                          }}>{item.content?.title}</Text>
+                        <Text style={{
+                          color: 'white',
+                          textAlign: 'center'}}>{item.content?.body}</Text>
+                        <Button title="Cancel Notification" onPress={() => handleCancelNotification(item.identifier, item.contactID)} />
+                      </View>
+                    )}
+                    keyExtractor={(item) => item.identifier.toString()}/>
+                  </View>
+
+                </View>
+              </View>
+          </View>
     )
 }
 
 export {NotificationPrefs}
+
+
+{/* <Button title="Request Notification Permission" onPress={handlePermissionRequest} /> */}
+{/* <Button title="Check Notification Permission" onPress={checkPermissionStatus} /> */}
