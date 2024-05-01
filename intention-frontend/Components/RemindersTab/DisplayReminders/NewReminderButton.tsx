@@ -14,7 +14,7 @@ const NewReminderButton: React.FC = ()=> {
         <View>
             <View style={styles.ButtonBox}>
                 <TouchableHighlight style={styles.Button}>
-                    <AntDesign name="plus" size={40} color={global.accentColor.color} onPress={()=>{setModalVisible(true)}}/>
+                    <AntDesign name="plus" size={40} color={global.accentColor.color} onPress={()=>{setModalVisible(false)}}/>
                 </TouchableHighlight>
             </View>
             
