@@ -96,7 +96,7 @@ return (
                     onChangeText={text => setNewTag(text)}
                 />
 
-                <View style={{flexDirection: 'row', marginTop: 15, width: '100%', justifyContent: 'space-around'}}>
+                <View style={{flexDirection: 'row', marginTop: '8%', width: '100%', justifyContent: 'space-around'}}>
                   <TouchableOpacity style={styles.modalButton} onPress={handleAddTag}>
                       <Text style={styles.modalButtonText}>Add</Text>
                   </TouchableOpacity>
