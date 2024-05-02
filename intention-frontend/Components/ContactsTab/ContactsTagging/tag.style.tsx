@@ -3,6 +3,7 @@
 // Tag.styles.ts
 
 import { StyleSheet } from 'react-native';
+import { styles as global } from '../../Generic/global.style';
 
  const styles = StyleSheet.create({
     tagContainer: {
@@ -10,7 +11,7 @@ import { StyleSheet } from 'react-native';
         alignItems: 'center', // Align items vertically within the container
       },
     tag: {
-    backgroundColor: '#f0f0f0',
+    backgroundColor: global.tagBackground.color,
     paddingVertical: 5,
     paddingHorizontal: 10,
     borderRadius: 10,
@@ -18,7 +19,7 @@ import { StyleSheet } from 'react-native';
     marginVertical: 5,
   },
   tagText: {
-    color: '#333',
+    color: global.tagText.color,
     fontSize: 12,
   },
 });

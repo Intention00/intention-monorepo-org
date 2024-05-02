@@ -1,6 +1,6 @@
 import { StyleSheet } from "react-native"
 
-const useDarkMode = true
+const useDarkMode = false
 
 const styles = StyleSheet.create({
     // Accent color: #ffcc00
@@ -10,29 +10,52 @@ const styles = StyleSheet.create({
     // Input box color: #bcbcbc
     // Tab bar color: #282828
     background: {
-        backgroundColor: '#161616',
+        backgroundColor: useDarkMode ? '#161616': '#e9e9e9',
     },
 
     headerText: {
-        color: '#ffffff',
+        color: useDarkMode ? '#ffffff': '#000000',
     },
 
     bodyText: {
-        color: '#ffffff',
+        color: useDarkMode ? '#ffffff': '#000000',
     },
 
     subText: {
-        color: '#bcbcbc',
+        color: useDarkMode ? '#bcbcbc': '#434343',
     },
 
     accentColor: {
-        color: '#ffcc00'
+        color: useDarkMode ? '#ffcc00': '#0033ff'
     },
 
     inputBox: {
-        backgroundColor: '#383838',
-        color: '#bcbcbc',
+        backgroundColor: useDarkMode ? '#383838': '#c7c7c7',
+        color: useDarkMode ? '#bcbcbc': '#434343',
+    }, 
+
+    tabBarBackground: {
+        color: useDarkMode ? '#282828': '#d7d7d7'
+    },
+
+    horizontalDivider: {
+        color: useDarkMode ? '#282828': '#d7d7d7'
+    },
+
+    buttonText: {
+        color: useDarkMode ? '#191919': '#e6e6e6'
+    },
+
+    tagBackground: {
+        color: useDarkMode ? '#f0f0f0': '#0f0f0f'
+    },
+
+    tagText: {
+        color: useDarkMode ? '#333333': '#cccccc'
     }
+
+
+
 })
 
 export {styles}

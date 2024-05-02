@@ -152,12 +152,12 @@ const TranscriberNote: React.FC <{contact}> = ({contact})=> {
                         style={[styles.button, recording ? styles.recordingButton : styles.notRecordingButton]}
                         onPress={recording ? stopRecording : startRecording}>
                         
-                        <Feather name="mic" size={24} color="black" />
+                        <Feather name="mic" size={24} color={styles.icons.color} />
                     </TouchableOpacity>
                     <TouchableOpacity
                         style={styles.button}
                         onPress={() => sendFinalNotesToBackend(transcribedText, contact.contactID)}>
-                        <Feather name="save" size={24} color="black" />
+                        <Feather name="save" size={24} color={styles.icons.color} />
                     </TouchableOpacity>
                 </View>
             </View>
@@ -169,7 +169,7 @@ const TranscriberNote: React.FC <{contact}> = ({contact})=> {
                     <TouchableOpacity
                         style={styles.button}
                         onPress={generateQuestions}>
-                        <Ionicons name="create" size={24} color="black" />
+                        <Ionicons name="create" size={24} color={styles.icons.color} />
                         <Text style={styles.buttonText}>Generate Questions</Text>
                     </TouchableOpacity>
                 </View>
@@ -178,7 +178,7 @@ const TranscriberNote: React.FC <{contact}> = ({contact})=> {
                     <TouchableOpacity
                         style={styles.button}
                         onPress={()=> setSummaryModalVisible(true)}>
-                        <MaterialIcons name="summarize" size={24} color="black" />
+                        <MaterialIcons name="summarize" size={24} color={styles.icons.color} />
                         <Text style={styles.buttonText}>Summary</Text>
                     </TouchableOpacity>
                 </View>

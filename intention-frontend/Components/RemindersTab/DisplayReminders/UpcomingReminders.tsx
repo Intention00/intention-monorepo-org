@@ -8,6 +8,7 @@ import { ReminderList } from "./ReminderList";
 import { NewReminderButton } from "./NewReminderButton";
 import SegmentedControl from '@react-native-segmented-control/segmented-control';
 import { receiveRemindersFromBackend } from "../../Generic/backendService";
+import { styles as global } from "../../Generic/global.style";
 
 const UpcomingReminders: React.FC = ()=> {
     const [remindersData, setRemindersData] = useState(undefined);
@@ -58,9 +59,10 @@ const UpcomingReminders: React.FC = ()=> {
             <View>
                 <SegmentedControl
                     style={{marginTop: 20,
-                        backgroundColor: '#161616',
+                        backgroundColor: global.background.backgroundColor,
                         borderRadius: 0, height: 80}}
-                    tintColor='#ffcc00'
+                    tintColor={global.accentColor.color}
+                    activeFontStyle={{color: global.buttonText.color}}
                     values={['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']}
                     selectedIndex={selectedDay}
                     onChange={(event) => {

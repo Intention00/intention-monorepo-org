@@ -1,10 +1,11 @@
 import { StyleSheet } from "react-native";
+import { styles as global } from "../../Generic/global.style";
 
 
 const styles = StyleSheet.create({
     horizontalDivider: {
         height: 2,
-        backgroundColor: '#282828',
+        backgroundColor: global.horizontalDivider.color,
         borderRadius: 2,
         marginBottom: 10,
     },
@@ -21,7 +22,7 @@ const styles = StyleSheet.create({
     }, 
 
     hourText: {
-        color: 'gray', 
+        color: global.inputBox.color, 
         textAlign: 'right',
     },
 

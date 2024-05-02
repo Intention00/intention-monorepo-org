@@ -76,7 +76,7 @@ return (
           </View>
           <View style={{flex: 1}}>
             <TouchableOpacity style={styles.button} onPress={() => setIsModalVisible(true)}>
-              <AntDesign name="plussquareo" size={24} color="white" />
+              <AntDesign name="plussquareo" size={24} color={global.tagBackground.color} />
             </TouchableOpacity>
           </View>
         </View>
