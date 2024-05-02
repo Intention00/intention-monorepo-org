@@ -14,13 +14,15 @@ const styles = StyleSheet.create({
     },
 
     hourBox: {
-        marginLeft: 10,
-        width: 50,
+        marginLeft: '3%',
+        // marginLeft: 10,
+        width: '10%',
+        // width: 50,
     }, 
 
     hourText: {
         color: 'gray', 
-        textAlign: 'right'
+        textAlign: 'right',
     },
 
     reminderBox: {

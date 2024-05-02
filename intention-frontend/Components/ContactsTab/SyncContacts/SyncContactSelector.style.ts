@@ -80,7 +80,8 @@ const styles = StyleSheet.create({
     checkbox: {
         alignSelf: 'center',
         marginLeft: 'auto',
-        marginRight: '5%'
+        marginRight: '5%',
+        color: global.inputBox.backgroundColor
     },
 
     saveButton:{
