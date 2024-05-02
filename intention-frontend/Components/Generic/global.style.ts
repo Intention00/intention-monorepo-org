@@ -1,6 +1,6 @@
 import { StyleSheet } from "react-native"
 
-const useDarkMode = false
+const useDarkMode = true
 
 const styles = StyleSheet.create({
     // Accent color: #ffcc00
