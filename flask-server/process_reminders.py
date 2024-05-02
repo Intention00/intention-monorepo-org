@@ -1,4 +1,6 @@
 from database.db import DBConnection
+from datetime import datetime
+import pytz
 
 class ProcessReminders():
     def __init__(self, user_id = -1) -> None:
@@ -20,11 +22,18 @@ class ProcessReminders():
 
                 print(f'REMINDER FOR {contact_id} WAS: {type(db_reminder["StartDateTime"])}');
 
+                # convert timezone 
+                db_datetime = datetime.strptime(db_reminder['StartDateTime'], '%Y-%m-%d %H:%M:%S')
+                seattle_timezone = pytz.timezone('America/Los_Angeles')
+                localized_start_datetime = seattle_timezone.localize(db_datetime)
+                db_datetime = datetime.strptime(db_reminder['LastContacted'], '%Y-%m-%d %H:%M:%S')
+                localized_last_datetime = seattle_timezone.localize(db_datetime)
+
                 try:
                     reminder_formatted = {'reminderID': db_reminder['ReminderID'], 
                                           'contactID': db_reminder['ContactID'],
-                                          'dateTime': db_reminder['StartDateTime'],
-                                          'lastContacted': db_reminder['LastContacted'],
+                                          'dateTime': localized_start_datetime,
+                                          'lastContacted': localized_last_datetime,
                                           'frequency': db_reminder['Frequency']}
                     
                     return reminder_formatted
@@ -73,6 +82,9 @@ class ProcessReminders():
                 db_conn.execute(sql_statement, (self.user_id,))
                 db_reminders = db_conn.fetchall()
 
+                # convert timezone 
+                seattle_timezone = pytz.timezone('America/Los_Angeles')
+
                 try:
                     # formatting the desired reminders the way expected by the frontend
                     formatted_reminders = [
@@ -84,7 +96,7 @@ class ProcessReminders():
                                 'number': reminder['Phone']
                             },
                             'reminder': {
-                                'dateTime': reminder['StartDateTime'],
+                                'dateTime': seattle_timezone.localize(reminder['StartDateTime'], '%Y-%m-%d %H:%M:%S'),
                                 'frequency': reminder['Frequency']
                             }
                         } for reminder in db_reminders
