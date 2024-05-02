@@ -1,5 +1,7 @@
 import { StyleSheet } from "react-native"
 
+const useDarkMode = true
+
 const styles = StyleSheet.create({
     // Accent color: #ffcc00
     // Primary color: #ffffff

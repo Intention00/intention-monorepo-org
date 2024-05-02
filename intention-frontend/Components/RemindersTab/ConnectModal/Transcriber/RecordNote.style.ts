@@ -9,8 +9,7 @@ const styles = StyleSheet.create ({
         padding: 10,
         borderRadius: 10, 
         marginBottom: 10, 
-        width: 250,
-        // height: 100,
+        width: '70%',
     },
 
     placeHolderTextColor: {
