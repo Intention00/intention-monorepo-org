@@ -20,7 +20,7 @@ const ContactList: React.FC <{contacts: any[]}> = ({contacts})=> {
             <View style={[styles.horizontalDivider]}></View>
             <FlatList 
               data={contacts} 
-              style={{marginTop: 0, maxHeight: 600}} 
+              style={{marginTop: 0, maxHeight: '100%'}} 
               renderItem={({item})=> (
                 <View>
                     <TouchableHighlight 
