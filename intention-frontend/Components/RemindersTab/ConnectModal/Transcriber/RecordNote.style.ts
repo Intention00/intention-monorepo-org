@@ -9,8 +9,7 @@ const styles = StyleSheet.create ({
         padding: 10,
         borderRadius: 10, 
         marginBottom: 10, 
-        width: 250,
-        // height: 100,
+        width: '70%',
     },
 
     placeHolderTextColor: {
@@ -26,7 +25,7 @@ const styles = StyleSheet.create ({
     },
 
     buttonText: {
-      color: 'rgb(25, 25, 25)', 
+      color: global.buttonText.color, 
       fontSize: 12,
       fontWeight: 'bold',
     },
@@ -64,6 +63,11 @@ const styles = StyleSheet.create ({
         color: global.bodyText.color,
         fontSize: 16
     },
+
+    icons: {
+        color: global.buttonText.color
+    },
+
 })
 
 export {styles}

@@ -15,36 +15,35 @@ const styles = StyleSheet.create({
     },
 
     modalBox: {
-        height: 600,
-        width: 370,
+        width: '94%',
+        height: '79%',
         backgroundColor: global.background.backgroundColor,
         borderRadius: 30,
     },
 
     modalExit :{
         color: global.accentColor.color,
-        // color: "#515151",
-        fontSize: 30
+        fontSize: 30,
+        paddingLeft: 15,
     },
 
     modalHeader: {
-        paddingLeft: 15,
         paddingTop: 15,
-        marginRight: 10,
         marginBottom: 30,
         flexDirection: 'row',
+        alignItems: 'center',
     },
 
     modalHeaderText: {
         textAlign: 'center',
         color: global.inputBox.color,
-        marginLeft: 95,
         fontSize: 24,
+        marginRight: 45 - 24,
     },
 
     scoreText: {
         color: global.accentColor.color,
-        marginLeft: 75,
+        marginRight: 15,
         fontSize: 24,
     },
 
@@ -74,8 +73,7 @@ const styles = StyleSheet.create({
         backgroundColor: global.inputBox.backgroundColor,
         borderRadius: 10,
         padding: 10,
-        width: 300
-        
+        width: '86%',
     },
 
     modalNameText: {

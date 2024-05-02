@@ -76,7 +76,7 @@ return (
           </View>
           <View style={{flex: 1}}>
             <TouchableOpacity style={styles.button} onPress={() => setIsModalVisible(true)}>
-              <AntDesign name="plussquareo" size={24} color="white" />
+              <AntDesign name="plussquareo" size={24} color={global.tagBackground.color} />
             </TouchableOpacity>
           </View>
         </View>
@@ -96,7 +96,7 @@ return (
                     onChangeText={text => setNewTag(text)}
                 />
 
-                <View style={{flexDirection: 'row', marginTop: 15, width: '100%', justifyContent: 'space-around'}}>
+                <View style={{flexDirection: 'row', marginTop: '8%', width: '100%', justifyContent: 'space-around'}}>
                   <TouchableOpacity style={styles.modalButton} onPress={handleAddTag}>
                       <Text style={styles.modalButtonText}>Add</Text>
                   </TouchableOpacity>

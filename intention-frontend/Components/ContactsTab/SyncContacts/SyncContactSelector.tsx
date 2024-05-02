@@ -65,7 +65,9 @@ const SyncContactSelector: React.FC <{toggleModalVisibility, updateContacts}> = 
             <View style={[styles.modalBox]}>
                 <View style={styles.modalHeader}>
                     <MaterialCommunityIcons style={styles.modalExit} name="window-close" onPress={toggleModalVisibility}/>
-                    <Text style={styles.modalHeaderText}>Sync Contacts</Text>
+                    <View style={{flex: 1}}>
+                        <Text style={styles.modalHeaderText}>Sync Contacts</Text>
+                    </View>
                 </View>
 
                 <View style={styles.modalTextContainer}>
@@ -76,7 +78,7 @@ const SyncContactSelector: React.FC <{toggleModalVisibility, updateContacts}> = 
                             renderItem={({item, index})=> (   
                                 <View style={styles.contactCheckBoxRow}>
                                     <SyncContactItem contact={item}></SyncContactItem>
-                                    <CheckBox style={styles.checkbox} value={checkedItems.includes(index)} onValueChange={()=> handleCheckBoxSelection(index)}></CheckBox>
+                                    <CheckBox style={styles.checkbox} color={styles.checkbox.color} value={checkedItems.includes(index)} onValueChange={()=> handleCheckBoxSelection(index)}></CheckBox>
                                 </View>
                         )}/>
                     </View>

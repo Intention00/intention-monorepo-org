@@ -19,7 +19,7 @@ const styles = StyleSheet.create ({
 
     horizontalDivider: {
         height: 1,
-        backgroundColor: '#282828',
+        backgroundColor: global.horizontalDivider.color,
         borderRadius: 2,
         marginTop: 4,
         marginBottom: 4
@@ -33,7 +33,7 @@ const styles = StyleSheet.create ({
     },
 
     buttonText: {
-      color: 'rgb(25, 25, 25)', 
+      color: global.buttonText.color, 
       fontSize: 12,
       fontWeight: 'bold',
     },
@@ -45,6 +45,11 @@ const styles = StyleSheet.create ({
         justifyContent: 'center', 
         paddingBottom: 20,
     },
+
+    icons: {
+        color: global.buttonText.color
+    },
+    
 })
 
 export {styles}

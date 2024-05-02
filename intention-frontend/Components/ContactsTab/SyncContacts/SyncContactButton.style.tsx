@@ -4,7 +4,7 @@ import { StyleSheet } from "react-native"
 const styles = StyleSheet.create({
     // Adjustments for the button's position and appearance
     button: {
-        paddingLeft: 30,
+        paddingLeft: 20,
         // position: 'absolute',
         alignItems: 'flex-start',
         marginTop: 0,

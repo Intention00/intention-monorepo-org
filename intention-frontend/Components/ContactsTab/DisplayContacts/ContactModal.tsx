@@ -19,7 +19,9 @@ const ContactModal: React.FC <{contact, toggleModalVisibility}> = ({contact, tog
             <View style={[styles.modalBox]}>
                 <View style={styles.modalHeader}>
                     <MaterialCommunityIcons style={styles.modalExit} name="window-close" onPress={toggleModalVisibility}/>
-                    <Text style={styles.modalHeaderText}>Contact Details</Text>
+                    <View style={{flex: 1}}>
+                        <Text style={styles.modalHeaderText}>Contact Details</Text>
+                    </View>
                 </View>
                 
                 <View style={styles.modalTextContainer}>

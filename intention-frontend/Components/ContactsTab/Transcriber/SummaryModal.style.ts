@@ -15,8 +15,8 @@ const styles = StyleSheet.create({
     },
 
     modalBox: {
-        height: 400,
-        width: 370,
+        height: '47%',
+        width: '94%',
         backgroundColor: global.background.backgroundColor,
         borderRadius: 30,
     },
@@ -33,8 +33,8 @@ const styles = StyleSheet.create({
         backgroundColor: global.inputBox.backgroundColor,
         borderRadius: 10,
         padding: 10,
-        width: 300, 
-        height: 250
+        width: '86%',
+        height: '97%'
     },
 
     modalSummaryText: {
@@ -45,24 +45,24 @@ const styles = StyleSheet.create({
     },
 
     modalHeader: {
-        paddingLeft: 15,
         paddingTop: 15,
-        marginRight: 10,
         marginBottom: 30,
         flexDirection: 'row',
+        alignItems: 'center',
     },
 
     modalHeaderText: {
         textAlign: 'center',
         color: global.inputBox.color,
-        marginLeft: 90,
         fontSize: 24,
+        marginRight: 45,
     },
 
     modalExit :{
         color: global.accentColor.color,
         // color: "#515151",
-        fontSize: 30
+        fontSize: 30,
+        paddingLeft: 15,
     },
 })
 

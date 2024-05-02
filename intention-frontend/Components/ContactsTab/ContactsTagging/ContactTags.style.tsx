@@ -6,7 +6,8 @@ const styles = StyleSheet.create({
   container: {
     // flex: 1,
     // backgroundColor: '#000', // dark background
-    width: 280,
+    width: '80%',
+    // width: 280,
     alignSelf: 'center',
     // verticalAlign: 'middle',
     // alignItems: 'center',
@@ -56,14 +57,14 @@ const styles = StyleSheet.create({
     margin: 20,
     backgroundColor: '#222', // modal background
     borderRadius: 5,
-    padding: 35,
+    padding: '9%',
     alignItems: 'center',
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
       height: 2,
     },
-    width: 300,
+    width: '76%',
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
     elevation: 5,

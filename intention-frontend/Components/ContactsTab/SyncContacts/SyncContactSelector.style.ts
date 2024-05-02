@@ -15,31 +15,30 @@ const styles = StyleSheet.create({
     },
 
     modalBox: {
-        height: 600,
-        width: 370,
+        width: '94%',
+        height: '79%',
         backgroundColor: global.background.backgroundColor,
         borderRadius: 30,
     },
 
     modalExit :{
         color: global.accentColor.color,
-        // color: "#515151",
-        fontSize: 30
+        fontSize: 30,
+        paddingLeft: 15,
     },
 
     modalHeader: {
-        paddingLeft: 15,
         paddingTop: 15,
-        marginRight: 10,
         marginBottom: 20,
         flexDirection: 'row',
+        alignItems: 'center',
     },
 
     modalHeaderText: {
         textAlign: 'center',
         color: global.inputBox.color,
-        marginLeft: 70,
         fontSize: 24,
+        marginRight: 45,
     },
 
     modalTextContainer: {
@@ -52,7 +51,8 @@ const styles = StyleSheet.create({
 
     contactsList: {
         marginTop: 15, 
-        maxHeight: 350
+        // maxHeight: 350
+        maxHeight: '100%',
     },
 
     contactsListSelectText: {
@@ -64,9 +64,10 @@ const styles = StyleSheet.create({
         flexDirection: "row", 
         alignContent: 'center', 
         justifyContent: 'space-around', 
-        paddingBottom: 30, 
+        marginBottom: 30, 
         paddingHorizontal: 20,
-        marginTop: 30,
+        // marginTop: 30,
+        marginTop: '10%',
     },
 
     contactCheckBoxRow: {
@@ -79,10 +80,12 @@ const styles = StyleSheet.create({
     checkbox: {
         alignSelf: 'center',
         marginLeft: 'auto',
+        marginRight: '5%',
+        color: global.inputBox.backgroundColor
     },
 
     saveButton:{
-        marginBottom: 40,
+        marginBottom: '10%',
         alignItems: 'center'
     },
 

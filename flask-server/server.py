@@ -325,7 +325,7 @@ def insert_contact_reminder():
 
         # Extracting data
         data = request.get_json()
-        reminder_data = data
+        reminder_data = data['reminder']
 
         # insert reminder to db
         reminders_processor.add_contact_reminder(contact_id, reminder_data)
@@ -343,7 +343,7 @@ def edit_contact_reminder():
 
         # Extracting data
         data = request.get_json()
-        reminder_data = data
+        reminder_data = data['reminder']
 
         # updates reminder in db
         reminders_processor.edit_contact_reminder(contact_id, reminder_data)
