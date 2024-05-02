@@ -18,13 +18,13 @@ class ProcessTags():
         return
 
 #should definetely have user_id here but oh well 
-    def get_tagID(self, tag_name): 
+    def get_tagID(self, tag_name, user_id): 
         with DBConnection() as db_conn: 
             if db_conn:
                 sql_statement = """
-                SELECT TagID FROM Tags WHERE TagName = %s
+                SELECT TagID FROM Tags WHERE TagName = %s and UserID = %s
                 """
-                db_conn.execute(sql_statement, (tag_name,))
+                db_conn.execute(sql_statement, (tag_name, user_id))
                 result = db_conn.fetchone()
                 if result:
                     return result.get("TagID")
@@ -91,13 +91,13 @@ class ProcessTags():
                 if db_conn:
                     sql_statement = """
                     SELECT T.TagName
-                    FROM Tags T
+                    FROM Tags T 
                     JOIN ContactTags CT ON T.TagID = CT.TagID
                     JOIN Contact C ON CT.ContactID = C.ContactID
-                    WHERE C.ContactID = %s AND C.UserID = %s;
+                    WHERE C.ContactID = %s AND C.UserID = %s AND T.UserID =%s;
                     """
                     
-                    db_conn.execute(sql_statement, (contact_id, user_id))
+                    db_conn.execute(sql_statement, (contact_id, user_id, user_id))
                     tags =  db_conn.fetchall()
     
                     formattedContactTags= [tag['TagName'] for tag in tags]
@@ -146,7 +146,7 @@ class ProcessTags():
 #need to add a stop here if duplicate entry ..... 4/24, works fine w new data
     def add_tag_to_contact(self, user_id, contact_id, tag_name):
             if self.check_tag_exists(user_id, tag_name):
-                tagID = self.get_tagID(tag_name)
+                tagID = self.get_tagID(tag_name, user_id)
                 with DBConnection() as db_conn: 
                     sql_statement = """
                         INSERT INTO ContactTags (ContactID, TagID) VALUES(%s, %s)
@@ -158,7 +158,7 @@ class ProcessTags():
         if  self.check_contact_exists(user_id, contact_id):
           
 
-            tag_id = self.get_tagID(tag_name)
+            tag_id = self.get_tagID(tag_name, user_id)
 
             with DBConnection() as db_conn:
                 sql_statement = """
