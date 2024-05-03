@@ -104,7 +104,7 @@ class ProcessNotes():
 
         # Gets style from db only, if it doesn't exist, currently uses nothing (no updates, cached)
         style = self.get_conversation_style(contact_id)
-        print(f'style: {style}')
+        # print(f'style: {style}')
 
         questions = json.loads(generate_questions(summary, newest_note, firstName, style))
         
@@ -120,7 +120,7 @@ class ProcessNotes():
     def gen_conversation_style(self, contact_id):
         notes = self.get_notes(contact_id)
         conversational_style = generate_conversational_style(notes)
-        print(f"Style is: {conversational_style}")
+        # print(f"Style is: {conversational_style}")
         return conversational_style
     
     # Saves generated style to the db
