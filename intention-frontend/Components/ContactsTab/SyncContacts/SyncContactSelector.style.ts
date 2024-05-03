@@ -85,6 +85,7 @@ const styles = StyleSheet.create({
     },
 
     saveButton:{
+        marginTop: '15%',
         marginBottom: '5%',
         alignItems: 'center'
     },
