@@ -4,7 +4,7 @@
     "scheme": "intention-auth",
     "name": "Intention",
     "slug": "intention-monorepo-all",
-    "version": "0.8.5",
+    "version": "0.8.6",
     "orientation": "portrait",
     "icon": "./assets/logo.png",
     "userInterfaceStyle": "light",
