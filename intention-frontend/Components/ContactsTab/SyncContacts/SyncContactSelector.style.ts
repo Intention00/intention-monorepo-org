@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
     contactsList: {
         marginTop: 15, 
         // maxHeight: 350
-        maxHeight: '100%',
+        maxHeight: '90%',
     },
 
     contactsListSelectText: {
@@ -85,13 +85,14 @@ const styles = StyleSheet.create({
     },
 
     saveButton:{
-        marginBottom: '10%',
+        marginBottom: '5%',
         alignItems: 'center'
     },
 
     saveText: {
         color: global.accentColor.color,
-        fontSize: 16
+        fontSize: 16,
+        marginBottom: '5%'
     },
 
 })
