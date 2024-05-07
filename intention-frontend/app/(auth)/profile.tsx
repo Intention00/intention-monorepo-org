@@ -29,8 +29,8 @@ const Profile = () => {
     try {
       // This is not working!
       const result = await user.update({
-        firstName: 'John',
-        lastName: 'Doe',
+        firstName: firstName,
+        lastName: lastName,
       });
       console.log('🚀 ~ file: profile.tsx:16 ~ onSaveUser ~ result:', result);
     } catch (e) {
@@ -48,9 +48,9 @@ const Profile = () => {
       <TextInput placeholder="First Name" value={firstName} placeholderTextColor={global.inputBox.color} onChangeText={setFirstName} style={[global.inputBox, styles.inputField]} />
       <TextInput placeholder="Last Name" value={lastName} placeholderTextColor={global.inputBox.color} onChangeText={setLastName} style={[global.inputBox, styles.inputField]} />
       <Button onPress={onSaveUser} title="Update account" color={'#6c47ff'}></Button>
-      <View style={{marginTop: 100}}>
+      <View style={{marginTop: 50, marginBottom: 50}}>
         
-          <DeleteUser></DeleteUser>
+          {/* <DeleteUser></DeleteUser> */}
           <DeleteUserData></DeleteUserData>
           
        

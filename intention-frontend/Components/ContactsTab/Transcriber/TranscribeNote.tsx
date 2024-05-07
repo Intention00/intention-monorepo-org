@@ -17,6 +17,8 @@ const TranscriberNote: React.FC <{contact}> = ({contact})=> {
     const [permissionResponse, requestPermission] = Audio.usePermissions();
     const [audioUri, setAudioUri] = useState(undefined);
     const [summaryModalVisible, setSummaryModalVisible] = useState(false);
+    const [summaryWait, setSummaryWait] = useState(false);
+    const [saving, setSaving] = useState(false);
 
     // Microphone button START-RECORDING
     async function startRecording() {
@@ -132,6 +134,30 @@ const TranscriberNote: React.FC <{contact}> = ({contact})=> {
         // copyToClipboard(question);
         shareQuestion(question);
     }
+
+    const handleSaveClick = async () => {
+        // Check if already saving
+        if (saving) {
+            console.log('Waiting for previous save operation to complete.');
+            return;
+        }   
+        try {
+            // Set saving status to true
+            setSaving(true);
+            setSummaryWait(true);
+            await sendFinalNotesToBackend(transcribedText, contact.contactID);
+            setSummaryWait(false);
+            console.log('Note saved successfully.');
+        }
+        catch (error) {
+            console.error('Error saving note:', error);
+        } 
+        finally {
+            // Reset saving status to false after save operation completes
+            setSaving(false);
+        }
+        
+    }
     
     return (
         // Modal Container
@@ -156,7 +182,8 @@ const TranscriberNote: React.FC <{contact}> = ({contact})=> {
                     </TouchableOpacity>
                     <TouchableOpacity
                         style={styles.button}
-                        onPress={() => sendFinalNotesToBackend(transcribedText, contact.contactID)}>
+                        onPress={handleSaveClick}
+                        disabled={saving}>
                         <Feather name="save" size={24} color={styles.icons.color} />
                     </TouchableOpacity>
                 </View>
@@ -188,7 +215,7 @@ const TranscriberNote: React.FC <{contact}> = ({contact})=> {
             {/* <Button title="Summary" onPress={()=> setSummaryModalVisible(true)}></Button> */}
 
             <Modal visible={summaryModalVisible} transparent={true} onRequestClose={()=> {setSummaryModalVisible(false)}} animationType='fade'>
-                <SummaryModal contact={contact} toggleModalVisibility={()=> setSummaryModalVisible(false)}></SummaryModal>
+                <SummaryModal contact={contact} summaryWait={summaryWait} toggleModalVisibility={()=> setSummaryModalVisible(false)}></SummaryModal>
             </Modal>
             
             {/* Questions Section */}

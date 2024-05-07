@@ -4,16 +4,18 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { getSummaryFromBackend } from "../../Generic/backendService";
 import { useState, useEffect } from "react";
 
-const SummaryModal: React.FC <{contact, toggleModalVisibility}> = ({contact, toggleModalVisibility})=> {
+const SummaryModal: React.FC <{contact, toggleModalVisibility, summaryWait}> = ({contact, toggleModalVisibility, summaryWait})=> {
 
     const [summary, setSummary] = useState(undefined);
 
     useEffect(()=> {
         (async ()=> {
             try {
-                const tempSummary = await getSummaryFromBackend(contact.contactID);
-                console.log(`Summary is: ${JSON.stringify(tempSummary)}`)
-                setSummary(tempSummary);
+                if (!summaryWait) {
+                    const tempSummary = await getSummaryFromBackend(contact.contactID);
+                    console.log(`Summary is: ${JSON.stringify(tempSummary)}`)
+                    setSummary(tempSummary);
+                }
 
             }
             catch (err) {
@@ -21,13 +23,13 @@ const SummaryModal: React.FC <{contact, toggleModalVisibility}> = ({contact, tog
             }
             
         })()
-    }, []);
+    }, [summaryWait]);
 
     const displaySummary = ()=> {
         if (summary === undefined) {
             return (<Text style={styles.modalSummaryText}>Loading</Text>)
         }
-        else if (summary === "") {
+        else if (summary === "" || summary === null) {
             return (<Text style={styles.modalSummaryText}>Please add some notes.</Text>)
         }
         else {
