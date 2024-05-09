@@ -55,7 +55,7 @@ const NotificationPrefs: React.FC <{toggleModalVisibility}> = ({toggleModalVisib
         try {
           const scheduled = await Notifications.getAllScheduledNotificationsAsync();
           setScheduledNotifications(scheduled);
-          console.log('Scheduled Notifications:', scheduled); // Log scheduled notifications
+          // console.log('Scheduled Notifications:', scheduled); // Log scheduled notifications
           
         } catch (error) {
           console.error('Failed to fetch scheduled notifications:', error);
@@ -105,15 +105,12 @@ const NotificationPrefs: React.FC <{toggleModalVisibility}> = ({toggleModalVisib
         };
         // Send reminder data to the backend
         console.log(reminderData.contactID)
-        await sendReminderToBackend(selectedContact, reminderData);
+        
+        await sendReminderToBackend(selectedContact, JSON.stringify(reminderData));
         
 
         Alert.alert('Notification Scheduled', `A ${notificationContent.title} notification will repeat.`);
         fetchScheduledNotifications(); // Update the list of scheduled notifications
-
-
-
-
 
 
         } catch (error) {
@@ -247,7 +244,7 @@ const NotificationPrefs: React.FC <{toggleModalVisibility}> = ({toggleModalVisib
                       console.log('Selected Contact Value Changed:', itemValue);
                       setSelectedFrequency(itemValue)
                     }}>
-                      <Picker.Item label="Select a Contact" value = ""/>
+                      <Picker.Item label="Select a Frequency" value = ""/>
                       <Picker.Item label="Daily" value="Daily" />
                       <Picker.Item label="Weekly" value="Weekly" />
                       <Picker.Item label="Monthly" value="Monthly" /> 
