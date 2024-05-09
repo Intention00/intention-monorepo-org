@@ -110,8 +110,9 @@ class ProcessNotes():
         
         formatted_questions = []
 
-        for value in questions.values():
-            formatted_questions.append(value)
+        for key, value in questions.items():
+            if key != "comments":
+                formatted_questions.append(value)
 
         return formatted_questions
 
