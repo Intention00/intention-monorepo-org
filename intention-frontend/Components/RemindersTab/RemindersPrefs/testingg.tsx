@@ -101,12 +101,12 @@ const NotificationPrefs: React.FC <{toggleModalVisibility}> = ({toggleModalVisib
             contactID: selectedContact, // 
             dateTime: formattedDateTime, // Assuming date is part of notificationContent
             frequency: selectedFrequency, // Assuming frequency is part of notificationContent
-            lastContacted: null // Assuming this is initially null
+            lastContacted: 0 // Assuming this is initially null
         };
         // Send reminder data to the backend
         console.log(reminderData.contactID)
         
-        await sendReminderToBackend(selectedContact, JSON.stringify(reminderData));
+        await sendReminderToBackend(selectedContact, (reminderData));
         
 
         Alert.alert('Notification Scheduled', `A ${notificationContent.title} notification will repeat.`);
