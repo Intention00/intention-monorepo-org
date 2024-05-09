@@ -1,4 +1,4 @@
-import { View, Text, TextInput, TouchableOpacity, Modal, Button } from "react-native"
+import { View, Text, TextInput, TouchableOpacity, Modal, Button, ActivityIndicator, Vibration } from "react-native"
 import React, { useState } from "react";
 import { Audio } from "expo-av"
 import { sendNotesToBackend, sendFinalNotesToBackend } from "../../Generic/backendService";
@@ -17,6 +17,7 @@ const TranscriberNote: React.FC <{contact}> = ({contact})=> {
     const [permissionResponse, requestPermission] = Audio.usePermissions();
     const [audioUri, setAudioUri] = useState(undefined);
     const [summaryModalVisible, setSummaryModalVisible] = useState(false);
+    const [loading, setLoading] = useState(false);
 
     // Microphone button START-RECORDING
     async function startRecording() {
@@ -98,6 +99,7 @@ const TranscriberNote: React.FC <{contact}> = ({contact})=> {
     };
 
     const generateQuestions = async () => {
+        setLoading(true);
         try {
             // Make a network request to Flask server
             const response = await fetch(`${backendAddress}/api/generate-questions?contactID=${contact.contactID}
@@ -113,12 +115,15 @@ const TranscriberNote: React.FC <{contact}> = ({contact})=> {
             if (Array.isArray(generatedQuestions)) {
                 // Update the state with the generated questions
                 setQuestions(generatedQuestions);
+                setLoading(false);
             } else {
                 console.error('Generated questions is not an array:', generatedQuestions);
+                setLoading(false);
             }
     
         } catch (error) {
             console.error('Error generating questions:', error);
+            setLoading(false);
         }
     };
     
@@ -168,9 +173,13 @@ const TranscriberNote: React.FC <{contact}> = ({contact})=> {
                 <View style={styles.buttonBox}>
                     <TouchableOpacity
                         style={styles.button}
+                        onPressOut={() => {
+                            Vibration.vibrate(130);
+                        }}
                         onPress={generateQuestions}>
+                        {loading && <ActivityIndicator size={"small"}/>}
                         <Ionicons name="create" size={24} color={styles.icons.color} />
-                        <Text style={styles.buttonText}>Generate Questions</Text>
+                        {loading ? <Text style={styles.buttonText}>Loading Questions</Text> : <Text style={styles.buttonText}>Generate Questions</Text>}
                     </TouchableOpacity>
                 </View>
 
