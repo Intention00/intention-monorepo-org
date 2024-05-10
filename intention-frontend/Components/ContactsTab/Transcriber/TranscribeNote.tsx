@@ -161,6 +161,9 @@ const TranscriberNote: React.FC <{contact}> = ({contact})=> {
                     </TouchableOpacity>
                     <TouchableOpacity
                         style={styles.button}
+                        onPressOut={() => {
+                            Vibration.vibrate(130);
+                        }}
                         onPress={() => sendFinalNotesToBackend(transcribedText, contact.contactID)}>
                         <Feather name="save" size={24} color={styles.icons.color} />
                     </TouchableOpacity>

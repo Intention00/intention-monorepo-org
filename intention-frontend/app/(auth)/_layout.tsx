@@ -1,6 +1,6 @@
 import { Tabs } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
-import { Pressable } from 'react-native';
+import { Pressable, Vibration } from 'react-native';
 import { useAuth } from '@clerk/clerk-expo';
 import { styles as global } from '../../Components/Generic/global.style';
 
@@ -12,7 +12,7 @@ export const LogoutButton = () => {
   };
 
   return (
-    <Pressable onPress={doLogout} style={{ marginRight: 10 }}>
+    <Pressable onPressOut={() => {Vibration.vibrate(130)}} onPress={doLogout} style={{ marginRight: 10 }}>
       <Ionicons name="log-out-outline" size={24} color={global.bodyText.color} />
     </Pressable>
   );

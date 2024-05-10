@@ -49,9 +49,11 @@ const SummaryModal: React.FC <{contact, toggleModalVisibility}> = ({contact, tog
 
                     <View style={{alignItems: 'center', marginBottom: 50}}>
                             <View style={styles.modalSummaryBox}>
-                                {displaySummary() ? <ScrollView>
-                                     {displaySummary()}
-                                </ScrollView> : <ActivityIndicator size={"large"}/>}
+                                {displaySummary() ? 
+                                    <ScrollView>
+                                        {displaySummary()}
+                                    </ScrollView> : 
+                                    <ActivityIndicator size={"large"}/>}
                             </View>
                     </View>
                 </View>

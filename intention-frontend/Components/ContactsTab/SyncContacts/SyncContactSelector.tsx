@@ -1,4 +1,4 @@
-import { View, Text, FlatList, Button, TouchableOpacity } from "react-native"
+import { View, Text, FlatList, Button, TouchableOpacity, Vibration } from "react-native"
 import CheckBox from 'expo-checkbox';
 import { useEffect, useState, useContext } from "react";
 import { userIDContext } from "../UserSync/userIDContext";
@@ -103,8 +103,10 @@ const SyncContactSelector: React.FC <{toggleModalVisibility, updateContacts}> = 
                 <View>
                     <TouchableOpacity
                         style={styles.saveButton}
+                        onPressOut={() => {
+                            Vibration.vibrate(130);
+                        }}
                         onPress={saveSelectedContacts}>
-
                         <Text style={styles.saveText}>Save</Text>
                     </TouchableOpacity>
                 </View>
