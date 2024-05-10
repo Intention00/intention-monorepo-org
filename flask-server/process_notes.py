@@ -3,10 +3,12 @@ from audio_processing import generate_notes_summary, generate_questions, generat
 import json
 from datetime import datetime
 class ProcessNotes():
-    def __init__(self, note_pkg = None) -> None:
+    def __init__(self, note_pkg = None, model_name = None) -> None:
         if note_pkg:
             self.note = note_pkg['note']
             self.contactID = note_pkg['contactID']
+        # set the model to be used for all llm related stuff
+        self.model_name = model_name
     
     # extracts note and contactid from json object
     def read_note(self, note_pkg):
@@ -51,7 +53,7 @@ class ProcessNotes():
         formatted_datetime = current_datetime.strftime('%Y-%m-%d %H:%M:%S')
 
         notes = self.get_notes(contact_id)
-        generated_summary = generate_notes_summary(notes, formatted_datetime, contact_id)
+        generated_summary = generate_notes_summary(notes, formatted_datetime, contact_id, model_name=self.model_name)
 
         return generated_summary
     
@@ -106,7 +108,7 @@ class ProcessNotes():
         style = self.get_conversation_style(contact_id)
         # print(f'style: {style}')
 
-        questions = json.loads(generate_questions(summary, newest_note, firstName, style))
+        questions = json.loads(generate_questions(summary, newest_note, firstName, style, model_name=self.model_name))
         
         formatted_questions = []
 
@@ -120,7 +122,7 @@ class ProcessNotes():
     # to the user.
     def gen_conversation_style(self, contact_id):
         notes = self.get_notes(contact_id)
-        conversational_style = generate_conversational_style(notes)
+        conversational_style = generate_conversational_style(notes, model_name=self.model_name)
         # print(f"Style is: {conversational_style}")
         return conversational_style
     

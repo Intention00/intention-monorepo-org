@@ -27,7 +27,7 @@ contactList = [cont1, cont2]
 
 # Contacts processor
 contacts_processor = ProcessContacts()
-notes_processor = ProcessNotes()
+notes_processor = ProcessNotes(model_name="gpt")
 user_processor = ProcessUsers()
 
 tags_processor = ProcessTags()
