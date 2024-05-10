@@ -86,7 +86,7 @@ def generate_questions(summary, newest_note, firstName, style, model_name = None
     else:
         content_section = "{\"question1\": \"Please add some notes!\", \"question2\": \"\", \"question3\": \"\"}"
 
-    print(f'OUTPUT: {content_section}')
+    # print(f'OUTPUT: {content_section}')
 
     return content_section
 

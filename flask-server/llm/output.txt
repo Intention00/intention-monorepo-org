@@ -1,0 +1,12 @@
+Model: gpt
+Output: ['Hey Hank! Remember when we discussed the Ericsson conference? Such a fantastic conversation! By the way, did you manage to remember the name of that pizza place you recommended last time?', "Hey Hank, it's me! Thanks again for the app deployment advice, it was super helpful. By the way, any new exciting projects or events on your radar we should chat about?", "Hi Hank! Hope you're doing well. I still can't get over that amazing Costco pizza we had. Want to grab some pizza soon and maybe catch up on our recent activities, like bungee jumping? Let me know!"]
+Time:  3.13
+Model: llama3
+Output: ["Hey Hank, what's new with your projects? That Ericsson conference we recently discussed was really insightful, and I'm curious to know if you learned anything new or interesting since then.", 'How was your experience recommending the pizza place to me? Do you remember what it was called? I was eating some pizza the other day and it reminded me of the recommendation, but I totally forgot the name!', "I've been trying to get some advice on deploying an application to the Google Play Store and I thought of you. Do you have any more guidance or tips to share, or should I just wing it and figure it out as I go?"]
+Time:  2.28
+Model: gpt
+Output: ["Hey Hank, I hope you're doing well! Remember that pizza place you recommended? I've been craving it lately but completely blanking on the name. Any chance you could jog my memory?", "Hey Hank, how's it going? I had such a blast at that Ericsson conference we chatted about. Really appreciate the insights you shared. Any exciting projects on your plate at the moment?", "Hey Hank, I'm curious, have you tried out any new recipes lately? Our last chat about food got me inspired to cook up something delicious. Any recommendations?"]
+Time:  3.46
+Model: llama3
+Output: ["Hey Hank, how's it going? I've been thinking about that Ericsson conference we recently spoke about, and I wanted to follow up on a few more topics related to it.", "Hey man, I know we talked about deploying an app to Google Play Store and I've been trying it out. Did I miss anything crucial in our last conversation?", "Hey Hank, hope you're doing well! I was just eating some pizza and it reminded me of that pizza place you were recommending. Do you remember the name by any chance?"]
+Time:  1.95
