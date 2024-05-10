@@ -68,10 +68,10 @@ const NotificationPrefs: React.FC <{toggleModalVisibility}> = ({toggleModalVisib
     setHasPermission(granted);
     };
 
-    const checkPermissionStatus = async () => {
-    const granted = await checkNotificationPermission();
-    setHasPermission(granted);
-    };
+    // const checkPermissionStatus = async () => {
+    // const granted = await checkNotificationPermission();
+    // setHasPermission(granted);
+    // };
 
     const handleScheduleNotification = async () => {
         try {
@@ -117,69 +117,70 @@ const NotificationPrefs: React.FC <{toggleModalVisibility}> = ({toggleModalVisib
           console.error('Failed to schedule notification:', error);
           Alert.alert('Error', 'Failed to schedule notification. Please try again.');
         }
-      };
+    };
 
-      const handleCancelNotification = async (identifier: string, contactID: number) => {
-        try {
-          console.log("Canceling notification for contactID:", contactID); 
-          // Remove/Cancel it locally first
-          await cancelScheduledNotification(identifier);
-          // Remove the reminder from the backend
-          // await deleteReminderFromBackend(contactID);
-          Alert.alert('Notification Canceled', 'The scheduled notification has been canceled.');
-          fetchScheduledNotifications(); // Update the list of scheduled notifications
-        } catch (error) {
-          console.error('Failed to cancel notification:', error);
-          Alert.alert('Error', 'Failed to cancel notification. Please try again.');
-        }
-      };
+    const handleCancelNotification = async (identifier: string, contactID: number) => {
+      try {
+        console.log("Canceling notification for contactID:", contactID); 
+        // Remove/Cancel it locally first
+        await cancelScheduledNotification(identifier);
+        // Remove the reminder from the backend
+        // await deleteReminderFromBackend(contactID);
+        Alert.alert('Notification Canceled', 'The scheduled notification has been canceled.');
+        fetchScheduledNotifications(); // Update the list of scheduled notifications
+      } catch (error) {
+        console.error('Failed to cancel notification:', error);
+        Alert.alert('Error', 'Failed to cancel notification. Please try again.');
+      }
+    };
     
     
 
-      const getNotificationContent = (contactID: number): NotificationContent => {
-        let title = '';
-        let body = '';
-    
-        switch (selectedFrequency.toLowerCase()) {
-          case 'daily':
-            title = 'Daily Alarm';
-            body = 'DAILY';
-            break;
-          case 'weekly':
-            title = 'Weekly Alarm';
-            body = 'WEEKLY';
-            break;
-          case 'monthly':
-            title = 'Monthly Alarm';
-            body = 'MONTHLY';
-            break;
-          default:
-            title = 'Sample Notification';
-            body = 'This is a sample notification.';
-        }
-        const data = {
-          contactID: contactID.toString() // Convert contactID to string for data passing
-        };
-        return { title, body };
+    const getNotificationContent = (contactID: number): NotificationContent => {
+      let title = '';
+      let body = '';
+  
+      switch (selectedFrequency.toLowerCase()) {
+        case 'daily':
+          title = 'Daily Alarm';
+          body = 'DAILY';
+          break;
+        case 'weekly':
+          title = 'Weekly Alarm';
+          body = 'WEEKLY';
+          break;
+        case 'monthly':
+          title = 'Monthly Alarm';
+          body = 'MONTHLY';
+          break;
+        default:
+          title = 'Sample Notification';
+          body = 'This is a sample notification.';
+      }
+      const data = {
+        contactID: contactID.toString() // Convert contactID to string for data passing
       };
+      return { title, body };
+    };
     
-      const getNotificationTrigger = () => {
-        let seconds;
-        switch (selectedFrequency.toLowerCase()) {
-          case 'daily':
-            seconds = 60 * 60 * 24; // Daily Reminder in seconds
-            break;
-          case 'weekly':
-            seconds = 60 * 60 * 24 * 7; // Weekly Reminder in seconds
-            break;
-          case 'monthly':
-            seconds = 60 * 60 * 24 * 30; // Monthly Reminder in seconds
-            break;
-          default:
-            seconds = 60 * 60 * 24; // Default to daily
-        }
-        return { repeats: true, seconds };
-      };
+    const getNotificationTrigger = () => {
+      let seconds;
+      switch (selectedFrequency.toLowerCase()) {
+        case 'daily':
+          seconds = 60 * 60 * 24; // Daily Reminder in seconds
+          break;
+        case 'weekly':
+          seconds = 60 * 60 * 24 * 7; // Weekly Reminder in seconds
+          break;
+        case 'monthly':
+          seconds = 60 * 60 * 24 * 30; // Monthly Reminder in seconds
+          break;
+        default:
+          seconds = 60 * 60 * 24; // Default to daily
+      }
+      return { repeats: true, seconds };
+    };
+    
     const frequencies = ["Daily", "Weekly", "Monthly"];
     
     return (
