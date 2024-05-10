@@ -3,26 +3,25 @@ from dotenv import load_dotenv
 load_dotenv()
 import os
 
-# set model
-llm = "llama3"
-
-# should not keep visible, bad practice
-openai_key = os.getenv("OPENAI_KEY")
-client = OpenAI(api_key = openai_key)
-model = "gpt-3.5-turbo"
-
-if llm == "llama3":
-    key = os.getenv("DEEPINFRA_KEY")
-    client = OpenAI(
-                api_key=key,
-                base_url="https://api.deepinfra.com/v1/openai",
-            )
-    model = "meta-llama/Meta-Llama-3-8B-Instruct"
+# Initialize model
+def initialize_model(model_name = None):
+    if model_name == "llama3":
+        key = os.getenv("DEEPINFRA_KEY")
+        client = OpenAI(
+                    api_key=key,
+                    base_url="https://api.deepinfra.com/v1/openai",
+                )
+        model = "meta-llama/Meta-Llama-3-8B-Instruct"
+    else:
+        openai_key = os.getenv("OPENAI_KEY")
+        client = OpenAI(api_key = openai_key)
+        model = "gpt-3.5-turbo"
+    
+    return client, model
 
 def transcribe():
     # Always want to use openai model for transcription
-    openai_key = os.getenv("OPENAI_KEY")
-    client = OpenAI(api_key = openai_key)
+    client, _ = initialize_model()
 
     media_file_path = 'temp_audio/recording.m4a'
     media_file = open(media_file_path, 'rb')
@@ -34,7 +33,10 @@ def transcribe():
     )
     return text
 
-def generate_summary(text):
+def generate_summary(text, model_name = None):
+    # Select model
+    client, model = initialize_model(model_name)
+
     response = client.chat.completions.create(
         model=model,
         messages=[
@@ -46,8 +48,11 @@ def generate_summary(text):
     return content_section
     
 # summary generated from all the notes for a given contact
-def generate_notes_summary(notes, date, contact_id):
+def generate_notes_summary(notes, date, contact_id, model_name = None):
     if notes:
+        # Select model
+        client, model = initialize_model(model_name)
+
         response = client.chat.completions.create(
             model=model,
             messages=[
@@ -61,12 +66,11 @@ def generate_notes_summary(notes, date, contact_id):
         content_section = ""
     return content_section
 
-def generate_questions(summary, newest_note, firstName, style):
+def generate_questions(summary, newest_note, firstName, style, model_name = None):
     if summary:
-        # add dont assume timeline
-        # 
+        # Select model
+        client, model = initialize_model(model_name)
 
-        print(f"Name was: {firstName}")
         response = client.chat.completions.create(
             model=model,
             response_format={'type': 'json_object'},
@@ -76,7 +80,7 @@ def generate_questions(summary, newest_note, firstName, style):
 
                 {"role": "user", "content": f"Generate 3 personable ways to reach out to {firstName}. You'll be sending these directly, so make sure they don't require any editing. Only return the questions- provide them in the format of a json object with the keys \"question1\", \"question2\", \"question3\"; put any comments in a separate key called 'comments'. This is an analysis of the conversation style of the human you are mimicking: {style}. Follow the analysis exactly, and act as if that is you. Here are some notes regarding their relationship: {summary}. This is the most recent note between them, place extra emphasis on it: {newest_note}. Keep track of what the human you're mimicking told {firstName}, and what {firstName} told them. Only use the information you have- don't make up any information regarding their past interactions or relationship, and don't make any mistakes. If you don't have enough information to work with, think of some openers that are unrelated to the notes, but they would probably appreciate. Don't mention any other names other than yourself and {firstName}."}, 
             ],
-            top_p=0.1
+            top_p=0.9
         )
         content_section = response.choices[0].message.content
     else:
@@ -87,8 +91,11 @@ def generate_questions(summary, newest_note, firstName, style):
     return content_section
 
 # conversational style summarized from all the notes for a given contact
-def generate_conversational_style(notes):
+def generate_conversational_style(notes, model_name = None):
     if notes:
+        # Select model
+        client, model = initialize_model(model_name)
+
         response = client.chat.completions.create(
             model=model,
             response_format={'type': 'json_object'},
