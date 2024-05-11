@@ -6,7 +6,7 @@ import {
 
   sendReminderToBackend, 
   receiveContactsFromBackend, 
-  deleteReminderFromBackend} from '../../../Components/Generic/backendService';
+  deleteReminderFromBackend} from '../../Generic/backendService';
 import { userIDContext } from "../../ContactsTab/UserSync/userIDContext";
 
 import { Picker } from '@react-native-picker/picker';
@@ -21,7 +21,7 @@ import {
     checkNotificationPermission,
     requestNotificationPermission,
     NotificationContent,
-  } from '../../../Components/RemindersTab/RemindersPrefs/handle-local-notification';
+  } from './handle-local-notification';
 
 const NotificationPrefs: React.FC <{toggleModalVisibility}> = ({toggleModalVisibility})=> {
     // Placeholder for provided info
@@ -137,11 +137,6 @@ const NotificationPrefs: React.FC <{toggleModalVisibility}> = ({toggleModalVisib
       }
     };
     
-    interface CustomNotificationContent extends NotificationContent {
-      data: {
-        contactID: number;
-      };
-    }
 
     const getNotificationContent = (contactID: number): NotificationContent => {
       let title = '';
@@ -224,6 +219,7 @@ const NotificationPrefs: React.FC <{toggleModalVisibility}> = ({toggleModalVisib
 
                     }}
                     onValueChange={(itemValue) => {
+                      console.log("ItemValue:", itemValue)
                       console.log('Selected Contact Value Changed:', itemValue);
                       setSelectedContact(itemValue)
                     }}>
@@ -274,7 +270,7 @@ const NotificationPrefs: React.FC <{toggleModalVisibility}> = ({toggleModalVisib
                         <Text style={{
                           color: 'white',
                           textAlign: 'center'}}>{item.content?.body}</Text>
-                        <Button title="Cancel Notification" onPress={() => handleCancelNotification(item.identifier, item.contactID)} />
+                        <Button title="Cancel Notification" onPress={() => handleCancelNotification(item.identifier, selectedContact)} />
                       </View>
                     )}
                     keyExtractor={(item) => item.identifier.toString()}/>

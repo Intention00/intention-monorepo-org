@@ -2,7 +2,7 @@ import { View, Modal, SafeAreaView, TouchableHighlight } from "react-native"
 import { useState } from "react";
 import { AntDesign } from '@expo/vector-icons';
 import { styles as global } from "../../Generic/global.style";
-import { NotificationPrefs } from "../../RemindersTab/RemindersPrefs/testingg"
+import { NotificationPrefs } from "../../RemindersTab/RemindersPrefs/NotificationPrefs"
 import { styles } from "./NewReminderButton.style";
 
 
