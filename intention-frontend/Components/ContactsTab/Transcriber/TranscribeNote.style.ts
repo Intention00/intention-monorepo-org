@@ -12,6 +12,17 @@ const styles = StyleSheet.create ({
         // width: 250,
         width: '72%',
     },
+    notesInputAlt: {
+        maxHeight: 100,
+        backgroundColor: global.inputBox.backgroundColor,
+        color: global.inputBox.color,
+        padding: 10,
+        borderRadius: 10, 
+        marginBottom: 10, 
+        // width: 250,
+        width: '72%',
+        fontSize: 17,
+    },
 
     placeHolderTextColor: {
         color: global.inputBox.color
