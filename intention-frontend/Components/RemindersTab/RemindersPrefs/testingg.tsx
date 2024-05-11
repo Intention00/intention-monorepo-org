@@ -3,7 +3,7 @@ import { styles } from "../ConnectModal/ConnectModal.style"
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useState, useEffect, useContext } from "react";
 import { 
-  receiveReminderFromBackend, 
+
   sendReminderToBackend, 
   receiveContactsFromBackend, 
   deleteReminderFromBackend} from '../../../Components/Generic/backendService';
@@ -55,7 +55,7 @@ const NotificationPrefs: React.FC <{toggleModalVisibility}> = ({toggleModalVisib
         try {
           const scheduled = await Notifications.getAllScheduledNotificationsAsync();
           setScheduledNotifications(scheduled);
-          // console.log('Scheduled Notifications:', scheduled); // Log scheduled notifications
+          console.log('Scheduled Notifications:', scheduled); // Log scheduled notifications
           
         } catch (error) {
           console.error('Failed to fetch scheduled notifications:', error);
@@ -124,8 +124,11 @@ const NotificationPrefs: React.FC <{toggleModalVisibility}> = ({toggleModalVisib
         console.log("Canceling notification for contactID:", contactID); 
         // Remove/Cancel it locally first
         await cancelScheduledNotification(identifier);
+
         // Remove the reminder from the backend
-        // await deleteReminderFromBackend(contactID);
+        
+        await deleteReminderFromBackend(contactID);
+
         Alert.alert('Notification Canceled', 'The scheduled notification has been canceled.');
         fetchScheduledNotifications(); // Update the list of scheduled notifications
       } catch (error) {
@@ -134,7 +137,11 @@ const NotificationPrefs: React.FC <{toggleModalVisibility}> = ({toggleModalVisib
       }
     };
     
-    
+    interface CustomNotificationContent extends NotificationContent {
+      data: {
+        contactID: number;
+      };
+    }
 
     const getNotificationContent = (contactID: number): NotificationContent => {
       let title = '';
@@ -157,9 +164,9 @@ const NotificationPrefs: React.FC <{toggleModalVisibility}> = ({toggleModalVisib
           title = 'Sample Notification';
           body = 'This is a sample notification.';
       }
-      const data = {
-        contactID: contactID.toString() // Convert contactID to string for data passing
-      };
+
+    
+      
       return { title, body };
     };
     
@@ -180,7 +187,7 @@ const NotificationPrefs: React.FC <{toggleModalVisibility}> = ({toggleModalVisib
       }
       return { repeats: true, seconds };
     };
-    
+
     const frequencies = ["Daily", "Weekly", "Monthly"];
     
     return (

@@ -333,6 +333,10 @@ export const deleteReminderFromBackend = async (contactID: number)=> {
     try {
         const response = await fetch(`${backendAddress}/api/reminder?contactID=${contactID}`, {
             method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json' // Ensure the correct content type
+              },
+              body: JSON.stringify({ contactID })
         })
 
         if (!response.ok) {

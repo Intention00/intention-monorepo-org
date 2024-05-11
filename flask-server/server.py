@@ -288,6 +288,9 @@ def edit_contact_reminder():
 @app.route("/api/reminder", methods=['DELETE'])
 def delete_contact_reminder():
     try: 
+        # Retrieve notification data from request
+        notification_data = request.get_json()
+        
         # getting contact_id from api call
         contact_id = request.args.get('contactID')
 
