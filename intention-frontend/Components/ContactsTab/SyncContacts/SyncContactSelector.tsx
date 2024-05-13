@@ -7,7 +7,7 @@ import { SyncContactItem } from "./SyncContactItem";
 import { receiveContactsFromBackend } from "../../Generic/backendService";
 import { styles } from "./SyncContactSelector.style";
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-
+import { SearchBar } from "./SyncSearch";
 // Component for selecting contacts to sync with the backend
 
 // Still need to fix select all button. If you already have some contacts synced and try
@@ -67,9 +67,10 @@ const SyncContactSelector: React.FC <{toggleModalVisibility, updateContacts}> = 
                     <MaterialCommunityIcons style={styles.modalExit} name="window-close" onPress={toggleModalVisibility}/>
                     <View style={{flex: 1}}>
                         <Text style={styles.modalHeaderText}>Sync Contacts</Text>
+                        <Text>  <SearchBar clicked={undefined} searchPhrase={undefined} setSearchPhrase={undefined} setClicked={undefined}></SearchBar></Text>
                     </View>
                 </View>
-
+              
                 <View style={styles.modalTextContainer}>
                     <View>
                         <FlatList 
