@@ -10,6 +10,9 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { SearchBar } from "./SyncSearch";
 // Component for selecting contacts to sync with the backend
 
+
+
+
 // Still need to fix select all button. If you already have some contacts synced and try
 // using select all before saving new contacts, it doesn't save any of the new ones.
 // It only works when no contacts are synced with DB. Probably has to do with ignore duplicates
@@ -60,6 +63,8 @@ const SyncContactSelector: React.FC <{toggleModalVisibility, updateContacts}> = 
         updateContacts(newContacts);
     }
 
+  
+
     return (
         <View style={[styles.centeredView, styles.modalView]}>
             <View style={[styles.modalBox]}>
@@ -67,7 +72,7 @@ const SyncContactSelector: React.FC <{toggleModalVisibility, updateContacts}> = 
                     <MaterialCommunityIcons style={styles.modalExit} name="window-close" onPress={toggleModalVisibility}/>
                     <View style={{flex: 1}}>
                         <Text style={styles.modalHeaderText}>Sync Contacts</Text>
-                        <Text>  <SearchBar clicked={undefined} searchPhrase={undefined} setSearchPhrase={undefined} setClicked={undefined}></SearchBar></Text>
+                        <Text>  <SearchBar clicked={undefined} searchPhrase={undefined} setSearchPhrase={undefined} setClicked={false}></SearchBar></Text>
                     </View>
                 </View>
               
