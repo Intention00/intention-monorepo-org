@@ -19,6 +19,13 @@ def initialize_model(model_name = None):
                     base_url="https://api.deepinfra.com/v1/openai",
                 )
         model = "microsoft/WizardLM-2-8x22B"
+    elif (model_name == "mixtral"):
+        key = os.getenv("DEEPINFRA_KEY")
+        client = OpenAI(
+                    api_key=key,
+                    base_url="https://api.deepinfra.com/v1/openai",
+                )
+        model = "mistralai/Mixtral-8x22B-Instruct-v0.1"
     else:
         openai_key = os.getenv("OPENAI_KEY")
         client = OpenAI(api_key = openai_key)

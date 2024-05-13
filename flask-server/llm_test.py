@@ -11,6 +11,7 @@ import json
 gpt_processor = ProcessNotes(model_name='gpt')
 llama_processor = ProcessNotes(model_name='llama3')
 wizardlm_processor = ProcessNotes(model_name='wizardlm')
+mixtral_processor = ProcessNotes(model_name='mixtral')
 
 def measure_time(processor: ProcessNotes):
     start_time = time.time()
@@ -31,6 +32,7 @@ def record_time(n = 1):
         gpt_times = []
         llama_times = []
         wizardlm_times = []
+        mixtral_times = []
 
         file.write('[')
 
@@ -38,20 +40,25 @@ def record_time(n = 1):
             gpt_time, gpt_result = measure_time(gpt_processor)
             llama_time, llama_result = measure_time(llama_processor)
             wizardlm_time, wizardlm_result = measure_time(wizardlm_processor)
+            mixtral_time, mixtral_result = measure_time(mixtral_processor)
 
             gpt_result['iteration'] = i
             llama_result['iteration'] = i
             wizardlm_result['iteration'] = i
+            mixtral_result['iteration'] = i
 
             gpt_times.append(gpt_time)
             llama_times.append(llama_time)
             wizardlm_times.append(wizardlm_time)
+            mixtral_times.append(mixtral_time)
 
             json.dump(gpt_result, file)
             file.write(',')
             json.dump(llama_result, file)
             file.write(',')
             json.dump(wizardlm_result, file)
+            file.write(',')
+            json.dump(mixtral_result, file)
             file.write(',')
 
         file.seek(file.tell() - 1)
@@ -62,5 +69,6 @@ def record_time(n = 1):
         print(f'GPT times: {gpt_times}')
         print(f'Llama times: {llama_times}')
         print(f'Wizardlm times: {wizardlm_times}')
+        print(f'Mixtral times: {mixtral_times}')
 
 record_time(2)
