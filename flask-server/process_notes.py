@@ -66,7 +66,6 @@ class ProcessNotes():
         formatted_datetime = current_datetime.strftime('%Y-%m-%d %H:%M:%S')
 
         notes = self.get_notes(contact_id)
-        print(f'Summary generated with: {self.model_name}')
         generated_summary = generate_notes_summary(notes, formatted_datetime, contact_id, model_name=self.model_name)
 
         return generated_summary
@@ -121,7 +120,6 @@ class ProcessNotes():
         # Gets style from db only, if it doesn't exist, currently uses nothing (no updates, cached)
         style = self.get_conversation_style(contact_id)
         # print(f'style: {style}')
-        print(f'Questions generated with: {self.model_name}')
         string_questions = generate_questions(summary, newest_note, firstName, style, model_name=self.model_name)
 
         # Remove extra characters from start
@@ -158,7 +156,6 @@ class ProcessNotes():
     # to the user.
     def gen_conversation_style(self, contact_id):
         notes = self.get_notes(contact_id)
-        print(f'Conversation style generated with: {self.model_name}')
         conversational_style = generate_conversational_style(notes, model_name=self.model_name)
         # print(f"Style is: {conversational_style}")
         return conversational_style

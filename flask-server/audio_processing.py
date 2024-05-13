@@ -29,7 +29,10 @@ def initialize_model(model_name = None):
     else:
         openai_key = os.getenv("OPENAI_KEY")
         client = OpenAI(api_key = openai_key)
-        model = "gpt-3.5-turbo"
+        if model_name == "gpt4o":
+            model = "gpt-4o"
+        else:
+            model = "gpt-3.5-turbo"
     
     return client, model
 
@@ -66,6 +69,7 @@ def generate_notes_summary(notes, date, contact_id, model_name = None):
     if notes:
         # Select model
         client, model = initialize_model(model_name)
+        print(f'Summary generated with: {model}')
 
         response = client.chat.completions.create(
             model=model,
@@ -84,6 +88,7 @@ def generate_questions(summary, newest_note, firstName, style, model_name = None
     if summary:
         # Select model
         client, model = initialize_model(model_name)
+        print(f'Questions generated with: {model}')
 
         response = client.chat.completions.create(
             model=model,
@@ -109,6 +114,7 @@ def generate_conversational_style(notes, model_name = None):
     if notes:
         # Select model
         client, model = initialize_model(model_name)
+        print(f'Conversation style generated with: {model}')
 
         response = client.chat.completions.create(
             model=model,
