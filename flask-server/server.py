@@ -389,7 +389,6 @@ def return_notes_summary():
         contact_id = request.args.get('contactID')
 
         # retrieving summary from db
-        # summary = notes_processor.gen_notes_summary(contact_id)
         summary = notes_processor.get_summary(contact_id)
 
         return jsonify(summary), 200
@@ -403,6 +402,13 @@ def generate_questions():
     # getting contact_id from api call
     contact_id = request.args.get('contactID')
     contact_first_name = request.args.get('firstName')
+
+    # get optional llm model name parameter
+    model_name = request.args.get('model', default=None)
+
+    # Change to model if parameter was provided
+    if model_name:
+        notes_processor.model_name = model_name
 
     # Generate questions using transcriber.py
     questions = notes_processor.get_summary_questions(contact_id, contact_first_name)

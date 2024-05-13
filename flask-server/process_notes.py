@@ -4,16 +4,29 @@ import json
 from datetime import datetime
 class ProcessNotes():
     def __init__(self, note_pkg = None, model_name = None) -> None:
+        self.model_name = model_name
         if note_pkg:
             self.note = note_pkg['note']
             self.contactID = note_pkg['contactID']
-        # set the model to be used for all llm related stuff
-        self.model_name = model_name
+            
+            # set the model to be used for all llm related stuff
+            if note_pkg['model']:
+                # temp disabled, only want to use gpt for now
+                # self.model_name = note_pkg['model']
+                pass
+            
     
     # extracts note and contactid from json object
     def read_note(self, note_pkg):
         self.note = note_pkg['note']
         self.contactID = note_pkg['contactID']
+
+        # set the model to be used for all llm related stuff
+        if note_pkg.get('model', None):
+            # temp disabled, only want to use gpt for now
+            # self.model_name = note_pkg['model']
+            pass
+            
 
     # saves the note to the specified contactid in database
     def save_note(self):
@@ -53,6 +66,7 @@ class ProcessNotes():
         formatted_datetime = current_datetime.strftime('%Y-%m-%d %H:%M:%S')
 
         notes = self.get_notes(contact_id)
+        print(f'Summary generated with: {self.model_name}')
         generated_summary = generate_notes_summary(notes, formatted_datetime, contact_id, model_name=self.model_name)
 
         return generated_summary
@@ -107,8 +121,30 @@ class ProcessNotes():
         # Gets style from db only, if it doesn't exist, currently uses nothing (no updates, cached)
         style = self.get_conversation_style(contact_id)
         # print(f'style: {style}')
+        print(f'Questions generated with: {self.model_name}')
+        string_questions = generate_questions(summary, newest_note, firstName, style, model_name=self.model_name)
 
-        questions = json.loads(generate_questions(summary, newest_note, firstName, style, model_name=self.model_name))
+        # Remove extra characters from start
+        start_idx = 0
+        while(string_questions[start_idx] != '{' and start_idx < len(string_questions)):
+            start_idx += 1
+
+        # Special consideration for llama
+        if self.model_name == 'llama3' and string_questions[-1] != '}':
+            string_questions += '}'
+
+        # Remove extra characters from end
+        end_idx = len(string_questions) - 1
+        while(string_questions[end_idx] != '}' and end_idx >= 0):
+            end_idx -= 1
+
+        json_compat_str = string_questions[start_idx:end_idx + 1]
+
+        try:
+            questions = json.loads(json_compat_str)
+        except:
+            print('ERROR: Response JSON formatting issue')
+            return ['JSON', 'Format', 'Error']
         
         formatted_questions = []
 
@@ -122,6 +158,7 @@ class ProcessNotes():
     # to the user.
     def gen_conversation_style(self, contact_id):
         notes = self.get_notes(contact_id)
+        print(f'Conversation style generated with: {self.model_name}')
         conversational_style = generate_conversational_style(notes, model_name=self.model_name)
         # print(f"Style is: {conversational_style}")
         return conversational_style

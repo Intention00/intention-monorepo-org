@@ -12,6 +12,13 @@ def initialize_model(model_name = None):
                     base_url="https://api.deepinfra.com/v1/openai",
                 )
         model = "meta-llama/Meta-Llama-3-8B-Instruct"
+    elif (model_name == "wizardlm"):
+        key = os.getenv("DEEPINFRA_KEY")
+        client = OpenAI(
+                    api_key=key,
+                    base_url="https://api.deepinfra.com/v1/openai",
+                )
+        model = "microsoft/WizardLM-2-8x22B"
     else:
         openai_key = os.getenv("OPENAI_KEY")
         client = OpenAI(api_key = openai_key)
@@ -86,7 +93,7 @@ def generate_questions(summary, newest_note, firstName, style, model_name = None
     else:
         content_section = "{\"question1\": \"Please add some notes!\", \"question2\": \"\", \"question3\": \"\"}"
 
-    # print(f'OUTPUT: {content_section}')
+    print(f'OUTPUT: {content_section}')
 
     return content_section
 
