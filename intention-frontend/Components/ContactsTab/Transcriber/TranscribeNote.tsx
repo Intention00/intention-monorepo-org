@@ -174,7 +174,8 @@ const TranscriberNote: React.FC <{contact}> = ({contact})=> {
                 <TextInput
                     multiline
                     value={transcribedText}
-                    placeholder={summary !== null ? "Press once to record, twice to stop": "How do you value this person?\n \nPress once to record, twice to stop"}
+                    placeholder={summary !== null ? "Press once to record, twice to stop": 
+                        "How did your initial meeting lead to shared your bond? \n \nRecord: 1 tap, Stop: 2 taps"}
                     placeholderTextColor={styles.placeHolderTextColor.color}
                     onChangeText={setTranscribedText}
                     style={summary !== null ? styles.notesInput : styles.notesInputAlt}

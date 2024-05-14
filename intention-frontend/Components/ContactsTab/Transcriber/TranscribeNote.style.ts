@@ -13,14 +13,15 @@ const styles = StyleSheet.create ({
         width: '72%',
     },
     notesInputAlt: {
-        maxHeight: 100,
+        maxHeight: 200,
         backgroundColor: global.inputBox.backgroundColor,
         color: global.inputBox.color,
         padding: 10,
         borderRadius: 10, 
-        marginBottom: 10, 
+        marginBottom: 20, 
         // width: 250,
         width: '72%',
+        height: 150,
         fontSize: 17,
     },
 
