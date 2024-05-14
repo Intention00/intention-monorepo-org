@@ -108,6 +108,25 @@ class ProcessNotes():
                     return note['TranscribedNotes']
                 else:
                     return None
+                
+    # Cleans up the discrepancies between different llm responses to make json compatible
+    def format_llm_output(self, data):
+        # Remove extra characters from start
+        start_idx = 0
+        while(data[start_idx] != '{' and start_idx < len(data)):
+            start_idx += 1
+
+        # Special consideration for llama
+        if self.model_name == 'llama3' and data[-1] != '}':
+            data += '}'
+
+        # Remove extra characters from end
+        end_idx = len(data) - 1
+        while(data[end_idx] != '}' and end_idx >= 0):
+            end_idx -= 1
+
+        return data[start_idx:end_idx + 1]
+
 
     # Returns some questions generated for the contact using their summary
     def get_summary_questions(self, contact_id, firstName):
@@ -122,21 +141,7 @@ class ProcessNotes():
         # print(f'style: {style}')
         string_questions = generate_questions(summary, newest_note, firstName, style, model_name=self.model_name)
 
-        # Remove extra characters from start
-        start_idx = 0
-        while(string_questions[start_idx] != '{' and start_idx < len(string_questions)):
-            start_idx += 1
-
-        # Special consideration for llama
-        if self.model_name == 'llama3' and string_questions[-1] != '}':
-            string_questions += '}'
-
-        # Remove extra characters from end
-        end_idx = len(string_questions) - 1
-        while(string_questions[end_idx] != '}' and end_idx >= 0):
-            end_idx -= 1
-
-        json_compat_str = string_questions[start_idx:end_idx + 1]
+        json_compat_str = self.format_llm_output(string_questions)
 
         try:
             questions = json.loads(json_compat_str)

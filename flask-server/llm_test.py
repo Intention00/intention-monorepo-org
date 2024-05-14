@@ -30,7 +30,7 @@ def measure_time(processor: ProcessNotes):
 
 def record_time(n = 1):
     os.makedirs('llm', exist_ok=True)
-    with open(os.path.join('llm', 'output.json'), 'w') as file:
+    with open(os.path.join('llm', 'model_responses.json'), 'w') as file:
         gpt_times = []
         llama_times = []
         wizardlm_times = []
@@ -82,14 +82,23 @@ def record_time(n = 1):
 
 # record_time(1)
 
-def load_models_data(file_name = 'llm/output.json'):
+def load_models_data(file_name = 'llm/model_responses.json'):
     with open(file_name, 'r') as file:
         data = json.load(file)
         return data
+    
+def export_model_ranking(model_name, data):
+    json_data = json.loads(data)
+    os.makedirs('llm', exist_ok=True)
+    with open(os.path.join('llm', f'ranking_{model_name}.json'), 'w') as file:
+        json.dump(json_data, file)
         
-def rank_models(data):
+def rank_models(model_name, data):
+    # Create processor to format response
+    processor = ProcessNotes(model_name=model_name)
+
     # Select model
-    client, model = initialize_model('gpt4o')
+    client, model = initialize_model(model_name)
     print(f'Scoring model is: {model}')
 
     response_format = """
@@ -97,30 +106,40 @@ def rank_models(data):
             "ranking": [
                 {
                     "model": *model name*,
-                    "score": *score*
+                    "rank": *rank*
                 }
             ],
-            "comments": {
-                *model name*: *comment*
-            }
+            best_questions: [
+                *iteration*: *best question*
+            ],
         }
     """
+            #     "comments": {
+            #     *model name*: *comment*
+            # }
 
     response = client.chat.completions.create(
         model=model,
         response_format={'type': 'json_object'},
         messages=[
             {"role": "system", "content": "You are a helpful human assistant. Talking directly to the user."},
-            {"role": "user", "content": f"You are given a json object which contains the output of several LLM models. These models are returning personalized questions to help start conversations with my contacts. Evaluate the models and return a score (from 1 to 10) of the models by how good their respective questions were, and which ones humans would prefer the most. Return your response as a json object following this format: {response_format}. Here is the json object: {data}"}
+            {"role": "user", "content": f"You are given a json object which contains the output of several LLM models. These models are returning personalized questions to help start conversations with my contacts. Evaluate the models and return a ranking of the models (0 being the best) amongst themselves by how good their respective questions were, and which ones humans would prefer the most. Also pick the best question from each iteration amongst all the models and put it in the key 'best_questions'. Return your response as a json object following this format: {response_format}. Don't provide any extra comments explaining your thoughts or what you'll be doing. Here is the json object: {data}"}
         ],
         # Provide your comments in a key called 'comments'. 
     )
 
     content_section = response.choices[0].message.content
-    print(content_section)
-    return content_section
+    formatted_content = processor.format_llm_output(content_section)
 
-data = load_models_data()
-rank_models(data)
+    print(formatted_content)
+    return formatted_content
 
-# record_time(1)
+def rank_export(model_name):
+    data = load_models_data()
+    ranking = rank_models(model_name, data)
+    export_model_ranking(model_name, ranking)
+
+
+# record_time(2)
+
+rank_export('gpt')
