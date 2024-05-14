@@ -114,10 +114,7 @@ def rank_models(model_name, data):
             ],
         }
     """
-            #     "comments": {
-            #     *model name*: *comment*
-            # }
-
+    
     response = client.chat.completions.create(
         model=model,
         response_format={'type': 'json_object'},
@@ -141,5 +138,29 @@ def rank_export(model_name):
 
 
 # record_time(2)
+# rank_export('gpt')
 
-rank_export('gpt')
+# Postman isn't using correct model for some reason, but it works here- should work on frontend?
+def test_api_call():
+    import requests
+    url = "http://192.168.1.27:5100/api/generate-questions"
+
+    params = {
+        "contactID": 6,
+        "firstName": "Hank",
+        "model": "llama3"
+    }
+
+    response = requests.get(url, params=params)
+
+    if response.status_code == 200:
+        # Parse the JSON response
+        data = response.json()
+        questions = data['questions']
+        print("Generated Questions:")
+        for question in questions:
+            print(question)
+    else:
+        print("Error:", response.text)
+
+test_api_call()
