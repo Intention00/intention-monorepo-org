@@ -49,6 +49,13 @@ const styles = StyleSheet.create ({
         justifyContent: 'center', 
         paddingBottom: 20,
     },
+    textBox: {
+        borderWidth: 1,
+        borderColor: 'yellow',
+        padding: 6,
+        borderRadius: 10,
+        marginVertical: 10,
+      },
 
     recordingButton: {
         backgroundColor: 'red'

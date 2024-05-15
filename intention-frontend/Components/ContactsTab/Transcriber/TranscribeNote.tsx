@@ -168,14 +168,20 @@ const TranscriberNote: React.FC <{contact}> = ({contact})=> {
     return (
         // Modal Container
         <View style={{flex: 1, flexDirection: "column"}}>
-
+            {/* For new Contacts only */}
+            {summary !== null ? (
+                null
+            ) : <Text style={styles.placeHolderTextColor}>Feel free to answer all of these questions or choose one.
+                    {"\n"}How did your initial meeting lead to your shared bond?
+                    {"\n"}What role do they play in your life?
+                    {"\n"}How do you value this person?</Text>}
             {/* Transcriber section */}
             <View style={{flexDirection: 'row'}}>
                 <TextInput
                     multiline
                     value={transcribedText}
                     placeholder={summary !== null ? "Press once to record, twice to stop": 
-                        "How did your initial meeting lead to your shared bond? \n \nRecord: 1 tap, Stop: 2 taps"}
+                        "Ex:From our initial meeting, a strong bond formed based on shared interests and values. They're my best friend now. \n \nRecord: 1 tap, Stop: 2 taps"}
                     placeholderTextColor={styles.placeHolderTextColor.color}
                     onChangeText={setTranscribedText}
                     style={summary !== null ? styles.notesInput : styles.notesInputAlt}
