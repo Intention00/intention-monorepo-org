@@ -15,6 +15,8 @@ wizardlm_processor = ProcessNotes(model_name='wizardlm')
 mixtral_processor = ProcessNotes(model_name='mixtral')
 gpt4o_processor = ProcessNotes(model_name='gpt4o')
 
+all_models = ['gpt', 'llama3', 'wizardlm', 'mixtral', 'gpt4o']
+
 def measure_time(processor: ProcessNotes):
     start_time = time.time()
     output = processor.get_summary_questions(6, "Hank")
@@ -82,16 +84,23 @@ def record_time(n = 1):
 
 # record_time(1)
 
-def load_models_data(file_name = 'llm/model_responses.json'):
-    with open(file_name, 'r') as file:
-        data = json.load(file)
-        return data
+def load_models_data(file_name = 'model_responses.json'):
+    try: 
+        file_name = 'llm/' + file_name
+        with open(file_name, 'r') as file:
+            data = json.load(file)
+            return data
+    except Exception as err:
+        print('failed in load_models_data:', err)
     
 def export_model_ranking(model_name, data):
-    json_data = json.loads(data)
-    os.makedirs('llm', exist_ok=True)
-    with open(os.path.join('llm', f'ranking_{model_name}.json'), 'w') as file:
-        json.dump(json_data, file)
+    try:
+        json_data = json.loads(data)
+        os.makedirs('llm', exist_ok=True)
+        with open(os.path.join('llm', f'ranking_{model_name}.json'), 'w') as file:
+            json.dump(json_data, file)
+    except Exception as err:
+        print('failed in export_model_ranking:', err)
         
 def rank_models(model_name, data):
     # Create processor to format response
@@ -114,7 +123,7 @@ def rank_models(model_name, data):
             ],
         }
     """
-    
+
     response = client.chat.completions.create(
         model=model,
         response_format={'type': 'json_object'},
@@ -136,10 +145,44 @@ def rank_export(model_name):
     ranking = rank_models(model_name, data)
     export_model_ranking(model_name, ranking)
 
+def get_model_scores(models = all_models):
+    # Used to store the ranks for each model from all the different models
+    rankings = {model_name: [] for model_name in models}
+
+    # Opens and reads for each model that judged the models
+    for model_name in models:
+        file_name = 'ranking_' + model_name + '.json'
+        try: 
+            ranking = load_models_data(file_name)
+
+            # The model name and rank for each model that this model judged are added to its
+            # list in rankings
+            for model, rank in ((mr['model'], mr['rank']) for mr in ranking['ranking']):           
+                rank_arr = rankings.get(model, None)
+                if rank_arr is not None:
+                    rank_arr.append(rank)
+        except:
+            print(f'{file_name} doesn\'t exist!')
+    
+    return rankings
+
+def get_avg_model_score():
+    all_scores = get_model_scores()
+    avg_scores = []
+
+    for model, scores in all_scores.items():
+        avg_score = sum(scores) / len(scores) if scores else -1
+        # avg_score = (1 - (sum(scores) / len(scores) / len(scores))) if scores else -1
+        avg_scores.append({model: avg_score})
+    
+    print(avg_scores)
 
 # record_time(2)
-# rank_export('gpt')
+# rank_export('wizardlm')
+get_avg_model_score()
 
+
+################################################################################################
 # Postman isn't using correct model for some reason, but it works here- should work on frontend?
 def test_api_call():
     import requests
@@ -163,4 +206,4 @@ def test_api_call():
     else:
         print("Error:", response.text)
 
-test_api_call()
+# test_api_call()
