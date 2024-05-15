@@ -117,8 +117,11 @@ class ProcessNotes():
             start_idx += 1
 
         # Special consideration for llama
-        if self.model_name == 'llama3' and data[-1] != '}':
-            data += '}'
+        if self.model_name == 'llama3':
+            try: 
+                json.loads(data)
+            except: 
+                data += '}'
 
         # Remove extra characters from end
         end_idx = len(data) - 1

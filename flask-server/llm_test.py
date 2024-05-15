@@ -8,6 +8,7 @@ from audio_processing import initialize_model
 import time
 import os
 import json
+import math
 
 gpt_processor = ProcessNotes(model_name='gpt')
 llama_processor = ProcessNotes(model_name='llama3')
@@ -100,7 +101,7 @@ def export_model_ranking(model_name, data):
         with open(os.path.join('llm', f'ranking_{model_name}.json'), 'w') as file:
             json.dump(json_data, file)
     except Exception as err:
-        print('failed in export_model_ranking:', err)
+        print(f'{model_name} failed in export_model_ranking:', err)
         
 def rank_models(model_name, data):
     # Create processor to format response
@@ -118,18 +119,20 @@ def rank_models(model_name, data):
                     "rank": *rank*
                 }
             ],
-            best_questions: [
-                *iteration*: *best question*
-            ],
+            "best_questions": {
+                "*iteration*": *best question*
+            },
         }
     """
 
     response = client.chat.completions.create(
         model=model,
         response_format={'type': 'json_object'},
+        max_tokens=4096,
         messages=[
             {"role": "system", "content": "You are a helpful human assistant. Talking directly to the user."},
-            {"role": "user", "content": f"You are given a json object which contains the output of several LLM models. These models are returning personalized questions to help start conversations with my contacts. Evaluate the models and return a ranking of the models (0 being the best) amongst themselves by how good their respective questions were, and which ones humans would prefer the most. Also pick the best question from each iteration amongst all the models and put it in the key 'best_questions'. Return your response as a json object following this format: {response_format}. Don't provide any extra comments explaining your thoughts or what you'll be doing. Here is the json object: {data}"}
+            {"role": "user", "content": "Don't say anything outside the json object you return, such as the '`' character."},
+            {"role": "user", "content": f"You are given a json object which contains the output of several LLM models. These models are returning personalized questions to help start conversations with my contacts. Evaluate the models and return a overall ranking of all the models (0 being the best) amongst themselves by how good their respective questions were, and which ones humans would prefer the most. Also pick the best question from each iteration amongst all the models and put it in the 'best_questions' object. You should have iteration go from 0 to however many iterations there are- don't skip any questions, include them all. Return your response as a json object following this format: {response_format}. Don't provide any extra comments explaining your thoughts or what you'll be doing. Make sure the end of your response is the closing curly bracket. Here is the json object: {data}"}
         ],
         # Provide your comments in a key called 'comments'. 
     )
@@ -144,6 +147,10 @@ def rank_export(model_name):
     data = load_models_data()
     ranking = rank_models(model_name, data)
     export_model_ranking(model_name, ranking)
+
+def rank_export_all(models = all_models):
+    for model in models:
+        rank_export(model)
 
 def get_model_scores(models = all_models):
     # Used to store the ranks for each model from all the different models
@@ -171,14 +178,20 @@ def get_avg_model_score():
     avg_scores = []
 
     for model, scores in all_scores.items():
-        avg_score = sum(scores) / len(scores) if scores else -1
+        # avg_score = sum(scores) / len(scores) if scores else -1
         # avg_score = (1 - (sum(scores) / len(scores) / len(scores))) if scores else -1
-        avg_scores.append({model: avg_score})
+        calc_score = 0
+        for score in scores:
+            calc_score += (len(all_scores) - score) *  (len(all_scores) - score)
+
+        calc_score = (calc_score / (len(all_scores) * len(all_scores) * len(scores)))
+        avg_scores.append({model: calc_score})
     
     print(avg_scores)
 
-# record_time(2)
-# rank_export('wizardlm')
+# record_time(10)
+# rank_export('llama3')
+# rank_export_all()
 get_avg_model_score()
 
 
