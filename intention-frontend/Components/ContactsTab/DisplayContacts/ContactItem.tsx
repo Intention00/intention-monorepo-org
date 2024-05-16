@@ -7,6 +7,7 @@ interface Contact {
     firstName: string;
     lastName: string;
     number: string;
+    tags: string;
 }
 
 const ContactItem: React.FC<{contact: Contact}> = ({contact})=> {

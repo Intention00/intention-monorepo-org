@@ -8,7 +8,7 @@ import { useUser } from '@clerk/clerk-expo';
 import { handleUser } from '../UserSync/userService';
 import { SyncContactButton } from '../SyncContacts/SyncContactButton';
 import { styles as global } from '../../Generic/global.style';
-
+import { SearchBar } from "../SyncContacts/SyncSearch"
 
 const ContactSync: React.FC = ()=> {
 
@@ -41,12 +41,23 @@ const ContactSync: React.FC = ()=> {
         
     }, []);
 
-    
+    // either make new component, and set them in inline style
+    // or could make view in same bar, and then style view into inline <-- do this
     return (
         <SafeAreaView style={{flex:1, width: '100%'}}>
             <userIDContext.Provider value={userID}>
                 <Text style={{marginTop: 10}}>{error}</Text>
+                <View style= {{flexDirection: 'row'}}>
                 <SyncContactButton updateContacts={setContacts}></SyncContactButton>
+                <SearchBar
+                            clicked={undefined}
+                            searchPhrase={undefined}
+                            setSearchPhrase={undefined}
+                            setClicked={undefined}
+                        />
+                    
+                </View>
+                
                 <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
                     {(contacts === undefined || contacts.length === 0) ? (<Text style={global.bodyText}>Use the sync button above to add some contacts!</Text>) : (<ContactList contacts={contacts}></ContactList>)}
                 </View>
