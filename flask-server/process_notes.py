@@ -129,6 +129,23 @@ class ProcessNotes():
             end_idx -= 1
 
         return data[start_idx:end_idx + 1]
+    
+
+    def get_user_llm(self, contact_id):
+        with DBConnection() as db_conn:
+            if db_conn:
+                sql_statement = """
+                    SELECT Model FROM User INNER JOIN Contact on 
+                    Contact.UserID = User.UserID WHERE Contact.ContactID = %s;
+                """
+                db_conn.execute(sql_statement, (contact_id,))
+                model_data = db_conn.fetchone()
+                if model_data:
+                    print(f'Model was {model_data["Model"]}')
+                    return model_data['Model']
+                else:
+                    # if failed, then use gpt
+                    return 'gpt'
 
 
     # Returns some questions generated for the contact using their summary

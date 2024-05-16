@@ -410,12 +410,49 @@ def generate_questions():
     if model_name:
         notes_processor.model_name = model_name
 
+    # TEMP: user db stored model name
+    model_name = notes_processor.get_user_llm(contact_id)
+    if model_name:
+        notes_processor.model_name = model_name
+
     # Generate questions using transcriber.py
     questions = notes_processor.get_summary_questions(contact_id, contact_first_name)
 
     # Return the generated questions
     return jsonify({'questions': questions})
 
+# Returns model name for user
+@app.route("/api/model", methods=['GET'])
+def return_model_name():
+    try: 
+        # getting user_id from api call
+        user_id = request.args.get('userID')
+
+        # retrieving model name from db
+        model_name = user_processor.get_user_model(user_id)
+
+        return jsonify(model_name), 200
+    
+    except Exception as err:
+        return jsonify({'message': str(err)}), 500
+    
+# Sets model name for user
+@app.route("/api/model", methods=['PUT'])
+def set_model_name():
+    try: 
+        # getting user_id from api call
+        user_id = request.args.get('userID')
+
+        # Extracting data
+        data = request.get_json()
+        model_data = data['model']
+
+        # updates model name in db
+        user_processor.set_user_model(user_id, model_data)
+        return jsonify({'message': 'Model name edited.'}), 204
+    
+    except Exception as err:
+        return jsonify({'message': str(err)}), 500
 
 if __name__ == "__main__":
     # added host to test, it seems to make it work on android
