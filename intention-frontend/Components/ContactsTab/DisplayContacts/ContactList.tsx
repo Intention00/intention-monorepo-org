@@ -3,10 +3,15 @@ import {ContactItem} from "./ContactItem";
 import {ContactModal} from './ContactModal'
 import { useState } from "react";
 import { styles } from "./ContactList.style";
+import { SearchBar } from "../SyncContacts/SyncSearch"
 
 const ContactList: React.FC <{contacts: any[]}> = ({contacts})=> {
     const [selectedContact, setSelectedContact] = useState(undefined);
     const [modalVisible, setModalVisible] = useState(false);
+    const [checkedItems, setCheckedItems] = useState([]);
+    const [searchPhrase, setSearchPhrase] = useState("");
+    const [clicked, setClicked] = useState(false);
+    const [filteredContacts, setFilteredContacts] = useState([]);
 
     const onContactClick = (contact)=> {
         setSelectedContact(contact);
@@ -18,6 +23,7 @@ const ContactList: React.FC <{contacts: any[]}> = ({contacts})=> {
     return (
         <View style={{flex: 1, marginTop: 15, width:'100%'}}>
             <View style={[styles.horizontalDivider]}></View>
+           
             <FlatList 
               data={contacts} 
               style={{marginTop: 0, maxHeight: '100%'}} 
