@@ -29,6 +29,13 @@ const styles = StyleSheet.create ({
         color: global.inputBox.color
     },
 
+    QuestionText: {
+        color: global.inputBox.color,
+        fontSize: 16,
+        textAlign: 'center',
+        padding: 5,
+    },
+
     button: {
         backgroundColor: global.accentColor.color,
         padding: 6,
@@ -51,7 +58,7 @@ const styles = StyleSheet.create ({
     },
     textBox: {
         borderWidth: 1,
-        borderColor: 'yellow',
+        borderColor: global.accentColor.color,
         padding: 6,
         borderRadius: 10,
         marginVertical: 10,

@@ -171,10 +171,12 @@ const TranscriberNote: React.FC <{contact}> = ({contact})=> {
             {/* For new Contacts only */}
             {summary !== null ? (
                 null
-            ) : <Text style={styles.placeHolderTextColor}>Feel free to answer all of these questions or choose one.
-                    {"\n"}How did your initial meeting lead to your shared bond?
+            ) : <View style={styles.textBox}>
+                <Text style={styles.QuestionText}>Feel free to answer any or all of these questions.
+                    {"\n"}
+                    {"\n"}What sparked your bond?
                     {"\n"}What role do they play in your life?
-                    {"\n"}How do you value this person?</Text>}
+                    {"\n"}How do you value this person?</Text></View>}
             {/* Transcriber section */}
             <View style={{flexDirection: 'row'}}>
                 <TextInput
