@@ -7,6 +7,7 @@ import { handleUser } from '../../Components/ContactsTab/UserSync/userService';
 import { userIDContext } from '../../Components/ContactsTab/UserSync/userIDContext';
 import { styles as global } from '../../Components/Generic/global.style';
 import { UserProfileTags } from '../../Components/ContactsTab/ContactsTagging/UserTag';
+import { SelectModel } from '../../Components/ProfileTab/SelectModel/SelectModel';
 
 const Profile = () => {
   const { user } = useUser();
@@ -48,12 +49,13 @@ const Profile = () => {
       <TextInput placeholder="First Name" value={firstName} placeholderTextColor={global.inputBox.color} onChangeText={setFirstName} style={[global.inputBox, styles.inputField]} />
       <TextInput placeholder="Last Name" value={lastName} placeholderTextColor={global.inputBox.color} onChangeText={setLastName} style={[global.inputBox, styles.inputField]} />
       <Button onPress={onSaveUser} title="Update account" color={'#6c47ff'}></Button>
-      <View style={{marginTop: 50, marginBottom: 50}}>
-        
+
+      <SelectModel></SelectModel>
+
+      <View style={{marginTop: 50, marginBottom: 50}}>  
           {/* <DeleteUser></DeleteUser> */}
           <DeleteUserData></DeleteUserData>
-          
-       
+
       </View>
       
       <UserProfileTags></UserProfileTags>
