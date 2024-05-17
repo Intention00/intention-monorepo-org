@@ -3,6 +3,7 @@ import { View, Text, Button} from "react-native"
 import {Picker} from '@react-native-picker/picker';
 import { userIDContext } from "../../ContactsTab/UserSync/userIDContext";
 import { receiveUserModelNameFromBackend, sendUserModelNameToBackend } from "../../Generic/backendService";
+import { styles } from "./SelectModel.style";
 
 const SelectModel: React.FC = ()=> {
     const userID = useContext(userIDContext)
@@ -22,12 +23,12 @@ const SelectModel: React.FC = ()=> {
         else {
             console.log(`Model is: ${selectedModel}`)
             return (
-                <Picker style={{backgroundColor: 'white'}} selectedValue={selectedModel} onValueChange={(itemValue, itemIndex) =>
+                <Picker mode="dropdown" style={styles.selector} itemStyle={{height: 120}} selectedValue={selectedModel} onValueChange={(itemValue, itemIndex) =>
                     handleModelSelection(itemValue)}>
-                    <Picker.Item label="GPT" value="gpt"/>
-                    <Picker.Item label="Llama3" value="llama3"/>
-                    <Picker.Item label="Mixtral" value="mixtral"/>
-                    <Picker.Item label="WizardLM" value="wizardlm"/>
+                    <Picker.Item color={styles.selectorItem.color} label="GPT" value="gpt"/>
+                    <Picker.Item color={styles.selectorItem.color} label="Llama3" value="llama3"/>
+                    <Picker.Item color={styles.selectorItem.color} label="Mixtral" value="mixtral"/>
+                    <Picker.Item color={styles.selectorItem.color} label="WizardLM" value="wizardlm"/>
                 </Picker>
             )
         }
@@ -39,7 +40,7 @@ const SelectModel: React.FC = ()=> {
     }
 
     return(
-        <View>
+        <View style={styles.selectorBox}>
             {displayModelSelection()}
         </View>
     )

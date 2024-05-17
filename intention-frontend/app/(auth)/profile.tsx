@@ -7,7 +7,7 @@ import { handleUser } from '../../Components/ContactsTab/UserSync/userService';
 import { userIDContext } from '../../Components/ContactsTab/UserSync/userIDContext';
 import { styles as global } from '../../Components/Generic/global.style';
 import { UserProfileTags } from '../../Components/ContactsTab/ContactsTagging/UserTag';
-import { SelectModel } from '../../Components/ProfileTab/SelectModel/SelectModel';
+import { SelectorPlusHeader } from '../../Components/ProfileTab/SelectModel/SelectorPlusHeader';
 
 const Profile = () => {
   const { user } = useUser();
@@ -42,15 +42,15 @@ const Profile = () => {
   return (
     <View style={[global.background, styles.container]}>
      <userIDContext.Provider value={userID}>
-      <Text style={[global.bodyText, { textAlign: 'center' }]}>
+      {/* <Text style={[global.bodyText, { textAlign: 'center' }]}>
         Good morning {user.firstName} {user.lastName}!
-      </Text>
+      </Text> */}
 
-      <TextInput placeholder="First Name" value={firstName} placeholderTextColor={global.inputBox.color} onChangeText={setFirstName} style={[global.inputBox, styles.inputField]} />
+      {/* <TextInput placeholder="First Name" value={firstName} placeholderTextColor={global.inputBox.color} onChangeText={setFirstName} style={[global.inputBox, styles.inputField]} />
       <TextInput placeholder="Last Name" value={lastName} placeholderTextColor={global.inputBox.color} onChangeText={setLastName} style={[global.inputBox, styles.inputField]} />
-      <Button onPress={onSaveUser} title="Update account" color={'#6c47ff'}></Button>
+      <Button onPress={onSaveUser} title="Update account" color={'#6c47ff'}></Button> */}
 
-      <SelectModel></SelectModel>
+      <SelectorPlusHeader></SelectorPlusHeader>
 
       <View style={{marginTop: 50, marginBottom: 50}}>  
           {/* <DeleteUser></DeleteUser> */}
