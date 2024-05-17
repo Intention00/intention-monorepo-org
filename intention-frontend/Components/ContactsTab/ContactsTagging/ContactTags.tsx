@@ -18,7 +18,7 @@ const ContactTags: React.FC  <{contact}> = ({contact})=> {
   const userID = useContext(userIDContext);
   const [newTag, setNewTag] = useState('');
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
-
+  const [userTags, setUserTags] = useState('');
   
   useEffect(() => {
     // Fetch user's tags from the backend when the component mounts
