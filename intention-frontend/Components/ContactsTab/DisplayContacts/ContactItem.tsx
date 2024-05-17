@@ -29,7 +29,8 @@ const ContactItem: React.FC<{contact: Contact}> = ({contact})=> {
 
             <View style={styles.containerText}>
                 <Text style={styles.nameText}>{contact.firstName} {contact.lastName} </Text>
-                <Text style={styles.phoneText}>Phone: {contact.number}</Text>
+                <Text style={styles.phoneText}>Tags: {contact.tags}</Text>
+                
             </View>
             
         </View>

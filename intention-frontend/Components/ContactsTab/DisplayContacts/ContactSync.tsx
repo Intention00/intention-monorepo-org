@@ -50,8 +50,8 @@ const ContactSync: React.FC = ()=> {
               setFilteredContacts(contacts);
           } else {
               const filtered = contacts.filter(contact => {
-                  const fullName = `${contact.firstName} ${contact.lastName}`.toLowerCase();
-                  return fullName.includes(searchPhrase.toLowerCase());
+                  const fullNameWithTags = `${contact.firstName} ${contact.lastName}${contact.tags}`.toLowerCase();
+                  return fullNameWithTags.includes(searchPhrase.toLowerCase());
   
           });
               setFilteredContacts(filtered);
