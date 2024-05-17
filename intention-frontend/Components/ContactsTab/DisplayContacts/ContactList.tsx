@@ -8,11 +8,7 @@ import { SearchBar } from "../SyncContacts/SyncSearch"
 const ContactList: React.FC <{contacts: any[]}> = ({contacts})=> {
     const [selectedContact, setSelectedContact] = useState(undefined);
     const [modalVisible, setModalVisible] = useState(false);
-    const [checkedItems, setCheckedItems] = useState([]);
-    const [searchPhrase, setSearchPhrase] = useState("");
-    const [clicked, setClicked] = useState(false);
-    const [filteredContacts, setFilteredContacts] = useState([]);
-
+    
     const onContactClick = (contact)=> {
         setSelectedContact(contact);
         setModalVisible(!modalVisible);

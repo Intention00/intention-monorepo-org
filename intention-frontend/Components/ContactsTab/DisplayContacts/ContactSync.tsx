@@ -17,6 +17,10 @@ const ContactSync: React.FC = ()=> {
     const { user } = useUser();
     const [userID, setUserID] = useState(undefined);
     const userEmail = user['primaryEmailAddress']['emailAddress'];
+    
+    const [searchPhrase, setSearchPhrase] = useState("");
+    const [clicked, setClicked] = useState(false);
+    const [filteredContacts, setFilteredContacts] = useState([]);
 
     useEffect(()=> {
         (async ()=> {
@@ -40,7 +44,19 @@ const ContactSync: React.FC = ()=> {
   
         
     }, []);
-
+    useEffect(() => {
+        //  console.log("Search phrase updated:", searchPhrase); //
+          if (searchPhrase === "") {
+              setFilteredContacts(contacts);
+          } else {
+              const filtered = contacts.filter(contact => {
+                  const fullName = `${contact.firstName} ${contact.lastName}`.toLowerCase();
+                  return fullName.includes(searchPhrase.toLowerCase());
+  
+          });
+              setFilteredContacts(filtered);
+          }
+      }, [searchPhrase, contacts]);
     // either make new component, and set them in inline style
     // or could make view in same bar, and then style view into inline <-- do this
     return (
@@ -50,16 +66,16 @@ const ContactSync: React.FC = ()=> {
                 <View style= {{flexDirection: 'row'}}>
                 <SyncContactButton updateContacts={setContacts}></SyncContactButton>
                 <SearchBar
-                            clicked={undefined}
-                            searchPhrase={undefined}
-                            setSearchPhrase={undefined}
-                            setClicked={undefined}
+                            clicked={clicked}
+                            searchPhrase={searchPhrase}
+                            setSearchPhrase={setSearchPhrase}
+                            setClicked={setClicked}
                         />
                     
                 </View>
                 
                 <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-                    {(contacts === undefined || contacts.length === 0) ? (<Text style={global.bodyText}>Use the sync button above to add some contacts!</Text>) : (<ContactList contacts={contacts}></ContactList>)}
+                    {(filteredContacts === undefined || filteredContacts.length === 0) ? (<Text style={global.bodyText}>Use the sync button above to add some contacts!</Text>) : (<ContactList contacts={filteredContacts}></ContactList>)}
                 </View>
             </userIDContext.Provider>
         </SafeAreaView>
