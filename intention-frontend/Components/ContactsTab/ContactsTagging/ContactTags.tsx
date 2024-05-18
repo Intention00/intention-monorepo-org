@@ -70,6 +70,7 @@ const ContactTags: React.FC  <{contact}> = ({contact})=> {
 
 return (
     <View style={styles.container}>
+      <Text style={{color: '#bcbcbc', margin: 0, fontSize: 15}}>Tags:</Text>
         <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
           <View style={{flex: 7, flexDirection: 'row', alignItems: 'center', flexWrap: 'wrap'}}>
             {(tags === undefined || tags.length === 0) ? <Tag tagName='Add Tag' onDelete={()=> console.log('Add a tag')}></Tag> : renderTags() }  

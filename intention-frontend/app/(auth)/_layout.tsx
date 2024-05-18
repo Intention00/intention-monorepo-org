@@ -44,6 +44,7 @@ const TabsPage = () => {
         name="contactSync1"
         options={{
           headerTitle: 'Contacts',
+          unmountOnBlur: true,
           tabBarIcon: ({ color, size }) => <Ionicons name="person-outline" size={size} color={color} />,
           tabBarLabel: 'Contacts',
           headerRight: () => <LogoutButton />

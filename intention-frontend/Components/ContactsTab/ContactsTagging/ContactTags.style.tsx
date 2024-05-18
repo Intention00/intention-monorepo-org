@@ -5,10 +5,14 @@ import { StyleSheet } from 'react-native';
 const styles = StyleSheet.create({
   container: {
     // flex: 1,
-    // backgroundColor: '#000', // dark background
-    width: '80%',
+    //backgroundColor: '#333333', // dark background
+    width: '100%',
     // width: 280,
+    marginLeft: 35,
+    marginRight: 20,
     alignSelf: 'center',
+    padding: 5,
+    borderRadius: 5,
     // verticalAlign: 'middle',
     // alignItems: 'center',
     // alignContent: 'center'
@@ -32,7 +36,7 @@ const styles = StyleSheet.create({
   },
   tagText: {
     color: '#fff',
-    fontSize: 16,
+    fontSize: 12,
   },
   button: {
     // backgroundColor: '#555', // buttons in light grey to contrast the dark background

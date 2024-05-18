@@ -1,5 +1,5 @@
 import { View, Text, TextInput, TouchableOpacity, Modal, Button } from "react-native"
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Audio } from "expo-av"
 import { sendNotesToBackend, sendFinalNotesToBackend } from "../../Generic/backendService";
 import { Feather } from '@expo/vector-icons';
@@ -10,6 +10,7 @@ import * as Clipboard from 'expo-clipboard';
 import { styles } from "./TranscribeNote.style";
 import { shareQuestion } from "./ShareQuestions/shareQuestion";
 import { SummaryModal } from "./SummaryModal";
+import { getSummaryFromBackend } from "../../Generic/backendService";
 
 const TranscriberNote: React.FC <{contact}> = ({contact})=> {
     // Transcription Declarations
@@ -74,22 +75,20 @@ const TranscriberNote: React.FC <{contact}> = ({contact})=> {
     const [summary, setSummary] = useState<string>("");
     const [questions, setQuestions] = useState<string[]>([]);
 
-    
+    console.log("Summary: ", summary)
+
     // Summarize Button Logic
     const generateSummary = async () => {
         try {
             // Make a network request to Flask server
-            const response = await fetch(`${backendAddress}/generate-summary`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ text: transcribedText }), // Use the text from the top textbox
-            });
-
-            // Handle the response
-            const data = await response.json();
-            const generatedSummary = data.summary;
+            // const response = await fetch(`${backendAddress}/generate-summary`, {
+            //     method: 'POST',
+            //     headers: {
+            //         'Content-Type': 'application/json',
+            //     },
+            //     body: JSON.stringify({ text: transcribedText }), // Use the text from the top textbox
+            // });
+            const generatedSummary = await getSummaryFromBackend(contact.contactID);
 
             // Update the state with the generated summary
             setSummary(generatedSummary);
@@ -158,20 +157,36 @@ const TranscriberNote: React.FC <{contact}> = ({contact})=> {
         }
         
     }
+
+    useEffect(() => {
+        const GenerateSummary = async () => {
+            await generateSummary();
+        }
+        GenerateSummary();
+    }, [])
     
     return (
         // Modal Container
         <View style={{flex: 1, flexDirection: "column"}}>
-
+            {/* For new Contacts only */}
+            {summary !== null ? (
+                null
+            ) : <View style={styles.textBox}>
+                <Text style={styles.QuestionText}>Feel free to answer any or all of these questions.
+                    {"\n"}
+                    {"\n"}What sparked your bond?
+                    {"\n"}What role do they play in your life?
+                    {"\n"}How do you value this person?</Text></View>}
             {/* Transcriber section */}
             <View style={{flexDirection: 'row'}}>
                 <TextInput
                     multiline
                     value={transcribedText}
-                    placeholder="Press once to record, twice to stop"
+                    placeholder={summary !== null ? "Press once to record, twice to stop": 
+                        "Ex:From our initial meeting, a strong bond formed based on shared interests and values. They're my best friend now. \n \nRecord: 1 tap, Stop: 2 taps"}
                     placeholderTextColor={styles.placeHolderTextColor.color}
                     onChangeText={setTranscribedText}
-                    style={styles.notesInput}
+                    style={summary !== null ? styles.notesInput : styles.notesInputAlt}
                 />
                 <View style={styles.buttonBox}>
                     <TouchableOpacity
@@ -190,7 +205,7 @@ const TranscriberNote: React.FC <{contact}> = ({contact})=> {
             </View>
 
             {/* Summary Section*/}
-            <View style={{flexDirection: 'row'}}>
+            {summary !== null && <View style={{flexDirection: 'row'}}>
 
                 <View style={styles.buttonBox}>
                     <TouchableOpacity
@@ -209,7 +224,7 @@ const TranscriberNote: React.FC <{contact}> = ({contact})=> {
                         <Text style={styles.buttonText}>Summary</Text>
                     </TouchableOpacity>
                 </View>
-            </View>
+            </View>}
 
             {/* Summary modal */}
             {/* <Button title="Summary" onPress={()=> setSummaryModalVisible(true)}></Button> */}

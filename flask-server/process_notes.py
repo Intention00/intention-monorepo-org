@@ -3,15 +3,30 @@ from audio_processing import generate_notes_summary, generate_questions, generat
 import json
 from datetime import datetime
 class ProcessNotes():
-    def __init__(self, note_pkg = None) -> None:
+    def __init__(self, note_pkg = None, model_name = None) -> None:
+        self.model_name = model_name
         if note_pkg:
             self.note = note_pkg['note']
             self.contactID = note_pkg['contactID']
+            
+            # set the model to be used for all llm related stuff
+            if note_pkg['model']:
+                # temp disabled, only want to use gpt for now
+                # self.model_name = note_pkg['model']
+                pass
+            
     
     # extracts note and contactid from json object
     def read_note(self, note_pkg):
         self.note = note_pkg['note']
         self.contactID = note_pkg['contactID']
+
+        # set the model to be used for all llm related stuff
+        if note_pkg.get('model', None):
+            # temp disabled, only want to use gpt for now
+            # self.model_name = note_pkg['model']
+            pass
+            
 
     # saves the note to the specified contactid in database
     def save_note(self):
@@ -51,7 +66,7 @@ class ProcessNotes():
         formatted_datetime = current_datetime.strftime('%Y-%m-%d %H:%M:%S')
 
         notes = self.get_notes(contact_id)
-        generated_summary = generate_notes_summary(notes, formatted_datetime, contact_id)
+        generated_summary = generate_notes_summary(notes, formatted_datetime, contact_id, model_name=self.model_name)
 
         return generated_summary
     
@@ -93,6 +108,45 @@ class ProcessNotes():
                     return note['TranscribedNotes']
                 else:
                     return None
+                
+    # Cleans up the discrepancies between different llm responses to make json compatible
+    def format_llm_output(self, data):
+        # Remove extra characters from start
+        start_idx = 0
+        while(data[start_idx] != '{' and start_idx < len(data)):
+            start_idx += 1
+
+        # Special consideration for llama
+        if self.model_name == 'llama3':
+            try: 
+                json.loads(data)
+            except: 
+                data += '}'
+
+        # Remove extra characters from end
+        end_idx = len(data) - 1
+        while(data[end_idx] != '}' and end_idx >= 0):
+            end_idx -= 1
+
+        return data[start_idx:end_idx + 1]
+    
+
+    def get_user_llm(self, contact_id):
+        with DBConnection() as db_conn:
+            if db_conn:
+                sql_statement = """
+                    SELECT Model FROM User INNER JOIN Contact on 
+                    Contact.UserID = User.UserID WHERE Contact.ContactID = %s;
+                """
+                db_conn.execute(sql_statement, (contact_id,))
+                model_data = db_conn.fetchone()
+                if model_data:
+                    print(f'Model was {model_data["Model"]}')
+                    return model_data['Model']
+                else:
+                    # if failed, then use gpt
+                    return 'gpt'
+
 
     # Returns some questions generated for the contact using their summary
     def get_summary_questions(self, contact_id, firstName):
@@ -105,13 +159,21 @@ class ProcessNotes():
         # Gets style from db only, if it doesn't exist, currently uses nothing (no updates, cached)
         style = self.get_conversation_style(contact_id)
         # print(f'style: {style}')
+        string_questions = generate_questions(summary, newest_note, firstName, style, model_name=self.model_name)
 
-        questions = json.loads(generate_questions(summary, newest_note, firstName, style))
+        json_compat_str = self.format_llm_output(string_questions)
+
+        try:
+            questions = json.loads(json_compat_str)
+        except:
+            print('ERROR: Response JSON formatting issue')
+            return ['JSON', 'Format', 'Error']
         
         formatted_questions = []
 
-        for value in questions.values():
-            formatted_questions.append(value)
+        for key, value in questions.items():
+            if key != "comments":
+                formatted_questions.append(value)
 
         return formatted_questions
 
@@ -119,7 +181,7 @@ class ProcessNotes():
     # to the user.
     def gen_conversation_style(self, contact_id):
         notes = self.get_notes(contact_id)
-        conversational_style = generate_conversational_style(notes)
+        conversational_style = generate_conversational_style(notes, model_name=self.model_name)
         # print(f"Style is: {conversational_style}")
         return conversational_style
     
