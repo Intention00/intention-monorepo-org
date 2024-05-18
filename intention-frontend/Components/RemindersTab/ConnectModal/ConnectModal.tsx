@@ -5,7 +5,12 @@ import { useState, useEffect } from "react";
 import { YesConnectedModal } from "./YesConnectedModal";
 import { GenerateQuestions } from "./Transcriber/GenerateQuestions";
 import { receiveScoreFromBackend, sendScoreToBackend } from "../../Generic/backendService"
+import { ContactItem } from "../../ContactsTab/DisplayContacts/ContactItem";
 
+export const sendScore =() => {
+    console.log("IT WORKS")
+    return true;
+}
 
 const ConnectModal: React.FC <{fullReminder, toggleModalVisibility}> = ({fullReminder, toggleModalVisibility})=> {
 
@@ -29,6 +34,7 @@ const ConnectModal: React.FC <{fullReminder, toggleModalVisibility}> = ({fullRem
         })()
     }, []);
 
+
     const handleConnectedYes = async ()=> {
         console.log('Clicked Yes');
             
@@ -38,7 +44,7 @@ const ConnectModal: React.FC <{fullReminder, toggleModalVisibility}> = ({fullRem
             await sendScoreToBackend(contact.contactID, tempScore);
             setScoreUpdated(true);
             console.log(`Score: ${tempScore}`);
-        }
+        } 
 
         setYesModalVisible(true);
 
