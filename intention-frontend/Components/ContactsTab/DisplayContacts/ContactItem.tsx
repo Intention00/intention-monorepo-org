@@ -12,6 +12,7 @@ interface Contact {
     firstName: string;
     lastName: string;
     number: string;
+    tags: string;
 }
 
 
@@ -49,7 +50,8 @@ const ContactItem: React.FC<{contact: Contact, updateScore}> = ({contact, update
             
             <View style={styles.containerText}>
                 <Text style={styles.nameText}>{contact.firstName} {contact.lastName} </Text>
-                <Text style={styles.phoneText}>Phone: {contact.number}</Text>
+                <Text style={styles.phoneText}>Tags: {contact.tags}</Text>
+                
             </View>
             
             <Text style={styles.emoji}> {connectionScore}🔥 </Text>
