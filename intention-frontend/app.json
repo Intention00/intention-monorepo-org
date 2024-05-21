@@ -36,7 +36,7 @@
       "supportsTablet": true,
       "infoPlist": {
         "NSContactsUsageDescription": "Allow $(PRODUCT_NAME) to access your contacts.",
-        "NSMicrophoneUsageDescription" : "Allow $(PRODUCT_NAME to get user voice memos to help retrieve useful information that the user permits us to have"
+        "NSMicrophoneUsageDescription" : "Allow $(PRODUCT_NAME) to get user voice memos to help retrieve useful information that the user permits us to have"
       },
       "bundleIdentifier": "com.intention.intention"
     },
