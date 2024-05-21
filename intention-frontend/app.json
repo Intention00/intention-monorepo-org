@@ -1,6 +1,6 @@
 {
   "expo": {
-    "entryPoint": "./index.js",
+    
     "scheme": "intention-auth",
     "name": "Intention",
     "slug": "intention-monorepo-all",
