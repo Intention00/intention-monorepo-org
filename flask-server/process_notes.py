@@ -159,7 +159,7 @@ class ProcessNotes():
         # Gets style from db only, if it doesn't exist, currently uses nothing (no updates, cached)
         style = self.get_conversation_style(contact_id)
         # print(f'style: {style}')
-        string_questions = generate_questions(summary, newest_note, firstName, style, model_name=self.model_name)
+        string_questions, prompt = generate_questions(summary, newest_note, firstName, style, model_name=self.model_name)
 
         json_compat_str = self.format_llm_output(string_questions)
 

@@ -90,15 +90,17 @@ def generate_questions(summary, newest_note, firstName, style, model_name = None
         client, model = initialize_model(model_name)
         print(f'Questions generated with: {model}')
 
+        messages_object = [
+            {"role": "system", "content": "You are a human chameleon, able to perfectly mimic someone after some analysis. You are talking directly to someone that knows the human you are mimicking."},
+            {"role": "user", "content": "Don't say anything outside the json object you return. Ensure you include the opening and closing braces (which are '{' and '}') of the json object."},
+
+            {"role": "user", "content": f"Generate 3 personable ways to reach out to {firstName}. You'll be sending these directly, so make sure they don't require any editing. Only return the questions- provide them in the format of a json object with the keys \"question1\", \"question2\", \"question3\"; put any comments in a separate key called 'comments'. This is an analysis of the conversation style of the human you are mimicking: {style}. Follow the analysis exactly, and act as if that is you. Here are some notes regarding their relationship: {summary}. This is the most recent note between them, place extra emphasis on it: {newest_note}. Keep track of what the human you're mimicking told {firstName}, and what {firstName} told them. Only use the information you have- don't make up any information regarding their past interactions or relationship, and don't make any mistakes. If you don't have enough information to work with, think of some openers that are unrelated to the notes, but they would probably appreciate. Don't mention any other names other than yourself and {firstName}."}, 
+        ]
+
         response = client.chat.completions.create(
             model=model,
             response_format={'type': 'json_object'},
-            messages=[
-                {"role": "system", "content": "You are a human chameleon, able to perfectly mimic someone after some analysis. You are talking directly to someone that knows the human you are mimicking."},
-                {"role": "user", "content": "Don't say anything outside the json object you return. Ensure you include the opening and closing braces (which are '{' and '}') of the json object."},
-
-                {"role": "user", "content": f"Generate 3 personable ways to reach out to {firstName}. You'll be sending these directly, so make sure they don't require any editing. Only return the questions- provide them in the format of a json object with the keys \"question1\", \"question2\", \"question3\"; put any comments in a separate key called 'comments'. This is an analysis of the conversation style of the human you are mimicking: {style}. Follow the analysis exactly, and act as if that is you. Here are some notes regarding their relationship: {summary}. This is the most recent note between them, place extra emphasis on it: {newest_note}. Keep track of what the human you're mimicking told {firstName}, and what {firstName} told them. Only use the information you have- don't make up any information regarding their past interactions or relationship, and don't make any mistakes. If you don't have enough information to work with, think of some openers that are unrelated to the notes, but they would probably appreciate. Don't mention any other names other than yourself and {firstName}."}, 
-            ],
+            messages=messages_object,
             # top_p=0.1
         )
         content_section = response.choices[0].message.content
@@ -107,7 +109,7 @@ def generate_questions(summary, newest_note, firstName, style, model_name = None
 
     print(f'OUTPUT: {content_section}')
 
-    return content_section
+    return content_section, messages_object
 
 # conversational style summarized from all the notes for a given contact
 def generate_conversational_style(notes, model_name = None):
