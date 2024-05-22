@@ -453,6 +453,22 @@ def set_model_name():
     
     except Exception as err:
         return jsonify({'message': str(err)}), 500
+    
+# Inserts the selected question to the database
+@app.route("/api/question/save", methods=['POST'])
+def save_selected_question():
+    try: 
+        # getting contact_id from api call
+        contact_id = request.args.get('contactID')
+
+        # Extracting data
+        question = request.get_json()
+
+        # reminders_processor.add_contact_reminder(contact_id, reminder_data)
+        return jsonify({'message': 'Question added.'}), 204
+    
+    except Exception as err:
+        return jsonify({'message': str(err)}), 500
 
 if __name__ == "__main__":
     # added host to test, it seems to make it work on android
