@@ -53,6 +53,7 @@ const styles = StyleSheet.create ({
     buttonBox: {
         flex: 1, 
         padding: 5, 
+        marginTop: -8,
         justifyContent: 'center', 
         paddingBottom: 20,
     },

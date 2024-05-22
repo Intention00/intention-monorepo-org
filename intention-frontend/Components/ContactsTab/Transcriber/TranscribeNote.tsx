@@ -182,7 +182,6 @@ const TranscriberNote: React.FC <{contact}> = ({contact})=> {
                     {"\n"}How do you value this person?</Text></View>}
             {/* Transcriber section */}
             <View style={{flexDirection: 'row'}}>
-            {loadingText && <ActivityIndicator size={"large"}/>}
                 <TextInput
                     multiline
                     value={transcribedText}
@@ -196,7 +195,7 @@ const TranscriberNote: React.FC <{contact}> = ({contact})=> {
                     <TouchableOpacity
                         style={[styles.button, recording ? styles.recordingButton : styles.notRecordingButton]}
                         onPress={recording ? stopRecording : startRecording}>
-                        <Feather name="mic" size={24} color={styles.icons.color} />
+                        {loadingText ? <ActivityIndicator size={"small"}/> : <Feather name="mic" size={24} color={styles.icons.color} />}
                     </TouchableOpacity>
                     <TouchableOpacity
                         style={styles.button}
