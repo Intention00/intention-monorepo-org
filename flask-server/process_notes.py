@@ -185,11 +185,25 @@ class ProcessNotes():
         prompt_str = json.dumps(prompt)
         with DBConnection() as db_conn:
             if db_conn:
-                # Insert note to database
+                # Insert prompt to database
                 sql_statement = """
                     UPDATE Contact SET LatestPrompt = %s WHERE ContactID = %s;
                 """
                 db_conn.execute(sql_statement, (prompt_str, contact_id))
+
+    # Gets the last used prompt from the database
+    def get_latest_prompt(self, contact_id):
+        with DBConnection() as db_conn:
+            if db_conn:
+                # Gets prompt from database
+                sql_statement = """
+                    SELECT LatestPrompt FROM Contact WHERE ContactID = %s;
+                """
+                db_conn.execute(sql_statement, (contact_id,))
+                prompt = db_conn.fetchone()
+                
+                if prompt:
+                    return prompt['LatestPrompt']
 
     # Experimental method to make the generated questions more natural and fitting
     # to the user.

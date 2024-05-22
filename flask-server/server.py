@@ -464,7 +464,11 @@ def save_selected_question():
         # Extracting data
         question = request.get_json()
 
-        # reminders_processor.add_contact_reminder(contact_id, reminder_data)
+        prompt = notes_processor.get_latest_prompt(contact_id)
+
+        # Save the question prompt combo to db for finetuning later
+        contacts_processor.save_favorite_question(contact_id, prompt, question)
+        
         return jsonify({'message': 'Question added.'}), 204
     
     except Exception as err:
