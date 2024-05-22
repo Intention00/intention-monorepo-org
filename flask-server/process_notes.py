@@ -160,6 +160,9 @@ class ProcessNotes():
         style = self.get_conversation_style(contact_id)
         # print(f'style: {style}')
         string_questions, prompt = generate_questions(summary, newest_note, firstName, style, model_name=self.model_name)
+        
+        # Saving the latest prompt for later
+        self.save_latest_prompt(contact_id, prompt)
 
         json_compat_str = self.format_llm_output(string_questions)
 
@@ -176,6 +179,17 @@ class ProcessNotes():
                 formatted_questions.append(value)
 
         return formatted_questions
+    
+    # Saves the last used prompt to the database
+    def save_latest_prompt(self, contact_id, prompt):
+        prompt_str = json.dumps(prompt)
+        with DBConnection() as db_conn:
+            if db_conn:
+                # Insert note to database
+                sql_statement = """
+                    UPDATE Contact SET LatestPrompt = %s WHERE ContactID = %s;
+                """
+                db_conn.execute(sql_statement, (prompt_str, contact_id))
 
     # Experimental method to make the generated questions more natural and fitting
     # to the user.
