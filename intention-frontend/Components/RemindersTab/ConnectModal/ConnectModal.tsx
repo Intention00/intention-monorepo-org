@@ -5,7 +5,12 @@ import { useState, useEffect } from "react";
 import { YesConnectedModal } from "./YesConnectedModal";
 import { GenerateQuestions } from "./Transcriber/GenerateQuestions";
 import { receiveScoreFromBackend, sendScoreToBackend } from "../../Generic/backendService"
+import { ContactItem } from "../../ContactsTab/DisplayContacts/ContactItem";
 
+export const sendScore =() => {
+    console.log("IT WORKS")
+    return true;
+}
 
 const ConnectModal: React.FC <{fullReminder, toggleModalVisibility}> = ({fullReminder, toggleModalVisibility})=> {
 
@@ -29,6 +34,7 @@ const ConnectModal: React.FC <{fullReminder, toggleModalVisibility}> = ({fullRem
         })()
     }, []);
 
+
     const handleConnectedYes = async ()=> {
         console.log('Clicked Yes');
             
@@ -38,7 +44,7 @@ const ConnectModal: React.FC <{fullReminder, toggleModalVisibility}> = ({fullRem
             await sendScoreToBackend(contact.contactID, tempScore);
             setScoreUpdated(true);
             console.log(`Score: ${tempScore}`);
-        }
+        } 
 
         setYesModalVisible(true);
 
@@ -60,21 +66,23 @@ const ConnectModal: React.FC <{fullReminder, toggleModalVisibility}> = ({fullRem
             <View style={[styles.modalBox]}>
                 <View style={styles.modalHeader}>
                     <MaterialCommunityIcons style={styles.modalExit} name="window-close" onPress={toggleModalVisibility}/>
-                    <Text style={styles.modalHeaderText}>Connect</Text>
-                    {}<Text style={styles.scoreText}>{connectionScore}</Text>
+                    <View style={{flex: 1}}>
+                        <Text style={styles.modalHeaderText}>Connect</Text>
+                    </View>
+
+                    <Text style={styles.scoreText}>{connectionScore}</Text>
                 </View>
 
                 <View style={styles.modalTextContainer}>
 
-                    <View style={{alignItems: 'center', marginBottom: 30, marginRight: 10}}>
-                            <View style={styles.modalNameBox}>
-                                <Text style={styles.modalNameText}>{`${contact.firstName} ${contact.lastName}`}</Text>
-                            </View>
-                    </View>
-
                     <ScrollView style={{marginBottom: 30}}>
-                        {/* <TranscriberNote contact={contact}></TranscriberNote> */}
-                        <GenerateQuestions></GenerateQuestions>
+                        <View style={{alignItems: 'center'}}>
+                                <View style={styles.modalNameBox}>
+                                    <Text style={styles.modalNameText}>{`${contact.firstName} ${contact.lastName}`}</Text>
+                                </View>
+                        </View>
+
+                        <GenerateQuestions contact={contact}></GenerateQuestions>
                     </ScrollView>
 
                     <View style={styles.selectButtons}>

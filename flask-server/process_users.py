@@ -97,3 +97,30 @@ class ProcessUsers():
                 # Again, should return something to route, but currently 
                 # prints num of users deleted (should be just 1)
                 print(f"Deleted {deleted_users} users.")
+
+    # Sets the user's llm preference to the provided one
+    def set_user_model(self, user_id, model_name):
+        with DBConnection() as db_conn:
+            if db_conn:
+                # Sets model name
+                sql_statement = """
+                    UPDATE User SET Model = %s WHERE UserID = %s;
+                """
+
+                db_conn.execute(sql_statement, (model_name, user_id))
+
+    # Gets the user's llm preference
+    def get_user_model(self, user_id):
+        with DBConnection() as db_conn:
+            if db_conn:
+                # Sets model name
+                sql_statement = """
+                    SELECT Model FROM User WHERE UserID = %s;
+                """
+                db_conn.execute(sql_statement, (user_id,))
+                data = db_conn.fetchone()
+                if data:
+                    model_name = data['Model']
+                    return model_name
+                else:
+                    return ''

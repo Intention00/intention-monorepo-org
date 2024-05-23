@@ -4,7 +4,11 @@ from process_contacts import ProcessContacts
 from audio_processing import generate_questions, generate_summary, transcribe
 from process_notes import ProcessNotes
 from process_users import ProcessUsers
+
+from process_tags import ProcessTags
+
 from process_reminders import ProcessReminders
+
 import os
 
 app = Flask(__name__)
@@ -23,9 +27,14 @@ contactList = [cont1, cont2]
 
 # Contacts processor
 contacts_processor = ProcessContacts()
-notes_processor = ProcessNotes()
+notes_processor = ProcessNotes(model_name="gpt")
 user_processor = ProcessUsers()
+
+tags_processor = ProcessTags()
+
+
 reminders_processor = ProcessReminders()
+
       
 
 @app.route("/")
@@ -183,6 +192,65 @@ def delete_user_data(user_id):
         
     except Exception as err:
         return jsonify({'error': str(err)}), 500
+    
+@app.route('/api/contact-tags/<user_id>/<contact_id>', methods=['GET'])
+def get_contact_tags(user_id, contact_id):
+ #   user_id = request.args.get('user_id', type=int)
+   # contact_id = request.args.get('contact_id', type=int)
+
+    if contact_id is None:
+        return jsonify({'error': 'Missing user-id or contact-id'}), 400
+    
+    tags = tags_processor.retrieve_db_contact_tag(user_id, contact_id)
+    return tags
+    
+
+@app.route('/api/add-tag-user/<user_id>/<tag>', methods=['POST'])
+def add_tag_to_user(user_id, tag):
+
+    if user_id is None:
+        return jsonify({'error': 'Missing user_id or contact_id'}), 400
+    
+    tags_processor.add_tag_user_db(user_id, tag)
+    return jsonify({'tag': tag, 'user_id': user_id,})
+
+@app.route('/api/delete-tag-user/<user_id>/<tag>', methods=['POST'])
+def delete_tag_to_user(user_id, tag):
+
+
+    if user_id is None:
+        return jsonify({'error': 'Missing user_id or contact_id'}), 400
+    
+    tags_processor.delete_tag_user_db(user_id, tag)
+    return jsonify({'tag': tag, 'user_id': user_id,})
+
+@app.route('/api/add-tag-to-contact/<user_id>/<contact_id>/<tag>', methods=['POST'])
+def add_tag_to_contact(user_id, contact_id, tag):
+
+    if user_id is None:
+        return jsonify({'error': 'Missing user_id or contact_id'}), 400
+    
+    tags_processor.add_tag_to_contact(user_id, contact_id, tag)
+    return jsonify({'tag': tag, 'user-id': user_id, 'contact': contact_id})
+
+@app.route('/api/delete-tag-from-contact/<user_id>/<contact_id>/<tag>', methods=['POST'])
+def delete_tag_from_contact(user_id, contact_id, tag):
+
+    if user_id is None:
+        return jsonify({'error': 'Missing user_id or contact_id'}), 400
+    
+    tags_processor.delete_tag_for_contact(user_id, contact_id, tag)
+    return jsonify({'tag': tag, 'user-id': user_id, 'contact': contact_id})
+
+#maybe dont need this , talk to raj 
+@app.route("/api/tags/<user_id>", methods=['GET'])
+def sendTags(user_id):
+    if user_id is None: 
+        return jsonify({'error': 'Missing user_id or contact_id'}), 400
+    tags = tags_processor.get_user_tags(user_id)
+    return tags
+
+    
 
 # Getting all reminders for a desired user using userID
 @app.route("/api/reminders", methods=['GET'])
@@ -257,7 +325,7 @@ def insert_contact_reminder():
 
         # Extracting data
         data = request.get_json()
-        reminder_data = data
+        reminder_data = data['reminder']
 
         # insert reminder to db
         reminders_processor.add_contact_reminder(contact_id, reminder_data)
@@ -275,7 +343,7 @@ def edit_contact_reminder():
 
         # Extracting data
         data = request.get_json()
-        reminder_data = data
+        reminder_data = data['reminder']
 
         # updates reminder in db
         reminders_processor.edit_contact_reminder(contact_id, reminder_data)
@@ -297,6 +365,94 @@ def delete_contact_reminder():
         # updates reminder in db
         reminders_processor.delete_contact_reminder(contact_id)
         return jsonify({'message': 'Reminder deleted.'}), 204
+    
+    except Exception as err:
+        return jsonify({'message': str(err)}), 500
+    
+# Returns all the notes for a specific contact from the database
+@app.route("/api/notes", methods=['GET'])
+def return_contact_notes():
+    try: 
+        # getting contact_id from api call
+        contact_id = request.args.get('contactID')
+
+        # retrieving reminder from db
+        notes = notes_processor.get_notes(contact_id)
+
+        return jsonify(notes), 200
+    
+    except Exception as err:
+        return jsonify({'message': str(err)}), 500
+    
+# Returns summary of all the notes for a specific contact from the database
+@app.route("/api/notes-summary", methods=['GET'])
+def return_notes_summary():
+    try: 
+        # getting contact_id from api call
+        contact_id = request.args.get('contactID')
+
+        # retrieving summary from db
+        summary = notes_processor.get_summary(contact_id)
+
+        return jsonify(summary), 200
+    
+    except Exception as err:
+        return jsonify({'message': str(err)}), 500
+    
+# Returns an array of questions generated from the specific contact's summary
+@app.route('/api/generate-questions', methods=['GET'])
+def generate_questions():
+    # getting contact_id from api call
+    contact_id = request.args.get('contactID')
+    contact_first_name = request.args.get('firstName')
+
+    # get optional llm model name parameter
+    model_name = request.args.get('model', default=None)
+
+    # Change to model if parameter was provided
+    if model_name:
+        notes_processor.model_name = model_name
+
+    # TEMP: user db stored model name
+    model_name = notes_processor.get_user_llm(contact_id)
+    if model_name:
+        notes_processor.model_name = model_name
+
+    # Generate questions using transcriber.py
+    questions = notes_processor.get_summary_questions(contact_id, contact_first_name)
+
+    # Return the generated questions
+    return jsonify({'questions': questions})
+
+# Returns model name for user
+@app.route("/api/model", methods=['GET'])
+def return_model_name():
+    try: 
+        # getting user_id from api call
+        user_id = request.args.get('userID')
+
+        # retrieving model name from db
+        model_name = user_processor.get_user_model(user_id)
+
+        return jsonify(model_name), 200
+    
+    except Exception as err:
+        return jsonify({'message': str(err)}), 500
+    
+# Sets model name for user
+@app.route("/api/model", methods=['PUT'])
+def set_model_name():
+    try: 
+        # getting user_id from api call
+        user_id = request.args.get('userID')
+
+        # Extracting data
+        data = request.get_json()
+        model_data = data['model']
+
+        # updates model name in db
+        user_processor.set_user_model(user_id, model_data)
+        return jsonify({'message': 'Model name edited.'}), 204
     
     except Exception as err:
         return jsonify({'message': str(err)}), 500

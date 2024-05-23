@@ -14,39 +14,36 @@ const styles = StyleSheet.create({
     },
 
     modalBox: {
-        height: 600,
-        width: 370,
+        width: '94%',
+        height: '79%',
         backgroundColor: global.background.backgroundColor,
         borderRadius: 30,
     },
 
     modalExit :{
-        // color: global.inputBox.color,
-        color: "#515151",
-        fontSize: 30
+        color: global.accentColor.color,
+        fontSize: 30,
+        paddingLeft: 15,
     },
 
     modalHeader: {
-        // backgroundColor: global.inputBox.backgroundColor,
-        // borderRadius: 10,
-        // padding: 10,
-        paddingLeft: 15,
         paddingTop: 15,
-        marginRight: 10,
         marginBottom: 30,
         flexDirection: 'row',
+        alignItems: 'center'
     },
 
     modalHeaderText: {
         textAlign: 'center',
         color: global.inputBox.color,
-        marginLeft: 65,
         fontSize: 24,
+        marginRight: 45
     },
 
     modalTextContainer: {
         paddingTop: 10,
         paddingLeft: 10,
+        paddingRight: 10,
         flex: 1,
         flexDirection: 'column',
     },
@@ -55,8 +52,7 @@ const styles = StyleSheet.create({
         backgroundColor: global.inputBox.backgroundColor,
         borderRadius: 10,
         padding: 10,
-        width: 300
-        
+        width: '86%',
     },
 
     modalText: {

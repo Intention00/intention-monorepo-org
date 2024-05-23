@@ -1,5 +1,9 @@
 from database.db import DBConnection
+
 import json
+from datetime import datetime
+import pytz
+
 
 class ProcessReminders():
     def __init__(self, user_id = -1) -> None:
@@ -19,19 +23,29 @@ class ProcessReminders():
                 db_conn.execute(sql_statement, (contact_id,))
                 db_reminder = db_conn.fetchone()
 
-                print(f'REMINDER FOR {contact_id} WAS: {type(db_reminder["StartDateTime"])}');
+                if db_reminder:
+                    print(f'REMINDER FOR {contact_id} WAS: {type(db_reminder["StartDateTime"])}');
 
-                try:
-                    reminder_formatted = {'reminderID': db_reminder['ReminderID'], 
-                                          'contactID': db_reminder['ContactID'],
-                                          'dateTime': db_reminder['StartDateTime'],
-                                          'lastContacted': db_reminder['LastContacted'],
-                                          'frequency': db_reminder['Frequency']}
+                    # convert timezone 
+                    seattle_timezone = pytz.timezone('America/Los_Angeles')
+                    localized_last_datetime = None
+                    if db_reminder['LastContacted']:
+                        localized_last_datetime = seattle_timezone.localize(db_reminder['LastContacted'], '%Y-%m-%d %H:%M:%S')
+
+                    try:
+                        reminder_formatted = {'reminderID': db_reminder['ReminderID'], 
+                                            'contactID': db_reminder['ContactID'],
+                                            'dateTime': seattle_timezone.localize(db_reminder['StartDateTime'], '%Y-%m-%d %H:%M:%S'),
+                                            'lastContacted': localized_last_datetime,
+                                            'frequency': db_reminder['Frequency']}
+                        
+                        return reminder_formatted
                     
-                    return reminder_formatted
+                    except Exception as err:
+                        print(f'Reminder retrieval failed: {err}')
+                        return None
                 
-                except Exception as err:
-                    print(f'Reminder retrieval failed: {err}')
+                else:
                     return None
                 
     # Adds the reminder for the specified contact
@@ -77,6 +91,9 @@ class ProcessReminders():
                 db_conn.execute(sql_statement, (self.user_id,))
                 db_reminders = db_conn.fetchall()
 
+                # convert timezone 
+                seattle_timezone = pytz.timezone('America/Los_Angeles')
+
                 try:
                     # formatting the desired reminders the way expected by the frontend
                     formatted_reminders = [
@@ -88,7 +105,7 @@ class ProcessReminders():
                                 'number': reminder['Phone']
                             },
                             'reminder': {
-                                'dateTime': reminder['StartDateTime'],
+                                'dateTime': seattle_timezone.localize(reminder['StartDateTime'], '%Y-%m-%d %H:%M:%S'),
                                 'frequency': reminder['Frequency']
                             }
                         } for reminder in db_reminders

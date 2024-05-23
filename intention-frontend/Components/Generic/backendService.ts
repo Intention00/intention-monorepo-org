@@ -1,5 +1,7 @@
+
 // export const backendAddress = "https://intention-server.up.railway.app"
  export const backendAddress = "http://127.0.0.1:5100/"
+
 
 // Send contacts to backend api
 export const sendContactsToBackend = async (userID: number, contactsData: any[])=> {
@@ -346,5 +348,221 @@ export const deleteReminderFromBackend = async (contactID: number)=> {
     }
     catch (err) {
         throw new Error(`Error deleting reminder from backend: ${err}`);
+    }
+}
+
+/**
+ * Gets the desired contact's summary from the backend
+ * 
+ * @param contactID
+ * @returns nothing
+ */
+export const getSummaryFromBackend = async (contactID: number) => {
+    try {
+        // Make a network request to Flask server
+        const response = await fetch(`${backendAddress}/api/notes-summary?contactID=${contactID}`, {
+            method: 'GET',
+        });
+        
+        if (!response.ok) {
+            const errorMessage = await response.json();
+            console.error(`Server returned an error: ${JSON.stringify(errorMessage)}`);
+        }
+        else {
+            const summary_received = await response.json();
+            return summary_received;
+        }
+    }
+    catch (err) {
+        throw new Error(`Error receiving summary from backend: ${err}`);
+    }
+        
+
+};
+
+
+export const getUserTags = async(user_id)=>{
+    try {
+        
+        const response = await fetch(`${backendAddress}/api/tags/${user_id}`, {
+            method: 'GET',
+        })
+
+        if (!response.ok) {
+            const errorMessage = await response.json();
+            console.error(`Server returned an error: ${JSON.stringify(errorMessage)}`);
+        }
+        else {
+            const tags = await response.json();
+            console.log("user id for usercontacts")
+            console.log(user_id)
+            console.log(tags)
+            console.log("Get user contacts")
+            return tags;
+        }
+    } 
+    catch (error) {
+        
+        throw new Error(`Error retrieving user tags from backend fish: ${error}`);
+    }
+    
+}
+
+export const getContactTags = async(user_id, contact_id )=>{
+    try {
+        
+        const response = await fetch(`${backendAddress}/api/contact-tags/${user_id}/${contact_id}`, {
+            method: 'GET',
+        })
+
+        if (!response.ok) {
+            const errorMessage = await response.json();
+            console.error(`Server returned an error: ${JSON.stringify(errorMessage)}`);
+        }
+        else {
+            const tags = await response.json();
+            
+            return tags;
+        }
+    } 
+    catch (error) {
+        
+        throw new Error(`Error retrieving contact tags from backend : ${error}`);
+    }
+}
+
+export const addContactTag = async(user_id, contact_id, tag_name)=>{
+    try {
+        
+        const response = await fetch(`${backendAddress}/api/add-tag-to-contact/${user_id}/${contact_id}/${tag_name}`, {
+            method: 'POST',
+        })
+
+        if (!response.ok) {
+            const errorMessage = await response.json();
+            console.error(`Server returned an error: ${JSON.stringify(errorMessage)}`);
+        }
+        else {
+            console.log("addUserTags worked")
+        }
+    } 
+    catch (error) {
+        
+        throw new Error(`Error adding contact tags from backend : ${error}`);
+    }
+}
+
+export const deleteContactTag = async(user_id, contact_id, tag_name)=>{
+    try {
+        
+        const response = await fetch(`${backendAddress}/api/delete-tag-from-contact/${user_id}/${contact_id}/${tag_name}`, {
+            method: 'POST',
+        })
+
+        if (!response.ok) {
+            const errorMessage = await response.json();
+            console.error(`Server returned an error: ${JSON.stringify(errorMessage)}`);
+        }
+        else {
+            console.log("deleteContactTags worked")
+        }
+    } 
+    catch (error) {
+        
+        throw new Error(`Error retrieving contact tags from backend : ${error}`);
+    }
+}
+export const addTagUser = async(user_id, tag_name)=>{
+    try {
+        
+        const response = await fetch(`${backendAddress}/api/add-tag-user/${user_id}/${tag_name}`, {
+            method: 'POST',
+        })
+
+        if (!response.ok) {
+            const errorMessage = await response.json();
+            console.error(`Server returned an error: ${JSON.stringify(errorMessage)}`);
+        }
+        else {
+            console.log("addUserTags worked")
+        }
+    } 
+    catch (error) {
+        
+        throw new Error(`Error adding user tags from backend : ${error}`);
+    }
+}
+
+export const deleteUserTag = async(user_id, tag_name)=>{
+    try {
+        
+        const response = await fetch(`${backendAddress}/api/delete-tag-user/${user_id}/${tag_name}`, {
+            method: 'POST',
+        })
+
+        if (!response.ok) {
+            const errorMessage = await response.json();
+            console.error(`Server returned an error: ${JSON.stringify(errorMessage)}`);
+        }
+        else {
+            console.log("deleteContactTags worked")
+        }
+    } 
+    catch (error) {
+        
+        throw new Error(`Error deleting  user tags from backend : ${error}`);
+    }
+}
+
+/**
+ * Sends the desired user's model name to the backend
+ * 
+ * @param userID
+ * @param model_name
+ * @returns nothing
+ */
+export const sendUserModelNameToBackend = async (userID: number, modelName: string)=> {
+    try {
+        const response = await fetch(`${backendAddress}/api/model?userID=${userID}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({model: modelName})
+        })
+
+        if (!response.ok) {
+            const errorMessage = await response.json();
+            console.error(`Server returned an error: ${JSON.stringify(errorMessage)}`);
+        }
+    }
+    catch (err) {
+        throw new Error(`Error setting preferred model name in backend: ${err}`);
+    }
+}
+
+/**
+ * Gets the desired user's model name from the backend
+ * 
+ * @param userID
+ * @returns model name
+ */
+export const receiveUserModelNameFromBackend = async (userID: number)=> {
+    try {
+        const response = await fetch(`${backendAddress}/api/model?userID=${userID}`, {
+            method: 'GET',
+        })
+
+        if (!response.ok) {
+            const errorMessage = await response.json();
+            console.error(`Server returned an error: ${JSON.stringify(errorMessage)}`);
+        }
+        else {
+            const modelName = await response.json()
+            return modelName
+        }
+    }
+    catch (err) {
+        throw new Error(`Error getting preferred model name from backend: ${err}`);
     }
 }

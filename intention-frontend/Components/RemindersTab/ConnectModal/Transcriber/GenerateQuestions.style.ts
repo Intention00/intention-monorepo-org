@@ -2,19 +2,9 @@ import { StyleSheet } from "react-native"
 import { styles as global } from "../../../Generic/global.style"
 
 const styles = StyleSheet.create ({
-    generateButton:{
-        marginVertical: 30,
-        alignItems: 'center'
-    },
-
-    generateButtonText: {
-        fontSize: 15,
-        color: global.subText.color,
-    },
-
     questionContainer: {
         flexDirection: 'row',
-        width: "90%",
+        width: "100%",
     },
 
     questionTextBox: {
@@ -29,11 +19,37 @@ const styles = StyleSheet.create ({
 
     horizontalDivider: {
         height: 1,
-        backgroundColor: '#282828',
+        backgroundColor: global.horizontalDivider.color,
         borderRadius: 2,
         marginTop: 4,
         marginBottom: 4
     },
+
+    button: {
+        backgroundColor: global.accentColor.color,
+        padding: 6,
+        borderRadius: 10,
+        alignItems: 'center',
+    },
+
+    buttonText: {
+      color: global.buttonText.color, 
+      fontSize: 12,
+      fontWeight: 'bold',
+    },
+
+    buttonBox: {
+        marginTop: 50,
+        flex: 1, 
+        paddingHorizontal: 10, 
+        justifyContent: 'center', 
+        paddingBottom: 20,
+    },
+
+    icons: {
+        color: global.buttonText.color
+    },
+    
 })
 
 export {styles}

@@ -90,7 +90,7 @@ const RecordNote: React.FC <{contact, modalToggle, yesModalToggle}> = ({contact,
                         style={[styles.button, recording ? styles.recordingButton : styles.notRecordingButton]}
                         onPress={recording ? stopRecording : startRecording}>
                         
-                        <Feather name="mic" size={24} color="black" />
+                        <Feather name="mic" size={24} color={styles.icons.color} />
                     </TouchableOpacity>              
                 </View>
             </View>

@@ -9,15 +9,35 @@ const styles = StyleSheet.create ({
         padding: 10,
         borderRadius: 10, 
         marginBottom: 10, 
-        width: 250,
+        // width: 250,
+        width: '72%',
+    },
+    notesInputAlt: {
+        maxHeight: 200,
+        backgroundColor: global.inputBox.backgroundColor,
+        color: global.inputBox.color,
+        padding: 10,
+        borderRadius: 10, 
+        marginBottom: 20, 
+        // width: 250,
+        width: '72%',
+        height: 150,
+        fontSize: 17,
     },
 
     placeHolderTextColor: {
         color: global.inputBox.color
     },
 
+    QuestionText: {
+        color: global.inputBox.color,
+        fontSize: 16,
+        textAlign: 'center',
+        padding: 5,
+    },
+
     button: {
-        backgroundColor: 'lightblue',
+        backgroundColor: global.accentColor.color,
         padding: 6,
         borderRadius: 10,
         marginTop: 10,
@@ -25,7 +45,7 @@ const styles = StyleSheet.create ({
     },
 
     buttonText: {
-      color: 'rgb(25, 25, 25)', 
+      color: global.buttonText.color, 
       fontSize: 12,
       fontWeight: 'bold',
     },
@@ -36,18 +56,25 @@ const styles = StyleSheet.create ({
         justifyContent: 'center', 
         paddingBottom: 20,
     },
+    textBox: {
+        borderWidth: 1,
+        borderColor: global.accentColor.color,
+        padding: 6,
+        borderRadius: 10,
+        marginVertical: 10,
+      },
 
     recordingButton: {
         backgroundColor: 'red'
     }, 
 
     notRecordingButton: {
-        backgroundColor: 'lightblue'
+        backgroundColor: global.accentColor.color
     },
 
     questionContainer: {
         flexDirection: 'row',
-        width: "90%",
+        width: "100%",
     },
 
     questionTextBox: {
@@ -62,7 +89,7 @@ const styles = StyleSheet.create ({
 
     horizontalDivider: {
         height: 1,
-        backgroundColor: '#282828',
+        backgroundColor: global.horizontalDivider.color,
         borderRadius: 2,
         marginTop: 4,
         marginBottom: 4
@@ -78,10 +105,10 @@ const styles = StyleSheet.create ({
         color: global.subText.color,
     },
 
-    // copyButton:{
-    //     backgroundColor: "lightgreen",
-        
-    // },
+    icons: {
+        color: global.buttonText.color
+    }
+
 })
 
 export {styles}

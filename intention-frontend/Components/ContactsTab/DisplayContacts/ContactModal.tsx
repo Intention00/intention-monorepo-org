@@ -4,6 +4,8 @@ import React, {useState} from "react";
 import { Image } from 'expo-image'
 import { styles } from "./ContactModal.style";
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { ContactTags } from '../../ContactsTab/ContactsTagging/ContactTags'
+
 
 const ContactModal: React.FC <{contact, toggleModalVisibility}> = ({contact, toggleModalVisibility})=> {
     const [currentStep, setCurrentStep] = useState("transcriber"); // Default to transcriber
@@ -17,23 +19,31 @@ const ContactModal: React.FC <{contact, toggleModalVisibility}> = ({contact, tog
             <View style={[styles.modalBox]}>
                 <View style={styles.modalHeader}>
                     <MaterialCommunityIcons style={styles.modalExit} name="window-close" onPress={toggleModalVisibility}/>
-                    <Text style={styles.modalHeaderText}>Contact Details</Text>
+                    <View style={{flex: 1}}>
+                        <Text style={styles.modalHeaderText}>Contact Details</Text>
+                    </View>
                 </View>
                 
                 <View style={styles.modalTextContainer}>
-                    <View style={{alignItems: 'center', marginBottom: 30, marginRight: 10}}>
+                    <View style={{alignItems: 'center', marginBottom: 10}}>
                         <View style={styles.modalNameBox}>
                             <Text style={styles.modalText}>{`${contact.firstName} ${contact.lastName}`}</Text>
                         </View>
-                            
+
                     </View>
+
+                    <View> 
+                        <ContactTags contact={contact}></ContactTags>
+                    </View>         
                     
-                    
-                    <ScrollView style={{marginBottom: 30}}>
+                    <ScrollView style={{marginBottom: 30, marginTop: 10}}>
                         <TranscriberNote contact={contact}></TranscriberNote>
+                        
                     </ScrollView>
                     
                 </View>
+
+                
             </View>
 
         </View>
