@@ -1,5 +1,7 @@
- export const backendAddress = "https://intention-server.up.railway.app"
- // export const backendAddress = "http://127.0.0.1:5100"
+
+// export const backendAddress = "https://intention-server.up.railway.app"
+ export const backendAddress = "http://127.0.0.1:5100/"
+
 
 // Send contacts to backend api
 export const sendContactsToBackend = async (userID: number, contactsData: any[])=> {
@@ -288,6 +290,7 @@ export const sendReminderToBackend = async (contactID: number, reminder: Object)
 
         if (!response.ok) {
             const errorMessage = await response.json();
+            console.log(reminder)
             console.error(`Server returned an error: ${JSON.stringify(errorMessage)}`);
         }
     }
@@ -332,6 +335,10 @@ export const deleteReminderFromBackend = async (contactID: number)=> {
     try {
         const response = await fetch(`${backendAddress}/api/reminder?contactID=${contactID}`, {
             method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json' // Ensure the correct content type
+              },
+              body: JSON.stringify({ contactID })
         })
 
         if (!response.ok) {

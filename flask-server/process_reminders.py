@@ -1,6 +1,9 @@
 from database.db import DBConnection
+
+import json
 from datetime import datetime
 import pytz
+
 
 class ProcessReminders():
     def __init__(self, user_id = -1) -> None:
@@ -47,12 +50,15 @@ class ProcessReminders():
                 
     # Adds the reminder for the specified contact
     def add_contact_reminder(self, contact_id, reminder):
+       
+        contact_id_int = int(contact_id)
+        print(type(contact_id_int))
         with DBConnection() as db_conn:
             if db_conn:
                 sql_statement = """
                     INSERT INTO Reminders (ContactID, StartDateTime, Frequency) VALUES (%s, %s, %s);
                 """
-                db_conn.execute(sql_statement, (contact_id, reminder['dateTime'], reminder['frequency']))
+                db_conn.execute(sql_statement, (contact_id_int, reminder['dateTime'], reminder['frequency']))
                 
     # Updates the reminder for the specified contact
     def edit_contact_reminder(self, contact_id, reminder):
