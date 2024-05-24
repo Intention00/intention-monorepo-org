@@ -1,6 +1,6 @@
 
 // export const backendAddress = "https://intention-server.up.railway.app"
- export const backendAddress = "http://127.0.0.1:5100/"
+ export const backendAddress = "http://127.0.0.1:5100"
 
 
 // Send contacts to backend api
@@ -312,12 +312,13 @@ export const sendReminderEditToBackend = async (contactID: number, reminder: Obj
             headers: {
                 'Content-Type': 'application/json',
             },
+            
             body: JSON.stringify(reminder)
         })
 
         if (!response.ok) {
             const errorMessage = await response.json();
-            console.error(`Server returned an error: ${JSON.stringify(errorMessage)}`);
+            console.error(`Server returned an error damn: ${JSON.stringify(errorMessage)}`);
         }
     }
     catch (err) {
