@@ -1,6 +1,7 @@
 // UserTag.style.tsx
 
 import { StyleSheet } from 'react-native';
+import { styles as global } from "../../Generic/global.style"
 
 const styles = StyleSheet.create({
   container: {
@@ -56,19 +57,21 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  
 
   modalView: {
     margin: 20,
+    height: 300,
     backgroundColor: '#222', // modal background
     borderRadius: 5,
-    padding: '9%',
-    alignItems: 'center',
+    padding: '8%',
+    alignItems: 'flex-start',
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
       height: 2,
     },
-    width: '76%',
+    width: 320,
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
     elevation: 5,

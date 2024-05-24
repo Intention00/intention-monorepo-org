@@ -82,11 +82,14 @@ const ContactTags: React.FC<{contact}> = ({contact})=> {
       >
         <View style={styles.modalCenter}>
           <View style={styles.modalView}>
+          <Text style={{textAlign: 'center', color: '#bcbcbc', margin: 0, fontSize: 15 ,paddingBottom: 15}}>Click a Tag to Add:</Text>
+            <View style={{ height: '90%', width:'auto', padding:10 ,backgroundColor: global.inputBox.backgroundColor,flexWrap: 'wrap',flexDirection: 'row'}}>
             {renderUserTags()}
-            <TouchableOpacity style={styles.modalButton} onPress={() => setIsModalVisible(false)}>
-              <Text style={styles.modalButtonText}>Cancel</Text>
-            </TouchableOpacity>
+            </View>
           </View>
+          <TouchableOpacity style={styles.modalButton} onPress={() => setIsModalVisible(false)}>
+              <Text style={styles.modalButtonText}>Cancel</Text>
+          </TouchableOpacity>
         </View>
       </Modal>
     </View>
