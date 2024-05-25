@@ -101,7 +101,7 @@ def generate_questions(summary, newest_note, firstName, style, model_name = None
             model=model,
             response_format={'type': 'json_object'},
             messages=messages_object,
-            # top_p=0.1
+            top_p=0.4
         )
         content_section = response.choices[0].message.content
     else:
