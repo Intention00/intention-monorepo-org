@@ -4,8 +4,9 @@ import { useUser } from '@clerk/clerk-expo';
 import { handleUser } from '../../Components/ContactsTab/UserSync/userService';
 import { UpcomingReminders } from '../../Components/RemindersTab/DisplayReminders/UpcomingReminders';
 import { styles as global } from '../../Components/Generic/global.style';
+import { FollowUpPage } from '../../Components/FollowupTab/Followup';
 
-const Reminders = () => {
+const Followup = () => {
     const { user } = useUser();
     const [firstName, setFirstName] = useState(user.firstName);
     const [lastName, setLastName] = useState(user.lastName);
@@ -24,9 +25,9 @@ const Reminders = () => {
 
     return (
         <View style={[{ flex: 1, justifyContent: 'center', alignItems: 'center' }, global.background]}>
-            <Text> Hello World </Text>
+            <FollowUpPage></FollowUpPage>
         </View>
     );
 };
 
-export default Reminders;
+export default Followup;
