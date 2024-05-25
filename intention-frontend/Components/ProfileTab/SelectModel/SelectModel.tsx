@@ -10,9 +10,15 @@ const SelectModel: React.FC = ()=> {
     const [selectedModel, setSelectedModel] = useState(undefined);
 
     useEffect(()=> {
-       (async ()=> {
+        (async ()=> {
             const tempModelName = await receiveUserModelNameFromBackend(userID);
-            setSelectedModel(tempModelName);
+            if (tempModelName) {
+                setSelectedModel(tempModelName);
+            }
+            else {
+                setSelectedModel("gpt");
+            }
+            
         })()
     }, [userID])
 
