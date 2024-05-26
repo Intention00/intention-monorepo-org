@@ -115,3 +115,13 @@ class ProcessReminders():
                 except Exception as err:
                     print(f'Reminders retrieval failed: {err}')
                     return None
+                
+### how do i add last contacted to reminder by contact id 
+
+   # def add_last_contacted(self, contact_id, reminder):
+       
+        
+                
+                
+
+

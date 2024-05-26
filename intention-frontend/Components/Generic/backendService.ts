@@ -567,3 +567,23 @@ export const receiveUserModelNameFromBackend = async (userID: number)=> {
         throw new Error(`Error getting preferred model name from backend: ${err}`);
     }
 }
+
+export const sendLastContactedToBackend = async (contactID: number, currentDate: Object)=> {
+    try {
+        const response = await fetch(`${backendAddress}/api/lastcontacted`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({contactID: contactID, currentDate: currentDate})
+        })
+
+        if (!response.ok) {
+            const errorMessage = await response.json();
+            console.error(`Server returned an error: ${JSON.stringify(errorMessage)}`);
+        }
+    } 
+    catch (error) {
+        throw new Error(`Error sending lastContacted frontend to backend: ${error}`);
+    }
+}

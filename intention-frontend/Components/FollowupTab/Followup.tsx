@@ -46,12 +46,41 @@ const FollowUpPage: React.FC = ()=> {
         })()
     }, []);
 
+    const handleFreqChange = async (index: number) => {
+        try {
+            const tempFilteredReminders = await getDesiredReminders(remindersData, index);
+            setFilteredRemindersData(tempFilteredReminders);
+            setSelectedDay(index);
+        } catch (err) {
+            console.error(err);
+        }
+    }
+
+    const createDayButtons = ()=> {
+        return (
+            <View>
+                <SegmentedControl
+                    style={{marginTop: 20,
+                        backgroundColor: global.background.backgroundColor,
+                        borderRadius: 0, height: 80}}
+                    tintColor={global.accentColor.color}
+                    activeFontStyle={{color: global.buttonText.color}}
+                    values={['Daily', 'Weeklky', 'Monthly']}
+                    selectedIndex={selectedDay}
+                    onChange={(event) => {
+                    handleFreqChange(event.nativeEvent.selectedSegmentIndex);
+                    }}
+                />
+            </View>
+        )
+    }
+
    
 
     return (
         <SafeAreaView style={{flex:1, width: '100%'}}>
             <userIDContext.Provider value={userID}>
-                
+                {createDayButtons()}
                 {(filteredRemindersData === undefined) ? <Text style={{color: 'white'}}>Loading</Text> : <ReminderList reminders={filteredRemindersData}></ReminderList>}
                 <NewReminderButton></NewReminderButton>
             </userIDContext.Provider>
