@@ -10,6 +10,8 @@ import { SyncContactButton } from '../SyncContacts/SyncContactButton';
 import { styles as global } from '../../Generic/global.style';
 import { SearchBar } from "../SyncContacts/SyncSearch"
 
+
+
 const ContactSync: React.FC = ()=> {
 
     const [error, setError] = useState(undefined);
@@ -63,20 +65,23 @@ const ContactSync: React.FC = ()=> {
         <SafeAreaView style={{flex:1, width: '100%'}}>
             <userIDContext.Provider value={userID}>
                 <Text style={{marginTop: 10}}>{error}</Text>
-                <View style= {{flexDirection: 'row'}}>
-                <SyncContactButton updateContacts={setContacts}></SyncContactButton>
-                <SearchBar
+                <View style= {{flexDirection: 'column'}}>
+                    
+                    <View style={{width: '100%'}}>
+                        <SearchBar
                             clicked={clicked}
                             searchPhrase={searchPhrase}
                             setSearchPhrase={setSearchPhrase}
-                            setClicked={setClicked}
-                        />
+                            setClicked={setClicked}/>
+                    </View>
                     
                 </View>
                 
                 <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
                     {(filteredContacts === undefined || filteredContacts.length === 0) ? (<Text style={global.bodyText}>Use the sync button above to add some contacts!</Text>) : (<ContactList contacts={filteredContacts}></ContactList>)}
                 </View>
+                <SyncContactButton updateContacts={setContacts}></SyncContactButton>
+                
             </userIDContext.Provider>
         </SafeAreaView>
     );

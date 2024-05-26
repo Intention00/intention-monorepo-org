@@ -4,6 +4,7 @@ import { SyncContactSelector } from "./SyncContactSelector";
 import { FontAwesome } from '@expo/vector-icons';
 import { styles } from "./SyncContactButton.style";
 import { styles as global } from "../../Generic/global.style";
+import { FontAwesome6 } from '@expo/vector-icons';
 
 // This component represents a button used to trigger contact synchronization
 const SyncContactButton: React.FC <{updateContacts}> = ({updateContacts})=> {
@@ -11,9 +12,10 @@ const SyncContactButton: React.FC <{updateContacts}> = ({updateContacts})=> {
     const [modalVisible, setModalVisible] = useState(false);
 
     return (
-        <View>
-            <TouchableHighlight style={styles.button}>
-                <FontAwesome name="refresh" size={24} color={global.accentColor.color} onPress={()=>{setModalVisible(true)}}/>
+        <View style={styles.ButtonBox} >
+            <TouchableHighlight style={styles.Button}>
+
+                <FontAwesome6 name="contact-book" size={30} color={global.accentColor.color} onPress={()=>{setModalVisible(true)}} />
             </TouchableHighlight>
             <Modal visible={modalVisible} transparent={true} onRequestClose={()=> {setModalVisible(false)}} animationType="fade">
                     <SafeAreaView>
