@@ -54,7 +54,7 @@ def transcribe():
 
 def generate_summary(text, model_name = None):
     # Select model
-    client, model = initialize_model(model_name)
+    client, model = initialize_model("gpt")
 
     response = client.chat.completions.create(
         model=model,
@@ -70,7 +70,7 @@ def generate_summary(text, model_name = None):
 def generate_notes_summary(notes, date, contact_id, model_name = None):
     if notes:
         # Select model
-        client, model = initialize_model(model_name)
+        client, model = initialize_model("gpt")
         print(f'Summary generated with: {model}')
 
         response = client.chat.completions.create(
@@ -117,7 +117,7 @@ def generate_questions(summary, newest_note, firstName, style, model_name = None
 def generate_conversational_style(notes, model_name = None):
     if notes:
         # Select model
-        client, model = initialize_model(model_name)
+        client, model = initialize_model("gpt")
         print(f'Conversation style generated with: {model}')
 
         response = client.chat.completions.create(
