@@ -153,12 +153,12 @@ class ProcessNotes():
         summary = self.get_summary(contact_id)
         newest_note = self.get_newest_note(contact_id)
 
-        # testing conversational_style (generates new everytime, no save)
-        # style = self.gen_conversation_style(contact_id)
+        # If user selected finetuned models, then get the latest model_id from db to use
+        if self.model_name in ("gpt_multiple", "gpt_single"):
+            self.get_finetuned_model_database()
 
         # Gets style from db only, if it doesn't exist, currently uses nothing (no updates, cached)
         style = self.get_conversation_style(contact_id)
-        # print(f'style: {style}')
         string_questions, prompt = generate_questions(summary, newest_note, firstName, style, model_name=self.model_name)
         
         # Saving the latest prompt for later
@@ -235,3 +235,19 @@ class ProcessNotes():
                 style = db_conn.fetchone()
 
                 return style['ConversationStyle']
+            
+    # Gets the latest model_id for that specific model type from database
+    def get_finetuned_model_database(self):
+        with DBConnection() as db_conn:
+            if db_conn:
+                sql_statement = """
+                    SELECT ModelID FROM FineTunedModels WHERE ModelType = %s ORDER BY CreatedAt DESC LIMIT 1;
+                """
+                db_conn.execute(sql_statement, (self.model_name,))
+                model_id = db_conn.fetchone()
+
+                # If it doesn't exist, then return None
+                if not model_id:
+                    return None
+                
+                self.model_name = model_id['ModelID']

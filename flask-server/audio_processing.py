@@ -31,8 +31,10 @@ def initialize_model(model_name = None):
         client = OpenAI(api_key = openai_key)
         if model_name == "gpt4o":
             model = "gpt-4o"
-        else:
+        elif model_name == "gpt":
             model = "gpt-3.5-turbo"
+        else:
+            model = model_name
     
     return client, model
 

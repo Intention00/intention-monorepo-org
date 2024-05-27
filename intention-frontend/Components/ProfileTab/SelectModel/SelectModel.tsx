@@ -34,7 +34,10 @@ const SelectModel: React.FC = ()=> {
                     <Picker.Item color={styles.selectorItem.color} label="GPT" value="gpt"/>
                     <Picker.Item color={styles.selectorItem.color} label="Llama3" value="llama3"/>
                     <Picker.Item color={styles.selectorItem.color} label="Mixtral" value="mixtral"/>
+                    <Picker.Item color={styles.selectorItem.color} label="GPT4o" value="gpt4o"/>
                     <Picker.Item color={styles.selectorItem.color} label="WizardLM" value="wizardlm"/>
+                    <Picker.Item color={styles.selectorItem.color} label="GPT_MULTI_FT" value="gpt_multiple"/>
+                    <Picker.Item color={styles.selectorItem.color} label="GPT_SINGLE_FT" value="gpt_single"/>
                 </Picker>
             )
         }
