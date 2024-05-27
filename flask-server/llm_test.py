@@ -116,12 +116,41 @@ def rank_models(model_name, data):
             "ranking": [
                 {
                     "model": *model name*,
+                    "score": *avg score for all the questions for this model (out of 100)*,
+                    "score_reasoning": *reason for the score*,
+                    "category_scores*: {
+                        *avg score for each category*
+                    },
                     "rank": *rank*
                 }
-            ],
-            "best_questions": {
-                "*iteration*": *best question*
-            },
+            ]
+        }
+    """
+
+    scoring_rubric = """
+        {
+            "scoring_rubric": {
+                "relevance": {
+                    "description": "How relevant is the question to the given context or previous conversation?",
+                    "max_score": 25
+                },
+                "engagement": {
+                    "description": "How engaging is the question? Does it encourage further conversation?",
+                    "max_score": 25
+                },
+                "specificity": {
+                    "description": "How specific is the question? Does it reference details that make it unique and tailored?",
+                    "max_score": 20
+                },
+                "clarity": {
+                    "description": "How clear and easy to understand is the question?",
+                    "max_score": 20
+                },
+                "originality": {
+                    "description": "How original or creative is the question?",
+                    "max_score": 10
+                }
+            }
         }
     """
 
@@ -131,16 +160,15 @@ def rank_models(model_name, data):
         max_tokens=4096,
         messages=[
             {"role": "system", "content": "You are a helpful human assistant. Talking directly to the user."},
-            {"role": "user", "content": "Don't say anything outside the json object you return, such as the '`' character."},
-            {"role": "user", "content": f"You are given a json object which contains the output of several LLM models. These models are returning personalized questions to help start conversations with my contacts. Evaluate the models and return a overall ranking of all the models (0 being the best) amongst themselves by how good their respective questions were, and which ones humans would prefer the most. Also pick the best question from each iteration amongst all the models and put it in the 'best_questions' object. You should have iteration go from 0 to however many iterations there are- don't skip any questions, include them all. Return your response as a json object following this format: {response_format}. Don't provide any extra comments explaining your thoughts or what you'll be doing. Make sure the end of your response is the closing curly bracket. Here is the json object: {data}"}
+            {"role": "user", "content": "Return valid JSON. Don't put any comments before or after the JSON object. Return the response format requested exactly."},
+            {"role": "user", "content": f"You are given a json object which contains the output of several LLM models. These models are returning personalized questions to help start conversations with my contacts. Evaluate the models by assigning a score out of 100 for each question using the following rubric: {scoring_rubric}, and then return the average of the 3 questions for each model. Go through each category of the rubric closely and detailed and assess the question based on that, and then return a score that a human would agree with. Then return an overall ranking of all the models amongst themselves by how good their scores were (starts with 0 being the best). Order the ranking response array from best to worst by rank. Return your response as a json object following this format: {response_format}. Don't provide any extra comments explaining your thoughts or what you'll be doing. Make sure you return valid JSON. Don't put ellipses or any other invalid json placeholders in your response. Here is the json object: {data}"}
         ],
         # Provide your comments in a key called 'comments'. 
     )
 
     content_section = response.choices[0].message.content
     formatted_content = processor.format_llm_output(content_section)
-
-    print(formatted_content)
+    print(formatted_content, '\n\n')
     return formatted_content
 
 def rank_export(model_name):
@@ -190,33 +218,6 @@ def get_avg_model_score():
     print(avg_scores)
 
 # record_time(10)
-# rank_export('llama3')
-# rank_export_all()
-get_avg_model_score()
-
-
-################################################################################################
-# Postman isn't using correct model for some reason, but it works here- should work on frontend?
-def test_api_call():
-    import requests
-    url = "http://192.168.1.27:5100/api/generate-questions"
-
-    params = {
-        "contactID": 6,
-        "firstName": "Hank",
-        "model": "llama3"
-    }
-
-    response = requests.get(url, params=params)
-
-    if response.status_code == 200:
-        # Parse the JSON response
-        data = response.json()
-        questions = data['questions']
-        print("Generated Questions:")
-        for question in questions:
-            print(question)
-    else:
-        print("Error:", response.text)
-
-# test_api_call()
+rank_export('llama3')
+# rank_export_all() 
+# get_avg_model_score()

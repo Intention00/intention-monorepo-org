@@ -121,7 +121,16 @@ class ProcessNotes():
             try: 
                 json.loads(data)
             except: 
-                data += '}'
+                if data[-1] != '}' and data[-1] != '`':
+                    data += '}'
+                elif data[-1] == '`':
+                    while data[-1] == '`':
+                        data = data[:-1]
+                    
+                    try: 
+                        json.loads(data[start_idx:])
+                    except: 
+                        data += '}'
 
         # Remove extra characters from end
         end_idx = len(data) - 1
