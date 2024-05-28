@@ -16,9 +16,9 @@ Values (123, ‘2024-04-10 09:00:00’, 1);
         reminder: {reminder related stuff}
     }
 */
-const getDesiredFollups = (reminderData, freq)=> {
+const getDesiredFollups = (reminderData)=> {
     const processedData = processFollowupData(reminderData);
-    return processedData
+    return processedData;
     
 }
 
