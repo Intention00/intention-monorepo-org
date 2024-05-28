@@ -1,8 +1,6 @@
-// not styling is more fun
-
 import { SafeAreaView, Text, View } from "react-native"
 import { useState, useEffect } from "react"
-import { getDesiredReminders } from "../RemindersTab/DisplayReminders/reminderService";
+import { getDesiredFollups } from "../FollowupTab/followupService";
 import { handleUser } from "../ContactsTab/UserSync/userService";
 import { useUser } from '@clerk/clerk-expo';
 import { userIDContext } from "../ContactsTab/UserSync/userIDContext";
@@ -11,6 +9,7 @@ import { NewReminderButton } from "../RemindersTab/DisplayReminders/NewReminderB
 import SegmentedControl from '@react-native-segmented-control/segmented-control';
 import { receiveRemindersFromBackend } from "../Generic/backendService";
 import { styles as global } from "../Generic/global.style";
+import { FollowUpList } from "./FollowupList";
 
 const FollowUpPage: React.FC = ()=> {
     const [remindersData, setRemindersData] = useState(undefined);
@@ -19,44 +18,52 @@ const FollowUpPage: React.FC = ()=> {
     const [userID, setUserID] = useState(undefined);
     const userEmail = user['primaryEmailAddress']['emailAddress'];
 
-    const [selectedDay, setSelectedDay] = useState(0);
+    const [selectedFreq, setSelectedFreq] = useState("daily");
 
-    useEffect(()=> {
-        (async ()=> {
+    useEffect(() => {
+        (async () => {
             try {
                 const tempUserID = await handleUser(userEmail);
-                console.log(`user id: ${tempUserID}`)
+                console.log(`user id: ${tempUserID}`);
                 setUserID(tempUserID);
-
-                const tempSelectedDay = new Date().getDay();
-                setSelectedDay(tempSelectedDay);
-
+    
                 // get the reminders related data and each contact
                 const tempRemindersData = await receiveRemindersFromBackend(tempUserID);
                 setRemindersData(tempRemindersData);
-
-                // get filtered reminders data
-                const tempFilteredReminders = getDesiredReminders(tempRemindersData, tempSelectedDay);
-                setFilteredRemindersData(tempFilteredReminders);
-            }
-            catch (err) {
+    
+                // get filtered reminders data initially for daily
+                const tempFilteredReminders = getDesiredFollups(tempRemindersData);
+                setFilteredRemindersData(tempFilteredReminders[selectedFreq]);
+                //console.log(tempFilteredReminders);
+            } catch (err) {
                 console.error(err);
             }
-            
-        })()
-    }, []);
+        })();
+    }, [selectedFreq]); // Add selectedFreq to the dependency array
+    
 
     const handleFreqChange = async (index: number) => {
         try {
-            const tempFilteredReminders = await getDesiredReminders(remindersData, index);
-            setFilteredRemindersData(tempFilteredReminders);
-            setSelectedDay(index);
+            let freq;
+            if (index === 0) {
+                freq = "daily";
+            } else if (index === 1) {
+                freq = "weekly";
+            } else if (index === 2) {
+                freq = "monthly";
+            }
+            setSelectedFreq(freq);
+            const tempFilteredReminders =  getDesiredFollups(remindersData);
+            console.log("here")
+            console.log
+            setFilteredRemindersData(tempFilteredReminders[selectedFreq]);
+            
         } catch (err) {
             console.error(err);
         }
     }
 
-    const createDayButtons = ()=> {
+    const createFreqButtons = ()=> {
         return (
             <View>
                 <SegmentedControl
@@ -65,8 +72,8 @@ const FollowUpPage: React.FC = ()=> {
                         borderRadius: 0, height: 80}}
                     tintColor={global.accentColor.color}
                     activeFontStyle={{color: global.buttonText.color}}
-                    values={['Daily', 'Weelky', 'Monthly']}
-                    selectedIndex={selectedDay}
+                    values={['Daily', 'Weekly', 'Monthly']}
+                    selectedIndex={selectedFreq === "daily" ? 0 : selectedFreq === "weekly" ? 1 : 2}
                     onChange={(event) => {
                     handleFreqChange(event.nativeEvent.selectedSegmentIndex);
                     }}
@@ -80,8 +87,8 @@ const FollowUpPage: React.FC = ()=> {
     return (
         <SafeAreaView style={{flex:1, width: '100%'}}>
             <userIDContext.Provider value={userID}>
-                {createDayButtons()}
-                {(filteredRemindersData === undefined) ? <Text style={{color: 'white'}}>Loading</Text> : <ReminderList reminders={filteredRemindersData}></ReminderList>}
+                {createFreqButtons()}
+                {(filteredRemindersData === undefined) ? <Text style={{color: 'white'}}>Loading</Text> : <FollowUpList reminders={filteredRemindersData}></FollowUpList>}
                 <NewReminderButton></NewReminderButton>
             </userIDContext.Provider>
         </SafeAreaView>
