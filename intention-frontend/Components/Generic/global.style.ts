@@ -1,6 +1,6 @@
 import { StyleSheet } from "react-native"
 
-const useDarkMode = true
+const useDarkMode = false
 
 const styles = StyleSheet.create({
     // Accent color: #ffcc00
@@ -10,11 +10,11 @@ const styles = StyleSheet.create({
     // Input box color: #bcbcbc
     // Tab bar color: #282828
     background: {
-        backgroundColor: useDarkMode ? '#161616': '#e9e9e9',
+        backgroundColor: useDarkMode ? '#161616': '#BDE0F9',
     },
 
     headerText: {
-        color: useDarkMode ? '#ffffff': '#000000',
+        color: useDarkMode ? '#ffffff': '#0493FB',
     },
 
     bodyText: {

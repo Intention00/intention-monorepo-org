@@ -39,6 +39,7 @@ const styles = StyleSheet.create({
         color: global.inputBox.color,
         fontSize: 24,
         marginRight: 45,
+        marginLeft: '18%',
     },
 
     modalTextContainer: {
@@ -81,7 +82,9 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
         marginLeft: 'auto',
         marginRight: '5%',
-        color: global.inputBox.backgroundColor
+        color: global.inputBox.backgroundColor,
+        height: '50%',
+        width: '10%'
     },
 
     saveButton:{
