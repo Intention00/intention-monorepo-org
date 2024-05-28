@@ -15,12 +15,19 @@ llama_processor = ProcessNotes(model_name='llama3')
 wizardlm_processor = ProcessNotes(model_name='wizardlm')
 mixtral_processor = ProcessNotes(model_name='mixtral')
 gpt4o_processor = ProcessNotes(model_name='gpt4o')
+gpt_single_processor = ProcessNotes(model_name="gpt_single")
+gpt_multiple_processor = ProcessNotes(model_name="gpt_multiple")
 
-all_models = ['gpt', 'llama3', 'wizardlm', 'mixtral', 'gpt4o']
+# Get updated model names for newest FT
+gpt_single_processor.get_finetuned_model_database()
+gpt_multiple_processor.get_finetuned_model_database()
+
+all_models = ['gpt', 'llama3', 'wizardlm', 'mixtral', 'gpt4o', gpt_single_processor.model_name, gpt_multiple_processor.model_name]
+scoring_models = ['gpt', 'llama3', 'wizardlm', 'mixtral', 'gpt4o']
 
 def measure_time(processor: ProcessNotes):
     start_time = time.time()
-    output = processor.get_summary_questions(6, "Hank")
+    output = processor.get_summary_questions(302, "Daniel")
     end_time = time.time()
     total_time = end_time - start_time
     print(f"Model: {processor.model_name}\nOutput: {output}\nTime: {total_time: .2f}\n")
@@ -39,6 +46,8 @@ def record_time(n = 1):
         wizardlm_times = []
         mixtral_times = []
         gpt4o_times = []
+        gpt_single_times = []
+        gpt_multiple_times = []
 
         file.write('[')
 
@@ -48,18 +57,24 @@ def record_time(n = 1):
             wizardlm_time, wizardlm_result = measure_time(wizardlm_processor)
             mixtral_time, mixtral_result = measure_time(mixtral_processor)
             gpt4o_time, gpt4o_result = measure_time(gpt4o_processor)
+            gpt_single_time, gpt_single_result = measure_time(gpt_single_processor)
+            gpt_multiple_time, gpt_multiple_result = measure_time(gpt_multiple_processor)
 
             gpt_result['iteration'] = i
             llama_result['iteration'] = i
             wizardlm_result['iteration'] = i
             mixtral_result['iteration'] = i
             gpt4o_result['iteration'] = i
+            gpt_single_result['iteration'] = i
+            gpt_multiple_result['iteration'] = i
 
             gpt_times.append(gpt_time)
             llama_times.append(llama_time)
             wizardlm_times.append(wizardlm_time)
             mixtral_times.append(mixtral_time)
             gpt4o_times.append(gpt4o_time)
+            gpt_single_times.append(gpt_single_time)
+            gpt_multiple_times.append(gpt_multiple_time)
 
             json.dump(gpt_result, file)
             file.write(',')
@@ -70,6 +85,10 @@ def record_time(n = 1):
             json.dump(mixtral_result, file)
             file.write(',')
             json.dump(gpt4o_result, file)
+            file.write(',')
+            json.dump(gpt_single_result, file)
+            file.write(',')
+            json.dump(gpt_multiple_result, file)
             file.write(',')
 
         file.seek(file.tell() - 1)
@@ -82,6 +101,8 @@ def record_time(n = 1):
         print(f'Wizardlm times: {wizardlm_times}')
         print(f'Mixtral times: {mixtral_times}')
         print(f'GPT4o times: {gpt4o_times}')
+        print(f'GPT_SINGLE times: {gpt_single_times}')
+        print(f'GPT_MULTI times: {gpt_multiple_times}')
 
 # record_time(1)
 
@@ -157,11 +178,11 @@ def rank_models(model_name, data):
     response = client.chat.completions.create(
         model=model,
         response_format={'type': 'json_object'},
-        max_tokens=4096,
+        max_tokens=0,
         messages=[
             {"role": "system", "content": "You are a helpful human assistant. Talking directly to the user."},
             {"role": "user", "content": "Return valid JSON. Don't put any comments before or after the JSON object. Return the response format requested exactly."},
-            {"role": "user", "content": f"You are given a json object which contains the output of several LLM models. These models are returning personalized questions to help start conversations with my contacts. Evaluate the models by assigning a score out of 100 for each question using the following rubric: {scoring_rubric}, and then return the average of the 3 questions for each model. Go through each category of the rubric closely and detailed and assess the question based on that, and then return a score that a human would agree with. Then return an overall ranking of all the models amongst themselves by how good their scores were (starts with 0 being the best). Order the ranking response array from best to worst by rank. Return your response as a json object following this format: {response_format}. Don't provide any extra comments explaining your thoughts or what you'll be doing. Make sure you return valid JSON. Don't put ellipses or any other invalid json placeholders in your response. Here is the json object: {data}"}
+            {"role": "user", "content": f"You are given a json object which contains the output of several LLM models. These models are returning personalized questions to help start conversations with my contacts. Evaluate the models by assigning a score out of 100 for each question using the following rubric: {scoring_rubric}, and then return the average of the 3 questions for each model. Go through each category of the rubric closely and detailed and assess the question based on that- be extremely brutal and nitpicky about the rubric criteria while scoring, and then return a score that a human would agree with. Then return an overall ranking of all the models amongst themselves by how good their scores were (starts with 0 being the best). Order the ranking response array from best to worst by rank. Return your response as a json object following this format: {response_format}. Don't provide any extra comments explaining your thoughts or what you'll be doing. Make sure you return valid JSON. Don't put ellipses or any other invalid json placeholders in your response. Here is the json object: {data}"}
         ],
         # Provide your comments in a key called 'comments'. 
     )
@@ -176,13 +197,13 @@ def rank_export(model_name):
     ranking = rank_models(model_name, data)
     export_model_ranking(model_name, ranking)
 
-def rank_export_all(models = all_models):
+def rank_export_all(models = scoring_models):
     for model in models:
         rank_export(model)
 
-def get_model_scores(models = all_models):
+def get_model_scores(models = scoring_models):
     # Used to store the ranks for each model from all the different models
-    rankings = {model_name: [] for model_name in models}
+    rankings = {model_name: [] for model_name in all_models}
 
     # Opens and reads for each model that judged the models
     for model_name in models:
@@ -192,7 +213,7 @@ def get_model_scores(models = all_models):
 
             # The model name and rank for each model that this model judged are added to its
             # list in rankings
-            for model, rank in ((mr['model'], mr['rank']) for mr in ranking['ranking']):           
+            for model, rank in ((mr['model'], mr['score']) for mr in ranking['ranking']):           
                 rank_arr = rankings.get(model, None)
                 if rank_arr is not None:
                     rank_arr.append(rank)
@@ -208,16 +229,19 @@ def get_avg_model_score():
     for model, scores in all_scores.items():
         # avg_score = sum(scores) / len(scores) if scores else -1
         # avg_score = (1 - (sum(scores) / len(scores) / len(scores))) if scores else -1
-        calc_score = 0
-        for score in scores:
-            calc_score += (len(all_scores) - score) *  (len(all_scores) - score)
 
-        calc_score = (calc_score / (len(all_scores) * len(all_scores) * len(scores)))
-        avg_scores.append({model: calc_score})
+        # calc_score = 0
+        # for score in scores:
+        #     calc_score += (len(all_scores) - score) *  (len(all_scores) - score)
+
+        # calc_score = (calc_score / (len(all_scores) * len(all_scores) * len(scores)))
+        # avg_scores.append({model: calc_score})
+        avg_score = sum(scores) / len(scores) if scores else -1
+        avg_scores.append({model: round(avg_score, 3)})
     
     print(avg_scores)
 
-# record_time(10)
-rank_export('llama3')
+# record_time(7)
+# rank_export('wizardlm')
 # rank_export_all() 
-# get_avg_model_score()
+get_avg_model_score()
