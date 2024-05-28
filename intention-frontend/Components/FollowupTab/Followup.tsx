@@ -65,7 +65,7 @@ const FollowUpPage: React.FC = ()=> {
                         borderRadius: 0, height: 80}}
                     tintColor={global.accentColor.color}
                     activeFontStyle={{color: global.buttonText.color}}
-                    values={['Daily', 'Weeklky', 'Monthly']}
+                    values={['Daily', 'Weelky', 'Monthly']}
                     selectedIndex={selectedDay}
                     onChange={(event) => {
                     handleFreqChange(event.nativeEvent.selectedSegmentIndex);
