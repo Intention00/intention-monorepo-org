@@ -6,7 +6,7 @@ import { styles } from './ContactTags.style';
 import { useUser } from '@clerk/clerk-expo';
 import { userIDContext } from "../UserSync/userIDContext";
 import { styles as global } from '../../Generic/global.style';
-import { AntDesign } from '@expo/vector-icons';
+import { AntDesign, MaterialCommunityIcons } from '@expo/vector-icons';
 
 const ContactTags: React.FC<{contact}> = ({contact})=> {
   const [tags, setTags] = useState([]);
@@ -82,14 +82,19 @@ const ContactTags: React.FC<{contact}> = ({contact})=> {
       >
         <View style={styles.modalCenter}>
           <View style={styles.modalView}>
-          <Text style={{textAlign: 'center', color: '#bcbcbc', margin: 0, fontSize: 15 ,paddingBottom: 15}}>Click a Tag to Add:</Text>
-            <View style={{ height: '90%', width:'auto', padding:10 ,backgroundColor: global.inputBox.backgroundColor,flexWrap: 'wrap',flexDirection: 'row'}}>
+          <View style={styles.modalHeader}>
+                    <MaterialCommunityIcons style={styles.modalExit} name="window-close" onPress={() => setIsModalVisible(false)} />
+                    <View style={{flex: 1}}>
+                        <Text style={styles.modalHeaderText}>Click a Tag to Add</Text>
+                    </View>
+                </View>
+            {/* <View style={{alignSelf: 'center'}}>
+            <Text style={{textAlign: 'center', fontWeight: 'bold', color: '#fff', margin: 0, fontSize: 15 ,paddingBottom: 15}}>Click a Tag to Add</Text>
+            </View> */}
+            <View style={{ height: '70%', width:'auto', padding:0 ,backgroundColor: '#222',flexWrap: 'wrap',flexDirection: 'row'}}>
             {renderUserTags()}
             </View>
           </View>
-          <TouchableOpacity style={styles.modalButton} onPress={() => setIsModalVisible(false)}>
-              <Text style={styles.modalButtonText}>Cancel</Text>
-          </TouchableOpacity>
         </View>
       </Modal>
     </View>

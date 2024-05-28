@@ -15,7 +15,6 @@ const ContactModal: React.FC <{contact, toggleModalVisibility}> = ({contact, tog
     // };
     if (tagUpdater.displayName === "true") {
         tagUpdater.displayName = "false"
-        console.log(tagUpdater);
     }
     
     const blurhash = 

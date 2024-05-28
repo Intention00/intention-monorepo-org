@@ -61,10 +61,12 @@ const styles = StyleSheet.create({
 
   modalView: {
     margin: 20,
-    height: 300,
+    height: 340,
     backgroundColor: '#222', // modal background
-    borderRadius: 5,
+    borderRadius: 30,
     padding: '8%',
+    paddingLeft: '4%',
+    paddingTop: '4%',
     alignItems: 'flex-start',
     shadowColor: '#000',
     shadowOffset: {
@@ -108,6 +110,26 @@ const styles = StyleSheet.create({
     color: '#fff', // input text color
     borderRadius: 5,
   },
+  modalExit :{
+    color: global.accentColor.color,
+    fontSize: 30,
+    paddingLeft: 0,
+},
+
+modalHeader: {
+    paddingTop: 0,
+    marginBottom: 30,
+    flexDirection: 'row',
+    alignItems: 'center'
+},
+
+modalHeaderText: {
+    textAlign: 'center',
+    color: '#fff',
+    fontSize: 15 ,
+    marginRight: 8,
+    fontWeight: 'bold',
+},
 });
 
 export { styles };
