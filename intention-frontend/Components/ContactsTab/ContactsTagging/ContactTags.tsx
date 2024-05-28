@@ -66,12 +66,10 @@ const ContactTags: React.FC<{contact}> = ({contact})=> {
       <Text style={{color: '#bcbcbc', margin: 0, fontSize: 15}}>Tags:</Text>
       <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
         <View style={{flex: 7, flexDirection: 'row', alignItems: 'center', flexWrap: 'wrap'}}>
-          {(tags.length === 0) ? <Text>No Tags</Text> : renderTags()}  
+          {(tags.length === 0) ? <Tag key={"NoTag"} tagName={"No Tags"} onDelete={() => handleDeleteTag(null)}/> : renderTags()}  
         </View>
-        <View style={{flex: 1}}>
-          <TouchableOpacity style={styles.button} onPress={() => setIsModalVisible(true)}>
-            <AntDesign name="plussquareo" size={24} color={global.tagBackground.color} />
-          </TouchableOpacity>
+        <View style={{flex: 3}}>
+          <Tag key={"AddTag"} tagName={"Add Tags"} onDelete={() => setIsModalVisible(true)}/>
         </View>
       </View>
 
