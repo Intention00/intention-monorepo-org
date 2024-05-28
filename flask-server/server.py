@@ -462,6 +462,16 @@ def set_model_name():
     
     except Exception as err:
         return jsonify({'message': str(err)}), 500
+    
+@app.route("/api/lastcontacted/<contact_id>/<current_date>", methods =['PUT'])
+def set_last_contact(contact_id, current_date): 
+    reminders_processor.setLastContacted( contactID= contact_id, currentDate= current_date,)
+    return jsonify({'message': 'lastContacted name edited.'}), 204
+
+
+
+
+
 
 if __name__ == "__main__":
     # added host to test, it seems to make it work on android

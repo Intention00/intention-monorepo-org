@@ -568,9 +568,9 @@ export const receiveUserModelNameFromBackend = async (userID: number)=> {
     }
 }
 
-export const sendLastContactedToBackend = async (contactID: number, currentDate: Object)=> {
+export const sendLastContactedToBackend = async (contactID: number, currentDate: string)=> {
     try {
-        const response = await fetch(`${backendAddress}/api/lastcontacted`, {
+        const response = await fetch(`${backendAddress}/api/lastcontacted/${contactID}/${currentDate}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
