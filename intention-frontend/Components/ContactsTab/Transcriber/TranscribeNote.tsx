@@ -155,7 +155,7 @@ const TranscriberNote: React.FC <{contact}> = ({contact})=> {
                 </TouchableOpacity>
             )}
 
-            {showInitialQuestions && (
+            {summary == null && (showInitialQuestions && (
               <View style={styles.textBox}>
                 <Text style={styles.QuestionText}>
                   Feel free to answer any or all of these questions.
@@ -165,7 +165,7 @@ const TranscriberNote: React.FC <{contact}> = ({contact})=> {
                   {"\n"}How do you value this person?
                 </Text>
               </View>
-            )}
+            ))}
             
             <View style={{flexDirection: 'row'}}>
                 <TextInput
