@@ -152,20 +152,24 @@ def rank_models(model_name, data):
         {
             "scoring_rubric": {
                 "relevance": {
-                    "description": "How relevant is the question to the given context or previous conversation?",
+                    "description": "How relevant is the question to the provided notes or previous conversations?",
                     "max_score": 25
                 },
                 "engagement": {
                     "description": "How engaging is the question? Does it encourage further conversation?",
                     "max_score": 25
                 },
+                "style": {
+                    "description": "How well does the question match the conversation style passed into its prompt- things such as the tone, favorite words, favorite topics?",
+                    "max_score": 10
+                },
                 "specificity": {
-                    "description": "How specific is the question? Does it reference details that make it unique and tailored?",
+                    "description": "How specific is the question? Does it reference details from previous notes that make it unique and tailored?",
                     "max_score": 20
                 },
                 "clarity": {
                     "description": "How clear and easy to understand is the question?",
-                    "max_score": 20
+                    "max_score": 10
                 },
                 "originality": {
                     "description": "How original or creative is the question?",
@@ -178,7 +182,7 @@ def rank_models(model_name, data):
     response = client.chat.completions.create(
         model=model,
         response_format={'type': 'json_object'},
-        max_tokens=0,
+        # max_tokens=0,
         messages=[
             {"role": "system", "content": "You are a helpful human assistant. Talking directly to the user."},
             {"role": "user", "content": "Return valid JSON. Don't put any comments before or after the JSON object. Return the response format requested exactly."},
@@ -227,21 +231,12 @@ def get_avg_model_score():
     avg_scores = []
 
     for model, scores in all_scores.items():
-        # avg_score = sum(scores) / len(scores) if scores else -1
-        # avg_score = (1 - (sum(scores) / len(scores) / len(scores))) if scores else -1
-
-        # calc_score = 0
-        # for score in scores:
-        #     calc_score += (len(all_scores) - score) *  (len(all_scores) - score)
-
-        # calc_score = (calc_score / (len(all_scores) * len(all_scores) * len(scores)))
-        # avg_scores.append({model: calc_score})
         avg_score = sum(scores) / len(scores) if scores else -1
         avg_scores.append({model: round(avg_score, 3)})
     
     print(avg_scores)
 
 # record_time(7)
-# rank_export('wizardlm')
+# rank_export('gpt')
 # rank_export_all() 
 get_avg_model_score()
