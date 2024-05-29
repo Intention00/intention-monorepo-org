@@ -8,7 +8,7 @@ import { styles as global } from "../../Generic/global.style";
  const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: global.accentColor.color,
+    backgroundColor: global.background.backgroundColor,
     borderRadius: 20,
 
   },
