@@ -20,7 +20,7 @@ const TranscriberNote: React.FC <{contact}> = ({contact})=> {
     const [summaryModalVisible, setSummaryModalVisible] = useState(false);
     const [summaryWait, setSummaryWait] = useState(false);
     const [saving, setSaving] = useState(false);
-    const [showInitialQuestions, setShowInitialQuestions] = useState(false); // Added state variable
+    const [showInitialQuestions, setShowInitialQuestions] = useState(true); // Added state variable
 
     // Microphone button START-RECORDING
     async function startRecording() {
@@ -172,13 +172,11 @@ const TranscriberNote: React.FC <{contact}> = ({contact})=> {
             {/* Toggle Button for the Hidden questions */}
             {summary == null &&(
                 <TouchableOpacity
-                style={styles.button}
-                onPress={() => setShowInitialQuestions(!showInitialQuestions)}
-                >
-                <Text style={styles.buttonText}>
-                    {showInitialQuestions ? "Hide Questions" : "Show Questions"}
-                </Text>
-            </TouchableOpacity>
+                    style={styles.infoButton}
+                    onPress={() => setShowInitialQuestions(!showInitialQuestions)}
+                    >
+                <Feather name="info" size={24} color={styles.icons.color} />
+                </TouchableOpacity>
             )}
 
             {/* Conditional Rendering of Initial Questions */}

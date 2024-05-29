@@ -46,6 +46,17 @@ const styles = StyleSheet.create ({
         alignItems: 'center',
     },
 
+    infoButton: {
+        backgroundColor: global.accentColor.color,
+        padding: 8,
+        borderRadius: 10,
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginVertical: 8,
+        maxWidth: 50,
+        maxHeight: 50,
+      },
+
     buttonText: {
       color: global.buttonText.color, 
       fontSize: 12,
