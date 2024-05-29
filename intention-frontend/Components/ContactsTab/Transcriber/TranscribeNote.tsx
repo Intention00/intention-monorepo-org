@@ -150,27 +150,28 @@ const TranscriberNote: React.FC <{contact}> = ({contact})=> {
         <View style={{flex: 1, flexDirection: "column"}}>
             
             
-            <View style={{flexDirection: 'row'}}>
-                
-                <TextInput
-                    multiline
-                    value={transcribedText}
-                    placeholder={summary !== null ? "Press once to record, twice to stop" : 
-                        "Record: 1 tap, Stop: 2 taps"}
-                    placeholderTextColor={styles.placeHolderTextColor.color}
-                    onChangeText={setTranscribedText}
-                    style={summary !== null ? styles.notesInput : styles.notesInputAlt}
-                />
-                <View style={styles.buttonBox}>
-                    <SuggestionsModal></SuggestionsModal>
-                    <TouchableOpacity
-                        style={[styles.micButton, recording ? styles.recordingButton : styles.notRecordingButton]}
-                        onPress={recording ? stopRecording : startRecording}>
-                        {loadingText ? <ActivityIndicator size={"small"}/> : <Feather name="mic" size={24} color={styles.icons.color} />}
-                    </TouchableOpacity>
-                    
-                </View>
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+            <TextInput
+                multiline
+                value={transcribedText}
+                placeholder={summary !== null ? "Press once to record, twice to stop" : "Record: 1 tap, Stop: 2 taps"}
+                placeholderTextColor={styles.placeHolderTextColor.color}
+                onChangeText={setTranscribedText}
+                style={summary !== null ? styles.notesInput : styles.notesInputAlt}
+            />
+            <View style={styles.buttonBox}>
+                <TouchableOpacity
+                    style={[styles.micButton, recording ? styles.recordingButton : styles.notRecordingButton]}
+                    onPress={recording ? stopRecording : startRecording}>
+                    {loadingText ? <ActivityIndicator size={"small"} /> : <Feather name="mic" size={24} color={styles.icons.color} />}
+                </TouchableOpacity>
             </View>
+            {summary == null && (
+                <View style={[styles.buttonBox, styles.buttonBox]}>
+                    <SuggestionsModal />
+                </View>
+            )}
+        </View>
 
             {summary !== null && <View style={{flexDirection: 'row'}}>
                 <View style={styles.buttonBox}>
