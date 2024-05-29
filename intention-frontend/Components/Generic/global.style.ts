@@ -1,6 +1,8 @@
 import { StyleSheet } from "react-native"
 
 const useDarkMode = false
+// IGNORE ALL DARK MODE ASPECTS FOR NOW
+
 
 const styles = StyleSheet.create({
     // Accent color: #ffcc00
@@ -9,12 +11,22 @@ const styles = StyleSheet.create({
     // Input box background: #383838
     // Input box color: #bcbcbc
     // Tab bar color: #282828
+    // =============================================
+    // Azure Radiancce (Dark Blue): '#0493FB'
+    // Dodger Blue (Medium Blue): '#38ACFC'
+    // Malibu (Lighter Blue): '#53B4FB'
+    // Sail (White-Blue): '#BDE0F9'
     background: {
-        backgroundColor: useDarkMode ? '#161616': '#BDE0F9',
+        // Azure Radiance (Dark Blue)
+        backgroundColor: useDarkMode ? '#161616': '#38ACFC',
+    },
+
+    headerColor: {
+        color: useDarkMode ? '#282828': '#0493FB'
     },
 
     headerText: {
-        color: useDarkMode ? '#ffffff': '#0493FB',
+        color: useDarkMode ? '#ffffff': '#000000',
     },
 
     bodyText: {
@@ -26,7 +38,7 @@ const styles = StyleSheet.create({
     },
 
     accentColor: {
-        color: useDarkMode ? '#ffcc00': '#0033ff'
+        color: useDarkMode ? '#ffcc00': '#BDE0F9',
     },
 
     inputBox: {
@@ -35,11 +47,11 @@ const styles = StyleSheet.create({
     }, 
 
     tabBarBackground: {
-        color: useDarkMode ? '#282828': '#d7d7d7'
+        color: useDarkMode ? '#282828': '#0493FB'
     },
 
     horizontalDivider: {
-        color: useDarkMode ? '#282828': '#d7d7d7'
+        color: useDarkMode ? '#282828': '#BDE0F9'
     },
 
     buttonText: {
@@ -52,6 +64,10 @@ const styles = StyleSheet.create({
 
     tagText: {
         color: useDarkMode ? '#333333': '#cccccc'
+    },
+
+    tabIcons: {
+        color: useDarkMode ? '#0493FB': 'black'
     }
 
 

@@ -67,12 +67,13 @@ const ContactSync: React.FC = ()=> {
                 <Text style={{marginTop: 10}}>{error}</Text>
                 <View style= {{flexDirection: 'column'}}>
                     
-                    <View style={{width: '100%'}}>
+                    <View style={{width: '100%',}}>
                         <SearchBar
                             clicked={clicked}
                             searchPhrase={searchPhrase}
                             setSearchPhrase={setSearchPhrase}
                             setClicked={setClicked}/>
+                            
                     </View>
                     
                 </View>

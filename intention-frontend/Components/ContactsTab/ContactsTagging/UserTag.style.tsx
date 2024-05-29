@@ -1,11 +1,13 @@
 // UserTag.style.tsx
 
 import { StyleSheet } from 'react-native';
+import { styles as global } from "../../Generic/global.style";
 
  const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#000', // dark background
+    backgroundColor: '#38ACFC', // dark background
+    borderRadius: 20,
   },
   text: {
     color: '#fff', // white text for dark background
@@ -28,15 +30,16 @@ import { StyleSheet } from 'react-native';
     fontSize: 16,
   },
   button: {
-    backgroundColor: '#555', // buttons in light grey to contrast the dark background
+    backgroundColor: '#BDE0F9', // buttons in light grey to contrast the dark background
     padding: 10,
     margin: 10,
     borderRadius: 5,
     alignItems: 'center',
   },
   buttonText: {
-    color: '#fff',
+    color: 'black',
     fontSize: 18,
+    
   },
   modalView: {
     margin: 20,

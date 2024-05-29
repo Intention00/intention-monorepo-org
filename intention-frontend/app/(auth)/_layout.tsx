@@ -44,6 +44,9 @@ const TabsPage = () => {
         name="contactSync1"
         options={{
           headerTitle: 'Contacts',
+          headerStyle: {
+            backgroundColor: global.headerColor.color
+          },
           unmountOnBlur: true,
           tabBarIcon: ({ color, size }) => <Ionicons name="person-outline" size={size} color={color} />,
           tabBarLabel: 'Contacts',
@@ -56,6 +59,9 @@ const TabsPage = () => {
         name="reminders"
         options={{
           headerTitle: 'Upcoming Reminders',
+          headerStyle: {
+            backgroundColor: global.headerColor.color
+          },
           tabBarIcon: ({ color, size }) => <Ionicons name="calendar-outline" size={size} color={color} />,
           tabBarLabel: 'Reminders',
           headerRight: () => <LogoutButton />
@@ -67,6 +73,9 @@ const TabsPage = () => {
         name="profile"
         options={{
           headerTitle: 'My Profile',
+          headerStyle: {
+            backgroundColor: global.headerColor.color
+          },
           tabBarIcon: ({ color, size }) => <Ionicons name="person-outline" size={size} color={color} />,
           tabBarLabel: 'My Profile',
           headerRight: () => <LogoutButton />,
