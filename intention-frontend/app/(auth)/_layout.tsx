@@ -137,6 +137,17 @@ const TabsPage = () => {
         redirect={!isSignedIn}
       />
 
+      <Tabs.Screen
+        name="followup"
+        options={{
+          headerTitle: 'Follow Up',
+          tabBarIcon: ({ color, size }) => <Ionicons name="person-outline" size={size} color={color} />,
+          tabBarLabel: 'FollowUp',
+          headerRight: () => <LogoutButton />,
+        }}
+        redirect={!isSignedIn}
+      />
+
       
     </Tabs>
   );

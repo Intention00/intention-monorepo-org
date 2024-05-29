@@ -1,5 +1,7 @@
+
  export const backendAddress = "https://intention-server.up.railway.app"
 //  export const backendAddress = "http://192.168.1.27:5100"
+
 
 // Send contacts to backend api
 export const sendContactsToBackend = async (userID: number, contactsData: any[])=> {
@@ -288,6 +290,7 @@ export const sendReminderToBackend = async (contactID: number, reminder: Object)
 
         if (!response.ok) {
             const errorMessage = await response.json();
+            console.log(reminder)
             console.error(`Server returned an error: ${JSON.stringify(errorMessage)}`);
         }
     }
@@ -309,12 +312,13 @@ export const sendReminderEditToBackend = async (contactID: number, reminder: Obj
             headers: {
                 'Content-Type': 'application/json',
             },
+            
             body: JSON.stringify(reminder)
         })
 
         if (!response.ok) {
             const errorMessage = await response.json();
-            console.error(`Server returned an error: ${JSON.stringify(errorMessage)}`);
+            console.error(`Server returned an error damn: ${JSON.stringify(errorMessage)}`);
         }
     }
     catch (err) {
@@ -332,6 +336,10 @@ export const deleteReminderFromBackend = async (contactID: number)=> {
     try {
         const response = await fetch(`${backendAddress}/api/reminder?contactID=${contactID}`, {
             method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json' // Ensure the correct content type
+              },
+              body: JSON.stringify({ contactID })
         })
 
         if (!response.ok) {
@@ -560,6 +568,21 @@ export const receiveUserModelNameFromBackend = async (userID: number)=> {
     }
 }
 
+
+export const sendLastContactedToBackend = async (contactID: number, currentDate: string)=> {
+    try {
+        const response = await fetch(`${backendAddress}/api/lastcontacted/${contactID}/${currentDate}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({contactID: contactID, currentDate: currentDate})
+              } 
+    catch (error) {
+        throw new Error(`Error sending lastContacted frontend to backend: ${error}`);
+    }
+}
+
 /**
  * Sends the favorite question to the backend
  * 
@@ -575,14 +598,15 @@ export const sendFavoriteQuestionToBackend = async (contactID: number, question:
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify(question)
-        })
 
+        })
         if (!response.ok) {
-            const errorMessage = await response.json();
-            console.error(`Server returned an error: ${JSON.stringify(errorMessage)}`);
-        }
-    }
+                const errorMessage = await response.json();
+                console.error(`Server returned an error: ${JSON.stringify(errorMessage)}`);
+              }
+          }
     catch (err) {
-        throw new Error(`Error saving favorite question to backend: ${err}`);
+          throw new Error(`Error saving favorite question to backend: ${err}`);
     }
 }
+

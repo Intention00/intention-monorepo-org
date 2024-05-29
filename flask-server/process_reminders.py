@@ -1,6 +1,9 @@
 from database.db import DBConnection
+
+import json
 from datetime import datetime
 import pytz
+
 
 class ProcessReminders():
     def __init__(self, user_id = -1) -> None:
@@ -47,12 +50,15 @@ class ProcessReminders():
                 
     # Adds the reminder for the specified contact
     def add_contact_reminder(self, contact_id, reminder):
+       
+        contact_id_int = int(contact_id)
+        print(type(contact_id_int))
         with DBConnection() as db_conn:
             if db_conn:
                 sql_statement = """
                     INSERT INTO Reminders (ContactID, StartDateTime, Frequency) VALUES (%s, %s, %s);
                 """
-                db_conn.execute(sql_statement, (contact_id, reminder['dateTime'], reminder['frequency']))
+                db_conn.execute(sql_statement, (contact_id_int, reminder['dateTime'], reminder['frequency']))
                 
     # Updates the reminder for the specified contact
     def edit_contact_reminder(self, contact_id, reminder):
@@ -78,7 +84,7 @@ class ProcessReminders():
         with DBConnection() as db_conn:
             if db_conn:
                 sql_statement = """
-                    SELECT c.ContactID, c.FirstName, c.LastName, c.Phone, r.StartDateTime, r.Frequency 
+                    SELECT c.ContactID, c.FirstName, c.LastName, c.Phone, r.StartDateTime, r.Frequency, r.LastContacted 
                     FROM Reminders AS r INNER JOIN Contact AS c ON 
                     r.ContactID = c.ContactID WHERE UserID = %s;
                 """
@@ -100,7 +106,8 @@ class ProcessReminders():
                             },
                             'reminder': {
                                 'dateTime': seattle_timezone.localize(reminder['StartDateTime'], '%Y-%m-%d %H:%M:%S'),
-                                'frequency': reminder['Frequency']
+                                'frequency': reminder['Frequency'],
+                                'lastContacted': reminder['LastContacted']
                             }
                         } for reminder in db_reminders
                     ]
@@ -109,3 +116,27 @@ class ProcessReminders():
                 except Exception as err:
                     print(f'Reminders retrieval failed: {err}')
                     return None
+                
+
+    def setLastContacted(self, contactID, currentDate):
+        try:
+            with DBConnection() as db_conn:
+                if db_conn:
+                    sql_statement = """
+                    UPDATE Reminders SET LastContacted = %s WHERE ContactID = %s;
+                """
+                    db_conn.execute(sql_statement, (currentDate, contactID))
+        except Exception as e:
+        # Handle the error
+            print(f"Error occurred while setting last contacted: {e}")
+
+
+### how do i add last contacted to reminder by contact id 
+
+   # def add_last_contacted(self, contact_id, reminder):
+       
+        
+                
+                
+
+
