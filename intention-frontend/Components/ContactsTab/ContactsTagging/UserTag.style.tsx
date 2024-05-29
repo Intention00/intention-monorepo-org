@@ -7,7 +7,7 @@ import { styles as global } from '../../Generic/global.style';
  const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: global.tabBarBackground.color, // dark background
+    backgroundColor: global.background.backgroundColor, // dark background
   },
   text: {
     color: '#fff', // white text for dark background
