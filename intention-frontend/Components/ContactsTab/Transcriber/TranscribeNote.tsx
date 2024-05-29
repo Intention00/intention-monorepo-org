@@ -149,7 +149,15 @@ const TranscriberNote: React.FC <{contact}> = ({contact})=> {
     return (
         <View style={{flex: 1, flexDirection: "column"}}>
             
-            
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                {summary == null ? (
+                    <Text>For new Contacts</Text>
+                ) : (
+                    <Text>For old Contacts</Text>
+                )}
+            </View>
+
+
             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
             <TextInput
                 multiline
