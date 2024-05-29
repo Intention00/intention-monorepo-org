@@ -1,10 +1,9 @@
 {
   "expo": {
-    
     "scheme": "intention-auth",
     "name": "Intention",
     "slug": "intention-monorepo-all",
-    "version": "0.8.7.1",
+    "version": "0.9.1",
     "orientation": "portrait",
     "icon": "./assets/logo.png",
     "userInterfaceStyle": "light",
@@ -34,10 +33,10 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "buildNumber" : "2",
+      "buildNumber": "2",
       "infoPlist": {
         "NSContactsUsageDescription": "Allow $(PRODUCT_NAME) to access your contacts.",
-        "NSMicrophoneUsageDescription" : "Allow $(PRODUCT_NAME) to get user voice memos to help retrieve useful information that the user permits us to have"
+        "NSMicrophoneUsageDescription": "Allow $(PRODUCT_NAME) to get user voice memos to help retrieve useful information that the user permits us to have"
       },
       "bundleIdentifier": "com.intention.intention"
     },
