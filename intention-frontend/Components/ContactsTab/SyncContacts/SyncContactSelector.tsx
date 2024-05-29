@@ -112,8 +112,12 @@ const SyncContactSelector: React.FC<{ toggleModalVisibility, updateContacts }> =
                         }}
                         onPress={saveSelectedContacts}>
                         <Text style={styles.saveText}>Save</Text>
+                    </TouchableOpacity>
                 
                   </View>
+                </View>
+            </View>
+        </View>
     );
 };
 

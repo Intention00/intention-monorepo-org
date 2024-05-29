@@ -1,6 +1,6 @@
 
 import { View, Text, TextInput, TouchableOpacity, Modal, Button, ActivityIndicator, Vibration } from "react-native"
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import { Audio } from "expo-av"
 import { sendNotesToBackend, sendFinalNotesToBackend, getSummaryFromBackend, backendAddress, sendFavoriteQuestionToBackend } from "../../Generic/backendService";
@@ -229,7 +229,7 @@ const TranscriberNote: React.FC <{contact}> = ({contact})=> {
                         onPressOut={() => {
                             Vibration.vibrate(130);
                         }}
-                        onPress={() => sendFinalNotesToBackend(transcribedText, contact.contactID)}
+                        // onPress={() => sendFinalNotesToBackend(transcribedText, contact.contactID)}
                         onPress={handleSaveClick}
                         disabled={saving}>
                         //spacing
