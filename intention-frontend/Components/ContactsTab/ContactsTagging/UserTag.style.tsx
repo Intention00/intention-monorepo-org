@@ -1,19 +1,23 @@
 // UserTag.style.tsx
 
 import { StyleSheet } from 'react-native';
+
 import { styles as global } from "../../Generic/global.style";
+
 
  const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: global.accentColor.color,
     borderRadius: 20,
+
   },
   text: {
     color: global.headerText.color, // white text for dark background
     margin: 10,
   },
   scrollView: {
+    color: '#fff' ,
     marginHorizontal: 20,
   },
   tag: {
