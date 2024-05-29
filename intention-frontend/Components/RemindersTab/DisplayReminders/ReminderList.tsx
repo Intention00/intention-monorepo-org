@@ -15,6 +15,10 @@ const ReminderList: React.FC <{reminders: any[]}> = ({reminders})=> {
     };
 
     const renderHourlyReminders = (hourlyReminders) => {
+        if (!Array.isArray(hourlyReminders)) {
+            return null; // or any fallback UI if needed
+        }
+    
         return (
             <View>
                 {hourlyReminders.map((reminder, index) => (
@@ -29,6 +33,7 @@ const ReminderList: React.FC <{reminders: any[]}> = ({reminders})=> {
             </View>
         );
     };
+    
 
     // Helper function to render each hour and its associated reminders
     const renderHourlyBoxes = () => {

@@ -11,6 +11,7 @@ interface Reminder {
     reminder: {
         dateTime: string,
         frequency: string,
+        LastContacted: string
     }
     
 }

@@ -5,6 +5,7 @@ import { useState } from "react";
 import { styles } from "./ContactList.style";
 import { SearchBar } from "../SyncContacts/SyncSearch"
 
+
 const ContactList: React.FC <{contacts: any[]}> = ({contacts})=> {
     const [selectedContact, setSelectedContact] = useState(undefined);
     const [modalVisible, setModalVisible] = useState(false);
@@ -29,7 +30,6 @@ const ContactList: React.FC <{contacts: any[]}> = ({contacts})=> {
                         style={styles.contactItem} 
                         underlayColor={'rgba(10, 10, 10, 0.25)'} 
                         onPress={()=> {onContactClick(item)}}>
-                        
                         <ContactItem contact={item}></ContactItem>
                     </TouchableHighlight>
                     <View style={styles.horizontalDivider}></View>

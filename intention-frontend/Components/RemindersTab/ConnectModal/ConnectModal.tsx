@@ -4,8 +4,9 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useState, useEffect } from "react";
 import { YesConnectedModal } from "./YesConnectedModal";
 import { GenerateQuestions } from "./Transcriber/GenerateQuestions";
-import { receiveScoreFromBackend, sendScoreToBackend } from "../../Generic/backendService"
+import { receiveScoreFromBackend, sendScoreToBackend, sendLastContactedToBackend } from "../../Generic/backendService"
 import { ContactItem } from "../../ContactsTab/DisplayContacts/ContactItem";
+
 
 export const sendScore =() => {
     console.log("IT WORKS")
@@ -41,6 +42,18 @@ const ConnectModal: React.FC <{fullReminder, toggleModalVisibility}> = ({fullRem
         if (!scoreUpdated) {
             const tempScore = connectionScore + 1
             setConnectionScore(tempScore);
+            const lastContacted = new Date(); // Current date and time
+
+            const year = lastContacted.getFullYear(); // Get the year
+            const month = lastContacted.getMonth() + 1; // Get the month (Note: month is zero-based, so we add 1)
+            const day = lastContacted.getDate(); // Get the day
+            
+            // Format the date into a string
+            const formattedLastContacted = `${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`;
+            console.log(formattedLastContacted)
+            await sendLastContactedToBackend( contact.contactID, formattedLastContacted);
+            
+
             await sendScoreToBackend(contact.contactID, tempScore);
             setScoreUpdated(true);
             console.log(`Score: ${tempScore}`);

@@ -308,7 +308,7 @@ def return_contact_reminder():
     try: 
         # getting contact_id from api call
         contact_id = request.args.get('contactID')
-
+        
         # retrieving reminder from db
         reminder = reminders_processor.retrieve_contact_reminder(contact_id)
         return jsonify(reminder), 200
@@ -320,19 +320,25 @@ def return_contact_reminder():
 @app.route("/api/reminder", methods=['POST'])
 def insert_contact_reminder():
     try: 
+        # Extracting data from JSON body
         # getting contact_id from api call
         contact_id = request.args.get('contactID')
-
-        # Extracting data
         data = request.get_json()
-        reminder_data = data['reminder']
+        
+        
+        reminder_data = data
 
-        # insert reminder to db
+        # Check if contact_id or reminder_data is None
+        if contact_id is None or reminder_data is None:
+            return jsonify({'message': 'Missing contactID or reminder data'}), 400
+
+        # Insert reminder to db
         reminders_processor.add_contact_reminder(contact_id, reminder_data)
         return jsonify({'message': 'Reminder added.'}), 204
     
     except Exception as err:
         return jsonify({'message': str(err)}), 500
+
     
 # Edits the reminder for a specific contact from the database
 @app.route("/api/reminder", methods=['PUT'])
@@ -356,6 +362,9 @@ def edit_contact_reminder():
 @app.route("/api/reminder", methods=['DELETE'])
 def delete_contact_reminder():
     try: 
+        # Retrieve notification data from request
+        notification_data = request.get_json()
+        
         # getting contact_id from api call
         contact_id = request.args.get('contactID')
 
@@ -453,6 +462,38 @@ def set_model_name():
     
     except Exception as err:
         return jsonify({'message': str(err)}), 500
+    
+
+@app.route("/api/lastcontacted/<contact_id>/<current_date>", methods =['PUT'])
+def set_last_contact(contact_id, current_date): 
+    reminders_processor.setLastContacted( contactID= contact_id, currentDate= current_date,)
+    return jsonify({'message': 'lastContacted name edited.'}), 204
+
+
+
+
+
+
+# Inserts the selected question to the database
+@app.route("/api/question/save", methods=['POST'])
+def save_selected_question():
+    try: 
+        # getting contact_id from api call
+        contact_id = request.args.get('contactID')
+
+        # Extracting data
+        question = request.get_json()
+
+        prompt = notes_processor.get_latest_prompt(contact_id)
+
+        # Save the question prompt combo to db for finetuning later
+        contacts_processor.save_favorite_question(contact_id, prompt, question)
+        
+        return jsonify({'message': 'Question added.'}), 204
+    
+    except Exception as err:
+        return jsonify({'message': str(err)}), 500
+
 
 if __name__ == "__main__":
     # added host to test, it seems to make it work on android
