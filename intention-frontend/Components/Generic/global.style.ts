@@ -1,6 +1,8 @@
 import { StyleSheet } from "react-native"
 
-const useDarkMode = true
+const useDarkMode = false
+// IGNORE ALL DARK MODE ASPECTS FOR NOW
+
 
 const styles = StyleSheet.create({
     // Accent color: #ffcc00
@@ -9,8 +11,19 @@ const styles = StyleSheet.create({
     // Input box background: #383838
     // Input box color: #bcbcbc
     // Tab bar color: #282828
+    // =============================================
+    // Azure Radiancce: '#0493FB'
+    // Dodger Blue: '#38ACFC'
+    // Malibu: '#53B4FB'
+    // Sail: '#BDE0F9'
     background: {
-        backgroundColor: useDarkMode ? '#161616': '#e9e9e9',
+        // (Dark Blue)
+        backgroundColor: useDarkMode ? '#161616': '#162b4c',
+    },
+
+    headerColor: {
+        // Blue?
+        color: useDarkMode ? '#282828': '#0493FB'
     },
 
     headerText: {
@@ -18,40 +31,54 @@ const styles = StyleSheet.create({
     },
 
     bodyText: {
-        color: useDarkMode ? '#ffffff': '#000000',
+        // White
+        color: useDarkMode ? '#ffffff': '#fafafa',
     },
 
     subText: {
-        color: useDarkMode ? '#bcbcbc': '#434343',
+        // White
+        color: useDarkMode ? '#bcbcbc': '#fafafa',
     },
 
     accentColor: {
-        color: useDarkMode ? '#ffcc00': '#0033ff'
+        // Light Blue
+        color: useDarkMode ? '#ffcc00': '#90CAF9',
     },
 
     inputBox: {
+        // White
         backgroundColor: useDarkMode ? '#383838': '#c7c7c7',
+        // Shadowy Black
         color: useDarkMode ? '#bcbcbc': '#434343',
     }, 
 
     tabBarBackground: {
-        color: useDarkMode ? '#282828': '#d7d7d7'
+        // Blue
+        color: useDarkMode ? '#282828': '#0493FB'
     },
 
     horizontalDivider: {
-        color: useDarkMode ? '#282828': '#d7d7d7'
+        // Shadowy Black
+        color: useDarkMode ? '#282828': '#434343'
     },
 
     buttonText: {
-        color: useDarkMode ? '#191919': '#e6e6e6'
+        // Black
+        color: useDarkMode ? '#191919': '#161616'
     },
 
     tagBackground: {
+        // Black
         color: useDarkMode ? '#f0f0f0': '#0f0f0f'
     },
 
     tagText: {
+        // White
         color: useDarkMode ? '#333333': '#cccccc'
+    },
+
+    tabIcons: {
+        color: useDarkMode ? '#0493FB': 'black'
     }
 
 

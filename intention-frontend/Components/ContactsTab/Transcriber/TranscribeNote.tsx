@@ -172,11 +172,13 @@ const TranscriberNote: React.FC <{contact}> = ({contact})=> {
             {summary !== null ? (
                 null
             ) : <View style={styles.textBox}>
-                <Text style={styles.QuestionText}>Feel free to answer any or all of these questions.
-                    {"\n"}
-                    {"\n"}What sparked your bond?
-                    {"\n"}What role do they play in your life?
-                    {"\n"}How do you value this person?</Text></View>}
+                    <Text style={styles.QuestionText}>Feel free to answer any or all of these questions.
+                        {"\n"}
+                        {"\n"}What sparked your bond?
+                        {"\n"}What role do they play in your life?
+                        {"\n"}How do you value this person?
+                    </Text>
+                </View>}
             {/* Transcriber section */}
             <View style={{flexDirection: 'row'}}>
                 <TextInput

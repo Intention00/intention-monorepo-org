@@ -34,16 +34,16 @@ const ContactModal: React.FC <{contact, toggleModalVisibility}> = ({contact, tog
                         <View style={styles.modalNameBox}>
                             <Text style={styles.modalText}>{`${contact.firstName} ${contact.lastName}`}</Text>
                         </View>
-
                     </View>
 
+                    {/* Tagging System */}
                     <View> 
                         <ContactTags contact={contact}></ContactTags>
                     </View>         
                     
+                    {/* Transcriber Note */}
                     <ScrollView style={{marginBottom: 30, marginTop: 10}}>
                         <TranscriberNote contact={contact}></TranscriberNote>
-                        
                     </ScrollView>
                     
                 </View>
