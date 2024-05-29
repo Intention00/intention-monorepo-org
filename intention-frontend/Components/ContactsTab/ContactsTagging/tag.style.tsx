@@ -14,7 +14,7 @@ import { styles as global } from '../../Generic/global.style';
     backgroundColor: global.accentColor.color,
     width: 'auto',
     paddingVertical: 10,
-    paddingHorizontal: 10,
+    paddingHorizontal: 15,
     borderRadius: 5,
     marginRight: 5,
     marginLeft: 5,
