@@ -21,7 +21,7 @@ export const LogoutButton = () => {
   return (
 
     <View>
-      <Pressable onPressOut={() => {Vibration.vibrate(130)}} onPress={doLogout} style={{ marginRight: 10 }}>
+      <Pressable onPressOut={() => {Vibration.vibrate(130)}} onPress={()=> setIsModalVisible(true)} style={{ marginRight: 10 }}>
       <Ionicons name="log-out-outline" size={24} color={global.bodyText.color} />
     </Pressable>
 
