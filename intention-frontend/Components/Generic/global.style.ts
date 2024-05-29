@@ -12,16 +12,17 @@ const styles = StyleSheet.create({
     // Input box color: #bcbcbc
     // Tab bar color: #282828
     // =============================================
-    // Azure Radiancce (Dark Blue): '#0493FB'
-    // Dodger Blue (Medium Blue): '#38ACFC'
-    // Malibu (Lighter Blue): '#53B4FB'
-    // Sail (White-Blue): '#BDE0F9'
+    // Azure Radiancce: '#0493FB'
+    // Dodger Blue: '#38ACFC'
+    // Malibu: '#53B4FB'
+    // Sail: '#BDE0F9'
     background: {
-        // Azure Radiance (Dark Blue)
-        backgroundColor: useDarkMode ? '#161616': '#38ACFC',
+        // (Dark Blue)
+        backgroundColor: useDarkMode ? '#161616': '#162b4c',
     },
 
     headerColor: {
+        // Blue?
         color: useDarkMode ? '#282828': '#0493FB'
     },
 
@@ -30,39 +31,49 @@ const styles = StyleSheet.create({
     },
 
     bodyText: {
-        color: useDarkMode ? '#ffffff': '#000000',
+        // White
+        color: useDarkMode ? '#ffffff': '#fafafa',
     },
 
     subText: {
-        color: useDarkMode ? '#bcbcbc': '#434343',
+        // White
+        color: useDarkMode ? '#bcbcbc': '#fafafa',
     },
 
     accentColor: {
-        color: useDarkMode ? '#ffcc00': '#BDE0F9',
+        // Light Blue
+        color: useDarkMode ? '#ffcc00': '#90CAF9',
     },
 
     inputBox: {
+        // White
         backgroundColor: useDarkMode ? '#383838': '#c7c7c7',
+        // Shadowy Black
         color: useDarkMode ? '#bcbcbc': '#434343',
     }, 
 
     tabBarBackground: {
+        // Blue
         color: useDarkMode ? '#282828': '#0493FB'
     },
 
     horizontalDivider: {
-        color: useDarkMode ? '#282828': '#BDE0F9'
+        // Shadowy Black
+        color: useDarkMode ? '#282828': '#434343'
     },
 
     buttonText: {
-        color: useDarkMode ? '#191919': '#e6e6e6'
+        // Black
+        color: useDarkMode ? '#191919': '#161616'
     },
 
     tagBackground: {
+        // Black
         color: useDarkMode ? '#f0f0f0': '#0f0f0f'
     },
 
     tagText: {
+        // White
         color: useDarkMode ? '#333333': '#cccccc'
     },
 

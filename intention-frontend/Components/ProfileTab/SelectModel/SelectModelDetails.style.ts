@@ -8,6 +8,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: 'rgba(0, 0, 0, 0.5)',
+        
     },
     modalView: {
         backgroundColor: global.background.backgroundColor,
@@ -16,11 +17,13 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         shadowOpacity: 0.25,
         shadowRadius: 4,
+        
     },
     modalText: {
         marginBottom: 15,
         textAlign: 'center',
         fontWeight: 'bold',
+        color: global.bodyText.color,
         
     },
     button: {

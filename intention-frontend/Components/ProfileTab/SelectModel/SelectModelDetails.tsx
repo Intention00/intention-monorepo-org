@@ -28,10 +28,10 @@ const SelectModelDetails: React.FC = ()=> {
                     <View style={styles.modalView}>
                         <Text style={styles.modalText}>AI Model Comparison</Text>
                         <View>
-                            <Text>GPT-4: Versatility, natural language generation</Text>
-                            <Text>Llama3: Efficiency, task-specific focus</Text>
-                            <Text>Mixtral: Creativity, storytelling</Text>
-                            <Text>WizardLM: Logical reasoning, problem-solving</Text>
+                            <Text style={styles.modalText}>GPT-4: Versatility, natural language generation</Text>
+                            <Text style={styles.modalText}>Llama3: Efficiency, task-specific focus</Text>
+                            <Text style={styles.modalText}>Mixtral: Creativity, storytelling</Text>
+                            <Text style={styles.modalText}>WizardLM: Logical reasoning, problem-solving</Text>
                         </View>
                         <TouchableOpacity
                             style={styles.button}

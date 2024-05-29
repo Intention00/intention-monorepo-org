@@ -6,11 +6,11 @@ import { styles as global } from "../../Generic/global.style";
  const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#38ACFC', // dark background
+    backgroundColor: global.accentColor.color,
     borderRadius: 20,
   },
   text: {
-    color: '#fff', // white text for dark background
+    color: global.headerText.color, // white text for dark background
     margin: 10,
   },
   scrollView: {
@@ -30,14 +30,14 @@ import { styles as global } from "../../Generic/global.style";
     fontSize: 16,
   },
   button: {
-    backgroundColor: '#BDE0F9', // buttons in light grey to contrast the dark background
+    backgroundColor: global.background.backgroundColor, // buttons in light grey to contrast the dark background
     padding: 10,
     margin: 10,
     borderRadius: 5,
     alignItems: 'center',
   },
   buttonText: {
-    color: 'black',
+    color: 'white',
     fontSize: 18,
     
   },
