@@ -169,6 +169,7 @@ const TranscriberNote: React.FC <{contact}> = ({contact})=> {
     return (
         // Modal Container
         <View style={{flex: 1, flexDirection: "column"}}>
+
             {/* Toggle Button for the Hidden questions */}
             {summary == null &&(
                 <TouchableOpacity
@@ -192,6 +193,9 @@ const TranscriberNote: React.FC <{contact}> = ({contact})=> {
               </View>
             )}
             
+
+            {/* Transcriber section */}
+
             <View style={{flexDirection: 'row'}}>
                 <TextInput
                     multiline

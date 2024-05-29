@@ -34,6 +34,7 @@ const styles = StyleSheet.create ({
     QuestionText: {
         color: global.inputBox.color,
         fontSize: RFPercentage(2),
+
         textAlign: 'center',
         padding: 5,
     },
@@ -97,7 +98,7 @@ const styles = StyleSheet.create ({
     },
 
     questionText: {
-        color: global.bodyText.color,
+        color: global.inputBox.backgroundColor,
     },
 
     horizontalDivider: {

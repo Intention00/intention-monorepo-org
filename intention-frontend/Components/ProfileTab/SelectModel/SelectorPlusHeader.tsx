@@ -1,7 +1,9 @@
-import { View, Text} from "react-native";
+import React, { useState } from 'react';
+import { View, Text, TouchableOpacity, Modal, StyleSheet} from "react-native";
 import { SelectModel } from "./SelectModel";
 import { styles } from "./SelectorPlusHeader.style";
-
+import {styles as global} from '../../Generic/global.style';
+import { SelectModelDetails } from './SelectModelDetails';
 
 const SelectorPlusHeader: React.FC = ()=> {
 
@@ -11,7 +13,11 @@ const SelectorPlusHeader: React.FC = ()=> {
             <Text style={styles.selectorText}>
                 Select Your Model to Generate Questions
             </Text>
-            <SelectModel></SelectModel>
+            <View style={{flexDirection: 'column'}}>
+                <SelectModel></SelectModel>
+                <SelectModelDetails></SelectModelDetails>
+            </View>
+            
         </View>
     )
 
