@@ -1,8 +1,9 @@
 import { useSignIn } from '@clerk/clerk-expo';
 import { Link } from 'expo-router';
 import React, { useState } from 'react';
-import { View, StyleSheet, TextInput, Button, Pressable, Text, Alert } from 'react-native';
+import { View, StyleSheet, TextInput, Button, Pressable, Text, Alert, TouchableOpacity } from 'react-native';
 import Spinner from 'react-native-loading-spinner-overlay';
+import {styles as global} from '../../Components/Generic/global.style'
 
 const Login = () => {
   const { signIn, setActive, isLoaded } = useSignIn();
@@ -38,33 +39,44 @@ const Login = () => {
       <TextInput autoCapitalize="none" placeholder="intention@w.com" value={emailAddress} onChangeText={setEmailAddress} style={styles.inputField} />
       <TextInput placeholder="password" value={password} onChangeText={setPassword} secureTextEntry style={styles.inputField} onSubmitEditing={onSignInPress}/>
 
-      <Button onPress={onSignInPress} title="Login" color={'#6c47ff'}></Button>
+      {/* <Button onPress={onSignInPress} title="Login" color={global.accentColor.color}>
+
+      </Button> */}
+      <View style={styles.buttonContainer}>
+        <TouchableOpacity onPress={onSignInPress} style={styles.loginButton}>
+          <Text style={styles.buttonText}>
+            Login
+          </Text>
+        </TouchableOpacity>
+      </View>
+      
 
       <Link href="/reset" asChild>
         <Pressable style={styles.button}>
-          <Text>Forgot password?</Text>
+          <Text style={styles.text}>Forgot password?</Text>
         </Pressable>
       </Link>
       <Link href="/register" asChild>
         <Pressable style={styles.button}>
-          <Text>Create Account</Text>
+          <Text style={styles.text}>Create Account</Text>
         </Pressable>
       </Link>
     </View>
   );
 };
 
-const styles = StyleSheet.create({
+export const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
     padding: 20,
+    backgroundColor: global.background.backgroundColor,
   },
   inputField: {
     marginVertical: 4,
     height: 50,
     borderWidth: 1,
-    borderColor: '#6c47ff',
+    borderColor: global.accentColor.color,
     borderRadius: 4,
     padding: 10,
     backgroundColor: '#fff',
@@ -73,6 +85,26 @@ const styles = StyleSheet.create({
     margin: 8,
     alignItems: 'center',
   },
+  text: {
+    color: global.bodyText.color,
+  },
+  buttonContainer: {
+    flexDirection: 'row',
+     width: "100%",
+  },
+  loginButton: {
+    backgroundColor: global.accentColor.color,
+    padding: 6,
+    borderRadius: 2,
+    alignItems: 'center',
+    width:'100%',
+    height: '120%',
+},
+
+  buttonText: {
+    fontWeight:'bold',
+    fontSize: 15,
+  }
 });
 
 export default Login;
