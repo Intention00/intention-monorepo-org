@@ -1,6 +1,6 @@
 
-// export const backendAddress = "https://intention-server.up.railway.app"
- export const backendAddress = "http://127.0.0.1:5100"
+ export const backendAddress = "https://intention-server.up.railway.app"
+//  export const backendAddress = "http://192.168.1.27:5100"
 
 
 // Send contacts to backend api
@@ -568,6 +568,7 @@ export const receiveUserModelNameFromBackend = async (userID: number)=> {
     }
 }
 
+
 export const sendLastContactedToBackend = async (contactID: number, currentDate: string)=> {
     try {
         const response = await fetch(`${backendAddress}/api/lastcontacted/${contactID}/${currentDate}`, {
@@ -576,14 +577,36 @@ export const sendLastContactedToBackend = async (contactID: number, currentDate:
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({contactID: contactID, currentDate: currentDate})
-        })
-
-        if (!response.ok) {
-            const errorMessage = await response.json();
-            console.error(`Server returned an error: ${JSON.stringify(errorMessage)}`);
-        }
-    } 
+              } 
     catch (error) {
         throw new Error(`Error sending lastContacted frontend to backend: ${error}`);
     }
 }
+
+/**
+ * Sends the favorite question to the backend
+ * 
+ * @param contactID
+ * @param question
+ * @returns nothing
+ */
+export const sendFavoriteQuestionToBackend = async (contactID: number, question: string)=> {
+    try {
+        const response = await fetch(`${backendAddress}/api/question/save?contactID=${contactID}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(question)
+
+        })
+        if (!response.ok) {
+                const errorMessage = await response.json();
+                console.error(`Server returned an error: ${JSON.stringify(errorMessage)}`);
+              }
+          }
+    catch (err) {
+          throw new Error(`Error saving favorite question to backend: ${err}`);
+    }
+}
+

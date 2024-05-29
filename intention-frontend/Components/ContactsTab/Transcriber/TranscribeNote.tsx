@@ -1,16 +1,14 @@
-import { View, Text, TextInput, TouchableOpacity, Modal, Button } from "react-native"
-import React, { useEffect, useState } from "react";
-import { Audio } from "expo-av"
-import { sendNotesToBackend, sendFinalNotesToBackend } from "../../Generic/backendService";
+import { View, Text, TextInput, TouchableOpacity, Modal, Button, ActivityIndicator, Vibration } from "react-native";
+import React, { useState, useEffect } from "react";
+import { Audio } from "expo-av";
+import { sendNotesToBackend, sendFinalNotesToBackend, getSummaryFromBackend, backendAddress, sendFavoriteQuestionToBackend } from "../../Generic/backendService";
 import { Feather } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
-import { backendAddress } from "../../Generic/backendService";
 import * as Clipboard from 'expo-clipboard';
 import { styles } from "./TranscribeNote.style";
 import { shareQuestion } from "./ShareQuestions/shareQuestion";
 import { SummaryModal } from "./SummaryModal";
-import { getSummaryFromBackend } from "../../Generic/backendService";
 
 const TranscriberNote: React.FC <{contact}> = ({contact})=> {
     // Transcription Declarations
@@ -18,8 +16,11 @@ const TranscriberNote: React.FC <{contact}> = ({contact})=> {
     const [permissionResponse, requestPermission] = Audio.usePermissions();
     const [audioUri, setAudioUri] = useState(undefined);
     const [summaryModalVisible, setSummaryModalVisible] = useState(false);
+    const [loading, setLoading] = useState(false);
     const [summaryWait, setSummaryWait] = useState(false);
     const [saving, setSaving] = useState(false);
+    const [loadingText, setLoadingText] = useState(false);
+    const [showInitialQuestions, setShowInitialQuestions] = useState(true); // Added state variable
 
     // Microphone button START-RECORDING
     async function startRecording() {
@@ -47,6 +48,7 @@ const TranscriberNote: React.FC <{contact}> = ({contact})=> {
     async function stopRecording() {
         console.log('Stopping recording..');
         setRecording(undefined);
+        setLoadingText(true);
 
         await recording.stopAndUnloadAsync();
         await Audio.setAudioModeAsync({allowsRecordingIOS: false});
@@ -58,6 +60,7 @@ const TranscriberNote: React.FC <{contact}> = ({contact})=> {
         console.log("URI TEST VALUE AT END IS:", audioUri);
 
         const transcribedNotes = await sendNotesToBackend(uri);
+        setLoadingText(false);
         if (transcribedNotes) {
             setTranscribedText(transcribedNotes);
         }
@@ -66,12 +69,7 @@ const TranscriberNote: React.FC <{contact}> = ({contact})=> {
     // testing text input button
     const [transcribedText, setTranscribedText] = useState('')
 
-
-    // ==============================================================================================
     // AI Generations
-    // ==============================================================================================
-    
-    // AI Generating Declarations
     const [summary, setSummary] = useState<string>("");
     const [questions, setQuestions] = useState<string[]>([]);
 
@@ -80,68 +78,51 @@ const TranscriberNote: React.FC <{contact}> = ({contact})=> {
     // Summarize Button Logic
     const generateSummary = async () => {
         try {
-            // Make a network request to Flask server
-            // const response = await fetch(`${backendAddress}/generate-summary`, {
-            //     method: 'POST',
-            //     headers: {
-            //         'Content-Type': 'application/json',
-            //     },
-            //     body: JSON.stringify({ text: transcribedText }), // Use the text from the top textbox
-            // });
             const generatedSummary = await getSummaryFromBackend(contact.contactID);
-
-            // Update the state with the generated summary
             setSummary(generatedSummary);
-            
         } catch (error) {
             console.error('Error generating summary:', error);
         }
     };
 
     const generateQuestions = async () => {
+        setLoading(true);
         try {
-            // Make a network request to Flask server
-            const response = await fetch(`${backendAddress}/api/generate-questions?contactID=${contact.contactID}
-            &firstName=${contact.firstName}`, {
+            const response = await fetch(`${backendAddress}/api/generate-questions?contactID=${contact.contactID}&firstName=${contact.firstName}`, {
                 method: 'GET',
             });
-    
-            // Handle the response
             const data = await response.json();
             const generatedQuestions = data.questions;
     
-            // Ensure generatedQuestions is an array before setting state
             if (Array.isArray(generatedQuestions)) {
-                // Update the state with the generated questions
                 setQuestions(generatedQuestions);
+                setLoading(false);
             } else {
                 console.error('Generated questions is not an array:', generatedQuestions);
+                setLoading(false);
             }
     
         } catch (error) {
             console.error('Error generating questions:', error);
+            setLoading(false);
         }
     };
     
     const copyToClipboard = async (text) => {
         await Clipboard.setStringAsync(text);
-      };
+    };
       
     const handleQuestionClick = (question) => {
-        // Alert.alert('Question Copied', '', 
-        //     [{text: 'Ok', onPress: ()=> console.log('Ok pressed.')}]);
-        // copyToClipboard(question);
+        sendFavoriteQuestionToBackend(contact.contactID, question);
         shareQuestion(question);
     }
 
     const handleSaveClick = async () => {
-        // Check if already saving
         if (saving) {
             console.log('Waiting for previous save operation to complete.');
             return;
         }   
         try {
-            // Set saving status to true
             setSaving(true);
             setSummaryWait(true);
             await sendFinalNotesToBackend(transcribedText, contact.contactID);
@@ -152,7 +133,6 @@ const TranscriberNote: React.FC <{contact}> = ({contact})=> {
             console.error('Error saving note:', error);
         } 
         finally {
-            // Reset saving status to false after save operation completes
             setSaving(false);
         }
         
@@ -166,23 +146,32 @@ const TranscriberNote: React.FC <{contact}> = ({contact})=> {
     }, [])
     
     return (
-        // Modal Container
         <View style={{flex: 1, flexDirection: "column"}}>
-            {/* For new Contacts only */}
-            {summary !== null ? (
-                null
-            ) : <View style={styles.textBox}>
-                <Text style={styles.QuestionText}>Feel free to answer any or all of these questions.
-                    {"\n"}
-                    {"\n"}What sparked your bond?
-                    {"\n"}What role do they play in your life?
-                    {"\n"}How do you value this person?</Text></View>}
-            {/* Transcriber section */}
+            {summary == null && (
+                <TouchableOpacity
+                    style={styles.infoButton}
+                    onPress={() => setShowInitialQuestions(!showInitialQuestions)}>
+                    <Feather name="info" size={24} color={styles.icons.color} />
+                </TouchableOpacity>
+            )}
+
+            {showInitialQuestions && (
+              <View style={styles.textBox}>
+                <Text style={styles.QuestionText}>
+                  Feel free to answer any or all of these questions.
+                  {"\n"}
+                  {"\n"}What sparked your bond?
+                  {"\n"}What role do they play in your life?
+                  {"\n"}How do you value this person?
+                </Text>
+              </View>
+            )}
+            
             <View style={{flexDirection: 'row'}}>
                 <TextInput
                     multiline
                     value={transcribedText}
-                    placeholder={summary !== null ? "Press once to record, twice to stop": 
+                    placeholder={summary !== null ? "Press once to record, twice to stop" : 
                         "Ex:From our initial meeting, a strong bond formed based on shared interests and values. They're my best friend now. \n \nRecord: 1 tap, Stop: 2 taps"}
                     placeholderTextColor={styles.placeHolderTextColor.color}
                     onChangeText={setTranscribedText}
@@ -192,11 +181,13 @@ const TranscriberNote: React.FC <{contact}> = ({contact})=> {
                     <TouchableOpacity
                         style={[styles.button, recording ? styles.recordingButton : styles.notRecordingButton]}
                         onPress={recording ? stopRecording : startRecording}>
-                        
-                        <Feather name="mic" size={24} color={styles.icons.color} />
+                        {loadingText ? <ActivityIndicator size={"small"}/> : <Feather name="mic" size={24} color={styles.icons.color} />}
                     </TouchableOpacity>
                     <TouchableOpacity
                         style={styles.button}
+                        onPressOut={() => {
+                            Vibration.vibrate(130);
+                        }}
                         onPress={handleSaveClick}
                         disabled={saving}>
                         <Feather name="save" size={24} color={styles.icons.color} />
@@ -204,15 +195,19 @@ const TranscriberNote: React.FC <{contact}> = ({contact})=> {
                 </View>
             </View>
 
-            {/* Summary Section*/}
             {summary !== null && <View style={{flexDirection: 'row'}}>
-
                 <View style={styles.buttonBox}>
                     <TouchableOpacity
                         style={styles.button}
+                        onPressOut={() => {
+                            Vibration.vibrate(130);
+                        }}
                         onPress={generateQuestions}>
+                        {loading && <ActivityIndicator size={"small"}/>}
                         <Ionicons name="create" size={24} color={styles.icons.color} />
-                        <Text style={styles.buttonText}>Generate Questions</Text>
+                        <Text style={styles.buttonText}>
+                            {loading ? "Loading Questions" : "Generate Questions"}
+                        </Text>
                     </TouchableOpacity>
                 </View>
 
@@ -226,14 +221,10 @@ const TranscriberNote: React.FC <{contact}> = ({contact})=> {
                 </View>
             </View>}
 
-            {/* Summary modal */}
-            {/* <Button title="Summary" onPress={()=> setSummaryModalVisible(true)}></Button> */}
-
             <Modal visible={summaryModalVisible} transparent={true} onRequestClose={()=> {setSummaryModalVisible(false)}} animationType='fade'>
-                <SummaryModal contact={contact} summaryWait={summaryWait} toggleModalVisibility={()=> setSummaryModalVisible(false)}></SummaryModal>
+                <SummaryModal contact={contact} summaryWait={summaryWait} toggleModalVisibility={()=> setSummaryModalVisible(false)} />
             </Modal>
             
-            {/* Questions Section */}
             <View style={{ flexDirection: 'column' }}>
                 {questions.map((question, index) => (
                     <View key={index}>
@@ -241,17 +232,13 @@ const TranscriberNote: React.FC <{contact}> = ({contact})=> {
                             <TouchableOpacity style={styles.questionTextBox} onPress={()=> handleQuestionClick(question)}>
                                 <Text style={styles.questionText}>{question}</Text>
                             </TouchableOpacity>
-                            
                         </View>
-
                         <View style={styles.horizontalDivider}></View>
                     </View>
                 ))}
-
             </View>
-
         </View>
     )
 }
 
-export {TranscriberNote};
+export { TranscriberNote };

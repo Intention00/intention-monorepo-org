@@ -463,6 +463,7 @@ def set_model_name():
     except Exception as err:
         return jsonify({'message': str(err)}), 500
     
+
 @app.route("/api/lastcontacted/<contact_id>/<current_date>", methods =['PUT'])
 def set_last_contact(contact_id, current_date): 
     reminders_processor.setLastContacted( contactID= contact_id, currentDate= current_date,)
@@ -471,6 +472,27 @@ def set_last_contact(contact_id, current_date):
 
 
 
+
+
+# Inserts the selected question to the database
+@app.route("/api/question/save", methods=['POST'])
+def save_selected_question():
+    try: 
+        # getting contact_id from api call
+        contact_id = request.args.get('contactID')
+
+        # Extracting data
+        question = request.get_json()
+
+        prompt = notes_processor.get_latest_prompt(contact_id)
+
+        # Save the question prompt combo to db for finetuning later
+        contacts_processor.save_favorite_question(contact_id, prompt, question)
+        
+        return jsonify({'message': 'Question added.'}), 204
+    
+    except Exception as err:
+        return jsonify({'message': str(err)}), 500
 
 
 if __name__ == "__main__":

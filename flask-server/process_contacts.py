@@ -97,4 +97,12 @@ class ProcessContacts():
                         UPDATE Contact SET Score = %s WHERE ContactID = %s;
                     """
                     db_conn.execute(sql_statement, (score, contact_id))
-                    
+
+    # Saves the favorite question to the database for finetuning              
+    def save_favorite_question(self, contact_id, prompt, question):
+        with DBConnection() as db_conn:
+                if db_conn:
+                    sql_statement = """
+                        INSERT INTO FineTuning (ContactID, Prompt, Question) VALUES (%s, %s, %s);
+                    """
+                    db_conn.execute(sql_statement, (contact_id, prompt, question))

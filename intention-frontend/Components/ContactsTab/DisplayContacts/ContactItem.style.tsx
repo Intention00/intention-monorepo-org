@@ -13,6 +13,7 @@ const styles = StyleSheet.create({
         height: 50,
         borderRadius: 25,
         marginRight: 10,
+        marginLeft: 7
     },
 
     containerText: {
@@ -33,8 +34,28 @@ const styles = StyleSheet.create({
         fontSize: 18,
         marginRight: 0,
         color: global.subText.color
-    }
+    },
 
+    modalExit :{
+        color: global.accentColor.color,
+        fontSize: 30,
+        paddingLeft: 0,
+    },
+    
+    modalHeader: {
+        paddingTop: 0,
+        marginBottom: 30,
+        flexDirection: 'row',
+        alignItems: 'center'
+    },
+    
+    modalHeaderText: {
+        textAlign: 'center',
+        color: '#fff',
+        fontSize: 15 ,
+        marginRight: 8,
+        fontWeight: 'bold',
+    },
 })
 
 export {styles}
