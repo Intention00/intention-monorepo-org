@@ -5,7 +5,8 @@ const styles = StyleSheet.create({
     selectorText: {
         color: global.bodyText.color, 
         textAlign: 'center',
-        marginBottom: 10
+        marginBottom: 10,
+        fontWeight: 'bold'
     },
 
     settingsText: {

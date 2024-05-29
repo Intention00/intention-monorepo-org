@@ -1,4 +1,4 @@
-import { View, Text, TextInput, TouchableOpacity, Modal, Button } from "react-native"
+import { View, Text, TextInput, TouchableOpacity, Modal, Button, ActivityIndicator } from "react-native"
 import React, { useEffect, useState } from "react";
 import { Audio } from "expo-av"
 import { sendNotesToBackend, sendFinalNotesToBackend } from "../../Generic/backendService";
@@ -20,6 +20,11 @@ const TranscriberNote: React.FC <{contact}> = ({contact})=> {
     const [summaryModalVisible, setSummaryModalVisible] = useState(false);
     const [summaryWait, setSummaryWait] = useState(false);
     const [saving, setSaving] = useState(false);
+
+    const [loadingText, setLoadingText] = useState(false);
+
+    const [showInitialQuestions, setShowInitialQuestions] = useState(true); // Added state variable
+
 
     // Microphone button START-RECORDING
     async function startRecording() {
@@ -47,6 +52,7 @@ const TranscriberNote: React.FC <{contact}> = ({contact})=> {
     async function stopRecording() {
         console.log('Stopping recording..');
         setRecording(undefined);
+        setLoadingText(true);
 
         await recording.stopAndUnloadAsync();
         await Audio.setAudioModeAsync({allowsRecordingIOS: false});
@@ -58,6 +64,7 @@ const TranscriberNote: React.FC <{contact}> = ({contact})=> {
         console.log("URI TEST VALUE AT END IS:", audioUri);
 
         const transcribedNotes = await sendNotesToBackend(uri);
+        setLoadingText(false);
         if (transcribedNotes) {
             setTranscribedText(transcribedNotes);
         }
@@ -168,16 +175,33 @@ const TranscriberNote: React.FC <{contact}> = ({contact})=> {
     return (
         // Modal Container
         <View style={{flex: 1, flexDirection: "column"}}>
-            {/* For new Contacts only */}
-            {summary !== null ? (
-                null
-            ) : <View style={styles.textBox}>
-                <Text style={styles.QuestionText}>Feel free to answer any or all of these questions.
-                    {"\n"}
-                    {"\n"}What sparked your bond?
-                    {"\n"}What role do they play in your life?
-                    {"\n"}How do you value this person?</Text></View>}
+
+            {/* Toggle Button for the Hidden questions */}
+            {summary == null &&(
+                <TouchableOpacity
+                    style={styles.infoButton}
+                    onPress={() => setShowInitialQuestions(!showInitialQuestions)}
+                    >
+                <Feather name="info" size={24} color={styles.icons.color} />
+                </TouchableOpacity>
+            )}
+
+            {/* Conditional Rendering of Initial Questions */}
+            {showInitialQuestions && (
+              <View style={styles.textBox}>
+                <Text style={styles.QuestionText}>
+                  Feel free to answer any or all of these questions.
+                  {"\n"}
+                  {"\n"}What sparked your bond?
+                  {"\n"}What role do they play in your life?
+                  {"\n"}How do you value this person?
+                </Text>
+              </View>
+            )}
+            
+
             {/* Transcriber section */}
+
             <View style={{flexDirection: 'row'}}>
                 <TextInput
                     multiline
@@ -192,8 +216,7 @@ const TranscriberNote: React.FC <{contact}> = ({contact})=> {
                     <TouchableOpacity
                         style={[styles.button, recording ? styles.recordingButton : styles.notRecordingButton]}
                         onPress={recording ? stopRecording : startRecording}>
-                        
-                        <Feather name="mic" size={24} color={styles.icons.color} />
+                        {loadingText ? <ActivityIndicator size={"small"}/> : <Feather name="mic" size={24} color={styles.icons.color} />}
                     </TouchableOpacity>
                     <TouchableOpacity
                         style={styles.button}
