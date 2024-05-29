@@ -42,9 +42,7 @@
 
     "react-native-modal-dropdown": "^1.0.2",
    
-   
-    "@react-native-segmented-control/segmented-control": "2.4.1",
-    "@react-native-picker/picker": "2.6.1"
+
 
 
     "react-native-responsive-fontsize": "^0.5.1",

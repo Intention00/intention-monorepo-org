@@ -568,8 +568,7 @@ export const receiveUserModelNameFromBackend = async (userID: number)=> {
     }
 }
 
-
-export const sendLastContactedToBackend = async (contactID: number, currentDate: string)=> {
+export const sendLastContactedToBackend = async (contactID: number, currentDate: string) => {
     try {
         const response = await fetch(`${backendAddress}/api/lastcontacted/${contactID}/${currentDate}`, {
             method: 'PUT',
@@ -577,8 +576,13 @@ export const sendLastContactedToBackend = async (contactID: number, currentDate:
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({contactID: contactID, currentDate: currentDate})
-              } 
-    catch (error) {
+        });
+
+        if (!response.ok) {
+            const errorMessage = await response.json();
+            console.error(`Server returned an error: ${JSON.stringify(errorMessage)}`);
+        }
+    } catch (error) {
         throw new Error(`Error sending lastContacted frontend to backend: ${error}`);
     }
 }
@@ -590,23 +594,21 @@ export const sendLastContactedToBackend = async (contactID: number, currentDate:
  * @param question
  * @returns nothing
  */
-export const sendFavoriteQuestionToBackend = async (contactID: number, question: string)=> {
+export const sendFavoriteQuestionToBackend = async (contactID: number, question: string) => {
     try {
         const response = await fetch(`${backendAddress}/api/question/save?contactID=${contactID}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify(question)
+            body: JSON.stringify({ question: question })
+        });
 
-        })
         if (!response.ok) {
-                const errorMessage = await response.json();
-                console.error(`Server returned an error: ${JSON.stringify(errorMessage)}`);
-              }
-          }
-    catch (err) {
-          throw new Error(`Error saving favorite question to backend: ${err}`);
+            const errorMessage = await response.json();
+            console.error(`Server returned an error: ${JSON.stringify(errorMessage)}`);
+        }
+    } catch (err) {
+        throw new Error(`Error saving favorite question to backend: ${err}`);
     }
 }
-
