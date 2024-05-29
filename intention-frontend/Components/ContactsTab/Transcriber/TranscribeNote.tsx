@@ -20,7 +20,11 @@ const TranscriberNote: React.FC <{contact}> = ({contact})=> {
     const [summaryModalVisible, setSummaryModalVisible] = useState(false);
     const [summaryWait, setSummaryWait] = useState(false);
     const [saving, setSaving] = useState(false);
+
     const [loadingText, setLoadingText] = useState(false);
+
+    const [showInitialQuestions, setShowInitialQuestions] = useState(true); // Added state variable
+
 
     // Microphone button START-RECORDING
     async function startRecording() {
@@ -171,16 +175,33 @@ const TranscriberNote: React.FC <{contact}> = ({contact})=> {
     return (
         // Modal Container
         <View style={{flex: 1, flexDirection: "column"}}>
-            {/* For new Contacts only */}
-            {summary !== null ? (
-                null
-            ) : <View style={styles.textBox}>
-                <Text style={styles.QuestionText}>Feel free to answer any or all of these questions.
-                    {"\n"}
-                    {"\n"}What sparked your bond?
-                    {"\n"}What role do they play in your life?
-                    {"\n"}How do you value this person?</Text></View>}
+
+            {/* Toggle Button for the Hidden questions */}
+            {summary == null &&(
+                <TouchableOpacity
+                    style={styles.infoButton}
+                    onPress={() => setShowInitialQuestions(!showInitialQuestions)}
+                    >
+                <Feather name="info" size={24} color={styles.icons.color} />
+                </TouchableOpacity>
+            )}
+
+            {/* Conditional Rendering of Initial Questions */}
+            {showInitialQuestions && (
+              <View style={styles.textBox}>
+                <Text style={styles.QuestionText}>
+                  Feel free to answer any or all of these questions.
+                  {"\n"}
+                  {"\n"}What sparked your bond?
+                  {"\n"}What role do they play in your life?
+                  {"\n"}How do you value this person?
+                </Text>
+              </View>
+            )}
+            
+
             {/* Transcriber section */}
+
             <View style={{flexDirection: 'row'}}>
                 <TextInput
                     multiline

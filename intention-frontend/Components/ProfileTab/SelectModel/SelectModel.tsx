@@ -12,7 +12,13 @@ const SelectModel: React.FC = ()=> {
     useEffect(()=> {
        (async ()=> {
             const tempModelName = await receiveUserModelNameFromBackend(userID);
-            setSelectedModel(tempModelName);
+            if (tempModelName) {
+                setSelectedModel(tempModelName);
+            }
+            else {
+                setSelectedModel("gpt");
+            }
+            
         })()
     }, [userID])
 

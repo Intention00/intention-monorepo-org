@@ -1,10 +1,16 @@
-import { View, Text } from "react-native";
+import { View, Text} from "react-native";
 import { Image } from 'expo-image'
 import { styles } from "./ContactItem.style";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext, useReducer, createContext } from "react";
 import { receiveScoreFromBackend, sendScoreToBackend } from "../../Generic/backendService"
 import { ConnectModal } from "../../RemindersTab/ConnectModal/ConnectModal";
 import { sendScore } from "../../RemindersTab/ConnectModal/ConnectModal";
+import { getContactTags, getUserTags, deleteContactTag, addContactTag } from '../../Generic/backendService';
+import { userIDContext } from "../UserSync/userIDContext";
+import { ContactTags } from "../ContactsTagging/ContactTags";
+import { tagUpdater } from "../UserSync/tagUpdater";
+
+
 
 
 interface Contact {
@@ -18,6 +24,22 @@ interface Contact {
 
 const ContactItem: React.FC<{contact: Contact, updateScore}> = ({contact, updateScore})=> {
     const [connectionScore, setConnectionScore] = useState(0);
+    const [tags, setTags] = useState([]);
+    const userID = useContext(userIDContext);
+    
+
+    useEffect(() => {
+        (async () => {
+          try {
+            const contactTags = await getContactTags(userID, contact.contactID);
+            setTags(contactTags);
+            
+          } catch (error) {
+            console.error('Error fetching tags:', error);
+          }
+        })();
+      }, [userID, contact.contactID, tagUpdater.displayName]);
+
 
     useEffect(()=> {
         (async ()=> {
@@ -31,6 +53,8 @@ const ContactItem: React.FC<{contact: Contact, updateScore}> = ({contact, update
             }
         })()
     }, []);
+
+
 
     console.log(`Item: ${JSON.stringify(contact)}`)
 
@@ -50,7 +74,7 @@ const ContactItem: React.FC<{contact: Contact, updateScore}> = ({contact, update
             
             <View style={styles.containerText}>
                 <Text style={styles.nameText}>{contact.firstName} {contact.lastName} </Text>
-                <Text style={styles.phoneText}>Tags: {contact.tags}</Text>
+                <Text style={styles.phoneText}>Tags: {tags.join(', ')} </Text>
                 
             </View>
             
