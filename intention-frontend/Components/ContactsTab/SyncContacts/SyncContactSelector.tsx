@@ -1,4 +1,6 @@
-import { View, Text, FlatList, TouchableOpacity } from "react-native";
+
+import { View, Text, FlatList, Button, TouchableOpacity, Vibration } from "react-native"
+
 import CheckBox from 'expo-checkbox';
 import { useEffect, useState, useContext } from "react";
 import { userIDContext } from "../UserSync/userIDContext";
@@ -73,6 +75,7 @@ const SyncContactSelector: React.FC<{ toggleModalVisibility, updateContacts }> =
                         />
                     </View>
                 </View>
+
                 <FlatList
                     data={filteredContacts}
                     style={styles.contactsList}
@@ -98,13 +101,19 @@ const SyncContactSelector: React.FC<{ toggleModalVisibility, updateContacts }> =
                     </TouchableOpacity>
                     <TouchableOpacity onPress={() => setCheckedItems([...Array(contacts.length).keys()])}>
                         <Text style={styles.contactsListSelectText}>Select All</Text>
+
                     </TouchableOpacity>
-                </View>
-                <TouchableOpacity style={styles.saveButton} onPress={saveSelectedContacts}>
-                    <Text style={styles.saveText}>Save</Text>
-                </TouchableOpacity>
-            </View>
-        </View>
+                  
+                  <View>
+                    <TouchableOpacity
+                        style={styles.saveButton}
+                        onPressOut={() => {
+                            Vibration.vibrate(130);
+                        }}
+                        onPress={saveSelectedContacts}>
+                        <Text style={styles.saveText}>Save</Text>
+                
+                  </View>
     );
 };
 

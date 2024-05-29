@@ -1,4 +1,4 @@
-import { View, Text, TextInput, TouchableOpacity } from "react-native"
+import { View, Text, TextInput, TouchableOpacity, Vibration } from "react-native"
 import React, { useState } from "react";
 import { Audio } from "expo-av"
 import { sendNotesToBackend, sendFinalNotesToBackend } from "../../../Generic/backendService";
@@ -98,6 +98,7 @@ const RecordNote: React.FC <{contact, modalToggle, yesModalToggle}> = ({contact,
             <View style={styles.exitButtons}>
                 <TouchableOpacity
                     // style={styles.saveButton}
+                    onPressOut={() => {Vibration.vibrate(130);}}
                     onPress={() => handleSave()}>
 
                     <Text style={styles.saveText}>Save</Text>

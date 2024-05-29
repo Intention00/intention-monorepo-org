@@ -1,7 +1,9 @@
 // UserTag.style.tsx
 
 import { StyleSheet } from 'react-native';
+
 import { styles as global } from "../../Generic/global.style"
+
 
 const styles = StyleSheet.create({
   container: {
@@ -110,6 +112,7 @@ const styles = StyleSheet.create({
     color: '#fff', // input text color
     borderRadius: 5,
   },
+
   modalExit :{
     color: global.accentColor.color,
     fontSize: 30,

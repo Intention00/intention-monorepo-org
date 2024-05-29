@@ -1,16 +1,16 @@
-import { View, Text, TextInput, TouchableOpacity, Modal, Button, ActivityIndicator } from "react-native"
-import React, { useEffect, useState } from "react";
+
+import { View, Text, TextInput, TouchableOpacity, Modal, Button, ActivityIndicator, Vibration } from "react-native"
+import React, { useState } from "react";
+
 import { Audio } from "expo-av"
-import { sendNotesToBackend, sendFinalNotesToBackend } from "../../Generic/backendService";
+import { sendNotesToBackend, sendFinalNotesToBackend, getSummaryFromBackend, backendAddress, sendFavoriteQuestionToBackend } from "../../Generic/backendService";
 import { Feather } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
-import { backendAddress } from "../../Generic/backendService";
 import * as Clipboard from 'expo-clipboard';
 import { styles } from "./TranscribeNote.style";
 import { shareQuestion } from "./ShareQuestions/shareQuestion";
 import { SummaryModal } from "./SummaryModal";
-import { getSummaryFromBackend } from "../../Generic/backendService";
 
 const TranscriberNote: React.FC <{contact}> = ({contact})=> {
     // Transcription Declarations
@@ -18,12 +18,16 @@ const TranscriberNote: React.FC <{contact}> = ({contact})=> {
     const [permissionResponse, requestPermission] = Audio.usePermissions();
     const [audioUri, setAudioUri] = useState(undefined);
     const [summaryModalVisible, setSummaryModalVisible] = useState(false);
+
+    const [loading, setLoading] = useState(false);
+
     const [summaryWait, setSummaryWait] = useState(false);
     const [saving, setSaving] = useState(false);
 
     const [loadingText, setLoadingText] = useState(false);
 
     const [showInitialQuestions, setShowInitialQuestions] = useState(true); // Added state variable
+
 
 
     // Microphone button START-RECORDING
@@ -106,6 +110,7 @@ const TranscriberNote: React.FC <{contact}> = ({contact})=> {
     };
 
     const generateQuestions = async () => {
+        setLoading(true);
         try {
             // Make a network request to Flask server
             const response = await fetch(`${backendAddress}/api/generate-questions?contactID=${contact.contactID}
@@ -121,12 +126,15 @@ const TranscriberNote: React.FC <{contact}> = ({contact})=> {
             if (Array.isArray(generatedQuestions)) {
                 // Update the state with the generated questions
                 setQuestions(generatedQuestions);
+                setLoading(false);
             } else {
                 console.error('Generated questions is not an array:', generatedQuestions);
+                setLoading(false);
             }
     
         } catch (error) {
             console.error('Error generating questions:', error);
+            setLoading(false);
         }
     };
     
@@ -135,9 +143,7 @@ const TranscriberNote: React.FC <{contact}> = ({contact})=> {
       };
       
     const handleQuestionClick = (question) => {
-        // Alert.alert('Question Copied', '', 
-        //     [{text: 'Ok', onPress: ()=> console.log('Ok pressed.')}]);
-        // copyToClipboard(question);
+        sendFavoriteQuestionToBackend(contact.contactID, question);
         shareQuestion(question);
     }
 
@@ -220,8 +226,13 @@ const TranscriberNote: React.FC <{contact}> = ({contact})=> {
                     </TouchableOpacity>
                     <TouchableOpacity
                         style={styles.button}
+                        onPressOut={() => {
+                            Vibration.vibrate(130);
+                        }}
+                        onPress={() => sendFinalNotesToBackend(transcribedText, contact.contactID)}
                         onPress={handleSaveClick}
                         disabled={saving}>
+                        //spacing
                         <Feather name="save" size={24} color={styles.icons.color} />
                     </TouchableOpacity>
                 </View>
@@ -233,9 +244,13 @@ const TranscriberNote: React.FC <{contact}> = ({contact})=> {
                 <View style={styles.buttonBox}>
                     <TouchableOpacity
                         style={styles.button}
+                        onPressOut={() => {
+                            Vibration.vibrate(130);
+                        }}
                         onPress={generateQuestions}>
+                        {loading && <ActivityIndicator size={"small"}/>}
                         <Ionicons name="create" size={24} color={styles.icons.color} />
-                        <Text style={styles.buttonText}>Generate Questions</Text>
+                        {loading ? <Text style={styles.buttonText}>Loading Questions</Text> : <Text style={styles.buttonText}>Generate Questions</Text>}
                     </TouchableOpacity>
                 </View>
 

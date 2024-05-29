@@ -1,5 +1,5 @@
  export const backendAddress = "https://intention-server.up.railway.app"
- // export const backendAddress = "http://127.0.0.1:5100"
+//  export const backendAddress = "http://192.168.1.27:5100"
 
 // Send contacts to backend api
 export const sendContactsToBackend = async (userID: number, contactsData: any[])=> {
@@ -557,5 +557,32 @@ export const receiveUserModelNameFromBackend = async (userID: number)=> {
     }
     catch (err) {
         throw new Error(`Error getting preferred model name from backend: ${err}`);
+    }
+}
+
+/**
+ * Sends the favorite question to the backend
+ * 
+ * @param contactID
+ * @param question
+ * @returns nothing
+ */
+export const sendFavoriteQuestionToBackend = async (contactID: number, question: string)=> {
+    try {
+        const response = await fetch(`${backendAddress}/api/question/save?contactID=${contactID}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(question)
+        })
+
+        if (!response.ok) {
+            const errorMessage = await response.json();
+            console.error(`Server returned an error: ${JSON.stringify(errorMessage)}`);
+        }
+    }
+    catch (err) {
+        throw new Error(`Error saving favorite question to backend: ${err}`);
     }
 }
