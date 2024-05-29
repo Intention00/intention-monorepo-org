@@ -104,7 +104,9 @@ const SyncContactSelector: React.FC<{ toggleModalVisibility, updateContacts }> =
 
                     </TouchableOpacity>
                   
-                  <View>
+                  
+                </View>
+                <View>
                     <TouchableOpacity
                         style={styles.saveButton}
                         onPressOut={() => {
@@ -115,7 +117,6 @@ const SyncContactSelector: React.FC<{ toggleModalVisibility, updateContacts }> =
                     </TouchableOpacity>
                 
                   </View>
-                </View>
             </View>
         </View>
     );

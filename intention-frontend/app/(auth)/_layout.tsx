@@ -142,7 +142,7 @@ const TabsPage = () => {
         options={{
           headerTitle: 'Follow Up',
           tabBarIcon: ({ color, size }) => <Ionicons name="person-outline" size={size} color={color} />,
-          tabBarLabel: 'FollowUp',
+          tabBarLabel: 'Follow Up',
           headerRight: () => <LogoutButton />,
         }}
         redirect={!isSignedIn}

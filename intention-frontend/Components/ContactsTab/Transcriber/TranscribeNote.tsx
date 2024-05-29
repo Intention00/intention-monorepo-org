@@ -179,19 +179,11 @@ const TranscriberNote: React.FC <{contact}> = ({contact})=> {
                 />
                 <View style={styles.buttonBox}>
                     <TouchableOpacity
-                        style={[styles.button, recording ? styles.recordingButton : styles.notRecordingButton]}
+                        style={[styles.micButton, recording ? styles.recordingButton : styles.notRecordingButton]}
                         onPress={recording ? stopRecording : startRecording}>
                         {loadingText ? <ActivityIndicator size={"small"}/> : <Feather name="mic" size={24} color={styles.icons.color} />}
                     </TouchableOpacity>
-                    <TouchableOpacity
-                        style={styles.button}
-                        onPressOut={() => {
-                            Vibration.vibrate(130);
-                        }}
-                        onPress={handleSaveClick}
-                        disabled={saving}>
-                        <Feather name="save" size={24} color={styles.icons.color} />
-                    </TouchableOpacity>
+                    
                 </View>
             </View>
 
@@ -237,6 +229,16 @@ const TranscriberNote: React.FC <{contact}> = ({contact})=> {
                     </View>
                 ))}
             </View>
+            <TouchableOpacity
+                        style={styles.button}
+                        onPressOut={() => {
+                            Vibration.vibrate(130);
+                        }}
+                        onPress={handleSaveClick}
+                        disabled={saving}>
+                        <Feather name="save" size={24} color={styles.icons.color} />
+                        <Text>Save</Text>
+                    </TouchableOpacity>
         </View>
     )
 }
