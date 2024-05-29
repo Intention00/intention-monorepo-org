@@ -2,13 +2,20 @@
 
 import { StyleSheet } from 'react-native';
 
+import { styles as global } from "../../Generic/global.style"
+
+
 const styles = StyleSheet.create({
   container: {
     // flex: 1,
-    // backgroundColor: '#000', // dark background
-    width: '80%',
+    //backgroundColor: '#333333', // dark background
+    width: '100%',
     // width: 280,
+    marginLeft: 35,
+    marginRight: 20,
     alignSelf: 'center',
+    padding: 5,
+    borderRadius: 5,
     // verticalAlign: 'middle',
     // alignItems: 'center',
     // alignContent: 'center'
@@ -32,7 +39,7 @@ const styles = StyleSheet.create({
   },
   tagText: {
     color: '#fff',
-    fontSize: 16,
+    fontSize: 12,
   },
   button: {
     // backgroundColor: '#555', // buttons in light grey to contrast the dark background
@@ -52,19 +59,23 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  
 
   modalView: {
     margin: 20,
+    height: 340,
     backgroundColor: '#222', // modal background
-    borderRadius: 5,
-    padding: '9%',
-    alignItems: 'center',
+    borderRadius: 30,
+    padding: '8%',
+    paddingLeft: '4%',
+    paddingTop: '4%',
+    alignItems: 'flex-start',
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
       height: 2,
     },
-    width: '76%',
+    width: 320,
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
     elevation: 5,
@@ -101,6 +112,27 @@ const styles = StyleSheet.create({
     color: '#fff', // input text color
     borderRadius: 5,
   },
+
+  modalExit :{
+    color: global.accentColor.color,
+    fontSize: 30,
+    paddingLeft: 0,
+},
+
+modalHeader: {
+    paddingTop: 0,
+    marginBottom: 30,
+    flexDirection: 'row',
+    alignItems: 'center'
+},
+
+modalHeaderText: {
+    textAlign: 'center',
+    color: '#fff',
+    fontSize: 15 ,
+    marginRight: 8,
+    fontWeight: 'bold',
+},
 });
 
 export { styles };

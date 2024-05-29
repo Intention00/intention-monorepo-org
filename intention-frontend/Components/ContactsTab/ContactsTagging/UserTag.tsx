@@ -81,34 +81,20 @@ const UserProfileTags: React.FC = () => {
     return (
         <View style={styles.container}>
             <Text style={styles.text}>Your Tags:</Text>
-            <ScrollView style={styles.scrollView}>
-            {(tags === undefined || tags.length === 0) ? <Text style={global.bodyText}> Add some tags </Text> : renderTags() } 
-      
+            <ScrollView style={styles.scrollView} >
+            {(tags === undefined || tags.length === 0) ? <Text style={styles.text}> Add some tags </Text> : renderTags() } 
             </ScrollView> 
-            <TouchableOpacity style={styles.button} onPress={() => setIsModalVisible(true)}>
-                <Text style={styles.buttonText}>Add Tag</Text>
+            <TextInput
+                style={styles.input}
+                placeholder="Enter tag"
+                placeholderTextColor="#999" // Light grey placeholder text
+                value={newTag}
+                onChangeText={text => setNewTag(text)}
+                onSubmitEditing={handleAddTag}
+            />
+            <TouchableOpacity style={styles.modalButton} onPress={handleAddTag}>
+                <Text style={styles.modalButtonText}>Add</Text>
             </TouchableOpacity>
-            <Modal
-                visible={isModalVisible}
-                animationType="slide"
-                transparent={true}
-            >
-                <View style={styles.modalView}>
-                    <TextInput
-                        style={styles.input}
-                        placeholder="Enter tag"
-                        placeholderTextColor="#999" // Light grey placeholder text
-                        value={newTag}
-                        onChangeText={text => setNewTag(text)}
-                    />
-                    <TouchableOpacity style={styles.modalButton} onPress={handleAddTag}>
-                        <Text style={styles.modalButtonText}>Add</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.modalButton} onPress={() => setIsModalVisible(false)}>
-                        <Text style={styles.modalButtonText}>Cancel</Text>
-                    </TouchableOpacity>
-                </View>
-            </Modal>
         </View>
     );
 };

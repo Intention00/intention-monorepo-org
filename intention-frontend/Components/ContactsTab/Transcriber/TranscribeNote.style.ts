@@ -1,5 +1,6 @@
 import { StyleSheet } from "react-native"
 import { styles as global } from "../../Generic/global.style"
+import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
 
 const styles = StyleSheet.create ({
     notesInput: {
@@ -12,9 +13,30 @@ const styles = StyleSheet.create ({
         // width: 250,
         width: '72%',
     },
+    notesInputAlt: {
+        maxHeight: 200,
+        backgroundColor: global.inputBox.backgroundColor,
+        color: global.inputBox.color,
+        padding: 10,
+        borderRadius: 10, 
+        marginBottom: 20, 
+        // width: 250,
+        width: '72%',
+        height: 150,
+        fontSize: RFPercentage(2),
+        
+    },
 
     placeHolderTextColor: {
         color: global.inputBox.color
+    },
+
+    QuestionText: {
+        color: global.inputBox.color,
+        fontSize: RFPercentage(2),
+
+        textAlign: 'center',
+        padding: 5,
     },
 
     button: {
@@ -25,6 +47,17 @@ const styles = StyleSheet.create ({
         alignItems: 'center',
     },
 
+    infoButton: {
+        backgroundColor: global.accentColor.color,
+        padding: 8,
+        borderRadius: 10,
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginVertical: 8,
+        maxWidth: 50,
+        maxHeight: 50,
+      },
+
     buttonText: {
       color: global.buttonText.color, 
       fontSize: 12,
@@ -34,9 +67,17 @@ const styles = StyleSheet.create ({
     buttonBox: {
         flex: 1, 
         padding: 5, 
+        marginTop: -8,
         justifyContent: 'center', 
         paddingBottom: 20,
     },
+    textBox: {
+        borderWidth: 1,
+        borderColor: global.accentColor.color,
+        padding: 6,
+        borderRadius: 10,
+        marginVertical: 10,
+      },
 
     recordingButton: {
         backgroundColor: 'red'
@@ -58,7 +99,7 @@ const styles = StyleSheet.create ({
     },
 
     questionText: {
-        color: global.bodyText.color,
+        color: global.inputBox.backgroundColor,
     },
 
     horizontalDivider: {

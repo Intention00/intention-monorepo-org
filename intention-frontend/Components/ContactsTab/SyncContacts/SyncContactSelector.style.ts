@@ -36,9 +36,11 @@ const styles = StyleSheet.create({
 
     modalHeaderText: {
         textAlign: 'center',
-        color: global.inputBox.color,
+        color: global.inputBox.backgroundColor,
         fontSize: 24,
+        fontWeight: 'bold',
         marginRight: 45,
+        marginLeft: '18%',
     },
 
     modalTextContainer: {
@@ -52,7 +54,7 @@ const styles = StyleSheet.create({
     contactsList: {
         marginTop: 15, 
         // maxHeight: 350
-        maxHeight: '100%',
+        maxHeight: '90%',
     },
 
     contactsListSelectText: {
@@ -81,17 +83,21 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
         marginLeft: 'auto',
         marginRight: '5%',
-        color: global.inputBox.backgroundColor
+        color: global.inputBox.backgroundColor,
+        height: '50%',
+        width: '10%'
     },
 
     saveButton:{
-        marginBottom: '10%',
+        marginTop: '15%',
+        marginBottom: '5%',
         alignItems: 'center'
     },
 
     saveText: {
         color: global.accentColor.color,
-        fontSize: 16
+        fontSize: 16,
+        marginBottom: '5%'
     },
 
 })

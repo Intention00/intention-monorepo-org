@@ -36,7 +36,7 @@ const Login = () => {
       <Spinner visible={loading} />
 
       <TextInput autoCapitalize="none" placeholder="intention@w.com" value={emailAddress} onChangeText={setEmailAddress} style={styles.inputField} />
-      <TextInput placeholder="password" value={password} onChangeText={setPassword} secureTextEntry style={styles.inputField} />
+      <TextInput placeholder="password" value={password} onChangeText={setPassword} secureTextEntry style={styles.inputField} onSubmitEditing={onSignInPress}/>
 
       <Button onPress={onSignInPress} title="Login" color={'#6c47ff'}></Button>
 

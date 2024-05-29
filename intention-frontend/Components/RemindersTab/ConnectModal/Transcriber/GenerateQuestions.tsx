@@ -5,6 +5,7 @@ import { shareQuestion } from "../../../ContactsTab/Transcriber/ShareQuestions/s
 shareQuestion
 import { styles } from "./GenerateQuestions.style"
 import { Ionicons } from '@expo/vector-icons';
+import { sendFavoriteQuestionToBackend } from "../../../Generic/backendService"
 
 const GenerateQuestions: React.FC <{contact}> = ({contact})=> {
     const [questions, setQuestions] = useState<string[]>([]);
@@ -39,7 +40,7 @@ const GenerateQuestions: React.FC <{contact}> = ({contact})=> {
                 {questions.map((question, index) => (
                     <View key={index}>
                         <View style={styles.questionContainer}>
-                            <TouchableOpacity style={styles.questionTextBox} onPress={()=> shareQuestion(question)}>
+                            <TouchableOpacity style={styles.questionTextBox} onPress={()=> {sendFavoriteQuestionToBackend(contact.contactID, question);shareQuestion(question)}}>
                                 <Text style={styles.questionText}>{question}</Text>
                             </TouchableOpacity>                            
                         </View>

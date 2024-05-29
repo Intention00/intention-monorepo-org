@@ -1,5 +1,5 @@
-export const backendAddress = "https://intention-server.up.railway.app"
-// export const backendAddress = "http://192.168.1.27:5100"
+ export const backendAddress = "https://intention-server.up.railway.app"
+//  export const backendAddress = "http://192.168.1.27:5100"
 
 // Send contacts to backend api
 export const sendContactsToBackend = async (userID: number, contactsData: any[])=> {
@@ -507,3 +507,82 @@ export const deleteUserTag = async(user_id, tag_name)=>{
     }
 }
 
+/**
+ * Sends the desired user's model name to the backend
+ * 
+ * @param userID
+ * @param model_name
+ * @returns nothing
+ */
+export const sendUserModelNameToBackend = async (userID: number, modelName: string)=> {
+    try {
+        const response = await fetch(`${backendAddress}/api/model?userID=${userID}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({model: modelName})
+        })
+
+        if (!response.ok) {
+            const errorMessage = await response.json();
+            console.error(`Server returned an error: ${JSON.stringify(errorMessage)}`);
+        }
+    }
+    catch (err) {
+        throw new Error(`Error setting preferred model name in backend: ${err}`);
+    }
+}
+
+/**
+ * Gets the desired user's model name from the backend
+ * 
+ * @param userID
+ * @returns model name
+ */
+export const receiveUserModelNameFromBackend = async (userID: number)=> {
+    try {
+        const response = await fetch(`${backendAddress}/api/model?userID=${userID}`, {
+            method: 'GET',
+        })
+
+        if (!response.ok) {
+            const errorMessage = await response.json();
+            console.error(`Server returned an error: ${JSON.stringify(errorMessage)}`);
+        }
+        else {
+            const modelName = await response.json()
+            return modelName
+        }
+    }
+    catch (err) {
+        throw new Error(`Error getting preferred model name from backend: ${err}`);
+    }
+}
+
+/**
+ * Sends the favorite question to the backend
+ * 
+ * @param contactID
+ * @param question
+ * @returns nothing
+ */
+export const sendFavoriteQuestionToBackend = async (contactID: number, question: string)=> {
+    try {
+        const response = await fetch(`${backendAddress}/api/question/save?contactID=${contactID}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(question)
+        })
+
+        if (!response.ok) {
+            const errorMessage = await response.json();
+            console.error(`Server returned an error: ${JSON.stringify(errorMessage)}`);
+        }
+    }
+    catch (err) {
+        throw new Error(`Error saving favorite question to backend: ${err}`);
+    }
+}

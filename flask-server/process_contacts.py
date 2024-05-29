@@ -20,8 +20,16 @@ class ProcessContacts():
         with DBConnection() as db_conn:
             if db_conn:
                 sql_statement = """
-                    SELECT ContactID, FirstName, LastName, Phone FROM Contact WHERE UserID = %s;
-                """
+                SELECT c.ContactID, c.FirstName, c.LastName, c.Phone, GROUP_CONCAT(t.TagName SEPARATOR ', ') AS Tags
+                FROM Contact c
+                LEFT JOIN ContactTags ct ON c.ContactID = ct.ContactID
+                LEFT JOIN Tags t ON ct.TagID = t.TagID
+                WHERE c.UserID = %s
+                GROUP BY c.ContactID, c.FirstName, c.LastName, c.Phone;
+            """
+                db_conn.execute(sql_statement, (user_id,))
+                db_contacts = db_conn.fetchall()
+
                 db_conn.execute(sql_statement, (user_id,))
                 db_contacts = db_conn.fetchall()
 
@@ -30,7 +38,8 @@ class ProcessContacts():
                         'contactID': contact['ContactID'],
                         'firstName': contact['FirstName'],
                         'lastName': contact['LastName'],
-                        'number': contact['Phone']
+                        'number': contact['Phone'],
+                        'tags': contact['Tags']
                     } for contact in db_contacts
                 ]
 
@@ -88,4 +97,12 @@ class ProcessContacts():
                         UPDATE Contact SET Score = %s WHERE ContactID = %s;
                     """
                     db_conn.execute(sql_statement, (score, contact_id))
-                    
+
+    # Saves the favorite question to the database for finetuning              
+    def save_favorite_question(self, contact_id, prompt, question):
+        with DBConnection() as db_conn:
+                if db_conn:
+                    sql_statement = """
+                        INSERT INTO FineTuning (ContactID, Prompt, Question) VALUES (%s, %s, %s);
+                    """
+                    db_conn.execute(sql_statement, (contact_id, prompt, question))
