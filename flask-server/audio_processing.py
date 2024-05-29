@@ -31,8 +31,10 @@ def initialize_model(model_name = None):
         client = OpenAI(api_key = openai_key)
         if model_name == "gpt4o":
             model = "gpt-4o"
-        else:
+        elif model_name == "gpt":
             model = "gpt-3.5-turbo"
+        else:
+            model = model_name
     
     return client, model
 
@@ -52,7 +54,7 @@ def transcribe():
 
 def generate_summary(text, model_name = None):
     # Select model
-    client, model = initialize_model(model_name)
+    client, model = initialize_model("gpt")
 
     response = client.chat.completions.create(
         model=model,
@@ -68,7 +70,7 @@ def generate_summary(text, model_name = None):
 def generate_notes_summary(notes, date, contact_id, model_name = None):
     if notes:
         # Select model
-        client, model = initialize_model(model_name)
+        client, model = initialize_model("gpt")
         print(f'Summary generated with: {model}')
 
         response = client.chat.completions.create(
@@ -90,16 +92,18 @@ def generate_questions(summary, newest_note, firstName, style, model_name = None
         client, model = initialize_model(model_name)
         print(f'Questions generated with: {model}')
 
+        messages_object = [
+            {"role": "system", "content": "You are a human chameleon, able to perfectly mimic someone after some analysis. You are talking directly to someone that knows the human you are mimicking."},
+            {"role": "user", "content": "Don't say anything outside the json object you return. Ensure you include the opening and closing braces (which are '{' and '}') of the json object."},
+
+            {"role": "user", "content": f"Generate 3 personable ways to reach out to {firstName}. You'll be sending these directly, so make sure they don't require any editing. Only return the questions- provide them in the format of a json object with the keys \"question1\", \"question2\", \"question3\"; put any comments in a separate key called 'comments'. This is an analysis of the conversation style of the human you are mimicking: {style}. Follow the analysis exactly, and act as if that is you. Here are some notes regarding their relationship: {summary}. This is the most recent note between them, place extra emphasis on it: {newest_note}. Keep track of what the human you're mimicking told {firstName}, and what {firstName} told them. Only use the information you have- don't make up any information regarding their past interactions or relationship, and don't make any mistakes. If you don't have enough information to work with, think of some openers that are unrelated to the notes, but they would probably appreciate. Don't mention any other names other than yourself and {firstName}."}, 
+        ]
+
         response = client.chat.completions.create(
             model=model,
             response_format={'type': 'json_object'},
-            messages=[
-                {"role": "system", "content": "You are a human chameleon, able to perfectly mimic someone after some analysis. You are talking directly to someone that knows the human you are mimicking."},
-                {"role": "user", "content": "Don't say anything outside the json object you return. Ensure you include the opening and closing braces (which are '{' and '}') of the json object."},
-
-                {"role": "user", "content": f"Generate 3 personable ways to reach out to {firstName}. You'll be sending these directly, so make sure they don't require any editing. Only return the questions- provide them in the format of a json object with the keys \"question1\", \"question2\", \"question3\"; put any comments in a separate key called 'comments'. This is an analysis of the conversation style of the human you are mimicking: {style}. Follow the analysis exactly, and act as if that is you. Here are some notes regarding their relationship: {summary}. This is the most recent note between them, place extra emphasis on it: {newest_note}. Keep track of what the human you're mimicking told {firstName}, and what {firstName} told them. Only use the information you have- don't make up any information regarding their past interactions or relationship, and don't make any mistakes. If you don't have enough information to work with, think of some openers that are unrelated to the notes, but they would probably appreciate. Don't mention any other names other than yourself and {firstName}."}, 
-            ],
-            # top_p=0.1
+            messages=messages_object,
+            top_p=0.4
         )
         content_section = response.choices[0].message.content
     else:
@@ -107,13 +111,13 @@ def generate_questions(summary, newest_note, firstName, style, model_name = None
 
     print(f'OUTPUT: {content_section}')
 
-    return content_section
+    return content_section, messages_object
 
 # conversational style summarized from all the notes for a given contact
 def generate_conversational_style(notes, model_name = None):
     if notes:
         # Select model
-        client, model = initialize_model(model_name)
+        client, model = initialize_model("gpt")
         print(f'Conversation style generated with: {model}')
 
         response = client.chat.completions.create(

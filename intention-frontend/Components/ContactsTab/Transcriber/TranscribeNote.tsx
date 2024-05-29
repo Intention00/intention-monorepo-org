@@ -1,16 +1,14 @@
 import { View, Text, TextInput, TouchableOpacity, Modal, Button, ActivityIndicator } from "react-native"
 import React, { useEffect, useState } from "react";
 import { Audio } from "expo-av"
-import { sendNotesToBackend, sendFinalNotesToBackend } from "../../Generic/backendService";
+import { sendNotesToBackend, sendFinalNotesToBackend, getSummaryFromBackend, backendAddress, sendFavoriteQuestionToBackend } from "../../Generic/backendService";
 import { Feather } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
-import { backendAddress } from "../../Generic/backendService";
 import * as Clipboard from 'expo-clipboard';
 import { styles } from "./TranscribeNote.style";
 import { shareQuestion } from "./ShareQuestions/shareQuestion";
 import { SummaryModal } from "./SummaryModal";
-import { getSummaryFromBackend } from "../../Generic/backendService";
 
 const TranscriberNote: React.FC <{contact}> = ({contact})=> {
     // Transcription Declarations
@@ -135,9 +133,7 @@ const TranscriberNote: React.FC <{contact}> = ({contact})=> {
       };
       
     const handleQuestionClick = (question) => {
-        // Alert.alert('Question Copied', '', 
-        //     [{text: 'Ok', onPress: ()=> console.log('Ok pressed.')}]);
-        // copyToClipboard(question);
+        sendFavoriteQuestionToBackend(contact.contactID, question);
         shareQuestion(question);
     }
 

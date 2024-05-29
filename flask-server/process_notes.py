@@ -121,7 +121,16 @@ class ProcessNotes():
             try: 
                 json.loads(data)
             except: 
-                data += '}'
+                if data[-1] != '}' and data[-1] != '`':
+                    data += '}'
+                elif data[-1] == '`':
+                    while data[-1] == '`':
+                        data = data[:-1]
+                    
+                    try: 
+                        json.loads(data[start_idx:])
+                    except: 
+                        data += '}'
 
         # Remove extra characters from end
         end_idx = len(data) - 1
@@ -153,13 +162,16 @@ class ProcessNotes():
         summary = self.get_summary(contact_id)
         newest_note = self.get_newest_note(contact_id)
 
-        # testing conversational_style (generates new everytime, no save)
-        # style = self.gen_conversation_style(contact_id)
+        # If user selected finetuned models, then get the latest model_id from db to use
+        if self.model_name in ("gpt_multiple", "gpt_single"):
+            self.get_finetuned_model_database()
 
         # Gets style from db only, if it doesn't exist, currently uses nothing (no updates, cached)
         style = self.get_conversation_style(contact_id)
-        # print(f'style: {style}')
-        string_questions = generate_questions(summary, newest_note, firstName, style, model_name=self.model_name)
+        string_questions, prompt = generate_questions(summary, newest_note, firstName, style, model_name=self.model_name)
+        
+        # Saving the latest prompt for later
+        self.save_latest_prompt(contact_id, prompt)
 
         json_compat_str = self.format_llm_output(string_questions)
 
@@ -176,6 +188,31 @@ class ProcessNotes():
                 formatted_questions.append(value)
 
         return formatted_questions
+    
+    # Saves the last used prompt to the database
+    def save_latest_prompt(self, contact_id, prompt):
+        prompt_str = json.dumps(prompt)
+        with DBConnection() as db_conn:
+            if db_conn:
+                # Insert prompt to database
+                sql_statement = """
+                    UPDATE Contact SET LatestPrompt = %s WHERE ContactID = %s;
+                """
+                db_conn.execute(sql_statement, (prompt_str, contact_id))
+
+    # Gets the last used prompt from the database
+    def get_latest_prompt(self, contact_id):
+        with DBConnection() as db_conn:
+            if db_conn:
+                # Gets prompt from database
+                sql_statement = """
+                    SELECT LatestPrompt FROM Contact WHERE ContactID = %s;
+                """
+                db_conn.execute(sql_statement, (contact_id,))
+                prompt = db_conn.fetchone()
+                
+                if prompt:
+                    return prompt['LatestPrompt']
 
     # Experimental method to make the generated questions more natural and fitting
     # to the user.
@@ -207,3 +244,19 @@ class ProcessNotes():
                 style = db_conn.fetchone()
 
                 return style['ConversationStyle']
+            
+    # Gets the latest model_id for that specific model type from database
+    def get_finetuned_model_database(self):
+        with DBConnection() as db_conn:
+            if db_conn:
+                sql_statement = """
+                    SELECT ModelID FROM FineTunedModels WHERE ModelType = %s ORDER BY CreatedAt DESC LIMIT 1;
+                """
+                db_conn.execute(sql_statement, (self.model_name,))
+                model_id = db_conn.fetchone()
+
+                # If it doesn't exist, then return None
+                if not model_id:
+                    return None
+                
+                self.model_name = model_id['ModelID']
