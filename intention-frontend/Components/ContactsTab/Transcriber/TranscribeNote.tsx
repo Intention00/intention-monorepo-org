@@ -9,6 +9,7 @@ import * as Clipboard from 'expo-clipboard';
 import { styles } from "./TranscribeNote.style";
 import { shareQuestion } from "./ShareQuestions/shareQuestion";
 import { SummaryModal } from "./SummaryModal";
+import { SuggestionsModal } from "./SuggestionsModal";
 
 const TranscriberNote: React.FC <{contact}> = ({contact})=> {
     // Transcription Declarations
@@ -147,37 +148,21 @@ const TranscriberNote: React.FC <{contact}> = ({contact})=> {
     
     return (
         <View style={{flex: 1, flexDirection: "column"}}>
-            {summary == null && (
-                <TouchableOpacity
-                    style={styles.infoButton}
-                    onPress={() => setShowInitialQuestions(!showInitialQuestions)}>
-                    <Feather name="info" size={24} color={styles.icons.color} />
-                </TouchableOpacity>
-            )}
-
-            {summary == null && (showInitialQuestions && (
-              <View style={styles.textBox}>
-                <Text style={styles.QuestionText}>
-                  Feel free to answer any or all of these questions.
-                  {"\n"}
-                  {"\n"}What sparked your bond?
-                  {"\n"}What role do they play in your life?
-                  {"\n"}How do you value this person?
-                </Text>
-              </View>
-            ))}
+            
             
             <View style={{flexDirection: 'row'}}>
+                
                 <TextInput
                     multiline
                     value={transcribedText}
                     placeholder={summary !== null ? "Press once to record, twice to stop" : 
-                        "Ex:From our initial meeting, a strong bond formed based on shared interests and values. They're my best friend now. \n \nRecord: 1 tap, Stop: 2 taps"}
+                        "Record: 1 tap, Stop: 2 taps"}
                     placeholderTextColor={styles.placeHolderTextColor.color}
                     onChangeText={setTranscribedText}
                     style={summary !== null ? styles.notesInput : styles.notesInputAlt}
                 />
                 <View style={styles.buttonBox}>
+                    <SuggestionsModal></SuggestionsModal>
                     <TouchableOpacity
                         style={[styles.micButton, recording ? styles.recordingButton : styles.notRecordingButton]}
                         onPress={recording ? stopRecording : startRecording}>
