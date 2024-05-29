@@ -1,7 +1,9 @@
 import { Tabs } from 'expo-router';
+
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { View, Text, Button, ScrollView, TouchableOpacity, Modal, TextInput, Image } from 'react-native';
-import { Pressable } from 'react-native';
+import { Pressable, Vibration } from 'react-native';
+
 import { useAuth } from '@clerk/clerk-expo';
 import { styles as global } from '../../Components/Generic/global.style';
 import { useState } from 'react';
@@ -17,10 +19,11 @@ export const LogoutButton = () => {
   };
 
   return (
+
     <View>
-      <Pressable onPress={() => setIsModalVisible(true)} style={{ marginRight: 10 }}>
-        <Ionicons name="log-out-outline" size={24} color={global.bodyText.color} />
-      </Pressable>
+      <Pressable onPressOut={() => {Vibration.vibrate(130)}} onPress={doLogout} style={{ marginRight: 10 }}>
+      <Ionicons name="log-out-outline" size={24} color={global.bodyText.color} />
+    </Pressable>
 
       <Modal
         visible={isModalVisible}
@@ -65,6 +68,7 @@ export const LogoutButton = () => {
 
     </View>
     
+
   );
 };
 

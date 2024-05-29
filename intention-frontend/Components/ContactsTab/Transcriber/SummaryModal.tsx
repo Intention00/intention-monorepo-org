@@ -1,4 +1,4 @@
-import { View, Text, ScrollView } from "react-native"
+import { View, Text, ScrollView, ActivityIndicator } from "react-native"
 import { styles } from "./SummaryModal.style"
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { getSummaryFromBackend } from "../../Generic/backendService";
@@ -27,7 +27,7 @@ const SummaryModal: React.FC <{contact, toggleModalVisibility, summaryWait}> = (
 
     const displaySummary = ()=> {
         if (summary === undefined) {
-            return (<Text style={styles.modalSummaryText}>Loading</Text>)
+            return (false)
         }
         else if (summary === "" || summary === null) {
             return (<Text style={styles.modalSummaryText}>Please add some notes.</Text>)
@@ -51,10 +51,11 @@ const SummaryModal: React.FC <{contact, toggleModalVisibility, summaryWait}> = (
 
                     <View style={{alignItems: 'center', marginBottom: 50}}>
                             <View style={styles.modalSummaryBox}>
-                                <ScrollView>
-                                    {displaySummary()}
-                                </ScrollView>
-                                
+                                {displaySummary() ? 
+                                    <ScrollView>
+                                        {displaySummary()}
+                                    </ScrollView> : 
+                                    <ActivityIndicator size={"large"}/>}
                             </View>
                     </View>
                 </View>
