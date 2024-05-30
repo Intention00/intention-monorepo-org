@@ -10,6 +10,7 @@ import { receiveContactsFromBackend } from "../../Generic/backendService";
 import { styles } from "./SyncContactSelector.style";
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { SearchBar } from "./SyncSearch";
+import { styles as global} from '../../Generic/global.style'
 
 const SyncContactSelector: React.FC<{ toggleModalVisibility, updateContacts }> = ({ toggleModalVisibility, updateContacts }) => {
     const userID = useContext(userIDContext);
@@ -96,10 +97,19 @@ const SyncContactSelector: React.FC<{ toggleModalVisibility, updateContacts }> =
                     )}
                 />
                 <View style={styles.selectButtons}>
-                    <TouchableOpacity onPress={() => setCheckedItems([])}>
+                    <TouchableOpacity style={{backgroundColor:global.accentColor.color,
+                                padding: 10,
+                                borderRadius: 10,
+                                width: '50%',
+                                marginRight:'5%'
+                            }} onPress={() => setCheckedItems([])}>
                         <Text style={styles.contactsListSelectText}>Deselect All</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={() => setCheckedItems([...Array(contacts.length).keys()])}>
+                    <TouchableOpacity style={{backgroundColor:global.accentColor.color,
+                                padding: 10,
+                                borderRadius: 10,
+                                width: '50%',
+                            }} onPress={() => setCheckedItems([...Array(contacts.length).keys()])}>
                         <Text style={styles.contactsListSelectText}>Select All</Text>
 
                     </TouchableOpacity>
@@ -112,6 +122,7 @@ const SyncContactSelector: React.FC<{ toggleModalVisibility, updateContacts }> =
                         onPressOut={() => {
                             Vibration.vibrate(130);
                         }}
+                        
                         onPress={saveSelectedContacts}>
                         <Text style={styles.saveText}>Save</Text>
                     </TouchableOpacity>
