@@ -45,6 +45,7 @@ const NotificationPrefs: React.FC <{toggleModalVisibility}> = ({toggleModalVisib
           .then((contacts) => {
               // Once contacts are received, update the state
               setContacts(contacts);
+              setSelectedContact(contacts[0].contactID)
           })
           .catch((error) => {
               console.error('Error fetching contacts:', error);
@@ -214,7 +215,7 @@ const NotificationPrefs: React.FC <{toggleModalVisibility}> = ({toggleModalVisib
                     itemStyle={{
                       backgroundColor: '#bcbcbc',
                       fontSize: 15,
-                      height: 50,
+                      height: 120,
                       borderRadius: 10
 
                     }}
