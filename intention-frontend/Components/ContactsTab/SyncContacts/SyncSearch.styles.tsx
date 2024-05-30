@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
     searchBar__clicked: {
       padding: 10,
       flexDirection: "row",
-      width: "80%",
+      width: "100%",
       backgroundColor: "#d9dbda",
       borderRadius: 15,
       alignItems: "center",
