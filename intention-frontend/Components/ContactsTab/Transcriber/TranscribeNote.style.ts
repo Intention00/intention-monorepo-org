@@ -47,11 +47,10 @@ const styles = StyleSheet.create ({
     },
 
     micButton: {
-        backgroundColor: 'transparent',
         padding: 6,
         borderRadius: 10,
-        marginTop: 10,
         alignItems: 'center',
+
     },
 
     infoButton: {
@@ -77,7 +76,7 @@ const styles = StyleSheet.create ({
         marginTop: -8,
         justifyContent: 'center', 
         paddingBottom: 20,
-        width: '80%'
+  
     },
     textBox: {
         borderWidth: 1,
