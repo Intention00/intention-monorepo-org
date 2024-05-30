@@ -175,8 +175,8 @@ const NotificationPrefs: React.FC<{ toggleModalVisibility: () => void }> = ({ to
       <View style={[styles.modalBox]}>
         <View style={styles.modalHeader}>
           <MaterialCommunityIcons style={styles.modalExit} name="window-close" onPress={toggleModalVisibility} />
-          <Text style={styles.modalHeaderText}>Notif Preferences</Text>
-        </View>
+          <Text style={{color: '#FFF', fontSize: 24, marginLeft:20}}> Notification Preferences</Text>
+       </View>
         <Text style={{ color: "white", fontSize: 18, fontWeight: 'bold', textAlign: 'center' }}>Please select a contact</Text>
         <ContactPicker contacts={contacts} selectedContact={selectedContact} setSelectedContact={setSelectedContact} />
         <FrequencyPicker selectedFrequency={selectedFrequency} setSelectedFrequency={setSelectedFrequency} />
