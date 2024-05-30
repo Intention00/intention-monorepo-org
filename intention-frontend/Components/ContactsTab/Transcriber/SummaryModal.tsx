@@ -55,7 +55,7 @@ const SummaryModal: React.FC <{contact, toggleModalVisibility, summaryWait}> = (
                                     <ScrollView>
                                         {displaySummary()}
                                     </ScrollView> : 
-                                    <ActivityIndicator size={"large"}/>}
+                                    <ActivityIndicator size={"large"} color={"#FFF"}/>}
                             </View>
                     </View>
                 </View>

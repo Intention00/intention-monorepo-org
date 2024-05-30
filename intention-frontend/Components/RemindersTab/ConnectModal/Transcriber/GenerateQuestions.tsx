@@ -60,8 +60,8 @@ const GenerateQuestions: React.FC <{contact}> = ({contact})=> {
                             Vibration.vibrate(130);
                         }}
                         onPress={handleGenerateQuestions}>
-                        {loading && <ActivityIndicator size={ "small"}/>}
-                        <Ionicons name="create" size={24} color={styles.icons.color} />
+                        {loading ? <ActivityIndicator size={ "small"} color={"#FFF"} /> : <Ionicons name="create" size={24} color={styles.icons.color} />}
+                        {/* <Ionicons name="create" size={24} color={styles.icons.color} /> */}
                         <Text style={styles.buttonText}>Generate New Questions</Text>
                     </TouchableOpacity>
                 </View>
