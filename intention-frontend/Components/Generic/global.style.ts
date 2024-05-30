@@ -59,7 +59,8 @@ const styles = StyleSheet.create({
 
     horizontalDivider: {
         // Shadowy Black
-        color: useDarkMode ? '#282828': '#434343'
+        color: useDarkMode ? '#282828': '#0493FB50'
+        // color: useDarkMode ? '#282828': '#434343'
     },
 
     buttonText: {
