@@ -53,7 +53,7 @@ const styles = StyleSheet.create({
 
     modalHeaderText: {
         textAlign: 'center',
-        color: global.inputBox.color,
+        color: "#FFF",
         fontSize: 24,
         marginRight: 45,
     },

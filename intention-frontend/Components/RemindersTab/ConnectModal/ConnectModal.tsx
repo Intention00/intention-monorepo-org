@@ -6,6 +6,7 @@ import { YesConnectedModal } from "./YesConnectedModal";
 import { GenerateQuestions } from "./Transcriber/GenerateQuestions";
 import { receiveScoreFromBackend, sendScoreToBackend, sendLastContactedToBackend } from "../../Generic/backendService"
 import { ContactItem } from "../../ContactsTab/DisplayContacts/ContactItem";
+import {styles as global } from '../../Generic/global.style'
 
 
 export const sendScore =() => {
@@ -100,13 +101,25 @@ const ConnectModal: React.FC <{fullReminder, toggleModalVisibility}> = ({fullRem
 
                     <View style={styles.selectButtons}>
                         <TouchableOpacity
-                            onPress={()=> handleConnectedYes()}>
+                            onPress={()=> handleConnectedYes()}
+                            style={{backgroundColor:global.accentColor.color,
+                                padding: 10,
+                                borderRadius: 10,
+                                width: '50%',
+                                marginRight:'10%'
+                            }}>
+                            
 
                             <Text style={styles.contactsListSelectText}>Yes</Text>
                         </TouchableOpacity>
 
                         <TouchableOpacity
-                            onPress={()=> handleConnectedNo()}>
+                            onPress={()=> handleConnectedNo()}
+                            style={{backgroundColor:global.accentColor.color,
+                                padding: 10,
+                                borderRadius: 10,
+                                width: '50%'
+                            }}>
 
                             <Text style={styles.contactsListSelectText}>No</Text>
                         </TouchableOpacity>

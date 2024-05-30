@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
         // White
         backgroundColor: useDarkMode ? '#383838': '#FFF',
         // Shadowy Black
-        color: useDarkMode ? '#bcbcbc': '#434343',
+        color: useDarkMode ? '#bcbcbc': '#000',
     }, 
 
     tabBarBackground: {

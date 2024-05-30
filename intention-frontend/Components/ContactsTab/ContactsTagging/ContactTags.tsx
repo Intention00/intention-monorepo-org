@@ -90,7 +90,7 @@ const ContactTags: React.FC<{contact}> = ({contact})=> {
             {/* <View style={{alignSelf: 'center'}}>
             <Text style={{textAlign: 'center', fontWeight: 'bold', color: '#fff', margin: 0, fontSize: 15 ,paddingBottom: 15}}>Click a Tag to Add</Text>
             </View> */}
-            <View style={{ height: '70%', width:'auto', padding:0 ,backgroundColor: '#222',flexWrap: 'wrap',flexDirection: 'row'}}>
+            <View style={{ height: '70%', width:'auto', padding:0 ,backgroundColor: global.background.backgroundColor,flexWrap: 'wrap',flexDirection: 'row'}}>
             {renderUserTags()}
             </View>
           </View>
