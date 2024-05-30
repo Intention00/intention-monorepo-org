@@ -67,13 +67,15 @@ const SyncContactSelector: React.FC<{ toggleModalVisibility, updateContacts }> =
                             <MaterialCommunityIcons style={styles.modalExit} name="window-close" onPress={toggleModalVisibility}/>
                             <Text style={styles.modalHeaderText}>Sync Contacts</Text>
                         </View>
+                        <View style={{marginTop: 15}}>
+                            <SearchBar
+                                clicked={clicked}
+                                searchPhrase={searchPhrase}
+                                setSearchPhrase={setSearchPhrase}
+                                setClicked={setClicked}
+                            />
+                        </View>
                         
-                        <SearchBar
-                            clicked={clicked}
-                            searchPhrase={searchPhrase}
-                            setSearchPhrase={setSearchPhrase}
-                            setClicked={setClicked}
-                        />
                     </View>
                 </View>
 
