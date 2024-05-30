@@ -80,7 +80,7 @@ import { styles as global } from "../../Generic/global.style";
   },
   input: {
     height: 40,
-    width: '90%',
+    // width: '90%',
     borderColor: global.accentColor.color, // input border color
     borderWidth: 1,
     marginTop: 10,
