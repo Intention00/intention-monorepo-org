@@ -1,5 +1,6 @@
 import { StyleSheet } from "react-native";
 import { styles as global } from "../../Generic/global.style";
+import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
 
 
 const styles = StyleSheet.create({
@@ -22,9 +23,15 @@ const styles = StyleSheet.create({
     modalText: {
         marginBottom: 15,
         textAlign: 'center',
+        color: global.bodyText.color,
+        fontSize: RFPercentage(1.5),
+    },
+    modalTextHeader: {
+        marginBottom: 15,
+        textAlign: 'center',
         fontWeight: 'bold',
         color: global.bodyText.color,
-        
+        fontSize: RFPercentage(2),
     },
     button: {
         backgroundColor: '#2196F3',

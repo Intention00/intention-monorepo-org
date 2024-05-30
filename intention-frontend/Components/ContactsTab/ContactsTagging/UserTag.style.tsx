@@ -20,6 +20,7 @@ import { styles as global } from "../../Generic/global.style";
     color: '#fff' ,
     marginHorizontal: 20,
     borderColor: global.accentColor.color,
+    maxHeight: '60%'
   },
   tag: {
     backgroundColor: '#333', // lighter shade of grey for tags
@@ -79,6 +80,7 @@ import { styles as global } from "../../Generic/global.style";
   },
   input: {
     height: 40,
+    width: '90%',
     borderColor: global.accentColor.color, // input border color
     borderWidth: 1,
     marginTop: 10,

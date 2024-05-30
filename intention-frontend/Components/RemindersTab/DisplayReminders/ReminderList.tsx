@@ -49,8 +49,13 @@ const ReminderList: React.FC <{reminders: any[]}> = ({reminders})=> {
                             <View style={{flexDirection: 'row'}}>
                                 <View style={styles.hourBox}>
                                     <Text style={styles.hourText}>
-                                        {(Number(item) > 12 ? Number(item) - 12 : Number(item)) + ' ' + (Number(item) < 12 ? 'AM' : 'PM')}
+                                        {(Number(item) > 12 ? Number(item) - 12: Number(item))}
                                     </Text>
+
+                                    <Text style={styles.hourText}>
+                                        {(Number(item) < 12 ? ' AM' : ' PM')}
+                                    </Text>
+
                                 </View>
                                 <View style={styles.reminderBox}>
                                     {renderHourlyReminders(reminders[item])}

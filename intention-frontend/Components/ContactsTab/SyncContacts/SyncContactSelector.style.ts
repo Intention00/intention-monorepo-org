@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
     },
 
     contactsList: {
-        marginTop: 15, 
+        marginTop: 0, 
         // maxHeight: 350
         maxHeight: '90%',
     },

@@ -1,5 +1,6 @@
 import { StyleSheet } from "react-native";
 import { styles as global } from "../../Generic/global.style";
+import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
 
 
 const styles = StyleSheet.create({
@@ -19,12 +20,14 @@ const styles = StyleSheet.create({
         // marginLeft: 10,
         width: '10%',
         // width: 50,
+        flexDirection: 'row'
     }, 
 
     hourText: {
         color: '#FFF', 
         textAlign: 'right',
-        fontSize: 16,
+        // fontSize: 16,
+        fontSize: RFPercentage(1.5),
         fontWeight:'400',
     },
 
