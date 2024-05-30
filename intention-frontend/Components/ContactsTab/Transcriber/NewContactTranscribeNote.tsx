@@ -146,7 +146,7 @@ const NewContactTranscriberNote: React.FC <{contact, exitModal}> = ({contact, ex
     
     return (
         <View style={{flex: 1, flexDirection: "column"}}>    
-            <View style={{flexDirection: 'row', marginBottom: '10%'}}>
+            <View style={{flexDirection: 'row', marginBottom: '15%'}}>
                 <TextInput
                     multiline
                     value={transcribedText}
@@ -169,6 +169,11 @@ const NewContactTranscriberNote: React.FC <{contact, exitModal}> = ({contact, ex
                     
                 </View>
             </View>
+
+            <View style={{marginBottom: '5%'}}>
+                <Text style={styles.onBoardingText}>Click Save to Finish Contact Setup</Text>
+            </View>
+            
 
             <TouchableOpacity
                 style={styles.button}

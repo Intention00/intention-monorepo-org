@@ -30,9 +30,10 @@ const SuggestionsModal: React.FC = ()=> {
                         </View>
                         
                         <View style={{marginBottom: '1%'}}>
-                            <Text style={styles.modalText}>What sparked your bond?</Text>
-                            <Text style={styles.modalText}>What role do they play in your life?</Text>
-                            <Text style={styles.modalText}>How do you value this person?</Text>
+                            <Text style={styles.modalText}>How did you meet each other?</Text>
+                            <Text style={styles.modalText}>What bonds the two of you together?</Text>
+                            <Text style={styles.modalText}>How has your relationship evolved over time?</Text>
+                            <Text style={styles.modalText}>What are their interests?</Text>
                         </View>
                         <TouchableOpacity
                             style={styles.button}

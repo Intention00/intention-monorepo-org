@@ -5,7 +5,8 @@ import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
 const styles = StyleSheet.create ({
     notesInput: {
         maxHeight: 100,
-        maxWidth: '75%',
+        maxWidth: '72%',
+        width: '72%',
         backgroundColor: global.inputBox.backgroundColor,
         color: global.inputBox.color,
         padding: 10,
@@ -108,6 +109,13 @@ const styles = StyleSheet.create ({
 
     icons: {
         color: global.buttonText.color
+    },
+
+    onBoardingText: {
+        color: global.subText.color,
+        fontSize: RFPercentage(1.75),
+        textAlign: 'center',
+        fontWeight: 'bold'
     }
 
 })
