@@ -52,11 +52,11 @@ const Profile = () => {
 
       <SelectorPlusHeader></SelectorPlusHeader>
 
-      <View style={{marginTop: 50, marginBottom: 50}}>  
+      {/* <View style={{marginTop: 50, marginBottom: 50}}>   */}
           {/* <DeleteUser></DeleteUser> */}
-          <DeleteUserData></DeleteUserData>
+          {/* <DeleteUserData></DeleteUserData> */}
 
-      </View>
+      {/* </View> */}
       
       <UserProfileTags></UserProfileTags>
        
