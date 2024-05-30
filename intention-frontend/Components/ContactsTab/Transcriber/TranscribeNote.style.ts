@@ -10,20 +10,8 @@ const styles = StyleSheet.create ({
         color: global.inputBox.color,
         padding: 10,
         borderRadius: 10, 
-        marginBottom: 10, 
-    },
-    notesInputAlt: {
-        maxHeight: 200,
-        backgroundColor: global.inputBox.backgroundColor,
-        color: global.inputBox.color,
-        padding: 10,
-        borderRadius: 10, 
-        marginBottom: 20, 
-        // width: 250,
-        width: '72%',
-        height: 150,
-        fontSize: RFPercentage(2),
-        
+        marginBottom: 10,
+        fontSize: RFPercentage(1.5),
     },
 
     placeHolderTextColor: {

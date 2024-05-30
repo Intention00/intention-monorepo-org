@@ -6,8 +6,9 @@ import { Feather } from '@expo/vector-icons';
 import * as Clipboard from 'expo-clipboard';
 import { styles } from "./TranscribeNote.style";
 import { shareQuestion } from "./ShareQuestions/shareQuestion";
+import { SuggestionsModal } from "./SuggestionsModal";
 
-const NewContactTranscriberNote: React.FC <{contact}> = ({contact})=> {
+const NewContactTranscriberNote: React.FC <{contact, exitModal}> = ({contact, exitModal})=> {
     // Transcription Declarations
     const [recording, setRecording] = useState(undefined);
     const [permissionResponse, requestPermission] = Audio.usePermissions();
@@ -131,6 +132,7 @@ const NewContactTranscriberNote: React.FC <{contact}> = ({contact})=> {
         } 
         finally {
             setSaving(false);
+            exitModal()
         }
         
     }
@@ -143,36 +145,21 @@ const NewContactTranscriberNote: React.FC <{contact}> = ({contact})=> {
     }, [])
     
     return (
-        <View style={{flex: 1, flexDirection: "column"}}>
-
-            {(showInitialQuestions && (
-              <View style={styles.textBox}>
-                <Text style={styles.QuestionText}>
-                  Feel free to answer any or all of these questions.
-                  {"\n"}
-                  {"\n"}What sparked your bond?
-                  {"\n"}What role do they play in your life?
-                  {"\n"}How do you value this person?
-                </Text>
-              </View>
-            ))}
-            
-            <View style={{flexDirection: 'row'}}>
+        <View style={{flex: 1, flexDirection: "column"}}>    
+            <View style={{flexDirection: 'row', marginBottom: '10%'}}>
                 <TextInput
                     multiline
                     value={transcribedText}
-                    placeholder={"Ex:From our initial meeting, a strong bond formed based on shared interests and values. They're my best friend now. \n \nRecord: 1 tap, Stop: 2 taps"}
+                    placeholder={"Press once to record, twice to stop.\n\nUse the info box on the right to see some suggested questions."}
                     placeholderTextColor={styles.placeHolderTextColor.color}
                     onChangeText={setTranscribedText}
-                    style={styles.notesInputAlt}
+                    style={styles.notesInput}
                 />
                 <View style={styles.buttonBox}>
 
-                    <TouchableOpacity
-                        style={styles.button}
-                        onPress={() => setShowInitialQuestions(!showInitialQuestions)}>
-                        <Feather name="info" size={24} color={styles.icons.color} />
-                    </TouchableOpacity>
+                    <View>
+                        <SuggestionsModal/>
+                    </View>
 
                     <TouchableOpacity
                         style={[styles.button, recording ? styles.recordingButton : styles.notRecordingButton]}

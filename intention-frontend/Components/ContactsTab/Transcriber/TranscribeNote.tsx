@@ -126,7 +126,7 @@ const TranscriberNote: React.FC <{contact}> = ({contact})=> {
                 <TextInput
                     multiline
                     value={transcribedText}
-                    placeholder={"Press once to record, twice to stop"}
+                    placeholder={"Press once to record, twice to stop."}
                     placeholderTextColor={styles.placeHolderTextColor.color}
                     onChangeText={setTranscribedText}
                     style={styles.notesInput}

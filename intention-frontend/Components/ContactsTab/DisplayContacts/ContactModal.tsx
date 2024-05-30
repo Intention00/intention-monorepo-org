@@ -44,7 +44,7 @@ const ContactModal: React.FC <{contact, toggleModalVisibility, newUser}> = ({con
                     
                     {/* Transcriber Note */}
                     <ScrollView style={{marginBottom: 30, marginTop: 10}}>
-                        {newUser ? <NewContactTranscriberNote contact={contact}></NewContactTranscriberNote> : <TranscriberNote contact={contact}></TranscriberNote>}
+                        {newUser ? <NewContactTranscriberNote exitModal={toggleModalVisibility} contact={contact}></NewContactTranscriberNote> : <TranscriberNote contact={contact}></TranscriberNote>}
                         
                     </ScrollView>
                     
