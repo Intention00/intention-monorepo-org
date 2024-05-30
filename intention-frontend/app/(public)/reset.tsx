@@ -1,7 +1,9 @@
-import { View, StyleSheet, TextInput, Button } from 'react-native';
+import { View, StyleSheet, TextInput, Button, TouchableOpacity, Text } from 'react-native';
 import React, { useState } from 'react';
 import { Stack } from 'expo-router';
 import { useSignIn } from '@clerk/clerk-expo';
+import {styles as global} from '../../Components/Generic/global.style'
+import {styles as frontPage} from '../(public)/login'
 
 const PwReset = () => {
   const [emailAddress, setEmailAddress] = useState('');
@@ -47,19 +49,33 @@ const PwReset = () => {
 
       {!successfulCreation && (
         <>
-          <TextInput autoCapitalize="none" placeholder="intention@w.com" value={emailAddress} onChangeText={setEmailAddress} style={styles.inputField} />
+          <TextInput autoCapitalize="none" placeholder="intention@w.com" value={emailAddress} onChangeText={setEmailAddress} style={frontPage.inputField} />
 
-          <Button onPress={onRequestReset} title="Send Reset Email" color={'#6c47ff'}></Button>
+          {/* <Button onPress={onRequestReset} title="Send Reset Email" color={'#6c47ff'}></Button> */}
+          <View style={frontPage.buttonContainer}>
+            <TouchableOpacity onPress={onRequestReset} style={frontPage.loginButton}>
+              <Text style={frontPage.buttonText}>
+                Send Reset Email
+              </Text>
+            </TouchableOpacity>
+          </View>
         </>
       )}
 
       {successfulCreation && (
         <>
           <View>
-            <TextInput value={code} placeholder="Code..." style={styles.inputField} onChangeText={setCode} />
-            <TextInput placeholder="New password" value={password} onChangeText={setPassword} secureTextEntry style={styles.inputField} />
+            <TextInput value={code} placeholder="Verification Code" style={frontPage.inputField} onChangeText={setCode} />
+            <TextInput placeholder="New Password" value={password} onChangeText={setPassword} secureTextEntry style={frontPage.inputField} />
           </View>
-          <Button onPress={onReset} title="Set new Password" color={'#6c47ff'}></Button>
+          {/* <Button onPress={onReset} title="Set new Password" color={'#6c47ff'}></Button> */}
+          <View style={frontPage.buttonContainer}>
+            <TouchableOpacity onPress={onReset} style={frontPage.loginButton}>
+              <Text style={frontPage.buttonText}>
+                Set New Password
+              </Text>
+            </TouchableOpacity>
+          </View>
         </>
       )}
     </View>
@@ -71,15 +87,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     padding: 20,
-  },
-  inputField: {
-    marginVertical: 4,
-    height: 50,
-    borderWidth: 1,
-    borderColor: '#6c47ff',
-    borderRadius: 4,
-    padding: 10,
-    backgroundColor: '#fff',
+    backgroundColor: global.background.backgroundColor,
   },
   button: {
     margin: 8,

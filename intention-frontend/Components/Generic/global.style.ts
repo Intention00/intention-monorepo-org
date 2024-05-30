@@ -47,7 +47,7 @@ const styles = StyleSheet.create({
 
     inputBox: {
         // White
-        backgroundColor: useDarkMode ? '#383838': '#c7c7c7',
+        backgroundColor: useDarkMode ? '#383838': '#FFF',
         // Shadowy Black
         color: useDarkMode ? '#bcbcbc': '#434343',
     }, 
