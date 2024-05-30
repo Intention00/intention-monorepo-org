@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
     },
 
     modalNameBox: {
-        backgroundColor: global.inputBox.backgroundColor,
+        backgroundColor: global.accentColor.color,
         borderRadius: 10,
         padding: 10,
         width: '86%',
@@ -59,8 +59,9 @@ const styles = StyleSheet.create({
     modalText: {
         textAlign: 'center',
         fontSize: 16,
-        fontWeight: '500',
-        color: global.inputBox.color,
+        fontWeight: 'bold',
+        color: global.buttonText.color,
+
     },
 
 })

@@ -82,7 +82,7 @@ const UserProfileTags: React.FC = () => {
         <View style={styles.container}>
             <Text style={styles.text}>Your Tags:</Text>
             <ScrollView style={styles.scrollView} >
-            {(tags === undefined || tags.length === 0) ? <Text style={styles.text}> Add some tags </Text> : renderTags() } 
+            {(tags === undefined || tags.length === 0) ? <Text style={{ marginTop: 80,fontSize: 16, alignSelf: 'center', color:"#FFF"}}> List is Empty </Text> : renderTags() } 
             </ScrollView> 
             <TextInput
                 style={styles.input}
