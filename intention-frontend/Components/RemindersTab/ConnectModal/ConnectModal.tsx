@@ -68,7 +68,7 @@ const ConnectModal: React.FC <{fullReminder, toggleModalVisibility}> = ({fullRem
 
     const handleConnectedNo = ()=> {
         console.log('Clicked No');
-
+        
         // Add logic to reset score if wanted
 
         // Close Modal to disallow further clicking, task is over
@@ -115,6 +115,7 @@ const ConnectModal: React.FC <{fullReminder, toggleModalVisibility}> = ({fullRem
 
                         <TouchableOpacity
                             onPress={()=> handleConnectedNo()}
+                            onPressOut={toggleModalVisibility}
                             style={{backgroundColor:global.accentColor.color,
                                 padding: 10,
                                 borderRadius: 10,
