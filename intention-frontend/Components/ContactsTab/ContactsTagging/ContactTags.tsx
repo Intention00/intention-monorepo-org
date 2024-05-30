@@ -35,6 +35,7 @@ const ContactTags: React.FC<{contact}> = ({contact})=> {
       setTags(updatedTags);
       setIsModalVisible(false);
     } catch (error) {
+      setIsModalVisible(false);
       console.error('Error adding tag:', error);
     }
   };

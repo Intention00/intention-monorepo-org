@@ -89,8 +89,8 @@ const TabsPage = () => {
           backgroundColor: global.tabBarBackground.color,
         },
         // tabBarActiveTintColor: '#FFCC00'
-        tabBarActiveTintColor: global.accentColor.color,
-        tabBarInactiveTintColor: global.subText.color
+        tabBarActiveTintColor: global.subText.color,
+        tabBarInactiveTintColor: global.accentColor.color
       }}
     >
 
