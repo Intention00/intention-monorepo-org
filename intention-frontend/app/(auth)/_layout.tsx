@@ -101,7 +101,7 @@ const TabsPage = () => {
           headerStyle: {
             backgroundColor: global.headerColor.color
           },
-          // unmountOnBlur: true,
+          unmountOnBlur: true,
           tabBarIcon: ({ color, size }) => <Ionicons name="person-outline" size={size} color={color} />,
           tabBarLabel: 'Contacts',
           headerRight: () => <LogoutButton />
