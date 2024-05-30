@@ -26,12 +26,14 @@ const SelectModelDetails: React.FC = ()=> {
             >
                 <View style={styles.modalContainer}>
                     <View style={styles.modalView}>
-                        <Text style={styles.modalText}>AI Model Comparison</Text>
+                        <Text style={styles.modalTextHeader}>AI Model Comparison</Text>
                         <View>
-                            <Text style={styles.modalText}>GPT-4: Versatility, natural language generation</Text>
+                            <Text style={styles.modalText}>GPT: Standard, efficient question generation</Text>
                             <Text style={styles.modalText}>Llama3: Efficiency, task-specific focus</Text>
                             <Text style={styles.modalText}>Mixtral: Creativity, storytelling</Text>
-                            <Text style={styles.modalText}>WizardLM: Logical reasoning, problem-solving</Text>
+                            <Text style={styles.modalText}>GPT4o: Versatility, natural language generation</Text>
+                            <Text style={styles.modalText}>GPT_MULTI_FT (Beta): A custom fine-tuned model aiming to further improve GPT</Text>
+                            <Text style={styles.modalText}>GPT_SINGLE_FT (Beta): A custom fine-tuned model specialized to generate one good question</Text>
                         </View>
                         <TouchableOpacity
                             style={styles.button}
