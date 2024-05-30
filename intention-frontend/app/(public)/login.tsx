@@ -4,6 +4,9 @@ import React, { useState } from 'react';
 import { View, StyleSheet, TextInput, Button, Pressable, Text, Alert, TouchableOpacity } from 'react-native';
 import Spinner from 'react-native-loading-spinner-overlay';
 import {styles as global} from '../../Components/Generic/global.style'
+import { Image } from 'expo-image';
+import appIcon from '../../assets/appicon_redesign_bluebg.png';
+
 
 const Login = () => {
   const { signIn, setActive, isLoaded } = useSignIn();
@@ -31,11 +34,21 @@ const Login = () => {
       setLoading(false);
     }
   };
+  const blurhash = 
+  '|rF?hV%2WCj[ayj[a|j[az_NaeWBj@ayfRayfQfQM{M|azj[azf6fQfQfQIpWXofj[ayj[j[fQayWCoeoeaya}j[ayfQa{oLj?j[WVj[ayayj[fQoff7azayj[ayj[j[ayofayayayj[fQj[ayayj[ayfjj[j[ayjuayj[';
+
 
   return (
     <View style={styles.container}>
       <Spinner visible={loading} />
-
+      <View style={{alignSelf:'center', marginTop: -75, marginBottom: 50}}>
+        <Image style={styles.image} 
+          source={appIcon}
+          placeholder={blurhash}
+          contentFit="cover"
+          transition={1000}
+        />
+      </View>
       <TextInput autoCapitalize="none" placeholder="intention@w.com" value={emailAddress} onChangeText={setEmailAddress} style={styles.inputField} />
       <TextInput placeholder="password" value={password} onChangeText={setPassword} secureTextEntry style={styles.inputField} onSubmitEditing={onSignInPress}/>
 
@@ -82,7 +95,7 @@ export const styles = StyleSheet.create({
     backgroundColor: '#fff',
   },
   button: {
-    margin: 8,
+    marginTop: 25,
     alignItems: 'center',
   },
   text: {
@@ -104,7 +117,15 @@ export const styles = StyleSheet.create({
   buttonText: {
     fontWeight:'bold',
     fontSize: 15,
-  }
+  },
+
+  image: {
+    width: 200, 
+    height: 200,
+    borderRadius: 100,
+    marginRight: 0,
+    marginLeft: 0
+},
 });
 
 export default Login;

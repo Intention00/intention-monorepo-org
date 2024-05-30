@@ -36,13 +36,13 @@ export const LogoutButton = () => {
                 marginBottom: 10,
                 flexDirection: 'row',
                 alignItems: 'center'}}>
-                <Ionicons name="log-out-outline" size={130} color={global.bodyText.color} style={{paddingLeft: '35%'}} />
+                <Ionicons name="log-out-outline" size={130} color={'#fa4a3d'} style={{paddingLeft: '35%'}} />
                 {/* <View style={{flex: 1}}>
                   <Text style={styles.modalHeaderText}>SignOut</Text>
                 </View> */}
               </View>
               <View style={{paddingLeft:15}}>
-                  <Text style={{color: '#FFF', fontWeight: 'bold', textAlign: 'center', fontSize: 16}}> Oh No, Are you Sure You want to Sign Out of this Account?</Text>
+                  <Text style={{color: global.bodyText.color, fontWeight: 'bold', textAlign: 'center', fontSize: 16}}> Oh No, Are you Sure You want to Sign Out of this Account?</Text>
               </View>
               <View style={{alignSelf: 'flex-end', paddingTop: "15%",flexDirection:'row', }}>
                   <View style={{paddingRight: "3%"}}>
@@ -59,7 +59,7 @@ export const LogoutButton = () => {
                     borderRadius: 5,
                     padding: 10,
                     width: "auto"}} onPress={doLogout}>
-                    <Text style={{fontSize:16, color:global.buttonText.color}}>Yes, Sign Me Out</Text>
+                    <Text style={{fontSize:16, color:global.buttonText.color, fontWeight:'bold'}}>Yes, Sign Me Out</Text>
                   </TouchableOpacity>
               </View>
             </View>
