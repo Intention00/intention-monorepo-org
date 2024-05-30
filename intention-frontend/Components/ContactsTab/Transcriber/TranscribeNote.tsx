@@ -181,7 +181,7 @@ const TranscriberNote: React.FC <{contact}> = ({contact})=> {
                     <TouchableOpacity
                         style={[styles.micButton, recording ? styles.recordingButton : styles.notRecordingButton]}
                         onPress={recording ? stopRecording : startRecording}>
-                        {loadingText ? <ActivityIndicator size={"small"}/> : <Feather name="mic" size={24} color={styles.icons.color} />}
+                        {loadingText ? <ActivityIndicator size={"small"} color={"#FFF"}/> : <Feather name="mic" size={24} color={styles.icons.color} />}
                     </TouchableOpacity>
                     
                 </View>
@@ -195,13 +195,13 @@ const TranscriberNote: React.FC <{contact}> = ({contact})=> {
                             Vibration.vibrate(130);
                         }}
                         onPress={generateQuestions}>
-                        {loading && <ActivityIndicator size={"small"}/>}
-                        <Ionicons name="create" size={24} color={styles.icons.color} />
+                        {loading ? <ActivityIndicator size={"small"} color={"#FFF"}/> : <Ionicons name="create" size={24} color={styles.icons.color} />}
                         <Text style={styles.buttonText}>
                             {loading ? "Loading Questions" : "Generate Questions"}
                         </Text>
                     </TouchableOpacity>
                 </View>
+                {/* Test */}
 
                 <View style={styles.buttonBox}>
                     <TouchableOpacity
