@@ -52,13 +52,14 @@ const styles = StyleSheet.create({
     },
 
     contactsList: {
-        marginTop: 15, 
+        marginTop: 0, 
         // maxHeight: 350
         maxHeight: '90%',
     },
 
     contactsListSelectText: {
-        color: global.subText.color,
+        color: global.inputBox.color,
+        alignSelf:'center',
         fontSize: 16
     },
 
@@ -66,7 +67,7 @@ const styles = StyleSheet.create({
         flexDirection: "row", 
         alignContent: 'center', 
         justifyContent: 'space-around', 
-        marginBottom: 30, 
+        marginBottom: 20, 
         paddingHorizontal: 20,
         // marginTop: 30,
         marginTop: '10%',
@@ -83,20 +84,26 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
         marginLeft: 'auto',
         marginRight: '5%',
-        color: global.inputBox.backgroundColor,
+        color: global.inputBox.color,
         height: '50%',
-        width: '10%'
-    },
+        width: '10%',
+    } ,
 
     saveButton:{
-        marginBottom: '5%',
-        alignItems: 'center'
+        backgroundColor:global.accentColor.color,
+            padding: 10,
+            paddingBottom: 0,
+            borderRadius: 10,
+            width: '70%',
+            alignSelf: 'center',
+            marginBottom: 20
     },
 
     saveText: {
-        color: global.accentColor.color,
+        color: global.inputBox.color,
         fontSize: 16,
-        marginBottom: '5%'
+        alignSelf: 'center',
+        marginBottom: '3%',
     },
 
 })

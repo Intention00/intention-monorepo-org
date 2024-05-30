@@ -4,8 +4,9 @@ import { styles as global } from "../../Generic/global.style"
 const styles = StyleSheet.create({
     ButtonBox: {
         alignItems: 'flex-end',
-        marginBottom: 50,
-        marginRight: 50,
+        marginBottom: 30,
+        marginRight: 15,
+        marginTop: 10,
     },
 
     Button: {

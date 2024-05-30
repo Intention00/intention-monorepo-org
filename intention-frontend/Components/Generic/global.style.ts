@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
         // White
         backgroundColor: useDarkMode ? '#383838': '#FFF',
         // Shadowy Black
-        color: useDarkMode ? '#bcbcbc': '#434343',
+        color: useDarkMode ? '#bcbcbc': '#000',
     }, 
 
     tabBarBackground: {
@@ -59,7 +59,8 @@ const styles = StyleSheet.create({
 
     horizontalDivider: {
         // Shadowy Black
-        color: useDarkMode ? '#282828': '#434343'
+        color: useDarkMode ? '#282828': '#0493FB50'
+        // color: useDarkMode ? '#282828': '#434343'
     },
 
     buttonText: {

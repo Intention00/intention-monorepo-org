@@ -46,8 +46,10 @@ const styles = StyleSheet.create ({
     },
 
     saveText: {
-        color: global.accentColor.color,
-        fontSize: 16
+        color: global.inputBox.color,
+        fontSize: 16,
+        alignSelf: 'center',
+        fontWeight: '500',
     },
 
     exitButtons: {

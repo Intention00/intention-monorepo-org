@@ -74,7 +74,7 @@ const ContactItem: React.FC<{contact: Contact, updateScore}> = ({contact, update
             
             <View style={styles.containerText}>
                 <Text style={styles.nameText}>{contact.firstName} {contact.lastName} </Text>
-                <Text style={styles.phoneText}>Tags: {tags.join(', ')} </Text>
+                <Text style={styles.phoneText}>{tags.join(', ')} </Text>
                 
             </View>
             

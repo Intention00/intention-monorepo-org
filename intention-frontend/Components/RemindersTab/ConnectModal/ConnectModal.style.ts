@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
 
     modalHeaderText: {
         textAlign: 'center',
-        color: global.inputBox.color,
+        color: '#FFF',
         fontSize: 24,
         marginRight: 45 - 24,
     },
@@ -65,12 +65,14 @@ const styles = StyleSheet.create({
     },
 
     contactsListSelectText: {
-        color: global.subText.color,
-        fontSize: 16
+        color: global.inputBox.color,
+        fontSize: 16,
+        alignSelf: 'center',
+        fontWeight: '500',
     },
 
     modalNameBox: {
-        backgroundColor: global.inputBox.backgroundColor,
+        backgroundColor: global.accentColor.color,
         borderRadius: 10,
         padding: 10,
         width: '86%',

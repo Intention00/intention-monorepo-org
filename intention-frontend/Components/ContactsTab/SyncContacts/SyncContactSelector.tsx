@@ -10,6 +10,7 @@ import { receiveContactsFromBackend } from "../../Generic/backendService";
 import { styles } from "./SyncContactSelector.style";
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { SearchBar } from "./SyncSearch";
+import { styles as global} from '../../Generic/global.style'
 
 const SyncContactSelector: React.FC<{ toggleModalVisibility, updateContacts }> = ({ toggleModalVisibility, updateContacts }) => {
     const userID = useContext(userIDContext);
@@ -66,13 +67,15 @@ const SyncContactSelector: React.FC<{ toggleModalVisibility, updateContacts }> =
                             <MaterialCommunityIcons style={styles.modalExit} name="window-close" onPress={toggleModalVisibility}/>
                             <Text style={styles.modalHeaderText}>Sync Contacts</Text>
                         </View>
+                        <View style={{marginTop: 15}}>
+                            <SearchBar
+                                clicked={clicked}
+                                searchPhrase={searchPhrase}
+                                setSearchPhrase={setSearchPhrase}
+                                setClicked={setClicked}
+                            />
+                        </View>
                         
-                        <SearchBar
-                            clicked={clicked}
-                            searchPhrase={searchPhrase}
-                            setSearchPhrase={setSearchPhrase}
-                            setClicked={setClicked}
-                        />
                     </View>
                 </View>
 
@@ -86,20 +89,30 @@ const SyncContactSelector: React.FC<{ toggleModalVisibility, updateContacts }> =
                             
                             </View>
 
+    
                             <CheckBox
                                 style={styles.checkbox}
-                                color={styles.checkbox.color}
                                 value={checkedItems.includes(contacts.indexOf(item))}
                                 onValueChange={() => handleCheckBoxSelection(contacts.indexOf(item))}
+                                    color={checkedItems.includes(contacts.indexOf(item)) ? global.accentColor.color : undefined}
                             />
                         </View>
                     )}
                 />
                 <View style={styles.selectButtons}>
-                    <TouchableOpacity onPress={() => setCheckedItems([])}>
+                    <TouchableOpacity style={{backgroundColor:global.accentColor.color,
+                                padding: 10,
+                                borderRadius: 10,
+                                width: '50%',
+                                marginRight:'5%'
+                            }} onPress={() => setCheckedItems([])}>
                         <Text style={styles.contactsListSelectText}>Deselect All</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={() => setCheckedItems([...Array(contacts.length).keys()])}>
+                    <TouchableOpacity style={{backgroundColor:global.accentColor.color,
+                                padding: 10,
+                                borderRadius: 10,
+                                width: '50%',
+                            }} onPress={() => setCheckedItems([...Array(contacts.length).keys()])}>
                         <Text style={styles.contactsListSelectText}>Select All</Text>
 
                     </TouchableOpacity>
@@ -112,6 +125,7 @@ const SyncContactSelector: React.FC<{ toggleModalVisibility, updateContacts }> =
                         onPressOut={() => {
                             Vibration.vibrate(130);
                         }}
+                        
                         onPress={saveSelectedContacts}>
                         <Text style={styles.saveText}>Save</Text>
                     </TouchableOpacity>

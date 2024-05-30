@@ -2,7 +2,8 @@ import { StyleSheet } from "react-native"
 // styles
 const styles = StyleSheet.create({
     container: {
-      margin: 15,
+      marginHorizontal: 15,
+      marginVertical: 0,
       justifyContent: "flex-start",
       alignItems: "center",
       flexDirection: "row",
@@ -20,7 +21,7 @@ const styles = StyleSheet.create({
     searchBar__clicked: {
       padding: 10,
       flexDirection: "row",
-      width: "80%",
+      width: "100%",
       backgroundColor: "#d9dbda",
       borderRadius: 15,
       alignItems: "center",

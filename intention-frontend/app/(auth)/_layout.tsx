@@ -126,12 +126,12 @@ const TabsPage = () => {
       <Tabs.Screen
         name="profile"
         options={{
-          headerTitle: 'My Profile',
+          headerTitle: 'Dashboard',
           headerStyle: {
             backgroundColor: global.headerColor.color
           },
           tabBarIcon: ({ color, size }) => <Ionicons name="person-outline" size={size} color={color} />,
-          tabBarLabel: 'My Profile',
+          tabBarLabel: 'Dashboard',
           headerRight: () => <LogoutButton />,
         }}
         redirect={!isSignedIn}
@@ -140,9 +140,12 @@ const TabsPage = () => {
       <Tabs.Screen
         name="followup"
         options={{
-          headerTitle: 'Follow Up',
+          headerTitle: 'Activity Feed',
+          headerStyle: {
+            backgroundColor: global.headerColor.color
+          },
           tabBarIcon: ({ color, size }) => <Ionicons name="person-outline" size={size} color={color} />,
-          tabBarLabel: 'Follow Up',
+          tabBarLabel: 'Activity Feed',
           headerRight: () => <LogoutButton />,
         }}
         redirect={!isSignedIn}

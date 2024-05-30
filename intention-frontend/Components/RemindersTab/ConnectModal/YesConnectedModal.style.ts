@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
     },
 
     modalTitleBox: {
-        backgroundColor: global.inputBox.backgroundColor,
+        backgroundColor: global.accentColor.color,
         borderRadius: 10,
         padding: 10,
         width: '86%' 

@@ -9,13 +9,14 @@ const SelectorPlusHeader: React.FC = ()=> {
 
     return (
         <View>
-            <Text style={styles.settingsText}>Settings</Text>
-            <Text style={styles.selectorText}>
-                Select Your Model to Generate Questions
-            </Text>
+            {/* <Text style={styles.settingsText}>Settings</Text> */}
+            <Text style={styles.selectorText}>Select Your Model to Generate Questions</Text>
+            
             <View style={{flexDirection: 'column'}}>
                 <SelectModel></SelectModel>
-                <SelectModelDetails></SelectModelDetails>
+                <View style={{alignSelf: 'flex-end'}}>
+                    <SelectModelDetails></SelectModelDetails>
+                </View>
             </View>
             
         </View>

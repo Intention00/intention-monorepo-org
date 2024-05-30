@@ -1,5 +1,6 @@
 import { StyleSheet } from "react-native";
 import { styles as global } from "../../Generic/global.style";
+import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
 
 
 const styles = StyleSheet.create({
@@ -11,19 +12,23 @@ const styles = StyleSheet.create({
     },
 
     reminderItem: {
-        marginLeft: 100,
+        marginLeft: '8%',
     },
 
     hourBox: {
         marginLeft: '3%',
         // marginLeft: 10,
-        width: '10%',
+        width: '20%',
         // width: 50,
+        flexDirection: 'row'
     }, 
 
     hourText: {
-        color: global.inputBox.color, 
+        color: '#FFF', 
         textAlign: 'right',
+        // fontSize: 16,
+        fontSize: RFPercentage(1.5),
+        fontWeight:'400',
     },
 
     reminderBox: {

@@ -33,6 +33,18 @@ const ReminderList: React.FC <{reminders: any[]}> = ({reminders})=> {
             </View>
         );
     };
+
+    const handleTimeConversion = (hour) => {
+        if (hour === 0) {
+            return '12 AM';
+        } else if (hour === 12) {
+            return '12 PM';
+        } else if (hour > 12) {
+            return `${hour - 12} PM`;
+        } else {
+            return `${hour} AM`;
+        }
+    };
     
 
     // Helper function to render each hour and its associated reminders
@@ -49,8 +61,11 @@ const ReminderList: React.FC <{reminders: any[]}> = ({reminders})=> {
                             <View style={{flexDirection: 'row'}}>
                                 <View style={styles.hourBox}>
                                     <Text style={styles.hourText}>
-                                        {(Number(item) > 12 ? Number(item) - 12 : Number(item)) + ' ' + (Number(item) < 12 ? 'AM' : 'PM')}
+                                        {handleTimeConversion(Number(item))}
                                     </Text>
+
+                                
+
                                 </View>
                                 <View style={styles.reminderBox}>
                                     {renderHourlyReminders(reminders[item])}

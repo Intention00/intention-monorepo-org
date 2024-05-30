@@ -80,21 +80,26 @@ const UserProfileTags: React.FC = () => {
     }
     return (
         <View style={styles.container}>
-            <Text style={styles.text}>Your Tags:</Text>
+            {/* <Text style={styles.text}>Your Tags:</Text> */}
+            <View style={{flexDirection: 'row'}}>
+            </View>
+
+
             <ScrollView style={styles.scrollView} >
             {(tags === undefined || tags.length === 0) ? <Text style={{ marginTop: 80,fontSize: 16, alignSelf: 'center', color:"#FFF"}}> List is Empty </Text> : renderTags() } 
             </ScrollView> 
+
             <TextInput
-                style={styles.input}
-                placeholder="Enter tag"
-                placeholderTextColor="#999" // Light grey placeholder text
-                value={newTag}
-                onChangeText={text => setNewTag(text)}
-                onSubmitEditing={handleAddTag}
-            />
-            <TouchableOpacity style={styles.modalButton} onPress={handleAddTag}>
-                <Text style={styles.modalButtonText}>Add</Text>
-            </TouchableOpacity>
+                    style={styles.input}
+                    placeholder="Add tag"
+                    placeholderTextColor="#999" // Light grey placeholder text
+                    value={newTag}
+                    onChangeText={text => setNewTag(text)}
+                    onSubmitEditing={handleAddTag}
+                />
+                <TouchableOpacity style={styles.modalButton} onPress={handleAddTag}>
+                    <Text style={styles.modalButtonText}>Add</Text>
+                </TouchableOpacity>
         </View>
     );
 };

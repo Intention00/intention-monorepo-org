@@ -5,8 +5,9 @@ const styles = StyleSheet.create({
     // Adjustments for the button's position and appearance
     ButtonBox: {
         alignItems: 'flex-end',
-        marginBottom: 50,
-        marginRight: 50,
+        marginBottom: 30,
+        marginRight: 10,
+        marginTop: 10,
     },
 
     Button: {

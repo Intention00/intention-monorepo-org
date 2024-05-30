@@ -1,5 +1,5 @@
 import { StyleSheet } from "react-native"
-import { styles as global } from "../../Generic/global.style"
+import { styles as global } from "../Generic/global.style"
 
 const styles = StyleSheet.create({
     test1: {
@@ -8,6 +8,9 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         padding: 10,
         marginBottom: 10,
+        marginLeft:'2%',
+        marginRight: '10%',
+        
         // width: 300
         
     },
