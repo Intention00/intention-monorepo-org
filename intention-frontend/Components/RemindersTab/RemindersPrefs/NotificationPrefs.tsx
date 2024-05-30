@@ -209,13 +209,15 @@ const NotificationPrefs: React.FC <{toggleModalVisibility}> = ({toggleModalVisib
                     style={{ 
                       marginTop: 5,
                       backgroundColor: 'white', // Background color
-                      borderRadius: 10,            
+                      borderRadius: 10,  
+                                
                     }}
                     itemStyle={{
                       backgroundColor: '#bcbcbc',
                       fontSize: 15,
-                      height: 50,
+                      height: 120,
                       borderRadius: 10
+                      
 
                     }}
                     onValueChange={(itemValue) => {
