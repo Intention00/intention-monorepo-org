@@ -155,7 +155,7 @@ const NewContactTranscriberNote: React.FC <{contact, exitModal}> = ({contact, ex
                     onChangeText={setTranscribedText}
                     style={styles.notesInput}
                 />
-                <View style={styles.buttonBox}>
+                <View style={[styles.buttonBox, {marginLeft: 10}]}>
 
                     <View>
                         <SuggestionsModal/>

@@ -53,7 +53,8 @@ const styles = StyleSheet.create({
         backgroundColor: global.accentColor.color,
         padding: 6,
         borderRadius: 10,
-        marginTop: 10,
+        marginTop: 5,
+        marginBottom: 5,
         alignItems: 'center',
     },
 });

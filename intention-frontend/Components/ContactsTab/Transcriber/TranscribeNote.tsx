@@ -131,7 +131,7 @@ const TranscriberNote: React.FC <{contact}> = ({contact})=> {
                     onChangeText={setTranscribedText}
                     style={styles.notesInput}
                 />
-                <View style={styles.buttonBox}>
+                <View style={[styles.buttonBox, {marginLeft: 10}]}>
                     <TouchableOpacity
                         style={[styles.button, recording ? styles.recordingButton : styles.notRecordingButton]}
                         onPress={recording ? stopRecording : startRecording}>
