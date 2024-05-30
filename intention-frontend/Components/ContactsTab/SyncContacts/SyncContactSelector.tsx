@@ -87,11 +87,12 @@ const SyncContactSelector: React.FC<{ toggleModalVisibility, updateContacts }> =
                             
                             </View>
 
+    
                             <CheckBox
                                 style={styles.checkbox}
-                                color={styles.checkbox.color}
                                 value={checkedItems.includes(contacts.indexOf(item))}
                                 onValueChange={() => handleCheckBoxSelection(contacts.indexOf(item))}
+                                    color={checkedItems.includes(contacts.indexOf(item)) ? global.accentColor.color : undefined}
                             />
                         </View>
                     )}

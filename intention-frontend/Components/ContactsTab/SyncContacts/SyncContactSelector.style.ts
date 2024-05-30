@@ -84,10 +84,10 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
         marginLeft: 'auto',
         marginRight: '5%',
-        color: global.inputBox.backgroundColor,
+        color: global.inputBox.color,
         height: '50%',
-        width: '10%'
-    },
+        width: '10%',
+    } ,
 
     saveButton:{
         backgroundColor:global.accentColor.color,
