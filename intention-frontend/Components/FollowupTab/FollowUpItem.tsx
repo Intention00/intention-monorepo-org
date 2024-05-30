@@ -20,8 +20,8 @@ const FollowUpItem: React.FC <{reminder: Reminder}> = ({reminder})=> {
 
     return (
         <View style={styles.test1}>
-            <View style={{flexDirection: 'row'}}>
-                <Text style={{color: styles.test1.color}}>Update Notes for {reminder.contact.firstName} {reminder.contact.lastName}!</Text>
+            <View style={{flexDirection: 'row', alignSelf: 'center'}}>
+                <Text style={{color: styles.test1.color, fontSize: 14}}>Update Notes for {reminder.contact.firstName} {reminder.contact.lastName}!</Text>
             </View>
         </View>
         

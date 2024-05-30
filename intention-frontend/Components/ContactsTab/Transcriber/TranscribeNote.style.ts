@@ -5,25 +5,14 @@ import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
 const styles = StyleSheet.create ({
     notesInput: {
         maxHeight: 100,
-        maxWidth: '75%',
-        backgroundColor: global.inputBox.backgroundColor,
-        color: global.inputBox.color,
-        padding: 10,
-        borderRadius: 10, 
-        marginBottom: 10, 
-    },
-    notesInputAlt: {
-        maxHeight: 200,
-        backgroundColor: global.inputBox.backgroundColor,
-        color: global.inputBox.color,
-        padding: 10,
-        borderRadius: 10, 
-        marginBottom: 20, 
-        // width: 250,
+        maxWidth: '72%',
         width: '72%',
-        height: 150,
-        fontSize: RFPercentage(2),
-        
+        backgroundColor: global.inputBox.backgroundColor,
+        color: global.inputBox.color,
+        padding: 10,
+        borderRadius: 10, 
+        marginBottom: 10,
+        fontSize: RFPercentage(1.5),
     },
 
     placeHolderTextColor: {
@@ -42,15 +31,8 @@ const styles = StyleSheet.create ({
         backgroundColor: global.accentColor.color,
         padding: 6,
         borderRadius: 10,
-        marginTop: 10,
-        alignItems: 'center',
-    },
-
-    micButton: {
-        backgroundColor: 'transparent',
-        padding: 6,
-        borderRadius: 10,
-        marginTop: 10,
+        marginTop: 5,
+        marginBottom: 5,
         alignItems: 'center',
     },
 
@@ -74,10 +56,8 @@ const styles = StyleSheet.create ({
     buttonBox: {
         flex: 1, 
         padding: 5, 
-        marginTop: -8,
         justifyContent: 'center', 
         paddingBottom: 20,
-        width: '80%'
     },
     textBox: {
         borderWidth: 1,
@@ -130,6 +110,13 @@ const styles = StyleSheet.create ({
 
     icons: {
         color: global.buttonText.color
+    },
+
+    onBoardingText: {
+        color: global.subText.color,
+        fontSize: RFPercentage(1.75),
+        textAlign: 'center',
+        fontWeight: 'bold'
     }
 
 })

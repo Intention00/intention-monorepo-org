@@ -1,6 +1,10 @@
+
 import React, { useState, useEffect, useContext } from "react";
-import { View, Text, Button, Alert } from "react-native";
+
+import { View, Text, Modal, TouchableOpacity, ScrollView, Alert, FlatList, Button} from "react-native"
 import { styles } from "../ConnectModal/ConnectModal.style";
+import {styles as global} from '../../Generic/global.style';
+
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { userIDContext } from "../../ContactsTab/UserSync/userIDContext";
 import { 
@@ -86,12 +90,14 @@ const NotificationPrefs: React.FC<{ toggleModalVisibility: () => void }> = ({ to
       const currentDateTime = new Date();
       const formattedDateTime = `${currentDateTime.getFullYear()}-${(currentDateTime.getMonth() + 1).toString().padStart(2, '0')}-${currentDateTime.getDate().toString().padStart(2, '0')} ${currentDateTime.getHours().toString().padStart(2, '0')}:${currentDateTime.getMinutes().toString().padStart(2, '0')}:${currentDateTime.getSeconds().toString().padStart(2, '0')}`;
 
+
       const reminderData = {
         contactID: selectedContact,
         dateTime: formattedDateTime,
         frequency: selectedFrequency,
         lastContacted: null,
       };
+
 
       await sendReminderToBackend(selectedContact, reminderData);
 

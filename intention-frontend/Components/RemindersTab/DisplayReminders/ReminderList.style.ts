@@ -22,8 +22,10 @@ const styles = StyleSheet.create({
     }, 
 
     hourText: {
-        color: global.inputBox.color, 
+        color: '#FFF', 
         textAlign: 'right',
+        fontSize: 16,
+        fontWeight:'400',
     },
 
     reminderBox: {

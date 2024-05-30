@@ -3,7 +3,7 @@ import { styles as global } from "../../Generic/global.style"
 
 const styles = StyleSheet.create({
     test1: {
-        backgroundColor: global.inputBox.backgroundColor,
+        backgroundColor: global.accentColor.color,
         color: global.inputBox.color,
         borderRadius: 10,
         padding: 10,
