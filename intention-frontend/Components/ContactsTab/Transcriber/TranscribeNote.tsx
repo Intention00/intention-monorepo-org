@@ -151,26 +151,30 @@ const TranscriberNote: React.FC <{contact}> = ({contact})=> {
                 {summary == null ? (
                     //This is for NEW CONTACTS
                     <View style={{flex: 1, flexDirection: "column"}}>
-                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                    <TextInput
-                        multiline
-                        value={transcribedText}
-                        placeholder={summary !== null ? "Press once to record, twice to stop" : "Record: 1 tap, Stop: 2 taps"}
-                        placeholderTextColor={styles.placeHolderTextColor.color}
-                        onChangeText={setTranscribedText}
-                        style={summary !== null ? styles.notesInput : styles.notesInputAlt}
-                    />
-                    <View style={styles.buttonBox}>
-                        <TouchableOpacity
-                            style={[styles.micButton, recording ? styles.recordingButton : styles.notRecordingButton]}
-                            onPress={recording ? stopRecording : startRecording}>
-                            {loadingText ? <ActivityIndicator size={"small"} /> : <Feather name="mic" size={24} color={styles.icons.color} />}
-                        </TouchableOpacity>
-                    </View>
-                        <View style={[styles.buttonBox, styles.buttonBox]}>
-                            <SuggestionsModal />
+                        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                        <TextInput
+                            multiline
+                            value={transcribedText}
+                            placeholder={summary !== null ? "Press once to record, twice to stop" : "Record: 1 tap, Stop: 2 taps"}
+                            placeholderTextColor={styles.placeHolderTextColor.color}
+                            onChangeText={setTranscribedText}
+                            style={summary !== null ? styles.notesInput : styles.notesInputAlt}
+                        />
+                        <View style={{flex: 1, flexDirection: "column"}}>
+                            <View style={[styles.buttonBox, styles.buttonBox]}>
+                                <SuggestionsModal/>
+                            </View>
+                            <View style={styles.buttonBox}>
+                                <TouchableOpacity
+                                    style={[styles.micButton, recording ? styles.recordingButton : styles.notRecordingButton]}
+                                    onPress={recording ? stopRecording : startRecording}>
+                                    {loadingText ? <ActivityIndicator size={"small"} /> : <Feather name="mic" size={24} color={styles.icons.color} />}
+                                </TouchableOpacity>
+                            </View>
+                            
+
                         </View>
-                </View>
+                    </View>
                     <Modal visible={summaryModalVisible} transparent={true} onRequestClose={()=> {setSummaryModalVisible(false)}} animationType='fade'>
                         <SummaryModal contact={contact} summaryWait={summaryWait} toggleModalVisibility={()=> setSummaryModalVisible(false)} />
                     </Modal>
@@ -205,7 +209,7 @@ const TranscriberNote: React.FC <{contact}> = ({contact})=> {
                                 <TextInput
                                     multiline
                                     value={transcribedText}
-                                    placeholder={summary !== null ? "Press once to record, twice to stop" : 
+                                    placeholder={summary !== null ? "Press once to record, again to stop" : 
                                         "Ex:From our initial meeting, a strong bond formed based on shared interests and values. They're my best friend now. \n \nRecord: 1 tap, Stop: 2 taps"}
                                     placeholderTextColor={styles.placeHolderTextColor.color}
                                     onChangeText={setTranscribedText}
