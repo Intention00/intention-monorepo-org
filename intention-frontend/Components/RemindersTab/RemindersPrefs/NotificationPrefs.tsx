@@ -180,7 +180,9 @@ const NotificationPrefs: React.FC<{ toggleModalVisibility: () => void }> = ({ to
         <Text style={{ color: "white", fontSize: 18, fontWeight: 'bold', textAlign: 'center' }}>Please select a contact</Text>
         <ContactPicker contacts={contacts} selectedContact={selectedContact} setSelectedContact={setSelectedContact} />
         <FrequencyPicker selectedFrequency={selectedFrequency} setSelectedFrequency={setSelectedFrequency} />
-        <Button title="Schedule Notification" onPress={handleScheduleNotification} />
+        <TouchableOpacity style={{backgroundColor: global.accentColor.color, padding:10, alignItems:'center', borderRadius: 10, margin: 10, marginTop: 20}} onPress={handleScheduleNotification}>
+          <Text style={{color:global.inputBox.color, fontSize: 16, fontWeight:'500'}}>Schedule Notification</Text>
+        </TouchableOpacity>
         <ScheduledNotificationsList
           reminders={remindersData.filter(reminder => reminder?.contact?.contactID === selectedContact)}
           handleCancelNotification={handleCancelNotification}

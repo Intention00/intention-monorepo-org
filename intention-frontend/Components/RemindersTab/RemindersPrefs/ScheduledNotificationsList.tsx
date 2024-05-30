@@ -23,8 +23,8 @@ const ScheduledNotificationsList: React.FC<{ reminders: any[], handleCancelNotif
         data={reminders}
         renderItem={({ item }) => (
           item && item.contact && item.reminder ? (
-            <View style={{ backgroundColor: global.accentColor.color, marginTop: 5, borderRadius: 10, padding: 10, position: 'relative' }}>
-              <Text style={{ color: global.inputBox.color, textAlign: 'center' }}>{item.reminder.dateTime}</Text>
+            <View style={{ backgroundColor: global.accentColor.color, margin:10,marginTop: 5, borderRadius: 10, padding: 10, position: 'relative' }}>
+              <Text style={{ color: global.inputBox.color, textAlign: 'center', fontWeight:'500' }}>{item.reminder.dateTime}</Text>
               <Text style={{ color: global.inputBox.color, textAlign: 'center' }}>{item.reminder.frequency}</Text>
               <TouchableOpacity style={{ position: 'absolute', top: 5, right: 5 }} onPress={confirmAndCancelAll}>
                 <Text style={{ color: 'red', fontWeight: 'bold', fontSize:35 }}>X</Text>
