@@ -12,13 +12,13 @@ const styles = StyleSheet.create({
     },
 
     reminderItem: {
-        marginLeft: 100,
+        marginLeft: '8%',
     },
 
     hourBox: {
         marginLeft: '3%',
         // marginLeft: 10,
-        width: '10%',
+        width: '20%',
         // width: 50,
         flexDirection: 'row'
     }, 
