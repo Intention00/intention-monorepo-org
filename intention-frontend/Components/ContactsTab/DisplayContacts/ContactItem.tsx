@@ -26,6 +26,7 @@ const ContactItem: React.FC<{contact: Contact, updateScore}> = ({contact, update
     const [connectionScore, setConnectionScore] = useState(0);
     const [tags, setTags] = useState([]);
     const userID = useContext(userIDContext);
+    const tagStatus = useContext(tagUpdater)
     
 
     useEffect(() => {
@@ -38,7 +39,7 @@ const ContactItem: React.FC<{contact: Contact, updateScore}> = ({contact, update
             console.error('Error fetching tags:', error);
           }
         })();
-      }, [userID, contact.contactID, tagUpdater.displayName]);
+      }, [userID, contact.contactID, tagStatus]);
 
 
     useEffect(()=> {
