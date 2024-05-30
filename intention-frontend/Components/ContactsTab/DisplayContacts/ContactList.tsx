@@ -21,12 +21,9 @@ const ContactList: React.FC <{contacts: any[]}> = ({contacts})=> {
 
     const newUserTrue = async (contact)=> {
         const summary = await getSummaryFromBackend(contact.contactID);
-        console.log(`SUMMARY: ${summary}`)
         if (summary) {
-            console.log(`SUMMARY EXISTS`)
             return false;
         }
-        console.log(`SUMMARY DOESN"T EXISTS`)
         return true;
     }
 
