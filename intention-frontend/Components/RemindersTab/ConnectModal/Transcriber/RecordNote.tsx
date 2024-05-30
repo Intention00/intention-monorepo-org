@@ -4,7 +4,7 @@ import { Audio } from "expo-av"
 import { sendNotesToBackend, sendFinalNotesToBackend } from "../../../Generic/backendService";
 import { Feather } from '@expo/vector-icons';
 import { styles } from "./RecordNote.style";
-
+import { styles as global} from '../../../Generic/global.style'
 const RecordNote: React.FC <{contact, modalToggle, yesModalToggle}> = ({contact, modalToggle, yesModalToggle})=> {
     // Transcription Declarations
     const [recording, setRecording] = useState(undefined);
@@ -98,6 +98,13 @@ const RecordNote: React.FC <{contact, modalToggle, yesModalToggle}> = ({contact,
             <View style={styles.exitButtons}>
                 <TouchableOpacity
                     // style={styles.saveButton}
+                    style={{backgroundColor: global.accentColor.color,
+                        padding: 10,
+                        borderRadius: 10,
+                        width: '50%',
+                        marginRight:'5%',
+                        marginLeft:"-3%"
+                    }}
                     onPressOut={() => {Vibration.vibrate(130);}}
                     onPress={() => handleSave()}>
 
@@ -106,9 +113,14 @@ const RecordNote: React.FC <{contact, modalToggle, yesModalToggle}> = ({contact,
 
                 <TouchableOpacity
                     // style={styles.saveButton}
+                    style={{backgroundColor: global.accentColor.color,
+                        padding: 10,
+                        borderRadius: 10,
+                        width: '50%',
+                    }}
                     onPress={() => handleClose()}>
 
-                    <Text style={styles.exitText}>Close</Text>
+                    <Text style={styles.saveText}>Close</Text>
                 </TouchableOpacity>
             </View>
         </View>

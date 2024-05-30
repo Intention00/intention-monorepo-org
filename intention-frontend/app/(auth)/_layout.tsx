@@ -141,6 +141,9 @@ const TabsPage = () => {
         name="followup"
         options={{
           headerTitle: 'Follow Up',
+          headerStyle: {
+            backgroundColor: global.headerColor.color
+          },
           tabBarIcon: ({ color, size }) => <Ionicons name="person-outline" size={size} color={color} />,
           tabBarLabel: 'Follow Up',
           headerRight: () => <LogoutButton />,

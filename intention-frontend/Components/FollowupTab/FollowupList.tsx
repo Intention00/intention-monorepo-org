@@ -3,6 +3,7 @@ import { View, SafeAreaView, Text, FlatList, TouchableHighlight, Modal } from "r
 import { ReminderItem } from "../RemindersTab/DisplayReminders/ReminderItem";
 import { styles } from "../RemindersTab/DisplayReminders/ReminderList.style";
 import { ConnectModal } from "../RemindersTab/ConnectModal/ConnectModal";
+import { FollowUpItem } from "./FollowUpItem";
 
 const FollowUpList: React.FC<{ reminders: any[] }> = ({ reminders }) => {
     const [selectedReminder, setSelectedReminder] = useState(null);
@@ -38,7 +39,8 @@ const FollowUpList: React.FC<{ reminders: any[] }> = ({ reminders }) => {
                 style={styles.reminderItem}
                 underlayColor={'rgba(10, 10, 10, 0.25)'}
                 onPress={() => { onReminderClick(reminder) }}>
-                <ReminderItem reminder={reminder}></ReminderItem>
+                <FollowUpItem reminder={reminder}></FollowUpItem>
+                
             </TouchableHighlight>
         ));
     };

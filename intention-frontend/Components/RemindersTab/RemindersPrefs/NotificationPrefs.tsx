@@ -1,5 +1,6 @@
 import { View, Text, Modal, TouchableOpacity, ScrollView, Alert, FlatList, Button} from "react-native"
-import { styles } from "../ConnectModal/ConnectModal.style"
+import { styles } from "../ConnectModal/ConnectModal.style";
+import {styles as global} from '../../Generic/global.style';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useState, useEffect, useContext } from "react";
 import { 
@@ -190,7 +191,7 @@ const NotificationPrefs: React.FC <{toggleModalVisibility}> = ({toggleModalVisib
             <View style={[styles.modalBox]}>
                 <View style={styles.modalHeader}>
                     <MaterialCommunityIcons style={styles.modalExit} name="window-close" onPress={toggleModalVisibility}/>
-                    <Text style={styles.modalHeaderText}> Notif Preferences</Text>
+                    <Text style={{color: '#FFF', fontSize: 24, marginLeft:20}}> Notification Preferences</Text>
                     {/* Header */}
 
                 </View>
@@ -257,22 +258,28 @@ const NotificationPrefs: React.FC <{toggleModalVisibility}> = ({toggleModalVisib
                   </Picker>
 
                   {/* Schedule the Notification Locally & Store into Database */}
-                  <Button title="Schedule Notification" onPress={handleScheduleNotification} />
+                  <TouchableOpacity style={{backgroundColor: global.accentColor.color, padding:10, alignItems:'center', borderRadius: 10, margin: 10, marginTop: 20}} onPress={handleScheduleNotification}>
+                    <Text style={{color:global.inputBox.color, fontSize: 16}}>Schedule Notification</Text>
+                  </TouchableOpacity>
                   <View style={{}}>
                     <FlatList
                     
                     data={scheduledNotifications}
                     renderItem={({ item }) => (
-                      <View style={{backgroundColor: '#bcbcbc', marginTop: 5, borderRadius: 10}}>
+                      <View style={{backgroundColor: global.accentColor.color, marginTop: 10, margin: 10 , marginBottom: 5, borderRadius: 10}}>
                         <Text style={{
-                          color: 'white',
+                          color: global.inputBox.color,
                           textAlign: 'center',
-                          marginTop: 10
+                          marginTop: 10,
+                          fontWeight: '500'
                           }}>{item.content?.title}</Text>
                         <Text style={{
-                          color: 'white',
+                          color: global.inputBox.color,    
                           textAlign: 'center'}}>{item.content?.body}</Text>
-                        <Button title="Cancel Notification" onPress={() => handleCancelNotification(item.identifier, selectedContact)} />
+                          <TouchableOpacity style={{backgroundColor: '#F44336', padding:10, alignItems:'center', borderRadius: 10, marginTop: 5}} onPress={() => handleCancelNotification(item.identifier, selectedContact)}>
+                            <Text style={{color: '#212121', fontSize: 16}}>Cancel Notification</Text>
+                          </TouchableOpacity>
+                        {/* <Button title="Cancel Notification" color={'#F44336'}onPress={() => handleCancelNotification(item.identifier, selectedContact)} /> */}
                       </View>
                     )}
                     keyExtractor={(item) => item.identifier.toString()}/>
