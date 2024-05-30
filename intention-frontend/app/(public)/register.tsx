@@ -1,10 +1,8 @@
-import { Button, TextInput, View, StyleSheet, TouchableOpacity, Text } from 'react-native';
+import { Button, TextInput, View, StyleSheet } from 'react-native';
 import { useSignUp } from '@clerk/clerk-expo';
 import Spinner from 'react-native-loading-spinner-overlay';
 import { useState } from 'react';
 import { Stack } from 'expo-router';
-import {styles as global} from '../../Components/Generic/global.style'
-import {styles as frontPage} from '../(public)/login'
 
 const Register = () => {
   const { isLoaded, signUp, setActive } = useSignUp();
@@ -72,35 +70,21 @@ const Register = () => {
 
       {!pendingVerification && (
         <>
-          <TextInput autoCapitalize="none" placeholder="intention@w.com" value={emailAddress} onChangeText={setEmailAddress} style={frontPage.inputField} />
-          <TextInput placeholder="password" value={password} onChangeText={setPassword} secureTextEntry style={frontPage.inputField} />
-          <TextInput placeholder="first name" value={firstName} onChangeText={setFirstName} style={frontPage.inputField} />
-          <TextInput placeholder="last name" value={lastName} onChangeText={setLastName}  style={frontPage.inputField} />
+          <TextInput autoCapitalize="none" placeholder="intention@w.com" value={emailAddress} onChangeText={setEmailAddress} style={styles.inputField} />
+          <TextInput placeholder="password" value={password} onChangeText={setPassword} secureTextEntry style={styles.inputField} />
+          <TextInput placeholder="first name" value={firstName} onChangeText={setFirstName} style={styles.inputField} />
+          <TextInput placeholder="last name" value={lastName} onChangeText={setLastName}  style={styles.inputField} />
 
-          {/* <Button onPress={onSignUpPress} title="Sign up" color={'#6c47ff'}></Button> */}
-          <View style={frontPage.buttonContainer}>
-            <TouchableOpacity onPress={onSignUpPress} style={frontPage.loginButton}>
-              <Text style={frontPage.buttonText}>
-                Sign Up
-              </Text>
-            </TouchableOpacity>
-      </View>
+          <Button onPress={onSignUpPress} title="Sign up" color={'#6c47ff'}></Button>
         </>
       )}
 
       {pendingVerification && (
         <>
           <View>
-            <TextInput value={code} placeholder="Verification Code" style={frontPage.inputField} onChangeText={setCode} />
+            <TextInput value={code} placeholder="Code..." style={styles.inputField} onChangeText={setCode} />
           </View>
-          {/* <Button onPress={onPressVerify} title="Verify Email" color={'#6c47ff'}></Button> */}
-          <View style={frontPage.buttonContainer}>
-            <TouchableOpacity onPress={onPressVerify} style={frontPage.loginButton}>
-              <Text style={frontPage.buttonText}>
-                Verify Email
-              </Text>
-            </TouchableOpacity>
-      </View>
+          <Button onPress={onPressVerify} title="Verify Email" color={'#6c47ff'}></Button>
         </>
       )}
     </View>
@@ -112,7 +96,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     padding: 20,
-    backgroundColor: global.background.backgroundColor,
   },
   inputField: {
     marginVertical: 4,

@@ -13,13 +13,12 @@ import { styles as global } from "../../Generic/global.style";
 
   },
   text: {
-    color: global.bodyText.color, // white text for dark background
+    color: global.headerText.color, // white text for dark background
     margin: 10,
   },
   scrollView: {
     color: '#fff' ,
     marginHorizontal: 20,
-    borderColor: global.accentColor.color,
   },
   tag: {
     backgroundColor: '#333', // lighter shade of grey for tags
@@ -67,25 +66,24 @@ import { styles as global } from "../../Generic/global.style";
     color: '#fff', // white color for modal text
   },
   modalButton: {
-    backgroundColor: global.accentColor.color,
+    backgroundColor: '#555',
     borderRadius: 5,
     padding: 10,
     elevation: 2,
   },
   modalButtonText: {
-    color: global.buttonText.color,
+    color: '#fff',
     fontWeight: 'bold',
     textAlign: 'center',
   },
   input: {
     height: 40,
-    borderColor: global.accentColor.color, // input border color
+    borderColor: '#777', // input border color
     borderWidth: 1,
     marginTop: 10,
     paddingHorizontal: 10,
     color: '#fff', // input text color
     borderRadius: 5,
-    marginBottom: 5,
   },
 });
 

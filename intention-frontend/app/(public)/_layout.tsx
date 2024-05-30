@@ -1,15 +1,14 @@
 import React from 'react';
 import { Stack } from 'expo-router';
-import {styles as global} from '../../Components/Generic/global.style'
 
 const PublicLayout = () => {
   return (
     <Stack
       screenOptions={{
         headerStyle: {
-          backgroundColor: global.accentColor.color,
+          backgroundColor: '#6c47ff',
         },
-        headerTintColor: global.buttonText.color,
+        headerTintColor: '#fff',
         headerBackTitle: 'Back',
       }}>
       <Stack.Screen

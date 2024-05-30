@@ -147,71 +147,31 @@ const TranscriberNote: React.FC <{contact}> = ({contact})=> {
     }, [])
     
     return (
-
-        <View style={{flex: 1, flexDirection: "column"}}>
-            {summary == null && (
-                <TouchableOpacity
-                    style={styles.infoButton}
-                    onPress={() => setShowInitialQuestions(!showInitialQuestions)}>
-                    <Feather name="info" size={24} color={styles.icons.color} />
-                </TouchableOpacity>
-            )}
-
-            {showInitialQuestions && (
-              <View style={styles.textBox}>
-                <Text style={styles.QuestionText}>
-                  Feel free to answer any or all of these questions.
-                  {"\n"}
-                  {"\n"}What sparked your bond?
-                  {"\n"}What role do they play in your life?
-                  {"\n"}How do you value this person?
-                </Text>
-              </View>
-            )}
-            
-            <View style={{flexDirection: 'row'}}>
-                <TextInput
-                    multiline
-                    value={transcribedText}
-                    placeholder={summary !== null ? "Press once to record, twice to stop" : 
-                        "Ex:From our initial meeting, a strong bond formed based on shared interests and values. They're my best friend now. \n \nRecord: 1 tap, Stop: 2 taps"}
-                    placeholderTextColor={styles.placeHolderTextColor.color}
-                    onChangeText={setTranscribedText}
-                    style={summary !== null ? styles.notesInput : styles.notesInputAlt}
-                />
-                <View style={styles.buttonBox}>
-                    <TouchableOpacity
-                        style={[styles.button, recording ? styles.recordingButton : styles.notRecordingButton]}
-                        onPress={recording ? stopRecording : startRecording}>
-                        {loadingText ? <ActivityIndicator size={"small"} color={"#FFF"}/> : <Feather name="mic" size={24} color={styles.icons.color} />}
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                        style={styles.button}
-                        onPressOut={() => {
-                            Vibration.vibrate(130);
-                        }}
-                        onPress={handleSaveClick}
-                        disabled={saving}>
-                        <Feather name="save" size={24} color={styles.icons.color} />
-                    </TouchableOpacity>
-                </View>
-            </View>
-
-            {summary !== null && <View style={{flexDirection: 'row'}}>
-                <View style={styles.buttonBox}>
-                    <TouchableOpacity
-                        style={styles.button}
-                        onPressOut={() => {
-                            Vibration.vibrate(130);
-                        }}
-                        onPress={generateQuestions}>
-                        {loading ? <ActivityIndicator size={"small"} color={"#FFF"}/> : <Ionicons name="create" size={24} color={styles.icons.color} />}
-                        <Text style={styles.buttonText}>
-                            {loading ? "Loading Questions" : "Generate Questions"}
-                        </Text>
-                    </TouchableOpacity>
-                </View>
-
+        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                {summary == null ? (
+                    //This is for NEW CONTACTS
+                    <View style={{flex: 1, flexDirection: "column"}}>
+                        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                        <TextInput
+                            multiline
+                            value={transcribedText}
+                            placeholder={summary !== null ? "Press once to record, twice to stop" : "Record: 1 tap, Stop: 2 taps"}
+                            placeholderTextColor={styles.placeHolderTextColor.color}
+                            onChangeText={setTranscribedText}
+                            style={summary !== null ? styles.notesInput : styles.notesInputAlt}
+                        />
+                        <View style={{flex: 1, flexDirection: "column"}}>
+                            <View style={[styles.buttonBox, styles.buttonBox]}>
+                                <SuggestionsModal/>
+                            </View>
+                            <View style={styles.buttonBox}>
+                                <TouchableOpacity
+                                    style={[styles.micButton, recording ? styles.recordingButton : styles.notRecordingButton]}
+                                    onPress={recording ? stopRecording : startRecording}>
+                                    {loadingText ? <ActivityIndicator size={"small"} /> : <Feather name="mic" size={24} color={styles.icons.color} />}
+                                </TouchableOpacity>
+                            </View>
+                            
 
                         </View>
                     </View>
