@@ -209,6 +209,7 @@ const TranscriberNote: React.FC <{contact}> = ({contact})=> {
                         </Text>
                     </TouchableOpacity>
                 </View>
+                {/* Test */}
 
                 <View style={styles.buttonBox}>
                     <TouchableOpacity
