@@ -9,6 +9,7 @@ import * as Clipboard from 'expo-clipboard';
 import { styles } from "./TranscribeNote.style";
 import { shareQuestion } from "./ShareQuestions/shareQuestion";
 import { SummaryModal } from "./SummaryModal";
+import { SuggestionsModal } from "./SuggestionsModal";
 
 const TranscriberNote: React.FC <{contact}> = ({contact})=> {
     // Transcription Declarations
@@ -146,6 +147,7 @@ const TranscriberNote: React.FC <{contact}> = ({contact})=> {
     }, [])
     
     return (
+
         <View style={{flex: 1, flexDirection: "column"}}>
             {summary == null && (
                 <TouchableOpacity
@@ -210,33 +212,114 @@ const TranscriberNote: React.FC <{contact}> = ({contact})=> {
                     </TouchableOpacity>
                 </View>
 
-                <View style={styles.buttonBox}>
-                    <TouchableOpacity
-                        style={styles.button}
-                        onPress={()=> setSummaryModalVisible(true)}>
-                        <MaterialIcons name="summarize" size={24} color={styles.icons.color} />
-                        <Text style={styles.buttonText}>Summary</Text>
-                    </TouchableOpacity>
-                </View>
-            </View>}
 
-            <Modal visible={summaryModalVisible} transparent={true} onRequestClose={()=> {setSummaryModalVisible(false)}} animationType='fade'>
-                <SummaryModal contact={contact} summaryWait={summaryWait} toggleModalVisibility={()=> setSummaryModalVisible(false)} />
-            </Modal>
-            
-            <View style={{ flexDirection: 'column' }}>
-                {questions.map((question, index) => (
-                    <View key={index}>
-                        <View style={styles.questionContainer}>
-                            <TouchableOpacity style={styles.questionTextBox} onPress={()=> handleQuestionClick(question)}>
-                                <Text style={styles.questionText}>{question}</Text>
-                            </TouchableOpacity>
                         </View>
-                        <View style={styles.horizontalDivider}></View>
                     </View>
-                ))}
+                    <Modal visible={summaryModalVisible} transparent={true} onRequestClose={()=> {setSummaryModalVisible(false)}} animationType='fade'>
+                        <SummaryModal contact={contact} summaryWait={summaryWait} toggleModalVisibility={()=> setSummaryModalVisible(false)} />
+                    </Modal>
+                    
+                    <View style={{ flexDirection: 'column' }}>
+                        {questions.map((question, index) => (
+                            <View key={index}>
+                                <View style={styles.questionContainer}>
+                                    <TouchableOpacity style={styles.questionTextBox} onPress={()=> handleQuestionClick(question)}>
+                                        <Text style={styles.questionText}>{question}</Text>
+                                    </TouchableOpacity>
+                                </View>
+                                <View style={styles.horizontalDivider}></View>
+                            </View>
+                        ))}
+                    </View>
+                    <TouchableOpacity
+                                style={styles.button}
+                                onPressOut={() => {
+                                    Vibration.vibrate(130);
+                                }}
+                                onPress={handleSaveClick}
+                                disabled={saving}>
+                                <Feather name="save" size={24} color={styles.icons.color} />
+                                <Text>Save</Text>
+                            </TouchableOpacity>
+                </View>
+                ) : (
+                    //This is for OLD CONTACTS
+                        <View style={{flex: 1, flexDirection: "column"}}>   
+                            <View style={{flexDirection: 'row'}}>
+                                <TextInput
+                                    multiline
+                                    value={transcribedText}
+                                    placeholder={summary !== null ? "Press once to record, again to stop" : 
+                                        "Ex:From our initial meeting, a strong bond formed based on shared interests and values. They're my best friend now. \n \nRecord: 1 tap, Stop: 2 taps"}
+                                    placeholderTextColor={styles.placeHolderTextColor.color}
+                                    onChangeText={setTranscribedText}
+                                    style={summary !== null ? styles.notesInput : styles.notesInputAlt}
+                                />
+                                <View style={styles.buttonBox}>
+                                    <TouchableOpacity
+                                        style={[styles.micButton, recording ? styles.recordingButton : styles.notRecordingButton]}
+                                        onPress={recording ? stopRecording : startRecording}>
+                                        {loadingText ? <ActivityIndicator size={"small"}/> : <Feather name="mic" size={24} color={styles.icons.color} />}
+                                    </TouchableOpacity>
+                                    <TouchableOpacity
+                                        style={styles.button}
+                                        onPressOut={() => {
+                                            Vibration.vibrate(130);
+                                        }}
+                                        onPress={handleSaveClick}
+                                        disabled={saving}>
+                                        {loadingText ? <ActivityIndicator size={"small"}/> : <Feather name="save" size={24} color={styles.icons.color} />}
+                                        <Text>Save</Text>
+                                    </TouchableOpacity>
+                                    
+                                </View>
+                            </View>
+                
+                            <View style={{flexDirection: 'row'}}>
+                                <View style={styles.buttonBox}>
+                                    <TouchableOpacity
+                                        style={styles.button}
+                                        onPressOut={() => {
+                                            Vibration.vibrate(130);
+                                        }}
+                                        onPress={generateQuestions}>
+                                        {loading && <ActivityIndicator size={"small"}/>}
+                                        <Ionicons name="create" size={24} color={styles.icons.color} />
+                                        <Text style={styles.buttonText}>
+                                            {loading ? "Loading Questions" : "Generate Questions"}
+                                        </Text>
+                                    </TouchableOpacity>
+                                </View>
+                
+                                <View style={styles.buttonBox}>
+                                    <TouchableOpacity
+                                        style={styles.button}
+                                        onPress={()=> setSummaryModalVisible(true)}>
+                                        <MaterialIcons name="summarize" size={24} color={styles.icons.color} />
+                                        <Text style={styles.buttonText}>Summary</Text>
+                                    </TouchableOpacity>
+                                </View>
+                            </View>
+                
+                            <Modal visible={summaryModalVisible} transparent={true} onRequestClose={()=> {setSummaryModalVisible(false)}} animationType='fade'>
+                                <SummaryModal contact={contact} summaryWait={summaryWait} toggleModalVisibility={()=> setSummaryModalVisible(false)} />
+                            </Modal>
+                            
+                            <View style={{ flexDirection: 'column' }}>
+                                {questions.map((question, index) => (
+                                    <View key={index}>
+                                        <View style={styles.questionContainer}>
+                                            <TouchableOpacity style={styles.questionTextBox} onPress={()=> handleQuestionClick(question)}>
+                                                <Text style={styles.questionText}>{question}</Text>
+                                            </TouchableOpacity>
+                                        </View>
+                                        <View style={styles.horizontalDivider}></View>
+                                    </View>
+                                ))}
+                            </View>
+                        </View>
+                )}
             </View>
-        </View>
     )
 }
 
