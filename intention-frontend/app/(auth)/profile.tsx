@@ -50,7 +50,10 @@ const Profile = () => {
       <TextInput placeholder="Last Name" value={lastName} placeholderTextColor={global.inputBox.color} onChangeText={setLastName} style={[global.inputBox, styles.inputField]} />
       <Button onPress={onSaveUser} title="Update account" color={'#6c47ff'}></Button> */}
 
-      <SelectorPlusHeader></SelectorPlusHeader>
+      <View style={{marginTop: '10%', marginBottom: '30%'}}>
+        <SelectorPlusHeader></SelectorPlusHeader>
+      </View>
+      
 
       {/* <View style={{marginTop: 50, marginBottom: 50}}>   */}
           {/* <DeleteUser></DeleteUser> */}
