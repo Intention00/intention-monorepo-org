@@ -1,5 +1,6 @@
 import { View, Text, Button,ScrollView, TouchableHighlight, TouchableOpacity } from "react-native"
 import {TranscriberNote} from '../Transcriber/TranscribeNote'
+import { NewContactTranscriberNote } from "../Transcriber/NewContactTranscribeNote";
 import React, {createContext, useState} from "react";
 import { Image } from 'expo-image'
 import { styles } from "./ContactModal.style";
@@ -8,7 +9,7 @@ import { ContactTags } from '../../ContactsTab/ContactsTagging/ContactTags'
 import { ContactItem } from "./ContactItem";
 import { tagUpdater } from "../UserSync/tagUpdater";
 
-const ContactModal: React.FC <{contact, toggleModalVisibility}> = ({contact, toggleModalVisibility})=> {
+const ContactModal: React.FC <{contact, toggleModalVisibility, newUser}> = ({contact, toggleModalVisibility, newUser})=> {
     const [currentStep, setCurrentStep] = useState("transcriber"); // Default to transcriber
     // const handleRecordingComplete = () => {
     //     setCurrentStep("AI_Generations");
@@ -43,7 +44,8 @@ const ContactModal: React.FC <{contact, toggleModalVisibility}> = ({contact, tog
                     
                     {/* Transcriber Note */}
                     <ScrollView style={{marginBottom: 30, marginTop: 10}}>
-                        <TranscriberNote contact={contact}></TranscriberNote>
+                        {newUser ? <NewContactTranscriberNote contact={contact}></NewContactTranscriberNote> : <TranscriberNote contact={contact}></TranscriberNote>}
+                        
                     </ScrollView>
                     
                 </View>
