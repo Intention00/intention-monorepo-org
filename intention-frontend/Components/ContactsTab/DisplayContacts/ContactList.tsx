@@ -3,17 +3,29 @@ import {ContactItem} from "./ContactItem";
 import {ContactModal} from './ContactModal'
 import { useState } from "react";
 import { styles } from "./ContactList.style";
-import { SearchBar } from "../SyncContacts/SyncSearch"
+import { getSummaryFromBackend } from "../../Generic/backendService";
 
 
 const ContactList: React.FC <{contacts: any[]}> = ({contacts})=> {
     const [selectedContact, setSelectedContact] = useState(undefined);
     const [modalVisible, setModalVisible] = useState(false);
+    const [newUser, setNewUser] = useState(true)
     
-    const onContactClick = (contact)=> {
+    const onContactClick = async (contact)=> {
         setSelectedContact(contact);
-        setModalVisible(!modalVisible);
+        const isNewUser = await newUserTrue(contact);
+        setNewUser(isNewUser);
+        setModalVisible(true);
+        
     };
+
+    const newUserTrue = async (contact)=> {
+        const summary = await getSummaryFromBackend(contact.contactID);
+        if (summary) {
+            return false;
+        }
+        return true;
+    }
 
 
 
@@ -40,7 +52,7 @@ const ContactList: React.FC <{contacts: any[]}> = ({contacts})=> {
 
             <Modal visible={modalVisible} transparent={true} onRequestClose={()=> {setModalVisible(false)}} animationType="fade">
                 <SafeAreaView>
-                    <ContactModal contact={selectedContact} toggleModalVisibility={()=> {setModalVisible(false)}}/>
+                    <ContactModal contact={selectedContact} newUser={newUser} toggleModalVisibility={()=> {setModalVisible(false)}}/>
                 </SafeAreaView>
             </Modal>
 

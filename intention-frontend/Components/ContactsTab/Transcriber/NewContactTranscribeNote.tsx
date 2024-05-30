@@ -1,15 +1,14 @@
-import { View, Text, TextInput, TouchableOpacity, Modal, ActivityIndicator, Vibration } from "react-native";
-import React, { useState } from "react";
+import { View, Text, TextInput, TouchableOpacity, ActivityIndicator, Vibration } from "react-native";
+import React, { useState, useEffect } from "react";
 import { Audio } from "expo-av";
-import { sendNotesToBackend, sendFinalNotesToBackend, backendAddress, sendFavoriteQuestionToBackend } from "../../Generic/backendService";
+import { sendNotesToBackend, sendFinalNotesToBackend, getSummaryFromBackend, backendAddress, sendFavoriteQuestionToBackend } from "../../Generic/backendService";
 import { Feather } from '@expo/vector-icons';
-import { MaterialIcons } from '@expo/vector-icons';
-import { Ionicons } from '@expo/vector-icons';
+import * as Clipboard from 'expo-clipboard';
 import { styles } from "./TranscribeNote.style";
 import { shareQuestion } from "./ShareQuestions/shareQuestion";
-import { SummaryModal } from "./SummaryModal";
+import { SuggestionsModal } from "./SuggestionsModal";
 
-const TranscriberNote: React.FC <{contact}> = ({contact})=> {
+const NewContactTranscriberNote: React.FC <{contact, exitModal}> = ({contact, exitModal})=> {
     // Transcription Declarations
     const [recording, setRecording] = useState(undefined);
     const [permissionResponse, requestPermission] = Audio.usePermissions();
@@ -19,6 +18,7 @@ const TranscriberNote: React.FC <{contact}> = ({contact})=> {
     const [summaryWait, setSummaryWait] = useState(false);
     const [saving, setSaving] = useState(false);
     const [loadingText, setLoadingText] = useState(false);
+    const [showInitialQuestions, setShowInitialQuestions] = useState(false); // Added state variable
 
     // Microphone button START-RECORDING
     async function startRecording() {
@@ -68,7 +68,20 @@ const TranscriberNote: React.FC <{contact}> = ({contact})=> {
     const [transcribedText, setTranscribedText] = useState('')
 
     // AI Generations
+    const [summary, setSummary] = useState<string>("");
     const [questions, setQuestions] = useState<string[]>([]);
+
+    console.log("Summary: ", summary)
+
+    // Summarize Button Logic
+    const generateSummary = async () => {
+        try {
+            const generatedSummary = await getSummaryFromBackend(contact.contactID);
+            setSummary(generatedSummary);
+        } catch (error) {
+            console.error('Error generating summary:', error);
+        }
+    };
 
     const generateQuestions = async () => {
         setLoading(true);
@@ -91,6 +104,10 @@ const TranscriberNote: React.FC <{contact}> = ({contact})=> {
             console.error('Error generating questions:', error);
             setLoading(false);
         }
+    };
+    
+    const copyToClipboard = async (text) => {
+        await Clipboard.setStringAsync(text);
     };
       
     const handleQuestionClick = (question) => {
@@ -115,83 +132,60 @@ const TranscriberNote: React.FC <{contact}> = ({contact})=> {
         } 
         finally {
             setSaving(false);
+            exitModal()
         }
         
     }
+
+    useEffect(() => {
+        const GenerateSummary = async () => {
+            await generateSummary();
+        }
+        GenerateSummary();
+    }, [])
     
     return (
-        <View style={{flex: 1, flexDirection: "column"}}>
-            
-            <View style={{flexDirection: 'row'}}>
+        <View style={{flex: 1, flexDirection: "column"}}>    
+            <View style={{flexDirection: 'row', marginBottom: '15%'}}>
                 <TextInput
                     multiline
                     value={transcribedText}
-                    placeholder={"Press once to record, twice to stop."}
+                    placeholder={"Press once to record, twice to stop.\n\nUse the info box on the right to see some suggested questions."}
                     placeholderTextColor={styles.placeHolderTextColor.color}
                     onChangeText={setTranscribedText}
                     style={styles.notesInput}
                 />
                 <View style={[styles.buttonBox, {marginLeft: 10}]}>
+
+                    <View>
+                        <SuggestionsModal/>
+                    </View>
+
                     <TouchableOpacity
                         style={[styles.button, recording ? styles.recordingButton : styles.notRecordingButton]}
                         onPress={recording ? stopRecording : startRecording}>
                         {loadingText ? <ActivityIndicator size={"small"} color={"#FFF"}/> : <Feather name="mic" size={24} color={styles.icons.color} />}
                     </TouchableOpacity>
-
-                    <TouchableOpacity
-                        style={styles.button}
-                        onPressOut={() => {Vibration.vibrate(130);}}
-                        onPress={handleSaveClick}
-                        disabled={saving}>
-                            <Feather name="save" size={24} color={styles.icons.color} />
-                    </TouchableOpacity>
                     
                 </View>
             </View>
 
-            <View style={{flexDirection: 'row'}}>
-                <View style={styles.buttonBox}>
-                    <TouchableOpacity
-                        style={styles.button}
-                        onPressOut={() => {
-                            Vibration.vibrate(130);
-                        }}
-                        onPress={generateQuestions}>
-                        {loading ? <ActivityIndicator size={"small"} color={"#FFF"}/> : <Ionicons name="create" size={24} color={styles.icons.color} />}
-                        <Text style={styles.buttonText}>
-                            {loading ? "Loading Questions" : "Generate Questions"}
-                        </Text>
-                    </TouchableOpacity>
-                </View>
-
-                <View style={styles.buttonBox}>
-                    <TouchableOpacity
-                        style={styles.button}
-                        onPress={()=> setSummaryModalVisible(true)}>
-                        <MaterialIcons name="summarize" size={24} color={styles.icons.color} />
-                        <Text style={styles.buttonText}>Summary</Text>
-                    </TouchableOpacity>
-                </View>
+            <View style={{marginBottom: '5%'}}>
+                <Text style={styles.onBoardingText}>Click Save to Finish Contact Setup</Text>
             </View>
-
-            <Modal visible={summaryModalVisible} transparent={true} onRequestClose={()=> {setSummaryModalVisible(false)}} animationType='fade'>
-                <SummaryModal contact={contact} summaryWait={summaryWait} toggleModalVisibility={()=> setSummaryModalVisible(false)} />
-            </Modal>
             
-            <View style={{ flexDirection: 'column' }}>
-                {questions.map((question, index) => (
-                    <View key={index}>
-                        <View style={styles.questionContainer}>
-                            <TouchableOpacity style={styles.questionTextBox} onPress={()=> handleQuestionClick(question)}>
-                                <Text style={styles.questionText}>{question}</Text>
-                            </TouchableOpacity>
-                        </View>
-                        <View style={styles.horizontalDivider}></View>
-                    </View>
-                ))}
-            </View>
+
+            <TouchableOpacity
+                style={styles.button}
+                onPressOut={() => {Vibration.vibrate(130);}}
+                onPress={handleSaveClick}
+                disabled={saving}>
+                    <Feather name="save" size={24} color={styles.icons.color} />
+                    <Text>Save</Text>
+            </TouchableOpacity>
+            
         </View>
     )
 }
 
-export { TranscriberNote };
+export {NewContactTranscriberNote};
