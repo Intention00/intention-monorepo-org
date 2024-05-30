@@ -27,7 +27,8 @@ const styles = StyleSheet.create({
 
     phoneText: {
         fontSize: 10,
-        color: global.subText.color
+        color: global.accentColor.color,
+        marginTop: 5
     },
 
     emoji: {
