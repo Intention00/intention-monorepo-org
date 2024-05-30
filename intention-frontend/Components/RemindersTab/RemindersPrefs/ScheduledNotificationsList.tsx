@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Text, FlatList, Button, Alert, TouchableOpacity } from "react-native";
+import {styles as global} from '../../Generic/global.style'
 
 const ScheduledNotificationsList: React.FC<{ reminders: any[], handleCancelNotification: any, selectedContact: any }> = ({ reminders, handleCancelNotification, selectedContact }) => {
   const confirmAndCancelAll = () => {
@@ -22,20 +23,17 @@ const ScheduledNotificationsList: React.FC<{ reminders: any[], handleCancelNotif
         data={reminders}
         renderItem={({ item }) => (
           item && item.contact && item.reminder ? (
-            <View style={{ backgroundColor: '#bcbcbc', marginTop: 5, borderRadius: 10, padding: 10, position: 'relative' }}>
-              <Text style={{ color: 'white', textAlign: 'center' }}>{item.reminder.dateTime}</Text>
-              <Text style={{ color: 'white', textAlign: 'center' }}>{item.reminder.frequency}</Text>
+            <View style={{ backgroundColor: global.accentColor.color, marginTop: 5, borderRadius: 10, padding: 10, position: 'relative' }}>
+              <Text style={{ color: global.inputBox.color, textAlign: 'center' }}>{item.reminder.dateTime}</Text>
+              <Text style={{ color: global.inputBox.color, textAlign: 'center' }}>{item.reminder.frequency}</Text>
               <TouchableOpacity style={{ position: 'absolute', top: 5, right: 5 }} onPress={confirmAndCancelAll}>
-                <Text style={{ color: 'red', fontWeight: 'bold' }}>X</Text>
+                <Text style={{ color: 'red', fontWeight: 'bold', fontSize:35 }}>X</Text>
               </TouchableOpacity>
             </View>
           ) : null
         )}
         keyExtractor={(item) => item.contact.contactID.toString()}
       />
-      {reminders.length > 0 && (
-        <Button title="Delete All Notifications" onPress={confirmAndCancelAll} />
-      )}
     </View>
   );
 };
