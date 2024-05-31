@@ -11,6 +11,7 @@ import {
   receiveContactsFromBackend, 
   sendReminderToBackend, 
   deleteReminderFromBackend,
+  receiveReminderFromBackend,
    // Import the new function
   receiveRemindersFromBackend
 } from '../../Generic/backendService';
@@ -33,6 +34,7 @@ const NotificationPrefs: React.FC<{ toggleModalVisibility: () => void }> = ({ to
   const [selectedContact, setSelectedContact] = useState(null);
   const [contacts, setContacts] = useState([]);
   const [remindersData, setRemindersData] = useState([]); // New state for reminders
+
   const userID = useContext(userIDContext);
 
   useEffect(() => {
@@ -42,33 +44,43 @@ const NotificationPrefs: React.FC<{ toggleModalVisibility: () => void }> = ({ to
       .then((contacts) => {
         console.log("NEW CONTACTS RECEIVED:", contacts); // Log contacts
         setContacts(contacts);
-        setSelectedContact(contacts[0]?.contactID);
+        if (selectedContact === null ){
+          setSelectedContact(contacts[0]?.contactID);
+        } 
+        
       })
       .catch((error) => {
         console.error('Error fetching contacts:', error);
       });
 
     // Fetch all reminders when the component mounts
-    receiveRemindersFromBackend(userID)
-      .then((reminders) => {
-        console.log("REMINDERS RECEIVED:", reminders); // Log reminders
-        setRemindersData(reminders);
-      })
-      .catch((error) => {
-        console.error('Error fetching reminders:', error);
-      });
-  }, [userID]);
+    if (selectedContact !== null) {
+      // Fetch reminders only if a contact is selected
+      receiveReminderFromBackend(selectedContact)
+        .then((reminders) => {
+          console.log("REMINDERS RECEIVED:", reminders); // Log reminders
+          setRemindersData(reminders || []); // Ensure remindersData is an array
+        })
+        .catch((error) => {
+          console.error('Error fetching reminders:', error);
+        });
+    }
+  }, [userID, selectedContact]);
+
+  
 
   const fetchScheduledNotifications = async () => {
     try {
-      const scheduled = await Notifications.getAllScheduledNotificationsAsync();
-      setScheduledNotifications(scheduled);
-      console.log('Scheduled Notifications:', scheduled);
+     // const scheduled = await Notifications.getAllScheduledNotificationsAsync();
+    //  setScheduledNotifications(scheduled);
+      // console.log('Scheduled Notifications:', scheduled);
     } catch (error) {
       console.error('Failed to fetch scheduled notifications:', error);
       Alert.alert('Error', 'Failed to fetch scheduled notifications. Please try again.');
     }
   };
+
+  
 
   const handlePermissionRequest = async () => {
     const granted = await requestNotificationPermission();
@@ -102,11 +114,11 @@ const NotificationPrefs: React.FC<{ toggleModalVisibility: () => void }> = ({ to
       await sendReminderToBackend(selectedContact, reminderData);
 
       Alert.alert('Notification Scheduled', `A ${notificationContent.title} notification will repeat.`);
-      fetchScheduledNotifications();
+     // fetchScheduledNotifications();
       // Fetch updated reminders
-      const updatedReminders = await receiveRemindersFromBackend(userID);
-      console.log("Updated Reminders:", updatedReminders); // Log updated reminders
-      setRemindersData(updatedReminders);
+    //  const updatedReminders = await receiveRemindersFromBackend(userID);
+      //console.log("Updated Reminders:", updatedReminders); // Log updated reminders
+      //setRemindersData(updatedReminders);
     } catch (error) {
       console.error('Failed to schedule notification:', error);
       Alert.alert('Error', 'Failed to schedule notification. Please try again.');
@@ -117,11 +129,11 @@ const NotificationPrefs: React.FC<{ toggleModalVisibility: () => void }> = ({ to
     try {
       await deleteReminderFromBackend(contactID);
       Alert.alert('Notification Canceled', 'The scheduled notification has been canceled.');
-      fetchScheduledNotifications();
+      // fetchScheduledNotifications();
       // Fetch updated reminders
-      const updatedReminders = await receiveRemindersFromBackend(userID);
-      console.log("Updated Reminders after deletion:", updatedReminders); // Log updated reminders
-      setRemindersData(updatedReminders);
+    //  const updatedReminders = await receiveRemindersFromBackend(userID);
+      //console.log("Updated Reminders after deletion:", updatedReminders); // Log updated reminders
+     // setRemindersData(updatedReminders);
     } catch (error) {
       console.error('Failed to cancel notification:', error);
       Alert.alert('Error', 'Failed to cancel notification. Please try again.');
@@ -175,16 +187,16 @@ const NotificationPrefs: React.FC<{ toggleModalVisibility: () => void }> = ({ to
       <View style={[styles.modalBox]}>
         <View style={styles.modalHeader}>
           <MaterialCommunityIcons style={styles.modalExit} name="window-close" onPress={toggleModalVisibility} />
-          <Text style={{color: '#FFF', fontSize: 24, marginLeft:20}}> Notification Preferences</Text>
+          <Text style={{color: '#FFF', fontSize: 24, marginLeft:20}}> Set Up Reminder</Text>
        </View>
         <Text style={{ color: "white", fontSize: 18, fontWeight: 'bold', textAlign: 'center' }}>Please select a contact</Text>
-        <ContactPicker contacts={contacts} selectedContact={selectedContact} setSelectedContact={setSelectedContact} />
+        <ContactPicker contacts={contacts} selectedContact={selectedContact} setSelectedContact={setSelectedContact} setReminderData = {setRemindersData} />
         <FrequencyPicker selectedFrequency={selectedFrequency} setSelectedFrequency={setSelectedFrequency} />
         <TouchableOpacity style={{backgroundColor: global.accentColor.color, padding:10, alignItems:'center', borderRadius: 10, margin: 10, marginTop: 20}} onPress={handleScheduleNotification}>
           <Text style={{color:global.inputBox.color, fontSize: 16, fontWeight:'500'}}>Schedule Notification</Text>
         </TouchableOpacity>
         <ScheduledNotificationsList
-          reminders={remindersData.filter(reminder => reminder?.contact?.contactID === selectedContact)}
+          reminders={remindersData}
           handleCancelNotification={handleCancelNotification}
           selectedContact={selectedContact}
         />
