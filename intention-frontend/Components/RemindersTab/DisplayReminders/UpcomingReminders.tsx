@@ -17,6 +17,8 @@ const UpcomingReminders: React.FC = ()=> {
     const [userID, setUserID] = useState(undefined);
     const userEmail = user['primaryEmailAddress']['emailAddress'];
 
+    const [refreshReminders, setRefreshReminders] = useState(false)
+
     const [selectedDay, setSelectedDay] = useState(0);
 
     useEffect(()=> {
@@ -42,7 +44,7 @@ const UpcomingReminders: React.FC = ()=> {
             }
             
         })()
-    }, []);
+    }, [refreshReminders]);
 
     const handleDayChange = async (index: number) => {
         try {
@@ -81,7 +83,7 @@ const UpcomingReminders: React.FC = ()=> {
             <userIDContext.Provider value={userID}>
                 {createDayButtons()}
                 {(filteredRemindersData === undefined) ? <Text style={{color: 'white'}}>Loading</Text> : <ReminderList reminders={filteredRemindersData}></ReminderList>}
-                <NewReminderButton></NewReminderButton>
+                <NewReminderButton refreshReminders={refreshReminders} setRefreshReminders={setRefreshReminders}></NewReminderButton>
             </userIDContext.Provider>
         </SafeAreaView>
     )

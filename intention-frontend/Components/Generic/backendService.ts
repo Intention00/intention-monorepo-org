@@ -33,7 +33,7 @@ export const receiveContactsFromBackend = async (userID: number)=> {
         })
 
         const contacts_received = await response.json();
-        console.log(`NEW CONTACTS RECEIVED: ${JSON.stringify(contacts_received)}`);
+        // console.log(`NEW CONTACTS RECEIVED: ${JSON.stringify(contacts_received)}`);
         return contacts_received;
         // TODO: check if response is good
     }
@@ -181,7 +181,7 @@ export const receiveRemindersFromBackend = async (userID: number)=> {
         })
 
         const reminders_received = await response.json();
-        console.log(`NEW REMINDERS RECEIVED: ${JSON.stringify(reminders_received)}`);
+        // console.log(`NEW REMINDERS RECEIVED: ${JSON.stringify(reminders_received)}`);
         return reminders_received;
     }
     catch (err) {
@@ -262,7 +262,7 @@ export const receiveReminderFromBackend = async (contactID: number)=> {
         }
         else {
             const reminder_received = await response.json();
-            console.log(`NEW REMINDER RECEIVED: ${JSON.stringify(reminder_received)}`);
+            // console.log(`NEW REMINDER RECEIVED: ${JSON.stringify(reminder_received)}`);
             return reminder_received;
         }
     }

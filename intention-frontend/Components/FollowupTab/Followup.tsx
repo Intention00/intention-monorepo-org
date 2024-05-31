@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { SafeAreaView, Text } from "react-native";
+import { SafeAreaView, Text, View } from "react-native";
 import { getDesiredFollups } from "../FollowupTab/followupService";
 import { handleUser } from "../ContactsTab/UserSync/userService";
 import { useUser } from '@clerk/clerk-expo';
@@ -41,10 +41,14 @@ const FollowUpPage: React.FC = () => {
     return (
         <SafeAreaView style={{ flex: 1, width: '100%' }}>
             <userIDContext.Provider value={userID}>
-                {(filteredRemindersData.length === 0) ? 
+                {/* {(filteredRemindersData.length === 0) ? 
                     <Text style={{ color: 'white' }}>Loading</Text> : 
                     <FollowUpList reminders={filteredRemindersData}></FollowUpList>
-                }
+                } */}
+
+                <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+                    {(filteredRemindersData === undefined || filteredRemindersData.length === 0) ? (<Text style={global.bodyText}>No Reminders to follow up on today!</Text>) : (<FollowUpList reminders={filteredRemindersData}></FollowUpList>)}
+                </View>
                 <NewReminderButton></NewReminderButton>
             </userIDContext.Provider>
         </SafeAreaView>
