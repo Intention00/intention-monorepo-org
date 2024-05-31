@@ -9,10 +9,17 @@ const styles = StyleSheet.create({
         padding: 10,
         marginBottom: 10,
         marginLeft:'2%',
-        marginRight: '10%',
-        
+        marginRight: '10%',        
         // width: 300
         
+    },
+    image: {
+        width: 20, 
+        height: 20,
+        borderRadius: 25,
+        marginRight: 10,
+        marginLeft: 7,
+        alignSelf:'flex-start'
     },
 
 

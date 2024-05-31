@@ -181,8 +181,8 @@ const NotificationPrefs: React.FC<{ toggleModalVisibility: () => void, setRefres
           {remindersData.contactID ?? 'null'}
         </Text>
         <Text style={{ color: global.inputBox.color, textAlign: 'center' }}>{remindersData.frequency}</Text>
-        <TouchableOpacity style={{ position: 'absolute', top: 5, right: 5 }} onPress={() => handleCancelNotification(remindersData.contactID)}>
-          <Text style={{ color: 'red', fontWeight: 'bold', fontSize: 35 }}>X</Text>
+        <TouchableOpacity style={{ alignItems: 'center',justifyContent: 'center',position: 'absolute', top: 5, right: 5,borderRadius:50, padding: 5 }} onPress={() => handleCancelNotification(remindersData.contactID)}>
+          <Text style={{ color: 'red', fontWeight: 'bold', fontSize: 25 }}>🚫</Text>
         </TouchableOpacity>
       </View>
     );
@@ -198,10 +198,10 @@ const NotificationPrefs: React.FC<{ toggleModalVisibility: () => void, setRefres
         <Text style={{ color: "white", fontSize: 18, fontWeight: 'bold', alignSelf: 'center'}}>Please select a contact</Text>
         <ContactPicker contacts={contacts} selectedContact={selectedContact} setSelectedContact={setSelectedContact} setReminderData={setRemindersData} />
         <FrequencyPicker selectedFrequency={selectedFrequency} setSelectedFrequency={setSelectedFrequency} />
-        <TouchableOpacity style={{ backgroundColor: global.accentColor.color, padding: 10, alignItems: 'center', borderRadius: 10, margin: 10, marginTop: 20 }} onPress={handleScheduleNotification}>
+        <TouchableOpacity style={{ backgroundColor: global.accentColor.color, padding: 10, alignItems: 'center', borderRadius: 10, margin: 10, marginTop: 20,marginLeft:'5%', width: '90%' }} onPress={handleScheduleNotification}>
           <Text style={{ color: global.inputBox.color, fontSize: 16, fontWeight: '500' }}>Schedule Notification</Text>
         </TouchableOpacity>
-        <View>{renderNotifItem()}</View>
+        <View style={{marginLeft: 9, width: 369}}>{renderNotifItem()}</View>
       </View>
     </View>
   );

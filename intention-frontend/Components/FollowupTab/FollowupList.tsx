@@ -26,7 +26,7 @@ const FollowUpList: React.FC<{ reminders: any[] }> = ({ reminders }) => {
     };
 
     return (
-        <View style={{ flex: 1, marginTop: '15%' }}>
+        <View style={{ flex: 1, marginTop: '5%', width: 450, marginLeft: 0 }}>
             <FlatList
                 data={reminders}
                 renderItem={({ item }) => renderReminders([item])}

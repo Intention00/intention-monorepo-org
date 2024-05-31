@@ -180,8 +180,8 @@ const NewContactTranscriberNote: React.FC <{contact, exitModal}> = ({contact, ex
                 onPressOut={() => {Vibration.vibrate(130);}}
                 onPress={handleSaveClick}
                 disabled={saving}>
-                    <Feather name="save" size={24} color={styles.icons.color} />
-                    <Text>Save</Text>
+                    {saving ? <ActivityIndicator size={'small'} color={'#FFF'}/> : <Feather name="save" size={24} color={styles.icons.color} />}
+                    {saving ? <Text>Saving</Text> : <Text>Save</Text>}
             </TouchableOpacity>
             
         </View>

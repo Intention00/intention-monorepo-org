@@ -22,8 +22,8 @@ const ContactPicker: React.FC<{ contacts: any[], selectedContact: any, setSelect
   return (
     <Picker
       selectedValue={selectedContact}
-      style={{ marginTop: 5, backgroundColor: 'white', borderRadius: 10 }}
-      itemStyle={{ backgroundColor: '#bcbcbc', fontSize: 15, height: 120, borderRadius: 10 }}
+      style={{ alignSelf: 'center',marginTop: 5, backgroundColor: 'white', borderRadius: 10, width: '90%' }}
+      itemStyle={{ backgroundColor: '#FFF', fontSize: 15, height: 120, borderRadius: 10 }}
       onValueChange={handleValueChange}
     >
       {contacts.map(contact => (

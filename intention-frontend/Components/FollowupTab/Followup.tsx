@@ -49,7 +49,6 @@ const FollowUpPage: React.FC = () => {
                 <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
                     {(filteredRemindersData === undefined || filteredRemindersData.length === 0) ? (<Text style={global.bodyText}>No Reminders to follow up on today!</Text>) : (<FollowUpList reminders={filteredRemindersData}></FollowUpList>)}
                 </View>
-                <NewReminderButton></NewReminderButton>
             </userIDContext.Provider>
         </SafeAreaView>
     )
