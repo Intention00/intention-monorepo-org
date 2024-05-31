@@ -193,7 +193,7 @@ const NotificationPrefs: React.FC<{ toggleModalVisibility: () => void, setRefres
       <View style={[styles.modalBox]}>
         <View style={styles.modalHeader}>
           <MaterialCommunityIcons style={styles.modalExit} name="window-close" onPress={toggleModalVisibility} />
-          <Text style={{ color: '#FFF', fontSize: 24, marginLeft: 54, }}> Set Up Reminder</Text>
+          <Text style={{ color: '#FFF', fontSize: 24, marginLeft: 53, fontWeight:'bold' }}> Set Up Reminder</Text>
         </View>
         <Text style={{ color: "white", fontSize: 18, fontWeight: 'bold', alignSelf: 'center'}}>Please select a contact</Text>
         <ContactPicker contacts={contacts} selectedContact={selectedContact} setSelectedContact={setSelectedContact} setReminderData={setRemindersData} />
