@@ -62,7 +62,7 @@ const GenerateQuestions: React.FC <{contact}> = ({contact})=> {
                         onPress={handleGenerateQuestions}>
                         {loading ? <ActivityIndicator size={ "small"} color={"#FFF"} /> : <Ionicons name="create" size={24} color={styles.icons.color} />}
                         {/* <Ionicons name="create" size={24} color={styles.icons.color} /> */}
-                        <Text style={styles.buttonText}>Generate New Questions</Text>
+                        <Text style={styles.buttonText}>{loading ? "Loading Questions" : "Generate New Questions"}</Text>
                     </TouchableOpacity>
                 </View>
 
