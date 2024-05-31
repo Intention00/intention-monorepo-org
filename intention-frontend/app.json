@@ -3,7 +3,7 @@
     "scheme": "intention-auth",
     "name": "Intention",
     "slug": "intention-monorepo-all",
-    "version": "0.9.3.7",
+    "version": "0.9.5.0",
     "orientation": "portrait",
     "icon": "./assets/appicon_redesign_bluebg.png",
     "userInterfaceStyle": "light",

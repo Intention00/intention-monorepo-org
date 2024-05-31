@@ -43,9 +43,9 @@ export const LogoutButton = () => {
                 </View> */}
               </View>
               <View style={{paddingLeft:15}}>
-                  <Text style={{color: global.bodyText.color, fontWeight: 'bold', textAlign: 'center', fontSize: 16}}> Oh No, Are you Sure You want to Sign Out of this Account?</Text>
+                  <Text style={{color: global.bodyText.color, fontWeight: 'bold', textAlign: 'center', fontSize: 16}}> Oh No, Are You Sure You Want to Sign Out of this Account?</Text>
               </View>
-              <View style={{alignSelf: 'flex-end', paddingTop: "15%",flexDirection:'row', }}>
+              <View style={{alignSelf: 'center',marginLeft:'6%', paddingTop: "15%",flexDirection:'row', }}>
                   <View style={{paddingRight: "3%"}}>
                   <TouchableOpacity style={{
                     backgroundColor: styles.modalButton.backgroundColor,

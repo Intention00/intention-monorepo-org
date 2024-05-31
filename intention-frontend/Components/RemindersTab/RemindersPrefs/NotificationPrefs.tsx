@@ -193,9 +193,9 @@ const NotificationPrefs: React.FC<{ toggleModalVisibility: () => void, setRefres
       <View style={[styles.modalBox]}>
         <View style={styles.modalHeader}>
           <MaterialCommunityIcons style={styles.modalExit} name="window-close" onPress={toggleModalVisibility} />
-          <Text style={{ color: '#FFF', fontSize: 24, marginLeft: 20 }}> Set Up Reminder</Text>
+          <Text style={{ color: '#FFF', fontSize: 24, marginLeft: 60, }}> Set Up Reminder</Text>
         </View>
-        <Text style={{ color: "white", fontSize: 18, fontWeight: 'bold', textAlign: 'center' }}>Please select a contact</Text>
+        <Text style={{ color: "white", fontSize: 18, fontWeight: 'bold', alignSelf: 'center'}}>Please select a contact</Text>
         <ContactPicker contacts={contacts} selectedContact={selectedContact} setSelectedContact={setSelectedContact} setReminderData={setRemindersData} />
         <FrequencyPicker selectedFrequency={selectedFrequency} setSelectedFrequency={setSelectedFrequency} />
         <TouchableOpacity style={{ backgroundColor: global.accentColor.color, padding: 10, alignItems: 'center', borderRadius: 10, margin: 10, marginTop: 20 }} onPress={handleScheduleNotification}>
