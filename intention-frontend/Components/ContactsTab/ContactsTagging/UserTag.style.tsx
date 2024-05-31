@@ -82,6 +82,7 @@ import { styles as global } from "../../Generic/global.style";
     color: global.buttonText.color,
     fontWeight: 'bold',
     textAlign: 'center',
+    textAlignVertical: 'center'
   },
   input: {
     height: 40,

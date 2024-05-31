@@ -93,7 +93,7 @@ const UserProfileTags: React.FC = () => {
             <View style={styles.newTagBox}>
                 <TextInput
                     style={styles.input}
-                    placeholder="Add tag"
+                    placeholder="Enter new tag"
                     placeholderTextColor="#999" // Light grey placeholder text
                     value={newTag}
                     onChangeText={text => setNewTag(text)}
