@@ -22,7 +22,7 @@ import { FrequencyPicker } from './FrequencyPicker';
 import { ScheduledNotificationsList } from './ScheduledNotificationsList';
 import * as Notifications from 'expo-notifications'; 
 
-const NotificationPrefs: React.FC<{ toggleModalVisibility: () => void, setRemindersData }> = ({ toggleModalVisibility, setRemindersData }) => {
+const NotificationPrefs: React.FC<{ toggleModalVisibility: () => void }> = ({ toggleModalVisibility }) => {
   const [hasPermission, setHasPermission] = useState(false);
   const [notificationIdentifier, setNotificationIdentifier] = useState<string | null>(null);
   const [scheduledNotifications, setScheduledNotifications] = useState([]);
@@ -53,8 +53,8 @@ const NotificationPrefs: React.FC<{ toggleModalVisibility: () => void, setRemind
       fetchReminders(selectedContact);
     }
 
-       const stuff =  receiveRemindersFromBackend(userID)
-       console.log("stuff", stuff)
+       //const stuff =  receiveRemindersFromBackend(userID)
+      // console.log("stuff", stuff)
        //setRemindersData(stuff)
 
     
