@@ -23,7 +23,8 @@ const styles = StyleSheet.create({
 
     headerColor: {
         // Blue?
-        color: useDarkMode ? '#282828': '#0493FB'
+        // color: useDarkMode ? '#282828': '#0493FB'
+        color: useDarkMode ? '#282828': '#1a75bb'
     },
 
     headerText: {
@@ -54,7 +55,7 @@ const styles = StyleSheet.create({
 
     tabBarBackground: {
         // Blue
-        color: useDarkMode ? '#282828': '#0493FB'
+        color: useDarkMode ? '#282828': '#1a75bb'
     },
 
     horizontalDivider: {
