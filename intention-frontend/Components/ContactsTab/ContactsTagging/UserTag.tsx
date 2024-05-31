@@ -75,23 +75,25 @@ const UserProfileTags: React.FC = () => {
             return null; // or some loading indicator
         }
         return tags.map(tag => (
-            <Tag key={tag} tagName={tag} onDelete={() => handleDeleteTag(tag)} />
+            <View key={tag}>
+                <Tag key={tag} tagName={tag} onDelete={() => handleDeleteTag(tag)} />
+            </View>
+            
         ));
     }
     return (
         <View style={styles.container}>
-            {/* <Text style={styles.text}>Your Tags:</Text> */}
-            <View style={{flexDirection: 'row'}}>
-            </View>
+            <Text style={styles.tagHeaderText}>Existing Tags</Text>
 
 
             <ScrollView style={styles.scrollView} >
-            {(tags === undefined || tags.length === 0) ? <Text style={{ marginTop: 80,fontSize: 16, alignSelf: 'center', color:"#FFF"}}> List is Empty </Text> : renderTags() } 
+            {(tags === undefined || tags.length === 0) ? <Text style={{ marginTop: '20%', alignSelf: 'center', textAlign: 'center', color:"#FFF", width: '60%', fontWeight: '500'}}>Add some new tags using the add tag bar below.</Text> : renderTags() } 
             </ScrollView> 
 
-            <TextInput
+            <View style={styles.newTagBox}>
+                <TextInput
                     style={styles.input}
-                    placeholder="Add tag"
+                    placeholder="Enter new tag"
                     placeholderTextColor="#999" // Light grey placeholder text
                     value={newTag}
                     onChangeText={text => setNewTag(text)}
@@ -100,6 +102,8 @@ const UserProfileTags: React.FC = () => {
                 <TouchableOpacity style={styles.modalButton} onPress={handleAddTag}>
                     <Text style={styles.modalButtonText}>Add</Text>
                 </TouchableOpacity>
+            </View>
+            
         </View>
     );
 };

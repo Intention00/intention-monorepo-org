@@ -9,6 +9,7 @@ import { getContactTags, getUserTags, deleteContactTag, addContactTag } from '..
 import { userIDContext } from "../UserSync/userIDContext";
 import { ContactTags } from "../ContactsTagging/ContactTags";
 import { tagUpdater } from "../UserSync/tagUpdater";
+import { scoreContext } from "../../Generic/scoreContext";
 
 
 
@@ -26,6 +27,8 @@ const ContactItem: React.FC<{contact: Contact, updateScore}> = ({contact, update
     const [connectionScore, setConnectionScore] = useState(0);
     const [tags, setTags] = useState([]);
     const userID = useContext(userIDContext);
+    const tagStatus = useContext(tagUpdater)
+    const scoreStatus = useContext(scoreContext)
     
 
     useEffect(() => {
@@ -38,7 +41,7 @@ const ContactItem: React.FC<{contact: Contact, updateScore}> = ({contact, update
             console.error('Error fetching tags:', error);
           }
         })();
-      }, [userID, contact.contactID, tagUpdater.displayName]);
+      }, [userID, contact.contactID, tagStatus]);
 
 
     useEffect(()=> {
@@ -52,11 +55,11 @@ const ContactItem: React.FC<{contact: Contact, updateScore}> = ({contact, update
 
             }
         })()
-    }, []);
+    }, [scoreStatus]);
 
 
 
-    console.log(`Item: ${JSON.stringify(contact)}`)
+    // console.log(`Item: ${JSON.stringify(contact)}`)
 
     const blurhash = 
     '|rF?hV%2WCj[ayj[a|j[az_NaeWBj@ayfRayfQfQM{M|azj[azf6fQfQfQIpWXofj[ayj[j[fQayWCoeoeaya}j[ayfQa{oLj?j[WVj[ayayj[fQoff7azayj[ayj[j[ayofayayayj[fQj[ayayj[ayfjj[j[ayjuayj[';

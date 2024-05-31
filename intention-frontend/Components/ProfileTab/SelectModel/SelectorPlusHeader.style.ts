@@ -9,13 +9,6 @@ const styles = StyleSheet.create({
         fontWeight: 'bold'
     },
 
-    settingsText: {
-        color: global.accentColor.color,
-        marginBottom: 20,
-        fontWeight: 'bold',
-        fontSize: 16,
-    }
-
 })
 
 export {styles}

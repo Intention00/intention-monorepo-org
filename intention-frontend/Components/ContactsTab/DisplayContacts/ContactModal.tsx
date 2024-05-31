@@ -1,7 +1,7 @@
 import { View, Text, Button,ScrollView, TouchableHighlight, TouchableOpacity } from "react-native"
 import {TranscriberNote} from '../Transcriber/TranscribeNote'
 import { NewContactTranscriberNote } from "../Transcriber/NewContactTranscribeNote";
-import React, {createContext, useState} from "react";
+import React, {createContext, useContext, useState} from "react";
 import { Image } from 'expo-image'
 import { styles } from "./ContactModal.style";
 import { MaterialCommunityIcons } from '@expo/vector-icons';
@@ -11,6 +11,7 @@ import { tagUpdater } from "../UserSync/tagUpdater";
 
 const ContactModal: React.FC <{contact, toggleModalVisibility, newUser}> = ({contact, toggleModalVisibility, newUser})=> {
     const [currentStep, setCurrentStep] = useState("transcriber"); // Default to transcriber
+    const {tagStatus, setTagStatus} = useContext(tagUpdater);
     // const handleRecordingComplete = () => {
     //     setCurrentStep("AI_Generations");
     // };
@@ -24,7 +25,7 @@ const ContactModal: React.FC <{contact, toggleModalVisibility, newUser}> = ({con
         <View style={[styles.centeredView, styles.modalView]}>
             <View style={[styles.modalBox]}>
                 <View style={styles.modalHeader}>
-                    <MaterialCommunityIcons style={styles.modalExit} name="window-close" onPress={toggleModalVisibility} onPressIn={() => tagUpdater.displayName= "true"} />
+                    <MaterialCommunityIcons style={styles.modalExit} name="window-close" onPress={toggleModalVisibility} onPressIn={() => {setTagStatus(!tagStatus); console.log('TAG CHANGE')}} />
                     <View style={{flex: 1}}>
                         <Text style={styles.modalHeaderText}>Contact Details</Text>
                     </View>

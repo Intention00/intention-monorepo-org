@@ -11,9 +11,10 @@ const SelectModelDetails: React.FC = ()=> {
     const [modalVisible, setModalVisible] = useState(false);
 
     return (
-        <View style={{marginTop: 10}} >
-            <TouchableOpacity onPress={() => setModalVisible(true)}>
-                <AntDesign name="infocirlce" size={24} color={global.accentColor.color} />
+        <View style={{marginTop: 5}} >
+            <TouchableOpacity style={styles.infoButton} onPress={() => setModalVisible(true)}>
+                {/* <AntDesign name="infocirlce" size={24} color={global.accentColor.color} /> */}
+                <Text style={styles.infoButtonText}>Learn More About the Models</Text>
             </TouchableOpacity>
 
             <Modal
