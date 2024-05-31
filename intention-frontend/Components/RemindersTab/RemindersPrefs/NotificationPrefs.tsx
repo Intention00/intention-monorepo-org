@@ -22,7 +22,7 @@ import { FrequencyPicker } from './FrequencyPicker';
 import { ScheduledNotificationsList } from './ScheduledNotificationsList';
 import * as Notifications from 'expo-notifications'; 
 
-const NotificationPrefs: React.FC<{ toggleModalVisibility: () => void }> = ({ toggleModalVisibility }) => {
+const NotificationPrefs: React.FC<{ toggleModalVisibility: () => void, setRefreshReminders, refreshReminders }> = ({ toggleModalVisibility, setRefreshReminders, refreshReminders }) => {
   const [hasPermission, setHasPermission] = useState(false);
   const [notificationIdentifier, setNotificationIdentifier] = useState<string | null>(null);
   const [scheduledNotifications, setScheduledNotifications] = useState([]);
@@ -92,6 +92,7 @@ const NotificationPrefs: React.FC<{ toggleModalVisibility: () => void }> = ({ to
       };
 
       await sendReminderToBackend(selectedContact, reminderData);
+      setRefreshReminders(!refreshReminders)
 
       Alert.alert('Notification Scheduled', `A ${notificationContent.title} notification will repeat.`);
       fetchScheduledNotifications();
@@ -106,6 +107,7 @@ const NotificationPrefs: React.FC<{ toggleModalVisibility: () => void }> = ({ to
   const handleCancelNotification = async (contactID: number) => {
     try {
       await deleteReminderFromBackend(contactID);
+      setRefreshReminders(!refreshReminders)
       Alert.alert('Notification Canceled', 'The scheduled notification has been canceled.');
       fetchScheduledNotifications();
       // Fetch updated reminders
