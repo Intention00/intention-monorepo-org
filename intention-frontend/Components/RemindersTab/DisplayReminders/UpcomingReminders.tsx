@@ -24,7 +24,6 @@ const UpcomingReminders: React.FC = ()=> {
     useEffect(()=> {
         (async ()=> {
             try {
-                console.log(`REMINDERS REFRESHED!!!!!!!!!!!!`)
                 const tempUserID = await handleUser(userEmail);
                 console.log(`user id: ${tempUserID}`)
                 setUserID(tempUserID);
