@@ -29,7 +29,7 @@ const NotificationPrefs: React.FC<{ toggleModalVisibility: () => void }> = ({ to
   const [selectedFrequency, setSelectedFrequency] = useState('Daily');
   const [selectedContact, setSelectedContact] = useState(null);
   const [contacts, setContacts] = useState([]);
-  const [remindersData, setRemindersData] = useState([]); // New state for reminders
+  const [remindersData, setRemindersData] = useState(null); // New state for reminders
 
   const userID = useContext(userIDContext);
 
@@ -53,7 +53,7 @@ const NotificationPrefs: React.FC<{ toggleModalVisibility: () => void }> = ({ to
       receiveReminderFromBackend(selectedContact)
         .then((remindersData) => {
           console.log("REMINDERS RECEIVED notification prefs:", remindersData); // Log reminders
-          setRemindersData(remindersData || []); // Ensure remindersData is an array
+          setRemindersData(remindersData || null); // Ensure remindersData is set to null if no reminders
         })
         .catch((error) => {
           console.error('Error fetching reminders:', error);
@@ -170,13 +170,17 @@ const NotificationPrefs: React.FC<{ toggleModalVisibility: () => void }> = ({ to
   };
 
   const renderNotifItem = () => {
+    if (!remindersData) {
+      return null; // Do not render anything if remindersData is null
+    }
+
     return (
       <View style={{ backgroundColor: global.accentColor.color, margin: 10, marginTop: 5, borderRadius: 10, padding: 10, position: 'relative' }}>
         <Text style={{ color: global.inputBox.color, textAlign: 'center', fontWeight: '500' }}>
-          {selectedContact?.contactID ?? 'null'}
+          {remindersData.contactID ?? 'null'}
         </Text>
-        <Text style={{ color: global.inputBox.color, textAlign: 'center' }}>dammit</Text>
-        <TouchableOpacity style={{ position: 'absolute', top: 5, right: 5 }} onPress={cancelScheduledNotification}>
+        <Text style={{ color: global.inputBox.color, textAlign: 'center' }}>{remindersData.frequency}</Text>
+        <TouchableOpacity style={{ position: 'absolute', top: 5, right: 5 }} onPress={() => handleCancelNotification(remindersData.contactID)}>
           <Text style={{ color: 'red', fontWeight: 'bold', fontSize: 35 }}>X</Text>
         </TouchableOpacity>
       </View>
