@@ -50,14 +50,7 @@ const NotificationPrefs: React.FC<{ toggleModalVisibility: () => void }> = ({ to
 
     // Fetch reminders when the component mounts
     if (selectedContact) {
-      receiveReminderFromBackend(selectedContact)
-        .then((remindersData) => {
-          console.log("REMINDERS RECEIVED notification prefs:", remindersData); // Log reminders
-          setRemindersData(remindersData || null); // Ensure remindersData is set to null if no reminders
-        })
-        .catch((error) => {
-          console.error('Error fetching reminders:', error);
-        });
+      fetchReminders(selectedContact);
     }
   }, [userID, selectedContact]);
 
@@ -103,9 +96,7 @@ const NotificationPrefs: React.FC<{ toggleModalVisibility: () => void }> = ({ to
       Alert.alert('Notification Scheduled', `A ${notificationContent.title} notification will repeat.`);
       fetchScheduledNotifications();
       // Fetch updated reminders
-      const updatedReminders = await receiveRemindersFromBackend(userID);
-      console.log("Updated Reminders:", updatedReminders); // Log updated reminders
-      setRemindersData(updatedReminders);
+      await fetchReminders(selectedContact);
     } catch (error) {
       console.error('Failed to schedule notification:', error);
       Alert.alert('Error', 'Failed to schedule notification. Please try again.');
@@ -118,12 +109,20 @@ const NotificationPrefs: React.FC<{ toggleModalVisibility: () => void }> = ({ to
       Alert.alert('Notification Canceled', 'The scheduled notification has been canceled.');
       fetchScheduledNotifications();
       // Fetch updated reminders
-      const updatedReminders = await receiveRemindersFromBackend(userID);
-      console.log("Updated Reminders after deletion:", updatedReminders); // Log updated reminders
-      setRemindersData(updatedReminders);
+      await fetchReminders(selectedContact);
     } catch (error) {
       console.error('Failed to cancel notification:', error);
       Alert.alert('Error', 'Failed to cancel notification. Please try again.');
+    }
+  };
+
+  const fetchReminders = async (contactID) => {
+    try {
+      const remindersData = await receiveReminderFromBackend(contactID);
+      console.log("REMINDERS RECEIVED notification prefs:", remindersData); // Log reminders
+      setRemindersData(remindersData || null); // Ensure remindersData is set to null if no reminders
+    } catch (error) {
+      console.error('Error fetching reminders:', error);
     }
   };
 
