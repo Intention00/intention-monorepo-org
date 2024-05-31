@@ -47,7 +47,7 @@ const ContactSync: React.FC = ()=> {
 
   
         
-    }, []);
+    }, [tagStatus]);
     useEffect(() => {
         //  console.log("Search phrase updated:", searchPhrase); //
           if (searchPhrase === "") {
