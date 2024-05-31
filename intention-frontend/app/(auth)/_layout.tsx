@@ -22,7 +22,8 @@ export const LogoutButton = () => {
 
     <View>
       <Pressable onPressOut={() => {Vibration.vibrate(130)}} onPress={()=> setIsModalVisible(true)} style={{ marginRight: 10 }}>
-      <Ionicons name="log-out-outline" size={24} color={global.bodyText.color} />
+      {/* <Ionicons name="log-out-outline" size={24} color={global.bodyText.color} /> */}
+      <Ionicons name="log-out-outline" size={24} color={global.headerText.color} />
     </Pressable>
 
       <Modal
@@ -89,8 +90,10 @@ const TabsPage = () => {
           backgroundColor: global.tabBarBackground.color,
         },
         // tabBarActiveTintColor: '#FFCC00'
-        tabBarActiveTintColor: global.subText.color,
-        tabBarInactiveTintColor: global.accentColor.color
+        tabBarActiveTintColor: global.accentColor.color,
+        // tabBarActiveTintColor: global.subText.color,
+        // tabBarInactiveTintColor: global.accentColor.color
+        tabBarInactiveTintColor: global.headerText.color
       }}
     >
 
