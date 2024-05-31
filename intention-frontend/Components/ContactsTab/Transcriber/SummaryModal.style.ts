@@ -64,6 +64,11 @@ const styles = StyleSheet.create({
         fontSize: 30,
         paddingLeft: 15,
     },
+
+    summaryLoadingColor: {
+        color: global.background.backgroundColor
+        // color: global.accentColor.color
+    }
 })
 
 export {styles}
