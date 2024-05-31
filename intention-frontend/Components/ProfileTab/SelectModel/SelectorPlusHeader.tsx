@@ -14,7 +14,7 @@ const SelectorPlusHeader: React.FC = ()=> {
             
             <View style={{flexDirection: 'column'}}>
                 <SelectModel></SelectModel>
-                <View style={{alignSelf: 'flex-end'}}>
+                <View style={{}}>
                     <SelectModelDetails></SelectModelDetails>
                 </View>
             </View>

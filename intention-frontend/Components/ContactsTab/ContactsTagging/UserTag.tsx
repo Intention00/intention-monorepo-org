@@ -83,11 +83,11 @@ const UserProfileTags: React.FC = () => {
     }
     return (
         <View style={styles.container}>
-            <Text style={styles.tagHeaderText}>Existing Tags:</Text>
+            <Text style={styles.tagHeaderText}>Existing Tags</Text>
 
 
             <ScrollView style={styles.scrollView} >
-            {(tags === undefined || tags.length === 0) ? <Text style={{ marginTop: 80,fontSize: 16, alignSelf: 'center', color:"#FFF"}}> List is Empty </Text> : renderTags() } 
+            {(tags === undefined || tags.length === 0) ? <Text style={{ marginTop: '20%', alignSelf: 'center', textAlign: 'center', color:"#FFF", width: '60%', fontWeight: '500'}}>Add some new tags using the add tag bar below.</Text> : renderTags() } 
             </ScrollView> 
 
             <View style={styles.newTagBox}>

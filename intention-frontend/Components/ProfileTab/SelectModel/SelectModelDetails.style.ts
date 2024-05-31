@@ -43,6 +43,19 @@ const styles = StyleSheet.create({
         color: global.bodyText.color,
         fontWeight: 'bold',
     },
+    infoButton: {
+        alignContent: 'center',
+        alignSelf: 'center',
+        textAlign: 'center',
+        backgroundColor: global.accentColor.color,
+        borderRadius: 5,
+        padding: 10,
+        // marginBottom: 10,
+        width: '100%'
+    },
+    infoButtonText: {
+        textAlign: 'center',
+    }
 });
 
 export { styles };
