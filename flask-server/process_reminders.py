@@ -28,15 +28,12 @@ class ProcessReminders():
 
                     # convert timezone 
                     seattle_timezone = pytz.timezone('America/Los_Angeles')
-                    localized_last_datetime = None
-                    if db_reminder['LastContacted']:
-                        localized_last_datetime = seattle_timezone.localize(db_reminder['LastContacted'], '%Y-%m-%d %H:%M:%S')
 
                     try:
                         reminder_formatted = {'reminderID': db_reminder['ReminderID'], 
                                             'contactID': db_reminder['ContactID'],
                                             'dateTime': seattle_timezone.localize(db_reminder['StartDateTime'], '%Y-%m-%d %H:%M:%S'),
-                                            'lastContacted': localized_last_datetime,
+                                            'lastContacted': db_reminder['LastContacted'],
                                             'frequency': db_reminder['Frequency']}
                         
                         return reminder_formatted
