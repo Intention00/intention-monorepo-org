@@ -85,6 +85,7 @@ const TabsPage = () => {
         },
         // headerTintColor: '#fff',
         headerTintColor: global.headerText.color,
+        headerTitleAlign: 'center',
         tabBarStyle: {
           // backgroundColor: '#282828'
           backgroundColor: global.tabBarBackground.color,

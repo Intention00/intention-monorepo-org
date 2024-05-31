@@ -1,15 +1,18 @@
 import { StyleSheet } from "react-native"
 import { styles as global } from "../../../Generic/global.style"
+import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
 
 const styles = StyleSheet.create ({
     notesInput: {
         maxHeight: 100,
+        maxWidth: '72%',
+        width: '72%',
         backgroundColor: global.inputBox.backgroundColor,
         color: global.inputBox.color,
         padding: 10,
         borderRadius: 10, 
-        marginBottom: 10, 
-        width: '70%',
+        marginBottom: 10,
+        fontSize: RFPercentage(1.5),
     },
 
     placeHolderTextColor: {
@@ -17,10 +20,11 @@ const styles = StyleSheet.create ({
     },
 
     button: {
-        backgroundColor: 'lightblue',
-        padding: 6,
+        backgroundColor: global.accentColor.color,
+        padding: 12,
         borderRadius: 10,
-        marginTop: 10,
+        marginTop: 5,
+        marginBottom: 5,
         alignItems: 'center',
     },
 
@@ -34,7 +38,8 @@ const styles = StyleSheet.create ({
         flex: 1, 
         padding: 5, 
         justifyContent: 'center', 
-        paddingBottom: 20,
+        paddingBottom: 12,
+        marginHorizontal: 10,
     },
 
     recordingButton: {

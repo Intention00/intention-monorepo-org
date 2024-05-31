@@ -61,8 +61,11 @@ const UpcomingReminders: React.FC = ()=> {
                     style={{marginTop: 20,
                         backgroundColor: global.background.backgroundColor,
                         borderRadius: 0, height: 80}}
+                    backgroundColor= {global.background.backgroundColor}
+                    appearance="light"
                     tintColor={global.accentColor.color}
                     activeFontStyle={{color: global.buttonText.color}}
+                    fontStyle={{color: global.accentColor.color}}
                     values={['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']}
                     selectedIndex={selectedDay}
                     onChange={(event) => {

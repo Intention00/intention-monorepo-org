@@ -9,6 +9,7 @@ const PublicLayout = () => {
         headerStyle: {
           backgroundColor: global.headerColor.color,
         },
+        headerTitleAlign: 'center',
         headerTintColor: global.buttonText.color,
         headerBackTitle: 'Back',
       }}>

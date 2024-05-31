@@ -36,14 +36,16 @@ const styles = StyleSheet.create({
 
     modalHeaderText: {
         textAlign: 'center',
-        color: '#FFF',
+        color: global.inputBox.backgroundColor,
         fontSize: 24,
-        marginRight: 45 - 24,
+        fontWeight: 'bold',
+        marginRight: 5,
     },
 
     scoreText: {
         color: global.accentColor.color,
-        marginRight: 15,
+        marginLeft: 0,
+        marginRight: 30,
         fontSize: 24,
     },
 
