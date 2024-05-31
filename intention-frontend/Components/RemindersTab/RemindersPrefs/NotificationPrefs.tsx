@@ -22,14 +22,14 @@ import { FrequencyPicker } from './FrequencyPicker';
 import { ScheduledNotificationsList } from './ScheduledNotificationsList';
 import * as Notifications from 'expo-notifications'; 
 
-const NotificationPrefs: React.FC<{ toggleModalVisibility: () => void }> = ({ toggleModalVisibility }) => {
+const NotificationPrefs: React.FC<{ toggleModalVisibility: () => void, setRemindersData }> = ({ toggleModalVisibility, setRemindersData }) => {
   const [hasPermission, setHasPermission] = useState(false);
   const [notificationIdentifier, setNotificationIdentifier] = useState<string | null>(null);
   const [scheduledNotifications, setScheduledNotifications] = useState([]);
   const [selectedFrequency, setSelectedFrequency] = useState('Daily');
   const [selectedContact, setSelectedContact] = useState(null);
   const [contacts, setContacts] = useState([]);
-  const [remindersData, setRemindersData] = useState(null); // New state for reminders
+  const [reminderData, setReminderData] = useState(null); // New state for reminders
 
   const userID = useContext(userIDContext);
 
@@ -52,12 +52,19 @@ const NotificationPrefs: React.FC<{ toggleModalVisibility: () => void }> = ({ to
     if (selectedContact) {
       fetchReminders(selectedContact);
     }
+
+       const stuff =  receiveRemindersFromBackend(userID)
+       console.log("stuff", stuff)
+       //setRemindersData(stuff)
+
+    
   }, [userID, selectedContact]);
 
   const fetchScheduledNotifications = async () => {
     try {
       const scheduled = await Notifications.getAllScheduledNotificationsAsync();
       setScheduledNotifications(scheduled);
+       
     } catch (error) {
       console.error('Failed to fetch scheduled notifications:', error);
       Alert.alert('Error', 'Failed to fetch scheduled notifications. Please try again.');
@@ -92,11 +99,17 @@ const NotificationPrefs: React.FC<{ toggleModalVisibility: () => void }> = ({ to
       };
 
       await sendReminderToBackend(selectedContact, reminderData);
-
+     // const stuff =  await receiveRemindersFromBackend(userID)
+      //console.log("stuff", stuff)
+       //  setRemindersData(stuff)
       Alert.alert('Notification Scheduled', `A ${notificationContent.title} notification will repeat.`);
       fetchScheduledNotifications();
       // Fetch updated reminders
       await fetchReminders(selectedContact);
+
+      
+
+      // setAllRemindersData(tempRemindersData);
     } catch (error) {
       console.error('Failed to schedule notification:', error);
       Alert.alert('Error', 'Failed to schedule notification. Please try again.');
@@ -110,6 +123,10 @@ const NotificationPrefs: React.FC<{ toggleModalVisibility: () => void }> = ({ to
       fetchScheduledNotifications();
       // Fetch updated reminders
       await fetchReminders(selectedContact);
+      // setRemindersData[await receiveRemindersFromBackend(userID)]
+     // console.log("fishing ", fish)
+
+
     } catch (error) {
       console.error('Failed to cancel notification:', error);
       Alert.alert('Error', 'Failed to cancel notification. Please try again.');
@@ -118,9 +135,14 @@ const NotificationPrefs: React.FC<{ toggleModalVisibility: () => void }> = ({ to
 
   const fetchReminders = async (contactID) => {
     try {
-      const remindersData = await receiveReminderFromBackend(contactID);
-      console.log("REMINDERS RECEIVED notification prefs:", remindersData); // Log reminders
-      setRemindersData(remindersData || null); // Ensure remindersData is set to null if no reminders
+      const reminderData = await receiveReminderFromBackend(contactID);
+      console.log("REMINDERS RECEIVED notification prefs:", reminderData); // Log reminders
+
+      // const stuff =  await receiveRemindersFromBackend(userID)
+      // console.log("stuff", stuff)
+      // setRemindersData(stuff)
+
+      setReminderData(reminderData || null); // Ensure remindersData is set to null if no reminders
     } catch (error) {
       console.error('Error fetching reminders:', error);
     }
@@ -169,17 +191,17 @@ const NotificationPrefs: React.FC<{ toggleModalVisibility: () => void }> = ({ to
   };
 
   const renderNotifItem = () => {
-    if (!remindersData) {
+    if (!reminderData) {
       return null; // Do not render anything if remindersData is null
     }
 
     return (
       <View style={{ backgroundColor: global.accentColor.color, margin: 10, marginTop: 5, borderRadius: 10, padding: 10, position: 'relative' }}>
         <Text style={{ color: global.inputBox.color, textAlign: 'center', fontWeight: '500' }}>
-          {remindersData.contactID ?? 'null'}
+          {reminderData.contactID ?? 'null'}
         </Text>
-        <Text style={{ color: global.inputBox.color, textAlign: 'center' }}>{remindersData.frequency}</Text>
-        <TouchableOpacity style={{ position: 'absolute', top: 5, right: 5 }} onPress={() => handleCancelNotification(remindersData.contactID)}>
+        <Text style={{ color: global.inputBox.color, textAlign: 'center' }}>{reminderData.frequency}</Text>
+        <TouchableOpacity style={{ position: 'absolute', top: 5, right: 5 }} onPress={() => handleCancelNotification(reminderData.contactID)}>
           <Text style={{ color: 'red', fontWeight: 'bold', fontSize: 35 }}>X</Text>
         </TouchableOpacity>
       </View>
@@ -194,7 +216,7 @@ const NotificationPrefs: React.FC<{ toggleModalVisibility: () => void }> = ({ to
           <Text style={{ color: '#FFF', fontSize: 24, marginLeft: 20 }}> Set Up Reminder</Text>
         </View>
         <Text style={{ color: "white", fontSize: 18, fontWeight: 'bold', textAlign: 'center' }}>Please select a contact</Text>
-        <ContactPicker contacts={contacts} selectedContact={selectedContact} setSelectedContact={setSelectedContact} setReminderData={setRemindersData} />
+        <ContactPicker contacts={contacts} selectedContact={selectedContact} setSelectedContact={setSelectedContact} setReminderData={setReminderData} />
         <FrequencyPicker selectedFrequency={selectedFrequency} setSelectedFrequency={setSelectedFrequency} />
         <TouchableOpacity style={{ backgroundColor: global.accentColor.color, padding: 10, alignItems: 'center', borderRadius: 10, margin: 10, marginTop: 20 }} onPress={handleScheduleNotification}>
           <Text style={{ color: global.inputBox.color, fontSize: 16, fontWeight: '500' }}>Schedule Notification</Text>

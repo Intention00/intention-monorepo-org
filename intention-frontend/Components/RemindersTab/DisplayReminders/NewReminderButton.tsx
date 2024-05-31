@@ -7,7 +7,7 @@ import { styles } from "./NewReminderButton.style";
 
 
 // This component represents a button used to trigger contact synchronization
-const NewReminderButton: React.FC = ()=> {
+const NewReminderButton: React.FC <{setReminderData}> = ({setReminderData})=> {
     // State to manage the visibility of the modal for selecting contacts to sync
     const [modalVisible, setModalVisible] = useState(false);
 
@@ -24,7 +24,7 @@ const NewReminderButton: React.FC = ()=> {
 
             <Modal visible={modalVisible} transparent={true} onRequestClose={()=> {setModalVisible(false)}} animationType='fade'>
                     <SafeAreaView>
-                        <NotificationPrefs toggleModalVisibility={()=> setModalVisible(false)}></NotificationPrefs>
+                        <NotificationPrefs setReminderData = {setReminderData} toggleModalVisibility={()=> setModalVisible(false)}></NotificationPrefs>
                     </SafeAreaView>
             </Modal>
         </View>
