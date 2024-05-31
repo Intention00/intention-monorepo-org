@@ -1,12 +1,14 @@
 import { View, Text, Modal, TouchableOpacity, ScrollView } from "react-native"
 import { styles } from "./ConnectModal.style"
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { YesConnectedModal } from "./YesConnectedModal";
 import { GenerateQuestions } from "./Transcriber/GenerateQuestions";
 import { receiveScoreFromBackend, sendScoreToBackend, sendLastContactedToBackend } from "../../Generic/backendService"
 import { ContactItem } from "../../ContactsTab/DisplayContacts/ContactItem";
 import {styles as global } from '../../Generic/global.style'
+import { scoreContext } from "../../Generic/scoreContext";
+
 
 
 export const sendScore =() => {
@@ -22,6 +24,7 @@ const ConnectModal: React.FC <{fullReminder, toggleModalVisibility}> = ({fullRem
     const [yesModalVisible, setYesModalVisible] = useState(false);
     const [connectionScore, setConnectionScore] = useState(0);
     const [scoreUpdated, setScoreUpdated] = useState(false);
+    const {scoreValue, setScoreValue} = useContext(scoreContext)
 
     useEffect(()=> {
         (async ()=> {
@@ -51,13 +54,14 @@ const ConnectModal: React.FC <{fullReminder, toggleModalVisibility}> = ({fullRem
             
             // Format the date into a string
             const formattedLastContacted = `${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`;
-            console.log(formattedLastContacted)
+            // console.log(formattedLastContacted)
             await sendLastContactedToBackend( contact.contactID, formattedLastContacted);
             
 
             await sendScoreToBackend(contact.contactID, tempScore);
+            setScoreValue(tempScore);
             setScoreUpdated(true);
-            console.log(`Score: ${tempScore}`);
+            // console.log(`Score: ${tempScore}`);
         } 
 
         setYesModalVisible(true);

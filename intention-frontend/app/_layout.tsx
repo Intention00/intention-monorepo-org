@@ -1,7 +1,8 @@
 import { ClerkProvider, useAuth } from '@clerk/clerk-expo';
 import { Slot, useRouter, useSegments } from 'expo-router';
-import { useEffect } from 'react';
+import { useEffect, useContext, useState } from 'react';
 import * as SecureStore from 'expo-secure-store';
+import { scoreContext, ScoreProvider } from '../Components/Generic/scoreContext';
 
 // const CLERK_PUBLISHABLE_KEY = 'pk_test_ZGlzY3JldGUta2FuZ2Fyb28tMzEuY2xlcmsuYWNjb3VudHMuZGV2JA';
 const CLERK_PUBLISHABLE_KEY = 'pk_test_ZW1lcmdpbmctbXVkZmlzaC0yNC5jbGVyay5hY2NvdW50cy5kZXYk';
@@ -46,9 +47,13 @@ const tokenCache = {
 };
 
 const RootLayout = () => {
+  const [scoreValue, setScoreValue] = useState(-1)
+
   return (
     <ClerkProvider publishableKey={CLERK_PUBLISHABLE_KEY} tokenCache={tokenCache}>
-      <InitialLayout />
+      <scoreContext.Provider value={{scoreValue, setScoreValue}}>
+        <InitialLayout />
+      </scoreContext.Provider>
     </ClerkProvider>
   );
 };
