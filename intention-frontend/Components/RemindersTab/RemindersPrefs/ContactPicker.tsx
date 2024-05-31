@@ -1,18 +1,36 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Picker } from '@react-native-picker/picker';
+import { receiveReminderFromBackend } from '../../Generic/backendService';
 
-const ContactPicker: React.FC<{ contacts: any[], selectedContact: any, setSelectedContact: any }> = ({ contacts, selectedContact, setSelectedContact }) => {
-    return (
-        <Picker
-            selectedValue={selectedContact}
-            style={{ marginTop: 5, backgroundColor: 'white', borderRadius: 10 }}
-            itemStyle={{ backgroundColor: '#bcbcbc', fontSize: 15, height: 120, borderRadius: 10 }}
-            onValueChange={(itemValue) => setSelectedContact(itemValue)}>
-            {contacts.map(contact => (
-                <Picker.Item key={contact.contactID} label={`${contact.firstName} ${contact.lastName}`} value={contact.contactID} />
-            ))}
-        </Picker>
-    );
+const ContactPicker: React.FC<{ contacts: any[], selectedContact: any, setSelectedContact: any, setReminderData: any }> = ({ contacts, selectedContact, setSelectedContact, setReminderData }) => {
+  const handleValueChange = async (itemValue) => {
+    console.log("item value", itemValue)
+    setSelectedContact(itemValue);
+    console.log("Selected contact in picker ", selectedContact)
+    try {
+      const reminders = await receiveReminderFromBackend(itemValue);
+      setReminderData(reminders || []);
+    } catch (error) {
+      console.error('Error fetching reminders:', error);
+    }
+  };
+
+  useEffect(() => {
+    console.log("Selected contact in picker after state update:", selectedContact);
+  }, [selectedContact]);
+
+  return (
+    <Picker
+      selectedValue={selectedContact}
+      style={{ marginTop: 5, backgroundColor: 'white', borderRadius: 10 }}
+      itemStyle={{ backgroundColor: '#bcbcbc', fontSize: 15, height: 120, borderRadius: 10 }}
+      onValueChange={handleValueChange}
+    >
+      {contacts.map(contact => (
+        <Picker.Item key={contact.contactID} label={`${contact.firstName} ${contact.lastName}`} value={contact.contactID} />
+      ))}
+    </Picker>
+  );
 }
 
-export  {ContactPicker};
+export { ContactPicker };

@@ -28,10 +28,10 @@ export const LogoutButton = () => {
 
       <Modal
         visible={isModalVisible}
-        animationType="slide"
+        animationType="fade"
         transparent={true}
       >
-          <View style={styles.modalCenter}>
+          <View style={[styles.modalCenter, styles.logoutModalView]}>
             <View style={styles.modalView}>
               <View style={{paddingTop: 10,
                 marginBottom: 10,

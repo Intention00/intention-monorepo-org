@@ -43,7 +43,7 @@ const processRemindersData = (remindersData, selectedDay)=> {
         console.log(`today: ${currentDate.getDay()}`)
 
         // Checking initial reminders
-        console.log(`INITIAL REMINDERS: ${JSON.stringify(remindersData)}`)
+        // console.log(`INITIAL REMINDERS: ${JSON.stringify(remindersData)}`)
 
         // To filter the contacts for only the upcoming day (can expand to week, month, etc if req.)
         // (Also might be better to filter on serverside, and then only use those)
@@ -88,7 +88,7 @@ const processRemindersData = (remindersData, selectedDay)=> {
         })
 
         // Checking filtered reminders
-        console.log(`FILTERED REMINDERS: ${JSON.stringify(currentDayReminders)}`)
+        // console.log(`FILTERED REMINDERS: ${JSON.stringify(currentDayReminders)}`)
 
         // Sort the reminders from most recent to least recent.
         // Determines which time is greater, and uses that to sort.
