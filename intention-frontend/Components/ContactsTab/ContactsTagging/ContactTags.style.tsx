@@ -60,6 +60,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   
+  logoutModalView: {
+    backgroundColor: 'rgba(10, 10, 10, 0.6)',
+  },
 
   modalView: {
     margin: 20,
