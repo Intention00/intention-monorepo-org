@@ -10,6 +10,8 @@ import { styles as global } from "../../Generic/global.style";
     flex: 1,
     backgroundColor: global.background.backgroundColor,
     borderRadius: 20,
+    width: '115%',
+    alignSelf: 'center'
 
   },
   text: {
@@ -20,7 +22,7 @@ import { styles as global } from "../../Generic/global.style";
     color: '#fff' ,
     marginHorizontal: 20,
     borderColor: global.accentColor.color,
-    maxHeight: '60%'
+    maxHeight: '60%',
   },
   tag: {
     backgroundColor: '#333', // lighter shade of grey for tags
@@ -70,8 +72,11 @@ import { styles as global } from "../../Generic/global.style";
   modalButton: {
     backgroundColor: global.accentColor.color,
     borderRadius: 5,
+    borderTopStartRadius: 0,
+    borderBottomStartRadius: 0,
     padding: 10,
     elevation: 2,
+    height: 40
   },
   modalButtonText: {
     color: global.buttonText.color,
@@ -80,15 +85,28 @@ import { styles as global } from "../../Generic/global.style";
   },
   input: {
     height: 40,
-    // width: '90%',
+    width: '73%',
+    alignSelf: 'center',
     borderColor: global.accentColor.color, // input border color
     borderWidth: 1,
-    marginTop: 10,
     paddingHorizontal: 10,
     color: '#fff', // input text color
     borderRadius: 5,
-    marginBottom: 5,
+    borderTopEndRadius: 0,
+    borderBottomEndRadius: 0,
   },
+  newTagBox: {
+    marginVertical: 10,
+    flexDirection: 'row',
+    height: 40, 
+    alignSelf: 'center'
+  }, 
+  tagHeaderText: {
+    color: global.bodyText.color, 
+    textAlign: 'center',
+    marginBottom: 10,
+    fontWeight: 'bold'
+},
 });
 
 
