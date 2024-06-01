@@ -87,6 +87,34 @@ class ProcessContacts():
                     # formats the score according to frontend expected format
                     db_score = {'score': db_score['Score']}
                     return db_score
+                
+    # Getting setup contacts from DB and saving them in contacts variable
+    def retrieve_setup_db_contacts(self, user_id):
+        with DBConnection() as db_conn:
+            if db_conn:
+                sql_statement = """
+                    SELECT c.ContactID, c.FirstName, c.LastName, c.Phone, GROUP_CONCAT(t.TagName SEPARATOR ', ') AS Tags
+                    FROM Contact c
+                    LEFT JOIN ContactTags ct ON c.ContactID = ct.ContactID
+                    LEFT JOIN Tags t ON ct.TagID = t.TagID
+                    WHERE c.UserID = %s AND c.Summary IS NOT NULL AND c.Summary != ''
+                    GROUP BY c.ContactID, c.FirstName, c.LastName, c.Phone;
+                """
+                db_conn.execute(sql_statement, (user_id,))
+                db_contacts = db_conn.fetchall()
+
+                db_conn.execute(sql_statement, (user_id,))
+                db_contacts = db_conn.fetchall()
+
+                self.contacts = [
+                    {
+                        'contactID': contact['ContactID'],
+                        'firstName': contact['FirstName'],
+                        'lastName': contact['LastName'],
+                        'number': contact['Phone'],
+                        'tags': contact['Tags']
+                    } for contact in db_contacts
+                ]
 
     # Sets the new score to that provided for specified contact
     def set_score(self, contact_id, score):

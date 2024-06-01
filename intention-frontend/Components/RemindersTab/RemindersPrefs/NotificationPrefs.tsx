@@ -5,7 +5,7 @@ import { styles as global } from '../../Generic/global.style';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { userIDContext } from "../../ContactsTab/UserSync/userIDContext";
 import { 
-  receiveContactsFromBackend, 
+  receiveSetUpContactsFromBackend, 
   sendReminderToBackend, 
   deleteReminderFromBackend,
   receiveReminderFromBackend,
@@ -36,7 +36,7 @@ const NotificationPrefs: React.FC<{ toggleModalVisibility: () => void, setRefres
   useEffect(() => {
     fetchScheduledNotifications();
     handlePermissionRequest();
-    receiveContactsFromBackend(userID)
+    receiveSetUpContactsFromBackend(userID)
       .then((contacts) => {
         setContacts(contacts);
         if (selectedContact === null) {

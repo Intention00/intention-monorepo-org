@@ -74,6 +74,21 @@ def send_data():
     
     except Exception as err:
         return jsonify({'message': str(err)}), 500
+    
+# Sends setup contacts to frontend for a specific user
+@app.route("/api/contacts/setup", methods=['GET'])
+def send_setup_contact_data():
+    try: 
+        # Retrieves desired userID from frontend
+        user_id = request.args.get('userID')
+
+        # gets all contacts for specified user
+        contacts_processor.retrieve_setup_db_contacts(user_id)
+       
+        return jsonify(contacts_processor.contacts), 200
+    
+    except Exception as err:
+        return jsonify({'message': str(err)}), 500
 
 
 # Retrieves voice notes to transcribe from frontend

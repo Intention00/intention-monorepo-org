@@ -44,6 +44,23 @@ export const receiveContactsFromBackend = async (userID: number)=> {
 
 }
 
+export const receiveSetUpContactsFromBackend = async (userID: number)=> {
+    try {
+        // using the address from host 0.0.0.0, makes it work on android
+        const response = await fetch(`${backendAddress}/api/contacts/setup?userID=${userID}`, {
+            method: 'GET',
+        })
+
+        const contacts_received = await response.json();
+        return contacts_received;
+    }
+    catch (err) {
+        throw new Error(`Error receiving already setup contacts from backend: ${err}`);
+    }
+
+
+}
+
 export const sendNotesToBackend = async (uri: string)=> {
     try {
         // Do some processing on audio file/notes (ref: https://stackoverflow.com/a/64980847)
