@@ -8,7 +8,7 @@ const FrequencyPicker: React.FC<{ selectedFrequency: any, setSelectedFrequency: 
         <Picker
             selectedValue={selectedFrequency}
             style={{ marginTop: 5, backgroundColor: 'white', borderRadius: 10, alignSelf:'center', width:'90%' }}
-            itemStyle={{ backgroundColor: '#bcbcbc', fontSize: 15, height: 50, borderRadius: 10 }}
+            itemStyle={{ backgroundColor: '#FFF', fontSize: 15, height: 50, borderRadius: 10 }}
             onValueChange={(itemValue) => setSelectedFrequency(itemValue)}>
             <Picker.Item label="Select a Frequency" value="" />
             {frequencies.map(frequency => (
