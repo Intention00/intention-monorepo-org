@@ -143,24 +143,34 @@ const NotificationPrefs: React.FC<{ toggleModalVisibility: () => void, setRefres
   const getNotificationContent = (contactID: number): NotificationContent => {
     let title = '';
     let body = '';
-    
-    switch (selectedFrequency.toLowerCase()) {
-      case 'daily':
-        title = 'Daily Alarm';
-        body = 'DAILY';
-        break;
-      case 'weekly':
-        title = 'Weekly Alarm';
-        body = 'WEEKLY';
-        break;
-      case 'monthly':
-        title = 'Monthly Alarm';
-        body = 'MONTHLY';
-        break;
-      default:
-        title = 'Sample Notification';
-        body = 'This is a sample notification.';
+
+    try {
+      const contact = contacts.filter(c => c.contactID === contactID)[0];
+      title = `Time to Connect With ${contact.firstName} ${contact.lastName}`
+      body = 'Click here to go to your Activity Feed.'
+    } 
+    catch {
+      title = 'Come Look at Some of Your Missed Reminders'
+      body = 'Click here to go to your Activity Feed.'
     }
+    
+    // switch (selectedFrequency.toLowerCase()) {
+    //   case 'daily':
+    //     title = `Daily Alarm`;
+    //     body = 'DAILY';
+    //     break;
+    //   case 'weekly':
+    //     title = 'Weekly Alarm';
+    //     body = 'WEEKLY';
+    //     break;
+    //   case 'monthly':
+    //     title = 'Monthly Alarm';
+    //     body = 'MONTHLY';
+    //     break;
+    //   default:
+    //     title = 'Sample Notification';
+    //     body = 'This is a sample notification.';
+    // }
     return { title, body };
   };
 
