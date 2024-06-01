@@ -72,7 +72,12 @@ const NotificationPrefs: React.FC<{ toggleModalVisibility: () => void, setRefres
   const handleScheduleNotification = async () => {
     try {
       if (!selectedContact) {
-        Alert.alert('Error', 'Please select a contact first.');
+        Alert.alert('Please Select a Contact First');
+        return;
+      }
+
+      if (selectedFrequency === "") {
+        Alert.alert('Please Select a Frequency First');
         return;
       }
 
@@ -94,7 +99,7 @@ const NotificationPrefs: React.FC<{ toggleModalVisibility: () => void, setRefres
       await sendReminderToBackend(selectedContact, reminderData);
       setRefreshReminders(!refreshReminders)
 
-      Alert.alert('Reminder Set', `You will be reminded ${notificationContent.title}.`);
+      Alert.alert('Reminder Set');
       fetchScheduledNotifications();
       // Fetch updated reminders
       await fetchReminders(selectedContact);
@@ -108,7 +113,7 @@ const NotificationPrefs: React.FC<{ toggleModalVisibility: () => void, setRefres
     try {
       await deleteReminderFromBackend(contactID);
       setRefreshReminders(!refreshReminders)
-      Alert.alert('Notification Canceled', 'The scheduled notification has been canceled.');
+      Alert.alert('Reminder Cancelled');
       fetchScheduledNotifications();
       // Fetch updated reminders
       await fetchReminders(selectedContact);
@@ -190,7 +195,7 @@ const NotificationPrefs: React.FC<{ toggleModalVisibility: () => void, setRefres
       <View style={[styles.modalBox]}>
         <View style={styles.modalHeader}>
           <MaterialCommunityIcons style={styles.modalExit} name="window-close" onPress={toggleModalVisibility} />
-          <Text style={{ color: '#FFF', fontSize: 24, marginLeft: '11%', fontWeight:'bold' }}>Reminder Settings</Text>
+          <Text style={{ color: '#FFF', fontSize: 24, marginLeft: '10%', fontWeight:'bold' }}>Reminder Settings</Text>
         </View>
         <Text style={{ color: "white", fontSize: 18, fontWeight: 'bold', alignSelf: 'center', marginBottom: '5%'}}>Please select a contact</Text>
         <ContactPicker contacts={contacts} selectedContact={selectedContact} setSelectedContact={setSelectedContact} setReminderData={setRemindersData} />
