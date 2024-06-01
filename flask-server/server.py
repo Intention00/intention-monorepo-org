@@ -364,7 +364,12 @@ def edit_contact_reminder():
 
         # Extracting data
         data = request.get_json()
-        reminder_data = data['reminder']
+        reminder_data = data
+
+        # Check if contact_id or reminder_data is None
+        if contact_id is None or reminder_data is None:
+            return jsonify({'message': 'Missing contactID or reminder data'}), 400
+
 
         # updates reminder in db
         reminders_processor.edit_contact_reminder(contact_id, reminder_data)

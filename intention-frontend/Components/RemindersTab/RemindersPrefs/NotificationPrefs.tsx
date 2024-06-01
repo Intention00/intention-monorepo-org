@@ -9,7 +9,7 @@ import {
   sendReminderToBackend, 
   deleteReminderFromBackend,
   receiveReminderFromBackend,
-  receiveRemindersFromBackend
+  sendReminderEditToBackend
 } from '../../Generic/backendService';
 import {
   scheduleLocalNotification,
@@ -99,8 +99,9 @@ const NotificationPrefs: React.FC<{ toggleModalVisibility: () => void, setRefres
         await sendReminderToBackend(selectedContact, reminderData);
       }
       catch (err) {
-        Alert.alert('Reminder Already Exists', 'Delete the previous reminder before creating a new one.');
-        return;
+        // Alert.alert('Reminder Already Exists', 'Delete the previous reminder before creating a new one.');
+        // return;
+        await sendReminderEditToBackend(selectedContact, reminderData);
       }
       
       setRefreshReminders(!refreshReminders)
