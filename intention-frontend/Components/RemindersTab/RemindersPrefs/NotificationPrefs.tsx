@@ -9,7 +9,7 @@ import {
   sendReminderToBackend, 
   deleteReminderFromBackend,
   receiveReminderFromBackend,
-  receiveRemindersFromBackend
+  sendReminderEditToBackend
 } from '../../Generic/backendService';
 import {
   scheduleLocalNotification,
@@ -72,7 +72,12 @@ const NotificationPrefs: React.FC<{ toggleModalVisibility: () => void, setRefres
   const handleScheduleNotification = async () => {
     try {
       if (!selectedContact) {
-        Alert.alert('Error', 'Please select a contact first.');
+        Alert.alert('Please Select a Contact First');
+        return;
+      }
+
+      if (selectedFrequency === "") {
+        Alert.alert('Please Select a Frequency First');
         return;
       }
 
@@ -90,11 +95,18 @@ const NotificationPrefs: React.FC<{ toggleModalVisibility: () => void, setRefres
         frequency: selectedFrequency,
         lastContacted: null,
       };
-
-      await sendReminderToBackend(selectedContact, reminderData);
+      try {
+        await sendReminderToBackend(selectedContact, reminderData);
+      }
+      catch (err) {
+        // Alert.alert('Reminder Already Exists', 'Delete the previous reminder before creating a new one.');
+        // return;
+        await sendReminderEditToBackend(selectedContact, reminderData);
+      }
+      
       setRefreshReminders(!refreshReminders)
 
-      Alert.alert('Notification Scheduled', `A ${notificationContent.title} notification will repeat.`);
+      Alert.alert('Reminder Set');
       fetchScheduledNotifications();
       // Fetch updated reminders
       await fetchReminders(selectedContact);
@@ -108,7 +120,7 @@ const NotificationPrefs: React.FC<{ toggleModalVisibility: () => void, setRefres
     try {
       await deleteReminderFromBackend(contactID);
       setRefreshReminders(!refreshReminders)
-      Alert.alert('Notification Canceled', 'The scheduled notification has been canceled.');
+      Alert.alert('Reminder Cancelled');
       fetchScheduledNotifications();
       // Fetch updated reminders
       await fetchReminders(selectedContact);
@@ -131,24 +143,34 @@ const NotificationPrefs: React.FC<{ toggleModalVisibility: () => void, setRefres
   const getNotificationContent = (contactID: number): NotificationContent => {
     let title = '';
     let body = '';
-    
-    switch (selectedFrequency.toLowerCase()) {
-      case 'daily':
-        title = 'Daily Alarm';
-        body = 'DAILY';
-        break;
-      case 'weekly':
-        title = 'Weekly Alarm';
-        body = 'WEEKLY';
-        break;
-      case 'monthly':
-        title = 'Monthly Alarm';
-        body = 'MONTHLY';
-        break;
-      default:
-        title = 'Sample Notification';
-        body = 'This is a sample notification.';
+
+    try {
+      const contact = contacts.filter(c => c.contactID === contactID)[0];
+      title = `Time to Connect With ${contact.firstName} ${contact.lastName}`
+      body = 'Click here to go to your Activity Feed.'
+    } 
+    catch {
+      title = 'Come Look at Some of Your Missed Reminders'
+      body = 'Click here to go to your Activity Feed.'
     }
+    
+    // switch (selectedFrequency.toLowerCase()) {
+    //   case 'daily':
+    //     title = `Daily Alarm`;
+    //     body = 'DAILY';
+    //     break;
+    //   case 'weekly':
+    //     title = 'Weekly Alarm';
+    //     body = 'WEEKLY';
+    //     break;
+    //   case 'monthly':
+    //     title = 'Monthly Alarm';
+    //     body = 'MONTHLY';
+    //     break;
+    //   default:
+    //     title = 'Sample Notification';
+    //     body = 'This is a sample notification.';
+    // }
     return { title, body };
   };
 
@@ -171,20 +193,30 @@ const NotificationPrefs: React.FC<{ toggleModalVisibility: () => void, setRefres
   };
 
   const renderNotifItem = () => {
-    if (!remindersData) {
+    if (!remindersData || typeof remindersData !== 'object') {
       return null; // Do not render anything if remindersData is null
     }
 
+    if (Object.keys(remindersData).length === 0 && remindersData.constructor === Object) {
+      return null;
+    }
+
+    try {
+      if (remindersData.contactID === undefined) {
+        return null;
+      }
+    }
+    catch (err) {
+      return null;
+    }
+
     return (
-      <View style={{ backgroundColor: global.accentColor.color, margin: 10, marginTop: 5, borderRadius: 10, padding: 10, position: 'relative' }}>
-        <Text style={{ color: global.inputBox.color, textAlign: 'center', fontWeight: '500' }}>
-          {remindersData.contactID ?? 'null'}
-        </Text>
-        <Text style={{ color: global.inputBox.color, textAlign: 'center' }}>{remindersData.frequency}</Text>
-        <TouchableOpacity style={{ alignItems: 'center',justifyContent: 'center',position: 'absolute', top: 5, right: 5,borderRadius:50, padding: 5 }} onPress={() => handleCancelNotification(remindersData.contactID)}>
-          <Text style={{ color: 'red', fontWeight: 'bold', fontSize: 25 }}>🚫</Text>
+        <TouchableOpacity style={{ backgroundColor: global.inputBox.color, marginTop: 5, borderRadius: 10, padding: 10}} onPress={() => handleCancelNotification(remindersData.contactID)}>
+          <Text style={{ color: global.accentColor.color, textAlign: 'center', fontWeight: '500', fontSize: 16 }}>
+            Delete Reminder
+          </Text>
+          {/* <Text style={{ color: global.inputBox.color, textAlign: 'center' }}>{remindersData.frequency}</Text> */}
         </TouchableOpacity>
-      </View>
     );
   };
 
@@ -193,15 +225,15 @@ const NotificationPrefs: React.FC<{ toggleModalVisibility: () => void, setRefres
       <View style={[styles.modalBox]}>
         <View style={styles.modalHeader}>
           <MaterialCommunityIcons style={styles.modalExit} name="window-close" onPress={toggleModalVisibility} />
-          <Text style={{ color: '#FFF', fontSize: 24, marginLeft: 53, fontWeight:'bold' }}> Set Up Reminder</Text>
+          <Text style={{ color: '#FFF', fontSize: 24, marginLeft: '10%', fontWeight:'bold' }}>Reminder Settings</Text>
         </View>
-        <Text style={{ color: "white", fontSize: 18, fontWeight: 'bold', alignSelf: 'center'}}>Please select a contact</Text>
+        <Text style={{ color: "white", fontSize: 18, fontWeight: 'bold', alignSelf: 'center', marginBottom: '5%'}}>Please select a contact</Text>
         <ContactPicker contacts={contacts} selectedContact={selectedContact} setSelectedContact={setSelectedContact} setReminderData={setRemindersData} />
         <FrequencyPicker selectedFrequency={selectedFrequency} setSelectedFrequency={setSelectedFrequency} />
         <TouchableOpacity style={{ backgroundColor: global.accentColor.color, padding: 10, alignItems: 'center', borderRadius: 10, margin: 10, marginTop: 20,marginLeft:'5%', width: '90%' }} onPress={handleScheduleNotification}>
-          <Text style={{ color: global.inputBox.color, fontSize: 16, fontWeight: '500' }}>Schedule Notification</Text>
+          <Text style={{ color: global.inputBox.color, fontSize: 16, fontWeight: '500' }}>Schedule Reminder</Text>
         </TouchableOpacity>
-        <View style={{marginLeft: 9, width: 369}}>{renderNotifItem()}</View>
+        <View style={{marginTop: '20%', width: '90%', alignSelf: 'center'}}>{renderNotifItem()}</View>
       </View>
     </View>
   );
