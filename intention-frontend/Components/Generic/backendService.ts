@@ -308,6 +308,7 @@ export const sendReminderToBackend = async (contactID: number, reminder: Object)
             const errorMessage = await response.json();
             console.log(reminder)
             console.error(`Server returned an error: ${JSON.stringify(errorMessage)}`);
+            throw new Error(`Server returned an error: ${JSON.stringify(errorMessage)}`);
         }
     }
     catch (err) {

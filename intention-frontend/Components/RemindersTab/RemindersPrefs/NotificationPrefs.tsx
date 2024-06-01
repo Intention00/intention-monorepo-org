@@ -95,8 +95,14 @@ const NotificationPrefs: React.FC<{ toggleModalVisibility: () => void, setRefres
         frequency: selectedFrequency,
         lastContacted: null,
       };
-
-      await sendReminderToBackend(selectedContact, reminderData);
+      try {
+        await sendReminderToBackend(selectedContact, reminderData);
+      }
+      catch (err) {
+        Alert.alert('Reminder Already Exists', 'Delete the previous reminder before creating a new one.');
+        return;
+      }
+      
       setRefreshReminders(!refreshReminders)
 
       Alert.alert('Reminder Set');
@@ -176,8 +182,21 @@ const NotificationPrefs: React.FC<{ toggleModalVisibility: () => void, setRefres
   };
 
   const renderNotifItem = () => {
-    if (!remindersData) {
+    if (!remindersData || typeof remindersData !== 'object') {
       return null; // Do not render anything if remindersData is null
+    }
+
+    if (Object.keys(remindersData).length === 0 && remindersData.constructor === Object) {
+      return null;
+    }
+
+    try {
+      if (remindersData.contactID === undefined) {
+        return null;
+      }
+    }
+    catch (err) {
+      return null;
     }
 
     return (
